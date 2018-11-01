@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<head>
+    <title>RA21</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script>
+        window.onload = function() {
+           DiscoveryComponent.render({
+               returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+           }, '#container');
+        };
+    </script>
+</body>
