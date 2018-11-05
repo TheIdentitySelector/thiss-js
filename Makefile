@@ -5,7 +5,7 @@ start:
 clean:
 	@rm -rf dist
 
-BABEL_MODULES=babel-loader @babel/core @babel/preset-env 
+BABEL_MODULES=babel-loader @babel/core @babel/preset-env @babel/polyfill
 WEBPACK_MODULES=webpack webpack-cli webpack-merge style-loader css-loader svg-inline-loader \
   extract-text-webpack-plugin html-webpack-plugin clean-webpack-plugin webpack-dev-server \
   file-loader html-loader handlebars-loader

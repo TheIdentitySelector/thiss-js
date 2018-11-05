@@ -4,6 +4,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+
+require("babel-polyfill");
+
 module.exports = {
   resolve: {
     alias: {
@@ -12,7 +15,7 @@ module.exports = {
     }
   },
   entry: {
-    thiss: './src/thiss.js',
+    thiss:  ['babel-polyfill','./src/thiss.js']
   },
   plugins: [
      new CleanWebpackPlugin(['dist']),
@@ -29,7 +32,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
        filename: "[name].css"
-    })
+    }),
   ],
   output: {
     filename: '[name].js',
