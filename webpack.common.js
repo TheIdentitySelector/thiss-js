@@ -25,8 +25,8 @@ module.exports = {
        template: 'src/assets/index.html'
      }),
      new HtmlWebpackPlugin({
-       filename: 'cta.html',
-       template: 'src/assets/cta.html'
+       filename: 'login.html',
+       template: 'src/assets/login.html'
     }),
     new MiniCssExtractPlugin({
        filename: "[name].css"
