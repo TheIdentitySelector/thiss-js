@@ -12,8 +12,8 @@ module.exports = {
     }
   },
   entry: {
-    DiscoveryService: './src/ds-client-entry.js',
-    DiscoveryComponent: './src/ds-component-entry.js'
+    DiscoveryService: './src/DiscoveryService.js',
+    DiscoveryComponent: './src/DiscoveryComponent.js',
   },
   plugins: [
      new CleanWebpackPlugin(['dist']),
