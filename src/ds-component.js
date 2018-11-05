@@ -1,5 +1,7 @@
-import './assets/cta.css';
-import './assets/fontawesome/fontawesome-all.css';
+require('webpack-icons-installer');
+import './assets/login.css';
+import './assets/ra21icon.svg';
+//import './assets/fontawesome/fontawesome-all.css';
 var zoid = require('zoid');
 
 export let component = zoid.create({
