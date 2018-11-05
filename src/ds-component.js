@@ -8,7 +8,7 @@ export let component = zoid.create({
     tag: 'my-onclick-component',
 
     url: {
-        dev: 'http://localhost:8080/cta.html',
+        dev: 'http://localhost:8080/login.html',
     },
     defaultEnv: 'dev',
 
