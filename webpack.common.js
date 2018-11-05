@@ -12,8 +12,7 @@ module.exports = {
     }
   },
   entry: {
-    DiscoveryService: './src/DiscoveryService.js',
-    DiscoveryComponent: './src/DiscoveryComponent.js',
+    thiss: './src/thiss.js',
   },
   plugins: [
      new CleanWebpackPlugin(['dist']),

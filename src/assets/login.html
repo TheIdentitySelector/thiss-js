@@ -47,7 +47,7 @@ window.onload = function() {
             on_institution_clicked = window.xprops.onInstitutionClicked;
         }
 
-        var ds = new DiscoveryService(mdq_url, storage_url);
+        var ds = new thiss.DiscoveryService(mdq_url, storage_url);
 
         var start = Promise.resolve();
         if (window.xprops.pinned) {

@@ -65,7 +65,7 @@ if (!Object.values) Object.values = function (object) {
 };
 
 
-export default class DiscoveryService {
+export class DiscoveryService {
 
     constructor(mdq_url, storage_url, opts) {
        opts = opts || {};

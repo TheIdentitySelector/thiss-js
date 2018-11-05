@@ -3,10 +3,10 @@ import './assets/login.css';
 import './assets/ra21icon.svg';
 var zoid = require('zoid');
 
-export let component = zoid.create({
+export const DiscoveryComponent = zoid.create({
 
     // The html tag used to render my component
-    tag: 'my-onclick-component',
+    tag: 'thiss-component',
 
     url: {
         dev: 'http://localhost:8080/login.html',
