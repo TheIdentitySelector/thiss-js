@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+      <title>thiss.io storage hub</title>
+      <meta charset="utf-8">
+  </head>
+  <body>
+    <script>
+        window.onload = function() {
+            storage.CrossStorageHub.init([
+                {origin: /^<%= process.env.STORAGE_DOMAIN %>$/, allow: ['get','set','del']},
+                {origin: /.+$/, allow: ['get']}
+            ]);
+        };
+    </script>
+  </body>
+</html>

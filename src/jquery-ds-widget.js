@@ -1,11 +1,15 @@
+const Hogan = require("hogan.js");
+$ = require("jquery");
+require("jquery-ui");
+const DiscoveryService = require("./ds-client.js").DiscoveryService;
+require("bootstrap-list-filter");
+
 jQuery(function ($) {
     $.widget("pyff.discovery_client", {
 
         options: {
-            sp_entity_id: undefined,
             discovery_service_storage_url: undefined,
             discovery_service_search_url: undefined,
-            discovery_service_list_url: undefined,
             before: undefined,
             after: undefined,
             render: undefined,
@@ -111,7 +115,6 @@ jQuery(function ($) {
         _update: function () {
             var obj = this;
             obj.discovery_service_storage_url = obj.options['discovery_service_storage_url'] || obj.element.attr('data-store');
-            obj.sp_entity_id = obj.options['sp_entity_id'] || obj.element.attr('data-href');
             obj.discovery_service_search_url = obj.options['discovery_service_search_url'] || obj.element.attr('data-search');
             obj.mdq_url = obj.options['mdq_url'] || obj.element.attr('data-mdq');
             obj.input_field_selector = obj.options['input_field_selector'] || obj.element.attr('data-inputfieldselector') || 'input';

@@ -64,6 +64,7 @@ if (!Object.values) Object.values = function (object) {
    return Object.keys(object).map(function(key) { return object[key] });
 };
 
+const cross_storage = require("cross-storage");
 
 export class DiscoveryService {
 
@@ -77,7 +78,7 @@ export class DiscoveryService {
         if (this.storage_url == 'local://') {
             return new LocalStoreShim()
         } else {
-            return new CrossStorageClient(this.storage_url)
+            return new cross_storage.CrossStorageClient(this.storage_url)
         }
     }
 
