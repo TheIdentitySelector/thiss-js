@@ -12,7 +12,7 @@ module.exports = merge(common, {
    },
    plugins: [new webpack.EnvironmentPlugin({
        BASE_URL: 'http://localhost:9000/',
-       COMPONENT_URL: 'http://localhost:9000/login/',
+       COMPONENT_URL: 'http://localhost:9000/cta/',
        MDQ_URL: 'http://localhost:8080/entities/',
        STORAGE_URL: 'http://localhost:9000/storage/',
        SEARCH_URL: 'http://localhost:8080/entities/',

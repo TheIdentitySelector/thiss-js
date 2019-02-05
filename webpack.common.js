@@ -17,10 +17,11 @@ module.exports = {
     }
   },
   entry: {
-      main: ['babel-polyfill', './src/main.js'],
-      login:  ['babel-polyfill','./src/login.js'],
+      index: ['babel-polyfill', './src/index.js'],
+      cta:  ['babel-polyfill','./src/cta.js'],
       ds: ['babel-polyfill','./src/ds.js'],
-      storage: ['babel-polyfill', './src/storage.js']
+      storage: ['babel-polyfill', './src/storage.js'],
+      thiss: ['babel-polyfill', './src/component.js']
   },
   plugins: [
       new DotEnv({systemvars: true}),
@@ -33,14 +34,14 @@ module.exports = {
       new HtmlWebpackPlugin({
           filename: 'index.html',
           inject: true,
-          chunks: ['login'],
+          chunks: ['index'],
           template: '!ejs-loader!src/assets/index.html'
       }),
       new HtmlWebpackPlugin({
-          filename: 'login/index.html',
-          chunks: ['main'],
+          filename: 'cta/index.html',
+          chunks: ['cta'],
           inject: true,
-          template: 'src/assets/login.html'
+          template: 'src/assets/cta.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'ds/index.html',

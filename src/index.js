@@ -1,6 +1,5 @@
 require('webpack-icons-installer');
 import {DiscoveryComponent} from "./component";
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 window.onload = function() {
