@@ -46,13 +46,13 @@ module.exports = {
           filename: 'ds/index.html',
           chunks: ['ds'],
           inject: true,
-          template: '!!html-loader!ejs-loader!src/assets/ds.html'
+          template: '!ejs-loader!src/assets/ds.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'storage/index.html',
           chunks: ['storage'],
           inject: true,
-          template: '!!html-loader!ejs-loader!src/assets/storage.html'
+          template: '!ejs-loader!src/assets/storage.html'
       }),
       new MiniCssExtractPlugin({
           filename: "[name].css"
