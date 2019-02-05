@@ -11,7 +11,7 @@ $(document).ready(function() {
         <li class="known-inst">\
         <div class="d-block">\
         {{#entity_icon}}\
-        <img src="{{entity_icon}}" onError="$(this).attr(\'src\',\'1x1t.png1x1t.png\');" class="d-md-inline-block d-lg-inline-block img-thumbnail rounded-circle logo">\
+        <img src="{{entity_icon}}" onError="$(this).attr(\'src\',\'1x1t.png\');" class="d-md-inline-block d-lg-inline-block img-thumbnail rounded-circle logo">\
         {{/entity_icon}}\
         {{^entity_icon}}\
         <svg class="d-md-inline-block d-lg-inline-block logo" width="40" height="40"><circle cx="20" cy="20" r="20" fill="#aeaeae" />\

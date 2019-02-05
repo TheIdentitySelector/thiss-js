@@ -7,6 +7,7 @@ module.exports = merge(common, {
   mode: 'production',
   plugins: [new webpack.EnvironmentPlugin({
     BASE_URL: "https://use.thiss.io/",
+    COMPONENT_URL: 'http://use.thiss.io/login/',
     MDQ_URL: "https://md.thiss.io/entities/",
     STORAGE_URL: "https://use.thiss.io/storage.html",
     SEARCH_URL: "https://md.thiss.io/entities/",

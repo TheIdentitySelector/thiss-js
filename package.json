@@ -52,6 +52,7 @@
     ]
   ],
   "dependencies": {
+    "bootstrap": "^4.2.1",
     "bootstrap-list-filter": "^0.3.3",
     "dotenv-webpack": "^1.7.0",
     "ejs": "^2.6.1",

@@ -1,12 +1,11 @@
+require('webpack-icons-installer');
+import {DiscoveryComponent} from "./component";
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import './assets/login.css';
-import {DiscoveryComponent} from "./ds-component";
-import {DiscoveryService} from "./ds-client";
-
-require("./ds-client.js");
-require('./ds-component.js');
-
-export default {
-  DiscoveryService: DiscoveryService,
-  DiscoveryComponent: DiscoveryComponent
+window.onload = function() {
+   DiscoveryComponent.render({
+       returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+       backgroundColor: '#e9ecef'
+   }, '#container');
 };

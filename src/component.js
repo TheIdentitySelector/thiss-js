@@ -1,15 +1,12 @@
-require('webpack-icons-installer');
-import './assets/login.css';
-import './assets/ra21icon.svg';
-var zoid = require('zoid');
 
+const zoid = require('zoid');
 export const DiscoveryComponent = zoid.create({
 
     // The html tag used to render my component
     tag: 'thiss-component',
 
     url: {
-        dev: 'http://localhost:8080/login.html',
+        dev: process.env.COMPONENT_URL,
     },
     defaultEnv: 'dev',
 
@@ -33,6 +30,8 @@ export const DiscoveryComponent = zoid.create({
         iframe: true,
         popup: false
     },
+
+    backgroundColor: '#FFFFFF',
 
     prerenderTemplate: function(opts) {
         var div = opts.document.createElement("div");

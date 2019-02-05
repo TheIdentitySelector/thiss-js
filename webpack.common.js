@@ -16,6 +16,7 @@ module.exports = {
     }
   },
   entry: {
+      main: ['babel-polyfill', './src/main.js'],
       login:  ['babel-polyfill','./src/login.js'],
       ds: ['babel-polyfill','./src/ds.js'],
       storage: ['babel-polyfill', './src/storage.js']
@@ -32,25 +33,25 @@ module.exports = {
           filename: 'index.html',
           inject: true,
           chunks: ['login'],
-          template: '!!ejs-loader!src/assets/index.html'
+          template: '!ejs-loader!src/assets/index.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'login/index.html',
-          chunks: ['login'],
+          chunks: ['main'],
           inject: true,
-          template: '!!ejs-loader!src/assets/login.html'
+          template: 'src/assets/login.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'ds/index.html',
           chunks: ['ds'],
           inject: true,
-          template: '!!ejs-loader!src/assets/ds.html'
+          template: '!!html-loader!ejs-loader!src/assets/ds.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'storage/index.html',
           chunks: ['storage'],
           inject: true,
-          template: '!!ejs-loader!src/assets/storage.html'
+          template: '!!html-loader!ejs-loader!src/assets/storage.html'
       }),
       new MiniCssExtractPlugin({
           filename: "[name].css"
@@ -83,7 +84,7 @@ module.exports = {
              }
              },
          {
-            test: /\.(xml|png)$/,
+            test: /\.(xml|png|svg)$/,
             loader: 'file-loader'
          },
          {

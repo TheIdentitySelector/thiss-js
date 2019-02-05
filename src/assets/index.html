@@ -3,12 +3,29 @@
     <title>thiss.io</title>
 </head>
 <body>
-    <div id="container"></div>
-    <script>
-        window.onload = function() {
-           login.default.DiscoveryComponent.render({
-               returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
-           }, '#container');
-        };
-    </script>
+    <main role="main">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">Thiss.io Login</h1>
+                <div id="container"></div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <p>
+                To use in your web application include the following code:
+                <pre><code>
+                &lt;div id="container"&gt;&lt;/div&gt;
+                &lt;script&gt;
+                    window.onload = function() {
+                       DiscoveryComponent.render({
+                           returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+                       }, '#container');
+                    };
+                &lt;/script&gt;
+                </code></pre>
+            </p>
+        </div>
+    </main>
 </body>
