@@ -12,20 +12,17 @@
         </div>
 
         <div class="container">
-
-            <p>
-                To use in your web application include the following code:
-                <pre><code>
-                &lt;div id="container"&gt;&lt;/div&gt;
-                &lt;script&gt;
-                    window.onload = function() {
-                       DiscoveryComponent.render({
-                           returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
-                       }, '#container');
-                    };
-                &lt;/script&gt;
-                </code></pre>
-            </p>
+            To use in your web application include the following code:
+            <pre><code>
+&lt;div id="container"&gt;&lt;/div&gt;
+&lt;script&gt;
+    window.onload = function() {
+       DiscoveryComponent.render({
+           returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+       }, '#container');
+    };
+&lt;/script&gt;
+            </code></pre>
         </div>
     </main>
 </body>
