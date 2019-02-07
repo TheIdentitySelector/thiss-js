@@ -12,6 +12,8 @@ test:
 build:
     - npm run build
 
+after_success: npm run coverage
+
 deploy:
     provider: pages
     skip_cleanup: true

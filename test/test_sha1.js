@@ -2,7 +2,7 @@ var hex_sha1 = require('../src/sha1.js').default;
 var assert = require('assert');
 var chai = require('chai');
 
-describe('sha1', function() {
+describe('sha1 - yes we know sha1 is bad', function() {
    it('should fail with TypeError on undefined input', function() {
       chai.expect(function() {hex_sha1(undefined)}).to.throw(TypeError);
    });
