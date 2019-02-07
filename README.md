@@ -13,5 +13,4 @@ Release management
 ```
 make
 ```
-
 Distribution is in the 'dist' directory.
