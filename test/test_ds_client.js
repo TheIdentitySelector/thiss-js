@@ -45,4 +45,9 @@ describe('LocalStoreShim', function() {
         });
     });
 
+    it('polyfills Object.values', function() {
+       chai.expect(Object.values).to.exist;
+       chai.expect(typeof Object.values).to.equals('function');
+    });
+
 });

@@ -42,18 +42,18 @@ function _timestamp() {
 }
 
 function _touch(entity_id, list) {
-        for (let i = 0; i < list.length; i++) {
-            let item = list[i];
-            if (item.entity.entity_id == entity_id || item.entity.entityID == entity_id) {
-                let now = _timestamp();
-                let use_count = item.use_count;
-                item.use_count += 1;
-                item.last_use = now;
-                return use_count;
-            }
+    for (let i = 0; i < list.length; i++) {
+        let item = list[i];
+        if (item.entity.entity_id == entity_id || item.entity.entityID == entity_id) {
+            let now = _timestamp();
+            let use_count = item.use_count;
+            item.use_count += 1;
+            item.last_use = now;
+            return use_count;
         }
-        return -1;
-    };
+    }
+    return -1;
+};
 
 function _sha1_id(s) {
     return "{sha1}"+hex_sha1(s);
