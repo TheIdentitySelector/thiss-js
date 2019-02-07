@@ -3,6 +3,13 @@ const chai = require('chai');
 const MockBrowser = require('mock-browser').mocks.MockBrowser;
 const window = new MockBrowser().getWindow();
 
+describe('ds-client.js', function() {
+   it('polyfills Object.values', function() {
+       chai.expect(Object.values).to.exist;
+       chai.expect(typeof Object.values).to.equals('function');
+   });
+});
+
 describe('DiscoveryService', function() {
 
     beforeEach(function() {
@@ -16,6 +23,16 @@ describe('DiscoveryService', function() {
 
     it('has a working constructor', function() {
         chai.expect(new DiscoveryService("http://localhost","http://localhost")).to.exist;
+    });
+
+    it('shims LocalStorage', function() {
+       let ds = new DiscoveryService("http://localhost", "local://");
+       ds.get_storage().onConnect().then(function(storage) {
+           chai.expect(typeof storage).to.equal('object');
+           chai.expect(typeof storage.set).to.equal('function');
+           chai.expect(typeof storage.get).to.equal('function');
+           chai.expect(typeof storage.onConnect).to.equal('function');
+       });
     });
 
 });
@@ -43,11 +60,6 @@ describe('LocalStoreShim', function() {
         store.get('a').then(function(x) {
             chai.expect(x).to.equal('b');
         });
-    });
-
-    it('polyfills Object.values', function() {
-       chai.expect(Object.values).to.exist;
-       chai.expect(typeof Object.values).to.equals('function');
     });
 
 });
