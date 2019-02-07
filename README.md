@@ -19,3 +19,4 @@ Distribution is in the 'dist' directory.
 [![Coverage Status](https://coveralls.io/repos/github/TheIdentitySelector/thiss-js/badge.svg?branch=master)](https://coveralls.io/github/TheIdentitySelector/thiss-js?branch=master)
 [![Build Status](https://travis-ci.com/TheIdentitySelector/thiss-js.svg?branch=master)](https://travis-ci.com/TheIdentitySelector/thiss-js)
 [![Known Vulnerabilities](https://snyk.io/test/github/TheIdentitySelector/thiss-js/badge.svg)](https://snyk.io/test/github/TheIdentitySelector/thiss-js)
+[![Dependencies](https://david-dm.org/TheIdentitySelector/thiss-js.svg)](https://david-dm.org/TheIdentitySelector/thiss-js)
