@@ -14,3 +14,5 @@ Release management
 make
 ```
 Distribution is in the 'dist' directory.
+
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/TheIdentitySelector/thiss-js/graphs/commit-activity)
