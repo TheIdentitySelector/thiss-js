@@ -1,4 +1,6 @@
-var hex_sha1 = require('./sha1.js').default;
+const hex_sha1 = require('./sha1.js').default;
+const storage_key = "pyff_discovery_choices";
+const cache_time = 60 * 10 * 1000; // 10 minutes
 
 class LocalStoreShim {
    constructor() {}
@@ -6,21 +8,21 @@ class LocalStoreShim {
       return Promise.resolve(this);
    }
    set(key,value) {
-      var storage = window.localStorage;
+      let storage = window.localStorage;
       storage.setItem(key, value);
       return Promise.resolve(this); 
    }
    get(key) {
-      var storage = window.localStorage;
+      let storage = window.localStorage;
       return Promise.resolve(storage.getItem(key));
    };
 }
 
-var _querystring = (function(paramsArray) {
-   var params = {};
+let _querystring = (function(paramsArray) {
+   let params = {};
 
-   for (var i = 0; i < paramsArray.length; ++i) {
-      var param = paramsArray[i].split('=', 2);
+   for (let i = 0; i < paramsArray.length; ++i) {
+      let param = paramsArray[i].split('=', 2);
       if (param.length !== 2)
          continue;
 
@@ -39,11 +41,11 @@ function _timestamp() {
 }
 
 function _touch(entity_id, list) {
-        for (var i = 0; i < list.length; i++) {
-            var item = list[i];
+        for (let i = 0; i < list.length; i++) {
+            let item = list[i];
             if (item.entity.entity_id == entity_id || item.entity.entityID == entity_id) {
-                var now = _timestamp();
-                var use_count = item.use_count;
+                let now = _timestamp();
+                let use_count = item.use_count;
                 item.use_count += 1;
                 item.last_use = now;
                 return use_count;
@@ -55,9 +57,6 @@ function _touch(entity_id, list) {
 function _sha1_id(s) {
     return "{sha1}"+hex_sha1(s);
 };
-
-var storage_key = "pyff_discovery_choices";
-var cache_time = 60 * 10 * 1000; // 10 minutes
 
 // polyfill Object.values()
 if (!Object.values) Object.values = function (object) {
@@ -83,14 +82,14 @@ export class DiscoveryService {
     }
 
     json_mdq_get(id) {
-        var opts = {method: 'GET', headers: {}};
+        let opts = {method: 'GET', headers: {}};
         return fetch(this.mdq_url + id + ".json",opts).then(function (response) {
            if (response.status == 404) {
                throw new URIError("Entity not found in MDQ server");
            }
            return response;
         }).then(function (response) {
-            var contentType = response.headers.get("content-type");
+            let contentType = response.headers.get("content-type");
             if(contentType && contentType.includes("application/json")) {
                 return response.json();
             }
@@ -108,7 +107,7 @@ export class DiscoveryService {
 
     clean_item(item) {
         if (item.entity && (item.entity.entity_id || item.entity.entityID) && item.entity.title) {
-            var entity = item.entity;
+            let entity = item.entity;
             if (entity && entity.entityID && !entity.entity_id) {
                entity.entity_id = entity.entityID;
             }
@@ -121,14 +120,14 @@ export class DiscoveryService {
     }
 
     with_items(callback) {
-        var obj = this;
-        var storage = this.get_storage();
+        let obj = this;
+        let storage = this.get_storage();
         return storage.onConnect().then(function () {
             console.log("pyFF ds-client: Listing discovery choices");
             return storage.get(storage_key);
         }).then(function(data) {
             data = data || '[]';
-            var lst;
+            let lst;
             try {
                 lst = JSON.parse(data) || [];
             } catch (error) {
@@ -136,9 +135,9 @@ export class DiscoveryService {
                 lst = [];
             }
 
-            var cleaned_items = {};
-            for (var i = 0; i < lst.length; i++) {
-                var cleaned_item = this.clean_item(lst[i]);
+            let cleaned_items = {};
+            for (let i = 0; i < lst.length; i++) {
+                let cleaned_item = this.clean_item(lst[i]);
                 cleaned_items[cleaned_item.entity['entity_id']] = cleaned_item;
             }
 
@@ -159,10 +158,10 @@ export class DiscoveryService {
             });
 
             return Promise.all(lst.map(function(item,i) {
-                var now = _timestamp();
-                var last_refresh = item.last_refresh || -1;
+                let now = _timestamp();
+                let last_refresh = item.last_refresh || -1;
                 if (last_refresh == -1 || last_refresh + cache_time < now) {
-                    var id = _sha1_id(item.entity['entity_id'] || item.entity['entityID']);
+                    let id = _sha1_id(item.entity['entity_id'] || item.entity['entityID']);
                     return obj.json_mdq_get(id).then(function(entity) {
                         if (entity) {
                             item.entity = entity;
@@ -179,7 +178,7 @@ export class DiscoveryService {
     }
 
     saml_discovery_response(entity_id) {
-        var params = _querystring;
+        let params = _querystring;
         return this.do_saml_discovery_response(entity_id, params).then(function (url) {
             window.location = url;
         });
@@ -190,12 +189,12 @@ export class DiscoveryService {
     }
 
     do_saml_discovery_response(entity_id, params) {
-        var obj = this;
+        let obj = this;
         return obj.with_items(function(items) {
             if (_touch(entity_id, items) == -1) {
                 return obj.json_mdq_get(_sha1_id(entity_id)).then(function (entity) {
                     console.log("mdq found entity: ",entity);
-                    var now = _timestamp();
+                    let now = _timestamp();
                     items.push({last_refresh: now, last_use: now, use_count: 1, entity: entity});
                     return items;
                 });
@@ -203,15 +202,15 @@ export class DiscoveryService {
                 return Promise.resolve(items);
             }
         }).then(function() {
-            var qs;
+            let qs;
             if (params['return']) {
                 console.log("returning discovery response...");
                 qs = params['return'].indexOf('?') === -1 ? '?' : '&';
-                var returnIDParam = params['returnIDParam'];
+                let returnIDParam = params['returnIDParam'];
                 if (!returnIDParam) {
                     returnIDParam = "entityID";
                 }
-                var response = params['return'];
+                let response = params['return'];
                 if (entity_id) {
                     response += qs + returnIDParam + '=' + entity_id;
                 }

@@ -13,5 +13,5 @@ describe('sha1 - yes we know sha1 is bad', function() {
       chai.expect(hex_sha1('https://idp.sunet.se/shibboleth')).to.equal('3ae1e0782311042cd3b735bd9e0db92c013fadde');
    });
    
-})
+});
 
