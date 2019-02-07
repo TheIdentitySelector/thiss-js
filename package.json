@@ -7,7 +7,9 @@
   "scripts": {
     "test": "mocha --require @babel/register",
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
@@ -59,13 +61,15 @@
     "chai": "^4.2.0",
     "dotenv-webpack": "^1.7.0",
     "ejs": "^2.6.1",
-    "ejs-compiled-loader": "^1.1.0",
+    "ejs-compiled-loader": "^2.1.0",
     "ejs-loader": "^0.3.1",
     "hogan": "^1.0.2",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "mocha": "^5.2.0",
     "popper": "^1.0.1",
-    "popper.js": "^1.14.7"
-  }
+    "popper.js": "^1.14.7",
+    "snyk": "^1.126.0"
+  },
+  "snyk": true
 }
