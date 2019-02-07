@@ -19,3 +19,30 @@ describe('DiscoveryService', function() {
     });
 
 });
+
+describe('LocalStoreShim', function() {
+
+   beforeEach(function() {
+       global.window = window;
+       global.LocalStoreShim = require('../src/ds-client.js').LocalStoreShim;
+    });
+
+    it('exists', function() {
+        chai.expect(LocalStoreShim).to.exist;
+    });
+
+    it('stores', function() {
+        let store = new LocalStoreShim();
+        store.set("a","b");
+        chai.expect(store).to.exist;
+    });
+
+    it('stores and retrieves', function() {
+        let store = new LocalStoreShim();
+        store.set("a","b");
+        store.get('a').then(function(x) {
+            chai.expect(x).to.equal('b');
+        });
+    });
+
+});

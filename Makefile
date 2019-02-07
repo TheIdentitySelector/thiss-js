@@ -8,5 +8,8 @@ clean:
 tests:
 	@npm run test
 
+cover:
+	@npm run cover
+
 setup:
 	@npm install

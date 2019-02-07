@@ -1,8 +1,9 @@
 const hex_sha1 = require('./sha1.js').default;
+const cross_storage = require("cross-storage");
 const storage_key = "pyff_discovery_choices";
 const cache_time = 60 * 10 * 1000; // 10 minutes
 
-class LocalStoreShim {
+export class LocalStoreShim {
    constructor() {}
    onConnect() {
       return Promise.resolve(this);
@@ -62,8 +63,6 @@ function _sha1_id(s) {
 if (!Object.values) Object.values = function (object) {
    return Object.keys(object).map(function(key) { return object[key] });
 };
-
-const cross_storage = require("cross-storage");
 
 export class DiscoveryService {
 
