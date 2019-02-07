@@ -4,7 +4,7 @@ node_js:
     - "8.15.0"
 
 install: 
-    - npm -i && npm run build
+    - npm install && npm run build
 
 deploy:
     provider: pages
