@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require @babel/register",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
@@ -52,9 +52,11 @@
     ]
   ],
   "dependencies": {
+    "@babel/register": "^7.0.0",
     "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
     "bootstrap": "^4.2.1",
     "bootstrap-list-filter": "^0.3.3",
+    "chai": "^4.2.0",
     "dotenv-webpack": "^1.7.0",
     "ejs": "^2.6.1",
     "ejs-compiled-loader": "^1.1.0",
@@ -62,6 +64,7 @@
     "hogan": "^1.0.2",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
+    "mocha": "^5.2.0",
     "popper": "^1.0.1",
     "popper.js": "^1.14.7"
   }
