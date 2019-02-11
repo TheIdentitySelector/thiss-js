@@ -2,6 +2,8 @@ const assert = require('assert');
 const chai = require('chai');
 const MockBrowser = require('mock-browser').mocks.MockBrowser;
 const window = new MockBrowser().getWindow();
+const fetchMock = require('fetch-mock');
+const { Response, Request, Headers, fetch } = require('isomorphic-fetch');
 
 describe('ds-client.js', function() {
    it('polyfills Object.values', function() {
@@ -15,6 +17,7 @@ describe('DiscoveryService', function() {
     beforeEach(function() {
        global.window = window;
        global.DiscoveryService = require('../src/ds-client.js').DiscoveryService;
+       global.fetchMock = fetchMock;
     });
 
     it('exists', function() {
@@ -25,7 +28,7 @@ describe('DiscoveryService', function() {
         chai.expect(new DiscoveryService("http://localhost","http://localhost")).to.exist;
     });
 
-    it('shims LocalStorage', function() {
+    it('shims LocalStorage when storage_url is local://', function() {
        let ds = new DiscoveryService("http://localhost", "local://");
        ds.get_storage().onConnect().then(function(storage) {
            chai.expect(typeof storage).to.equal('object');
@@ -33,6 +36,24 @@ describe('DiscoveryService', function() {
            chai.expect(typeof storage.get).to.equal('function');
            chai.expect(typeof storage.onConnect).to.equal('function');
        });
+    });
+
+    it('is able to run MDQ', function () {
+        let ds = new DiscoveryService("http://localhost", "local://");
+        fetchMock.get('*',[{
+            "domain": "example.com",
+            "title": "Example.com Login",
+            "auth": "saml",
+            "scope": "example.com",
+            "entityID": "https://idp.example.com/idp",
+            "hidden": "false"
+        }]);
+        ds.json_mdq_get('{sha1}d0469ad9c683b6cf90de8210fba9a15b75fd3b2e')
+            .then(function (entity) {
+                chai.expect(entity).to.exist;
+                chai.expect(entity.entityID).to.equal("https://idp.example.com/idp");
+            });
+        fetchMock.reset();
     });
 
 });

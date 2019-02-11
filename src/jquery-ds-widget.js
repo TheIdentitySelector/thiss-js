@@ -1,3 +1,5 @@
+require('es6-promise').polyfill();
+require('fetch-ie8');
 const Hogan = require("hogan.js");
 $ = require("jquery");
 require("jquery-ui");
