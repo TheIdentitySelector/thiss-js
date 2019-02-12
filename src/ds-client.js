@@ -140,7 +140,7 @@ export class DiscoveryService {
                 cleaned_items[cleaned_item.entity['entity_id']] = cleaned_item;
             }
 
-            lst = Object.values(clean);
+            lst = Object.values(cleaned_items);
 
             while (lst.length > 3) {
                 lst.pop();
