@@ -2,6 +2,6 @@
 import {CrossStorageHub} from 'cross-storage';
 
 CrossStorageHub.init([
-    {origin: /^<%= process.env.STORAGE_DOMAIN %>$/, allow: ['get','set','del']},
-    {origin: /.+$/, allow: ['get']}
+    {origin: new RegExp('.*'+process.env.STORAGE_DOMAIN+'$'), allow: ['get','set','del']},
+    {origin: new RegExp('.+$'), allow: ['get']}
     ]);
