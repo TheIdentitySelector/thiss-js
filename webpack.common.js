@@ -18,9 +18,9 @@ module.exports = {
   },
   entry: {
       index: ['babel-polyfill', './src/index.js'],
-      cta:  ['babel-polyfill','./src/cta.js'],
-      ds: ['babel-polyfill','./src/ds.js'],
-      storage: ['babel-polyfill', './src/storage.js'],
+      cta:  ['babel-polyfill','./src/cta/index.js'],
+      ds: ['babel-polyfill','./src/ds/ds/index.js'],
+      storage: ['babel-polyfill', './src/storage/index.js'],
       thiss: ['babel-polyfill', './src/component.js']
   },
   plugins: [
@@ -35,25 +35,25 @@ module.exports = {
           filename: 'index.html',
           inject: true,
           chunks: ['index'],
-          template: '!ejs-loader!src/assets/index.html'
+          template: '!ejs-loader!src/index.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'cta/index.html',
           chunks: ['cta'],
           inject: true,
-          template: 'src/assets/cta.html'
+          template: 'src/cta/index.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'ds/index.html',
           chunks: ['ds'],
           inject: true,
-          template: '!ejs-loader!src/assets/ds.html'
+          template: '!ejs-loader!src/ds/index.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'storage/index.html',
           chunks: ['storage'],
           inject: true,
-          template: '!ejs-loader!src/assets/storage.html'
+          template: '!ejs-loader!src/storage/index.html'
       }),
       new MiniCssExtractPlugin({
           filename: "[name].css"
@@ -67,11 +67,12 @@ module.exports = {
       })
   ],
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'umd',
-    library: '[name]',
-    globalObject: 'this'
+      filename: '[name].js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: "/",
+      libraryTarget: 'umd',
+      library: '[name]',
+      globalObject: 'this'
   },
   module: {
      rules: [
@@ -90,20 +91,15 @@ module.exports = {
                      }
                  }
              }
-             },
-         {
-            test: /\.(xml|png|svg)$/,
-            loader: 'file-loader'
          },
          {
-            test: /\.(woff(2)?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            loader: 'url-loader',
-            options: {
-                limit: 8192,
-                name:'[name].[ext]',
-                outputPath:'assets' //the icons will be stored in dist/assets folder
-            }
-            },
+             test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+             loader: 'url-loader',
+             options: {
+                 name:'[hash]_[name].[ext]',
+                 outputPath:'assets'
+             }
+             },
          {
             test: /\.m?js$/,
             exclude: /(node_modules|bower_components)/,
