@@ -19,7 +19,7 @@ module.exports = {
   entry: {
       index: ['babel-polyfill', './src/index.js'],
       cta:  ['babel-polyfill','./src/cta/index.js'],
-      ds: ['babel-polyfill','./src/ds/ds/index.js'],
+      ds: ['babel-polyfill','./src/ds/index.js'],
       storage: ['babel-polyfill', './src/storage/index.js'],
       thiss: ['babel-polyfill', './src/component.js']
   },
@@ -41,7 +41,7 @@ module.exports = {
           filename: 'cta/index.html',
           chunks: ['cta'],
           inject: true,
-          template: 'src/cta/index.html'
+          template: '!ejs-loader!src/cta/index.html'
       }),
       new HtmlWebpackPlugin({
           filename: 'ds/index.html',

@@ -1,4 +1,4 @@
-
+require('webpack-icons-installer');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

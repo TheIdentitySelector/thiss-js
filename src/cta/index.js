@@ -1,12 +1,12 @@
 require('webpack-icons-installer');
 require('es6-promise').polyfill();
 require('fetch-ie8');
-import {DiscoveryService} from "./ds-client";
-import {DiscoveryComponent} from "./component";
-import './assets/login.css';
+import {DiscoveryService} from "../ds-client.js";
+import {DiscoveryComponent} from "../component.js";
+import '../assets/login.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './assets/ra21icon.svg';
+import '../assets/ra21icon.svg';
 
 
 let mdq_url = null;
