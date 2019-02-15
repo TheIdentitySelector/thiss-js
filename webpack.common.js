@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin")
+const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const DotEnv = require("dotenv-webpack");
 
 require("babel-polyfill");
