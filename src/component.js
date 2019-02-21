@@ -34,7 +34,7 @@ export const DiscoveryComponent = zoid.create({
     backgroundColor: '#FFFFFF',
 
     prerenderTemplate: function(opts) {
-        var div = opts.document.createElement("div");
+        let div = opts.document.createElement("div");
         div.setAttribute("class","btn-group btn-block");
         div.innerHTML = '<button type="button" class="btn btn-primary"><i id="spinner" class="fa fa-circle-o-notch fa-spin"></i></button>';
         return div;
