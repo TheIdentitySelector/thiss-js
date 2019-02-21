@@ -85,6 +85,7 @@
     "node-fetch": "^2.3.0",
     "popper": "^1.0.1",
     "popper.js": "^1.14.7",
+    "post-robot": "^10.0.10",
     "snyk": "^1.126.0"
   },
   "snyk": true
