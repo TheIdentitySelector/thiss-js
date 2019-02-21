@@ -64,44 +64,52 @@ if (!Object.values) Object.values = function (object) {
    return Object.keys(object).map(function(key) { return object[key] });
 };
 
+function json_mdq_get(id, mdq_url) {
+    let opts = {method: 'GET', headers: {}};
+    return fetch(mdq_url + id + ".json",opts).then(function (response) {
+       if (response.status == 404) {
+           throw new URIError("Entity not found in MDQ server");
+       }
+       return response;
+    }).then(function (response) {
+        let contentType = response.headers.get("content-type");
+        if(contentType && contentType.includes("application/json")) {
+            return response.json();
+        }
+        throw new SyntaxError("MDQ didn't provide a JSON response");
+    }).then(function(data) {
+        if (Object.prototype.toString.call(data) === "[object Array]") {
+            data = data[0];
+        }
+        return data;
+    }).catch(function(error) {
+        console.log(error);
+        //Promise.reject(error);
+    });
+};
+
+function parse_storage_url(url) {
+    if (url == 'local://') {
+        return function() { return new LocalStoreShim() }
+    } else {
+        return function() { return new cross_storage.CrossStorageClient(url) }
+    }
+};
+
 export class DiscoveryService {
 
-    constructor(mdq_url, storage_url, opts) {
-       opts = opts || {};
-       this.mdq_url = mdq_url;
-       this.storage_url = storage_url;
-    }
-
-    get_storage() {
-        if (this.storage_url == 'local://') {
-            return new LocalStoreShim()
+    constructor(mdq, storage, opts) {
+        opts = opts || {};
+        if (typeof mdq === 'function') {
+            this.mdq = mdq; // must return a Promise resolving to an entity JSON object
         } else {
-            return new cross_storage.CrossStorageClient(this.storage_url)
+            this.mdq = function(id) { return json_mdq_get(id, mdq) }
         }
-    }
-
-    json_mdq_get(id) {
-        let opts = {method: 'GET', headers: {}};
-        return fetch(this.mdq_url + id + ".json",opts).then(function (response) {
-           if (response.status == 404) {
-               throw new URIError("Entity not found in MDQ server");
-           }
-           return response;
-        }).then(function (response) {
-            let contentType = response.headers.get("content-type");
-            if(contentType && contentType.includes("application/json")) {
-                return response.json();
-            }
-            throw new SyntaxError("MDQ didn't provide a JSON response");
-        }).then(function(data) {
-            if (Object.prototype.toString.call(data) === "[object Array]") {
-                data = data[0];
-            }
-            return data;
-        }).catch(function(error) {
-            console.log(error);
-            //Promise.reject(error);
-        });
+        if (typeof storage === 'function') {
+            this.storage = storage; // must be a constructor for a storage class
+        } else {
+            this.storage = parse_storage_url(storage);
+        }
     }
 
     clean_item(item) {
@@ -120,7 +128,7 @@ export class DiscoveryService {
 
     with_items(callback) {
         let obj = this;
-        let storage = this.get_storage();
+        let storage = this.storage();
         return storage.onConnect().then(function () {
             console.log("pyFF ds-client: Listing discovery choices");
             return storage.get(storage_key);
@@ -161,7 +169,7 @@ export class DiscoveryService {
                 let last_refresh = item.last_refresh || -1;
                 if (last_refresh == -1 || last_refresh + cache_time < now) {
                     let id = _sha1_id(item.entity['entity_id'] || item.entity['entityID']);
-                    return obj.json_mdq_get(id).then(function(entity) {
+                    return obj.mdq(id).then(function(entity) {
                         if (entity) {
                             item.entity = entity;
                             item = this.clean_item(item);
@@ -191,8 +199,8 @@ export class DiscoveryService {
         let obj = this;
         return obj.with_items(function(items) {
             if (_touch(entity_id, items) == -1) {
-                return obj.json_mdq_get(_sha1_id(entity_id)).then(function (entity) {
-                    console.log("mdq found entity: ",entity);
+                return obj.mdq(_sha1_id(entity_id)).then(function (entity) {
+                    console.log("mdq found entity: ", entity);
                     let now = _timestamp();
                     items.push({last_refresh: now, last_use: now, use_count: 1, entity: entity});
                     return items;

@@ -30,7 +30,7 @@ describe('DiscoveryService', function() {
 
     it('shims LocalStorage when storage_url is local://', function() {
        let ds = new DiscoveryService("http://localhost", "local://");
-       ds.get_storage().onConnect().then(function(storage) {
+       ds.storage().onConnect().then(function(storage) {
            chai.expect(typeof storage).to.equal('object');
            chai.expect(typeof storage.set).to.equal('function');
            chai.expect(typeof storage.get).to.equal('function');
@@ -48,7 +48,7 @@ describe('DiscoveryService', function() {
             "entityID": "https://idp.example.com/idp",
             "hidden": "false"
         }]);
-        ds.json_mdq_get('{sha1}d0469ad9c683b6cf90de8210fba9a15b75fd3b2e')
+        ds.mdq('{sha1}d0469ad9c683b6cf90de8210fba9a15b75fd3b2e')
             .then(function (entity) {
                 chai.expect(entity).to.exist;
                 chai.expect(entity.entityID).to.equal("https://idp.example.com/idp");

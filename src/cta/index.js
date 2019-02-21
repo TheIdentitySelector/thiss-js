@@ -9,8 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
 
 
-let mdq_url = null;
-let storage_url = "local://";
+let mdq = null;
+let storage = "local://";
 let defaultText = "Your Institution";
 let return_url = window.xprops.returnURL;
 let on_discovery = function () { window.top.location.href = return_url; };
@@ -19,11 +19,11 @@ let on_institution_clicked = function(url, entity_id) { window.top.location.href
 document.getElementById('main').style.background = window.xprops.backgroundColor;
 
 if (window.xprops.StorageURL) {
-    storage_url = window.xprops.StorageURL;
+    storage = window.xprops.StorageURL;
 }
 
 if (window.xprops.MDQ) {
-    mdq_url = window.xprops.MDQ;
+    mdq = window.xprops.MDQ;
 }
 
 if (window.xprops.onDiscovery) {
@@ -34,7 +34,7 @@ if (window.xprops.onInstitutionClicked) {
     on_institution_clicked = window.xprops.onInstitutionClicked;
 }
 
-let ds = new DiscoveryService(mdq_url, storage_url);
+let ds = new DiscoveryService(mdq, storage);
 
 let start = Promise.resolve();
 if (window.xprops.pinned) {
