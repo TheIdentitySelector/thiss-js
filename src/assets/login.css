@@ -10,23 +10,22 @@
 }
 
 .ra21CTAcontainer {
-    cursor: pointer;
-  width: 320px;
-  height: 60px;
-  border-radius: 7px;
-  background-image: linear-gradient(to bottom, #0079ff, #005ac0);
-  background-image: linear-gradient(to bottom, var(--primary-blue), #005ac0);
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--warm-grey);
+  margin-bottom: 5px;
+  background-color: var(--primary-blue);
+  display: flex;
+  cursor: pointer;
 }
 
 .ra21CTAicon {
-  width: 21.1px;
-  height: 22px;
   object-fit: contain;
 }
 
 .ra21CTAheadline {
   width: 260px;
-  height: 16px;
   font-family: 'Libre Franklin', sans-serif;
   font-size: 13px;
   font-weight: normal;
@@ -41,7 +40,6 @@
 
 .ra21CTAtitle {
   width: 260px;
-  height: 16px;
   font-family: 'Libre Franklin', sans-serif;
   font-size: 13px;
   font-weight: bold;
@@ -52,28 +50,21 @@
   text-align: center;
   color: #ffffff;
   color: var(--white);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    text-transform: uppercase
-}
-
-.ra21CTAspacer {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  width: 2px;
-  height: 40px;
-  border: solid 1px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ra21CTAiconButton {
-    margin: 19px;
+  border-right: solid 1px rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  padding-right: 15px;
 }
 
 .ra21CTAChooseAnother {
-    cursor: pointer;
-   margin-left: 41px;
-    margin-top: 7px;
+  cursor: pointer;
+  margin-left: 41px;
+  margin-top: 7px;
   width: 320px;
   height: 20px;
   font-family: 'Libre Franklin', sans-serif;
@@ -89,15 +80,14 @@
 }
 
 .ra21CTAPlus {
-    padding: 0;
-    margin: 0;
+  color: var(--warm-grey);
+  padding: 0;
+  margin: 0;
 }
 
 .ra21CTAPlusWrap {
   width: 18px;
   height: 18px;
-  border-radius: 5px;
-  background-color: rgba(186, 186, 186, 0.33);
 }
 
 .ra21CTAccess {

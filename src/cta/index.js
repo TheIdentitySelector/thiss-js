@@ -53,16 +53,15 @@ start.then(function() {
                 document.getElementById('spinner').style.display = "none";
                 document.getElementById('title').innerText = item.entity.title;
                 entity_id = item.entity.entityID;
-                document.getElementById('headline').innerText = "Access Through";
+                document.getElementById('headline').innerText = "Access through";
+                document.getElementById('headline').className = "ra21CTAheadline";
                 count += 1;
             }
         }
 
         if (count == 0) {
             document.getElementById('spinner').style.display = "none";
-            document.getElementById('title').innerText = "Institution";
-            document.getElementById('headline').className = "ra21CTAtitle";
-            document.getElementById('headline').innerText = "Access Through Your";
+            document.getElementById('title').innerText = "Access through your institution";
             button.dataset['href'] = "";
         }
 
