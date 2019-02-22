@@ -19,28 +19,26 @@
 			</h2>
 		</header>
 		
-	<div class="col-md-10 offset-md-1 col-lg-6 offset-lg-3">
-        <div class="card card-container">
-            <div class="collapse" id="titlefind">
-				<h1>Find Your Institution
-					<p class="subtitleRA21">Your university, organization or company</p>
-				</h1>
+	
+    <div class="card card-container">
+      <div class="collapse" id="titlefind">
+				<h1>Find Your Institution</h1>
+				<h2 class="subtitleRA21">Your university, organization or company</h2>
 			</div>
 
 			<div class="collapse" id="titlechoose">
 				<h1>Choose Your Institution
-					<p class="subtitleRA21">Institutions you used previously</p>
+					<p class="subtitleRA21">Recent institutions</p>
 				</h1>
 			</div>
 
-          <div id="dsclient"
-                     data-mdq="<%= process.env.MDQ_URL %>"
-                     data-store="<%= process.env.STORAGE_URL %>"
-                     data-search="<%= process.env.SEARCH_URL %>"
-                     data-inputfieldselector="#searchinput">
+      <div id="dsclient"
+				data-mdq="<%= process.env.MDQ_URL %>"
+				data-store="<%= process.env.STORAGE_URL %>"
+				data-search="<%= process.env.SEARCH_URL %>"
+				data-inputfieldselector="#searchinput">
 			  <ul class="card-links" id="ds-saved-choices">
 				  <div class="collapse" id="addwidget">
-
 					  <a data-toggle="collapse" href="#searchwidget" role="button" aria-expanded="false" aria-controls="searchwidget">
 						  <li><span class="label">Choose another</span><i id="add_circle" class="float-right far fa-plus-circle"></i></li>
 					  </a>
@@ -57,29 +55,25 @@
 			  </div>
 
 			  <div class="collapse" id="resultwidget">
-				<div class="card-header" id="wefoundresults">
-					<h3>We found these institutions'<span id="count" class="float-right badge badge-pill badge-success">0</span></h3>
-				</div>
-				<ul class="card-links" id="ds-search-list">
-                    <li class="collapse" id="searching"><i class="far fa-spinner fa-spin"></i></li>
-                    <li>
-                        <div class="collapse alert alert-info mt-3" id="no_results" role="alert">
-                            <h3>No matching institution found</h3>
-                            <ul>
-                                <li>Try institution name, your institution email, or an abbreviation</li>
-                                <li>Contact your institution librarian</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
+					<div class="card-header" id="wefoundresults">
+						<h3>We found these institutions'<span id="count" class="float-right badge badge-pill badge-success">0</span></h3>
+					</div>
+					<ul class="card-links" id="ds-search-list">
+							<li class="collapse" id="searching"><i class="far fa-spinner fa-spin"></i></li>
+							<li>
+									<div class="collapse alert alert-info mt-3" id="no_results" role="alert">
+											<h3>No matching institution found</h3>
+											<ul>
+													<li>Try institution name, your institution email, or an abbreviation</li>
+													<li>Contact your institution librarian</li>
+											</ul>
+									</div>
+							</li>
+					</ul>
 			  </div>
-          </div>
-			
-        </div><!-- /card-container -->
-	</div>
-
+      </div>
+    </div><!-- /card-container -->
 	</main>
-	
 	
 	<footer>
 		<div class="footer-credential">
