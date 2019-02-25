@@ -36,9 +36,10 @@ $(document).ready(function() {
         <div class="d-inline-block">{{title}}</div>\
         <div class="remove float-right"><i class="far fa-times-circle"></i></div>\
         </div></li></a>');
-    let timer = 0;
+    let timer = null;
 
     $("#searchwidget").on('hidden.bs.collapse',function(event) {
+        console.log("hidden.bs.collapse");
         $("#titlefind").hide();
         $("#titlechoose").show();
         $("#searchwidget").hide();
@@ -46,6 +47,7 @@ $(document).ready(function() {
         $("#searchinput").val('');
         $("#add_circle").removeClass("fa-minus-circle").addClass("fa-plus-circle");
     }).on('shown.bs.collapse',function(event) {
+        console.log("shown.bs.collapse");
         $("#titlefind").show();
         $("#titlechoose").hide();
         $("#searchwidget").show();
@@ -54,25 +56,28 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
+        console.log("show.bs");
         $("#wefoundresults").hide();
         $("#count").text(0);
         timer = setTimeout( function () { $("#searching").show(); }, 500);
-    });
-
-    $("#ds-search-list").on('hide.bs', function(event) {
+    }).on('hide.bs', function(event) {
+        console.log("hide.bs");
         $("#resultwidget").hide();
         $("#searching").hide();
+        if (timer) {
+            clearTimeout(timer);
+        }
     });
 
     $("#dsclient").discovery_client({
         render_search_result: function(item) {
-            if (timer !== undefined) {
-                clearTimeout(timer);
-                timer = undefined;
-                $("#resultwidget").show();
-                $("#searching").hide();
-                $("#no_results").hide();
+            console.log("render_search_result");
+            if (timer) {
+                clearTimeout(timer); timer = null;
             }
+            $("#resultwidget").show();
+            $("#searching").hide();
+            $("#no_results").hide();
             $("#wefoundresults").show();
             $("#count").text(item.counter);
             return search.render(item);
@@ -81,15 +86,19 @@ $(document).ready(function() {
             return saved.render(item);
         },
         no_results: function() {
-            if (timer !== undefined) {
-                clearTimeout(timer);
-                timer = undefined;
-                $("#searching").hide();
+            console.log("no_results");
+            if (timer) {
+                clearTimeout(timer); timer = null;
             }
+            $("#count").text(0);
+            $("#searching").hide();
             $("#wefoundresults").hide();
             $("#no_results").show();
         },
         after: function(count,elt) {
+            $("#count").text(count);
+            console.log("after");
+            $("#searching").hide();
             if (count == 0) {
                 $("#titlefind").show();
                 $("#titlechoose").hide();

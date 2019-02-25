@@ -20,8 +20,10 @@ module.exports = {
       index: ['babel-polyfill', './src/index.js'],
       cta:  ['babel-polyfill','./src/cta/index.js'],
       ds: ['babel-polyfill','./src/ds/index.js'],
-      storage: ['babel-polyfill', './src/storage/index.js'],
-      thiss: ['babel-polyfill', './src/component.js']
+      persit: ['babel-polyfill', './src/persist.js'],
+      ps: ['babel-polyfill', './src/ps/index.js'],
+      thiss: ['babel-polyfill', './src/component.js'],
+      discovery: ['babel-polyfill', './src/discovery.js']
   },
   plugins: [
       new DotEnv({systemvars: true}),
@@ -50,10 +52,10 @@ module.exports = {
           template: '!ejs-loader!src/ds/index.html'
       }),
       new HtmlWebpackPlugin({
-          filename: 'storage/index.html',
-          chunks: ['storage'],
+          filename: 'ps/index.html',
+          chunks: ['ps'],
           inject: true,
-          template: '!ejs-loader!src/storage/index.html'
+          template: '!ejs-loader!src/ps/index.html'
       }),
       new MiniCssExtractPlugin({
           filename: "[name].css"
