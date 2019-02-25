@@ -1,7 +1,7 @@
 require('webpack-icons-installer');
 require('es6-promise').polyfill();
 require('fetch-ie8');
-import {DiscoveryService} from "../ds-client.js";
+import {DiscoveryService} from "../discovery.js";
 import {DiscoveryComponent} from "../component.js";
 import '../assets/login.css';
 import 'bootstrap';
@@ -9,17 +9,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
 
 
-let mdq = null;
-let storage = "local://";
+let mdq = process.env.MDQ_URL;
+let persistence = process.env.PERSISTENCE_URL;
+let context = null;
 let defaultText = "Your Institution";
-let return_url = window.xprops.returnURL;
-let on_discovery = function () { window.top.location.href = return_url; };
+let login_handler_url = window.xprops.loginHandlerURL;
+let on_discovery = function () { window.top.location.href = login_handler_url; };
 let on_institution_clicked = function(url, entity_id) { window.top.location.href = url; };
 
 document.getElementById('main').style.background = window.xprops.backgroundColor;
 
-if (window.xprops.StorageURL) {
-    storage = window.xprops.StorageURL;
+if (window.xprops.persistenceURL) {
+    persistence = window.xprops.persistenceURL;
+}
+
+if (window.xprops.context) {
+   context = window.xprops.context;
 }
 
 if (window.xprops.MDQ) {
@@ -34,7 +39,7 @@ if (window.xprops.onInstitutionClicked) {
     on_institution_clicked = window.xprops.onInstitutionClicked;
 }
 
-let ds = new DiscoveryService(mdq, storage);
+let ds = new DiscoveryService(mdq, persistence, context);
 
 let start = Promise.resolve();
 if (window.xprops.pinned) {
@@ -68,7 +73,7 @@ start.then(function() {
         button.addEventListener('click', function(event) {
             event.preventDefault();
             setTimeout(function() {
-                let params = {'return': window.xprops.returnURL};
+                let params = {'return': login_handler_url};
                 if (entity_id) { // return the discovery response
                     ds.do_saml_discovery_response(entity_id, params).then(function (url) {
                         on_institution_clicked(url, entity_id);

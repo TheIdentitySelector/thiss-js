@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 window.onload = function() {
    DiscoveryComponent.render({
-       returnURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+       loginHandlerURL: process.env.BASE_URL+'ds/?target=https://google.com&return=#',
        backgroundColor: '#e9ecef'
    }, '#container');
 };

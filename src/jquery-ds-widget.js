@@ -3,15 +3,16 @@ require('fetch-ie8');
 const Hogan = require("hogan.js");
 $ = require("jquery");
 require("jquery-ui");
-const DiscoveryService = require("./ds-client.js").DiscoveryService;
+import {DiscoveryService} from "./discovery";
 require("bootstrap-list-filter");
 
 jQuery(function ($) {
     $.widget("pyff.discovery_client", {
 
         options: {
-            discovery_service_storage_url: undefined,
+            discovery_service_persistence_url: undefined,
             discovery_service_search_url: undefined,
+            discovery_service_context: undefined,
             before: undefined,
             after: undefined,
             render: undefined,
@@ -24,7 +25,7 @@ jQuery(function ($) {
         },
 
         _create: function () {
-            var obj = this;
+            let obj = this;
             if (typeof obj.options['render'] !== 'function') {
                 obj._template_with_icon = Hogan.compile('<div data-href="{{entity_id}}" class="identityprovider list-group-item">' +
                     '{{^sticky}}<button type="button" alt="{{ _(\"Remove from list\") }}" data-toggle="tooltip" data-placement="left" class="remove close">&times;</button>{{/sticky}}' +
@@ -72,12 +73,12 @@ jQuery(function ($) {
         },
 
         _after: function (count) {
-            var saved_choices_element = $(this.options['saved_choices_selector']);
+            let saved_choices_element = $(this.options['saved_choices_selector']);
             if (this.discovery_service_search_url) {
-                var obj = this;
-                var search_result_element = $(obj.options['search_result_selector']);
-                var search_base, search_related, list_uri;
-                var counter = 0;
+                let obj = this;
+                let search_result_element = $(obj.options['search_result_selector']);
+                let search_base, search_related, list_uri;
+                let counter = 0;
                 search_base = obj.element.attr('data-search');
                 search_related = obj.element.attr('data-related');
                 $(obj.input_field_selector).focus();
@@ -85,22 +86,35 @@ jQuery(function ($) {
                     resetOnBlur: false,
                     casesensitive: false,
                     itemEl: '.identityprovider',
-                    itemFilter: function (item, val) { return true; },
                     emptyNode: obj.options['no_results'],
                     getValue: function(that) {
-                        var v = that.val();
-                        var i = v.indexOf('@');
+                        let v = that.val();
+                        let i = v.indexOf('@');
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
                     sourceData: function (text, callback) {
-                        var remote = search_base + "?query=" + text + "&entity_filter={http://macedir.org/entity-category}http://pyff.io/category/discoverable";
+                        let remote = search_base + "?query=" + text;
 
                         if (search_related) {
                             remote = remote + "&related=" + search_related;
                         }
 
                         counter = 0;
-                        return $.getJSON(remote, callback);
+                        console.log(remote);
+                        fetch(remote, {method: 'GET', headers: {}}).then(function (response) {
+                            if (response.status == 404) {
+                                throw new URIError("Entity not found in MDQ server");
+                            }
+                            return response;
+                        }).then(function (response) {
+                            let contentType = response.headers.get("content-type");
+                            if (contentType && contentType.includes("application/json")) {
+                                return response.json();
+                            }
+                            throw new SyntaxError("Search didn't provide a JSON response");
+                        }).catch(function(error) {
+                            console.log(error);
+                        }).then(callback);
                     },
                     sourceNode: function (data) {
                         data.sticky = true;
@@ -108,22 +122,23 @@ jQuery(function ($) {
                         data.counter = counter;
                         return obj.options['render_search_result'](data);
                     },
-                    cancelNode: null
+                    cancelNode: function () { console.log("cancel"); },
                 });
             }
             this.options['after'](count, saved_choices_element);
         },
 
         _update: function () {
-            var obj = this;
-            obj.discovery_service_storage_url = obj.options['discovery_service_storage_url'] || obj.element.attr('data-store');
+            let obj = this;
+            obj.discovery_service_persistence_url = obj.options['discovery_service_persistence_url'] || obj.element.attr('data-persistence');
             obj.discovery_service_search_url = obj.options['discovery_service_search_url'] || obj.element.attr('data-search');
             obj.mdq_url = obj.options['mdq_url'] || obj.element.attr('data-mdq');
             obj.input_field_selector = obj.options['input_field_selector'] || obj.element.attr('data-inputfieldselector') || 'input';
             obj.selection_selector = obj.options['selection_selector'];
-            obj._ds = new DiscoveryService(obj.mdq_url, obj.discovery_service_storage_url);
+            obj.dicovery_service_context = obj.options['discovery_service_context'] || obj.element.attr('data-context');
+            obj._ds = new DiscoveryService(obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
             obj._count = 0;
-            var top_element = obj.element;
+            let top_element = obj.element;
 
             $('img.pyff-idp-icon').bind('error', function () {
                 $(this).unbind('error');
@@ -138,7 +153,7 @@ jQuery(function ($) {
             });
 
             $('body').on('click', obj.selection_selector, function (e) {
-                var entity_id = $(this).closest(obj.selection_selector).attr('data-href');
+                let entity_id = $(this).closest(obj.selection_selector).attr('data-href');
                 console.log(entity_id);
                 return obj._ds.saml_discovery_response(entity_id);
             });
@@ -149,9 +164,9 @@ jQuery(function ($) {
 
             $('body').on('click', 'div.remove', function (e) {
                 e.stopPropagation();
-                var entity_element = $(this).closest(obj.selection_selector);
+                let entity_element = $(this).closest(obj.selection_selector);
                 obj._count = entity_element.siblings().length + 1;
-                var entity_id = entity_element.attr('data-href');
+                let entity_id = entity_element.attr('data-href');
                 if (entity_id) {
                     obj._ds.remove(entity_id).then(function () {
                         entity_element.remove();
@@ -163,13 +178,14 @@ jQuery(function ($) {
             });
 
             obj._ds.with_items(function (items) {
+                console.log(items);
                 items = obj.options['before'](items);
-                var count = 0;
-                var saved_choices_element = $(obj.options['saved_choices_selector']);
+                let count = 0;
+                let saved_choices_element = $(obj.options['saved_choices_selector']);
                 console.log(items);
                 if (items && items.length > 0) {
                     items.forEach(function (item) {
-                        var entity_element = obj.options['render_saved_choice'](item.entity);
+                        let entity_element = obj.options['render_saved_choice'](item.entity);
                         saved_choices_element.prepend(entity_element);
                         count++;
                     });

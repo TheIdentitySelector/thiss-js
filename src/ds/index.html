@@ -32,15 +32,15 @@
 				</h1>
 			</div>
 
-      <div id="dsclient"
-				data-mdq="<%= process.env.MDQ_URL %>"
-				data-store="<%= process.env.STORAGE_URL %>"
-				data-search="<%= process.env.SEARCH_URL %>"
-				data-inputfieldselector="#searchinput">
+          <div id="dsclient"
+                     data-mdq="<%= process.env.MDQ_URL %>"
+                     data-persistence="<%= process.env.PERSISTENCE_URL %>"
+                     data-search="<%= process.env.SEARCH_URL %>"
+                     data-inputfieldselector="#searchinput">
 			  <ul class="card-links" id="ds-saved-choices">
 				  <div class="collapse" id="addwidget">
 					  <a data-toggle="collapse" href="#searchwidget" role="button" aria-expanded="false" aria-controls="searchwidget">
-						  <li><span class="label">Choose another</span><i id="add_circle" class="float-right far fa-plus-circle"></i></li>
+						  <li><span class="label">Choose another</span><i id="add_circle" class="float-right fa fa-plus-circle"></i></li>
 					  </a>
 				  </div>
 			  </ul>
@@ -56,7 +56,7 @@
 
 			  <div class="collapse" id="resultwidget">
 					<div class="card-header" id="wefoundresults">
-						<h3>We found these institutions'<span id="count" class="float-right badge badge-pill badge-success">0</span></h3>
+						<h3>We found these institutions<span id="count" class="float-right badge badge-pill badge-success">0</span></h3>
 					</div>
 					<ul class="card-links" id="ds-search-list">
 							<li class="collapse" id="searching">
