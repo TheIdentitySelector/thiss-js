@@ -15,7 +15,7 @@
 		<header>
 			<h2 class="accessHeader account">
 				<img alt="" class="header-ra21-logo" src="<%= require('../assets/RA21-Black.svg') %>"/><span class="light">Access to</span>
-				<span class="sp_title account-pill">American Chemical Society</span>
+				<span class="sp_title account-pill">TODO:fixme American Chemical Society</span>
 			</h2>
 		</header>
 		
@@ -47,11 +47,11 @@
 			  <div class="collapse" id="searchwidget">
 				  <div class="input-group" role="button">
 					<input type="text" id="searchinput" type="search" class="form-control" placeholder="" aria-label="input group" aria-describedby="btnGroupAddon" autofocus>
-					<div class="input-group-append">
-						<button type="button" id="findbutton" class="btn btn-primary" aria-describedby="btnGroupAddon"><i class="material-icons">search</i></button>
+					<div class="find-button-wrapper">
+						<button type="button" id="findbutton" class="btn" aria-describedby="btnGroupAddon"><i class="fa fa-search"></i></button>
 					</div>
 				  </div>
-				  <p id="examples" class="detailtextRA21">Examples: Science Institute, xxx@YourInstitution.edu, UCLA</p>
+				  <p id="examples" class="detailtextRA21">Examples: Science Institute, Lee@YourInstitution.edu, UCLA</p>
 			  </div>
 
 			  <div class="collapse" id="resultwidget">
@@ -59,13 +59,17 @@
 						<h3>We found these institutions'<span id="count" class="float-right badge badge-pill badge-success">0</span></h3>
 					</div>
 					<ul class="card-links" id="ds-search-list">
-							<li class="collapse" id="searching"><i class="far fa-spinner fa-spin"></i></li>
+							<li class="collapse" id="searching">
+								<h3>Searching for institutions...</h3>
+								<div class="loader"></div>
+							</li>
 							<li>
-									<div class="collapse alert alert-info mt-3" id="no_results" role="alert">
-											<h3>No matching institution found</h3>
+									<div class="collapse alert mt-3 no-results-alert" id="no_results" role="alert">
+											<h3 class="bold">No matching institutions found</h3>
 											<ul>
-													<li>Try institution name, your institution email, or an abbreviation</li>
-													<li>Contact your institution librarian</li>
+													<li>Try entering an institution name, abbreviation or your institution email</li>
+													<li>Try accessing through your library website</li>
+													<li>Contact your librarian</li>
 											</ul>
 									</div>
 							</li>
