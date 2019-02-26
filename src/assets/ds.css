@@ -251,8 +251,6 @@ a.identityprovider li span {
 	margin: 3px 0 5px 0;
 }
 	
-
-
 .lookupRA21 {
 	margin: 50px 0 50px 0;
 }
@@ -319,11 +317,12 @@ a.identityprovider li span {
 	color: #147dfa;
 	cursor: pointer;
 	width: 100%;
+	border-bottom: 1px solid rgba(118, 118, 118, 0.2);
 }
 
 .card-links a li {
   margin: 0;
-  padding: 14px 6px;
+  padding: 14px 6px 14px 0;
   border-left: 3px solid #fff;
   transition: background-color 0.2s ease,
               border-left 0.2s ease,
@@ -332,9 +331,12 @@ a.identityprovider li span {
 }
 
 .card-links a:hover li {
-  border-left: 3px solid #033D83;
   background: #FFFFFF;
   color: #44474a;
+}
+
+.card-links a:hover .label {
+  color: var(--primary-blue);
 }
 
 .card-links a li > i {
@@ -423,24 +425,29 @@ div.cancel {
 }
 
 .label {
+	font-size: 15px;
+	font-weight: 500;
 	max-width: 80%;
 }
 
 .label-url {
+	height: 1rem;
+	max-width: 200px;
+	color: var(--warm-grey);
+}
+
+.institution i.arrow {
+	padding-top: 5px;
+	padding-right: 7px;
+	font-size: 22px;
+	font-weight: 900;
+	display: none;
 	float: right;
-	margin-right: 25px;
-	max-width: 18%;
-	color: #ABABAB;
+	color: var(--primary-blue);
 }
 
-.searchaux {
-	max-width: 75%;
-	font-size: small;
-}
-
-.searchmatch {
-	max-width: 75%;
-	font-size: x-small;
+.institution:hover i.arrow {
+	display: block;
 }
 
 .alert ul{
@@ -453,16 +460,31 @@ div.cancel {
 	border-radius: 5px;
 	background-color: var(--white-two);
 	color: var(--text-grey);
+	font-family: 'Libre Franklin', sans-serif;
 	font-size: 13px;
-}
-
-.no-results-alert {
-	color: var(--text-grey);
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
 }
 
 .no-results-alert h3 {
 	font-weight: bold;
+	font-size: 14px;
 	color: var(--text-grey);
+}
+
+.search-tip {
+	font-family: 'Libre Franklin', sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
+	margin-top: 10px;
+	color: var(--warm-grey);
 }
 
 .fa-spinner {
@@ -512,11 +534,9 @@ footer {
 
 @media (max-width: 768px) {
 	
-.label-url {
-	float: right;
-	padding-right: 5px;
-	color: #ABABAB;
-	display: block;
-}
+	.label-url {
+		color: #ABABAB;
+		display: block;
+	}
 	
 }
