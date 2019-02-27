@@ -25,6 +25,7 @@ module.exports = merge(common, {
        MDQ_URL: '/entities/',
        PERSISTENCE_URL: 'http://localhost:9000/ps/',
        SEARCH_URL: '/entities/',
-       STORAGE_DOMAIN: 'localhost:9000'
+       STORAGE_DOMAIN: 'localhost:9000',
+       LOGLEVEL: 'warn'
   })]
 });

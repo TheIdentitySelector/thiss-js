@@ -11,6 +11,7 @@ module.exports = merge(common, {
     MDQ_URL: "https://md.thiss.io/entities/",
     PERSISTENCE_URL: 'https://use.thiss.io/ps/',
     SEARCH_URL: "https://md.thiss.io/entities/",
-    STORAGE_DOMAIN: "use.this.io"
+    STORAGE_DOMAIN: "use.this.io",
+    LOGLEVEL: 'error'
   })]
 });
