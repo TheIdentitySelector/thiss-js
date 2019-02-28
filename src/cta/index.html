@@ -2,21 +2,21 @@
 <html>
 <head></head>
 <body id="main">
-        <div class="d-flex ra21CTAcontainer" role="button" data-href="" id="idpbutton">
-            <div class="identityprovider ra21CTAiconButton ra21CTAbutton justify-content-center align-self-center">
-                <img class="ra21CTAicon" src="<%= require('../assets/ra21icon.svg') %>">
+        <div class="ra21CTAcontainer ra21-button" role="button" data-href="" id="idpbutton">
+            <div class="identityprovider ra21CTAiconButton ra21CTAbutton ra21-button-logo-wrap">
+                <img class="ra21CTAicon ra21-button-logo" src="<%= require('../assets/RA21-White.svg') %>">
             </div>
-            <div class="identityprovider d-flex flex-column align-self-center ra21CTAbutton text-truncate">
+            <div class="identityprovider ra21CTAbutton text-truncate ra21-button-text">
                 <i id="spinner" class='fa fa-circle-o-notch fa-spin'></i>
                 <div class="ra21CTAbuttonLabel justify-content-center">
-                    <div class="ra21CTAheadline" id="headline"></div>
-                    <div class="ra21CTAtitle" id="title"></div>
+                    <div class="ra21CTAheadline ra21-button-text-primary" id="headline"></div>
+                    <div class="ra21CTAtitle ra21-button-text-primary" id="title"></div>
                 </div>
             </div>
         </div>
-        <div class="d-flex ra21CTAChooseAnother" id="dsbutton">
-            <div class="ra21CTAPlusWrap"><div class="ra21CTAPlus"><i class="fa fa-plus-square"></i></div></div>
-            <div class="ra21CTAccess">Access through another institution</div>
+        <div class="ra21CTAChooseAnother ra21-access-text" id="dsbutton">
+            <div class="ra21CTAPlus ra21-cta-plus"><i class="fa fa-plus-square light-grey"></i></div>
+            <div class="ra21CTAccess ra21-cta-access">Access through another institution</div>
         </div>
 </body>
 </html>

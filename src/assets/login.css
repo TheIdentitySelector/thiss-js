@@ -2,6 +2,7 @@
   --white: #ffffff;
   --text-grey: #444444;
   --warm-grey: #767676;
+  --warm-grey-two: #bfbfbf;
   --white-two: #f6f6f6;
   --footer-grey: #ebebeb;
   --primary-blue: #0079ff;
@@ -20,76 +21,79 @@
   cursor: pointer;
 }
 
-.ra21CTAicon {
-  object-fit: contain;
+.ra21-button {
+  background-color: var(--primary-blue);
+  border-radius: 5px;
+  color: var(--warm-grey);
+  display: flex;
+  margin-bottom: 5px;
+  padding: 10px;
+  text-decoration: none;
 }
 
-.ra21CTAheadline {
-  width: 260px;
+.ra21-button-logo-wrap {
+  text-align: center;
+  width: 50px;
+  height: 100%;
+  border-right: 1px solid #FFFFFF;
+  padding: 5px 5px 5px 0;
+}
+
+.ra21-button-logo {
+  width: 30px;
+  vertical-align: middle;
+}
+
+.ra21-button-text {
+  text-align:center;
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+}
+
+.ra21-button-text-primary {
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.ra21-button-text-secondary {
+  /* Zep */
   font-family: 'Libre Franklin', sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: normal;
+  line-height: 1.4;
   letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-  color: var(--white);
 }
 
-.ra21CTAtitle {
-  width: 260px;
-  font-family: 'Libre Franklin', sans-serif;
-  font-size: 13px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  color: #ffffff;
-  color: var(--white);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.ra21CTAiconButton {
-  border-right: solid 1px rgba(255, 255, 255, 0.8);
-  padding: 5px;
-  padding-right: 15px;
-}
-
-.ra21CTAChooseAnother {
+.ra21-access-text {
   cursor: pointer;
-  margin-left: 41px;
-  margin-top: 7px;
-  width: 320px;
-  height: 20px;
+  text-align: center;
+
+  /* Zep */
   font-family: 'Libre Franklin', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.67;
+  line-height: 1.46;
   letter-spacing: normal;
-  text-align: center;
-  color: #0079ff;
   color: var(--primary-blue);
 }
 
-.ra21CTAPlus {
-  color: var(--warm-grey);
-  padding: 0;
-  margin: 0;
+.ra21-cta-plus, .ra21-cta-access {
+  display: inline;
 }
 
-.ra21CTAPlusWrap {
-  width: 18px;
-  height: 18px;
-}
-
-.ra21CTAccess {
-  margin-left: 3px;
+.light-grey {
+  color: var(--warm-grey-two);
 }
