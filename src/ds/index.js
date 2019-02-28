@@ -17,11 +17,9 @@ require('../jquery-ds-widget.js');
 
 $(document).ready(function() {
     const search = Hogan.compile('<a class="institution identityprovider" data-href="{{entity_id}}">\
-        <li><div class="d-block"><div class="d-inline-block text-truncate label">{{title}}</div>\
-             {{#scopes}}<div class="d-none d-md-inline-block text-truncate label-url">{{scopes}}</div>{{/scopes}}\
-             <div class="external float-right"><i class="far fa-external-link"></i></div></div>\
-            {{#descr}}<div class="d-none d-sm-block d-md-block d-lg-block searchaux">{{descr}}</div>{{/descr}}\
-            <div class="d-none d-sm-block d-md-block d-lg-block searchmatch">Search matched&nbsp;<em>{{matched}}</em></div>\
+        <li><i class="arrow fa fa-angle-right"></i>   \
+             <div class="d-block"><div class="text-truncate label">{{title}}</div>\
+             <div class="text-truncate label-url">{{scopes}}</div>\
         </li></a>');
     const saved = Hogan.compile('<a class="institution identityprovider" data-href="{{entity_id}}">\
         <li class="known-inst">\
@@ -58,11 +56,13 @@ $(document).ready(function() {
     $("#ds-search-list").on('show.bs', function(event) {
         console.log("show.bs");
         $("#wefoundresults").hide();
+        $("#examples").hide();
         $("#count").text(0);
         timer = setTimeout( function () { $("#searching").show(); }, 500);
     }).on('hide.bs', function(event) {
         console.log("hide.bs");
         $("#resultwidget").hide();
+        $('#examples').show();
         $("#searching").hide();
         if (timer) {
             clearTimeout(timer);
@@ -78,7 +78,9 @@ $(document).ready(function() {
             $("#resultwidget").show();
             $("#searching").hide();
             $("#no_results").hide();
+            $('#examples').show();
             $("#wefoundresults").show();
+            $("#search-tip").show();
             $("#count").text(item.counter);
             return search.render(item);
         },
@@ -94,6 +96,7 @@ $(document).ready(function() {
             $("#searching").hide();
             $("#wefoundresults").hide();
             $("#no_results").show();
+            $("#search-tip").hide();
         },
         after: function(count,elt) {
             $("#count").text(count);

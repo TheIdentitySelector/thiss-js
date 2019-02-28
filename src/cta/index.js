@@ -59,7 +59,7 @@ start.then(function() {
                 document.getElementById('title').innerText = item.entity.title;
                 entity_id = item.entity.entityID;
                 document.getElementById('headline').innerText = "Access through";
-                document.getElementById('headline').className = "ra21CTAheadline";
+                document.getElementById('headline').className = "ra21-button-text-secondary";
                 count += 1;
             }
         }
@@ -68,6 +68,7 @@ start.then(function() {
             document.getElementById('spinner').style.display = "none";
             document.getElementById('title').innerText = "Access through your institution";
             button.dataset['href'] = "";
+            $("#dsbutton").hide();
         }
 
         button.addEventListener('click', function(event) {
