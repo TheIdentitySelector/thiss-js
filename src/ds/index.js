@@ -78,7 +78,9 @@ $(document).ready(function() {
             $("#resultwidget").show();
             $("#searching").hide();
             $("#no_results").hide();
+            $('#examples').show();
             $("#wefoundresults").show();
+            $("#search-tip").show();
             $("#count").text(item.counter);
             return search.render(item);
         },
@@ -94,6 +96,7 @@ $(document).ready(function() {
             $("#searching").hide();
             $("#wefoundresults").hide();
             $("#no_results").show();
+            $("#search-tip").hide();
         },
         after: function(count,elt) {
             $("#count").text(count);

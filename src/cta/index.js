@@ -68,6 +68,7 @@ start.then(function() {
             document.getElementById('spinner').style.display = "none";
             document.getElementById('title').innerText = "Access through your institution";
             button.dataset['href'] = "";
+            $("#dsbutton").hide();
         }
 
         button.addEventListener('click', function(event) {

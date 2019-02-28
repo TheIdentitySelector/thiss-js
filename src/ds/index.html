@@ -15,7 +15,7 @@
 		<header>
 			<h2 class="accessHeader account">
 				<img alt="" class="header-ra21-logo" src="<%= require('../assets/RA21-Black.svg') %>"/><span class="light">Access to</span>
-				<span class="sp_title account-pill">TODO:fixme American Chemical Society</span>
+				<span class="sp_title account-pill">TODO:fixme</span>
 			</h2>
 		</header>
 		
@@ -27,9 +27,8 @@
 			</div>
 
 			<div class="collapse" id="titlechoose">
-				<h1>Choose Your Institution
-					<p class="subtitleRA21">Recent institutions</p>
-				</h1>
+				<h1>Choose Your Institution</h1>
+				<h2 class="subtitleRA21">Recent institutions</h2>
 			</div>
 
           <div id="dsclient"
@@ -40,7 +39,9 @@
 			  <ul class="card-links" id="ds-saved-choices">
 				  <div class="collapse" id="addwidget">
 					  <a data-toggle="collapse" href="#searchwidget" role="button" aria-expanded="false" aria-controls="searchwidget">
-						  <li><span class="label">Choose another</span><i id="add_circle" class="float-right fa fa-plus-circle"></i></li>
+							<li><span class="label"><i id ="add_circle" class="fa fa-plus-square"></i> Add another institution</span>
+								<span class="label float-right"><i class="fa fa-pencil"></i> Edit</span>
+							</li>
 					  </a>
 				  </div>
 			  </ul>
@@ -73,8 +74,7 @@
 									</div>
 							</li>
 					</ul>
-					<div class="search-tip">Haven't found your institution? Try using an abbreviation or your institution email address.</div>
-					
+					<p id="search-tip" class="detailtextRA21">Haven't found your institution? Try using an abbreviation or your institution email address.</div>
 			  </div>
       </div>
     </div><!-- /card-container -->
@@ -88,7 +88,7 @@
 					RA21
 				</span>
 				Resource Access for the 21st Century
-				<a href="">About Us</a>
+				<a href="https://ra21.org/index.php/what-is-ra21/">About Us</a>
 			</p>
 		</div>
 	</footer>
