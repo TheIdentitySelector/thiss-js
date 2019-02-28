@@ -2,10 +2,7 @@
 const entities = require("./data.json");
 
 function lookup(id) {
-    entities.forEach(function(entity) {
-       if (entity.id == id) { return entity; }
-    });
-    return undefined;
+    return entities.find(entity => entity.id === id);
 }
 
 const search_properties = ["scopes", "title"];
@@ -35,8 +32,9 @@ const proxy = {
         let q = req.query.query;
         return res.json(search(q));
     },
-    'GET /entities/:id': (req, res) => {
-        let entity = lookup(req.params.id);
+    'GET /entities/:path': (req, res) => {
+        let id = req.params.path.split('.');
+        let entity = lookup(id[0]);
         if (entity) {
             return res.json(entity);
         } else {
