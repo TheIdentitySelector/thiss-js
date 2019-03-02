@@ -13,7 +13,7 @@ export const DiscoveryComponent = zoid.create({
 
     // default dimensions for the component
     dimensions: {
-    	width: '320px',
+    	width: '350px',
     	height: '80px'
     },
     
