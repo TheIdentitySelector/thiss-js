@@ -34,6 +34,20 @@ $(document).ready(function() {
         <div class="d-inline-block">{{title}}</div>\
         <div class="remove float-right"><i class="fa fa-times-circle"></i></div>\
         </div></li></a>');
+    const too_many = Hogan.compile('<li>\
+       <div class="type-ahead-alert">\
+            <p><span class="bold">{{count}} Matches</span> keep typing to refine your search</p>\
+       </div></li>');
+    const no_results = Hogan.compile('<li>\
+        <div class=" alert mt-3 no-results-alert" role="alert">\
+			<h3 class="bold">No matching institutions found</h3>\
+                <ul>\
+                        <li>Try entering an institution name, abbreviation or your institution email</li>\
+                        <li>Try accessing through your library website</li>\
+                        <li>Contact your librarian</li>\
+                </ul>\
+            </div>\
+        </li>');
     let timer = null;
 
     $("#searchwidget").on('hidden.bs.collapse',function(event) {
@@ -47,6 +61,7 @@ $(document).ready(function() {
     }).on('shown.bs.collapse',function(event) {
         console.log("shown.bs.collapse");
         $("#titlefind").show();
+        $("#savedchoices").hide();
         $("#titlechoose").hide();
         $("#searchwidget").show();
         $("#add_circle").removeClass("fa-plus-circle").addClass("fa-minus-circle");
@@ -55,7 +70,6 @@ $(document).ready(function() {
 
     $("#ds-search-list").on('show.bs', function(event) {
         console.log("show.bs");
-        $("#wefoundresults").hide();
         $("#examples").hide();
         $("#count").text(0);
         timer = setTimeout( function () { $("#searching").show(); }, 500);
@@ -77,37 +91,40 @@ $(document).ready(function() {
             }
             $("#resultwidget").show();
             $("#searching").hide();
-            $("#no_results").hide();
+            $("#searchalert").hide();
             $('#examples').show();
-            $("#wefoundresults").show();
-            $("#search-tip").show();
             $("#count").text(item.counter);
             return search.render(item);
         },
         render_saved_choice: function(item) {
             return saved.render(item);
         },
-        no_results: function() {
-            console.log("no_results");
+        too_many_results: function(count) {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#count").text(0);
             $("#searching").hide();
-            $("#wefoundresults").hide();
-            $("#no_results").show();
-            $("#search-tip").hide();
+            return too_many.render({"count": count});
+        },
+        no_results: function() {
+            if (timer) {
+                clearTimeout(timer); timer = null;
+            }
+            $("#searching").hide();
+            return no_results.render();
         },
         after: function(count,elt) {
             $("#count").text(count);
             console.log("after");
             $("#searching").hide();
             if (count == 0) {
+                $("#searchalert").hide();
                 $("#titlefind").show();
                 $("#titlechoose").hide();
                 $("#searchwidget").show();
                 $("#addwidget").hide();
             } else {
+                $("#searchalert").hide();
                 $("#titlefind").hide();
                 $("#titlechoose").show();
                 $("#searchwidget").hide();

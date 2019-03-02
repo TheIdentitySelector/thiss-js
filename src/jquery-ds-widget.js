@@ -21,7 +21,9 @@ jQuery(function ($) {
             fallback_icon: undefined,
             search_result_selector: '#ds-search-list',
             saved_choices_selector: '#ds-saved-choices',
-            selection_selector: '.identityprovider'
+            selection_selector: '.identityprovider',
+            too_many_results: undefined,
+            no_results: undefined
         },
 
         _create: function () {
@@ -85,12 +87,16 @@ jQuery(function ($) {
                 search_result_element.btsListFilter(obj.input_field_selector, {
                     resetOnBlur: false,
                     casesensitive: false,
+                    maxResults: 5,
                     itemEl: '.identityprovider',
                     emptyNode: obj.options['no_results'],
                     getValue: function(that) {
                         let v = that.val();
                         let i = v.indexOf('@');
                         return i > -1 ? v.substring(i+1,v.length) : v;
+                    },
+                    maxResultsNode: function(data) {
+                        return obj.options['too_many_results'](data.length);
                     },
                     sourceData: function (text, callback) {
                         let remote = search_base + "?query=" + text;
