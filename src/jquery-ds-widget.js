@@ -79,6 +79,11 @@ jQuery(function ($) {
             this._update();
         },
 
+        sp: function() {
+            let obj = this;
+            return obj._ds.mdq(obj.options['params'].get('entityID'));
+        },
+
         _after: function (count) {
             let saved_choices_element = $(this.options['saved_choices_selector']);
             if (this.discovery_service_search_url) {
