@@ -1,0 +1,26 @@
+<a class="identityprovider" data-href="{{entity_id}}">
+    <li class="institution">
+        {{#entity_icon}}
+        <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon}}" />
+        {{/entity_icon}}
+        {{^entity_icon}}
+            <svg class="institution-icon logo"
+                 width="40"
+                 height="40">
+                <circle cx="20" cy="20" r="20" fill="#aeaeae" />
+                <text x="50%"
+                      y="50%"
+                      text-anchor="middle"
+                      fill="white"
+                      font-size="12px"
+                      font-family="Arial"
+                      dy=".3em">{{name_tag}}</text>
+            </svg>
+        {{/entity_icon}}
+        <div class="institution-text">
+            <i class="arrow fa fa-angle-right"></i>
+            <div class="primary">{{title}}</div>
+            <span class="secondary">{{scope}}</span>
+        </div>
+    </li>
+</a>

@@ -55,7 +55,7 @@ function json_mdq_get(id, mdq_url) {
 
 export class DiscoveryService {
 
-    constructor(mdq, persistence_url, context = "thiss.io") {
+    constructor(params, mdq, persistence_url, context = "thiss.io") {
         console.log("making ds from "+mdq+" and "+persistence_url+" and "+context);
         if (typeof mdq === 'function') {
             this.mdq = mdq;
@@ -64,6 +64,7 @@ export class DiscoveryService {
         }
         this.ps = new PersistenceService(persistence_url);
         this.context = context;
+        this.params = params;
     }
 
     with_items(callback) {
@@ -78,8 +79,7 @@ export class DiscoveryService {
     }
 
     saml_discovery_response(entity_id) {
-        let params = _querystring;
-        return this.do_saml_discovery_response(entity_id, params).then(function (url) {
+        return this.do_saml_discovery_response(entity_id).then(function (url) {
             if (url) {
                 window.location = url;
             }
@@ -92,7 +92,7 @@ export class DiscoveryService {
         return this.do_saml_discovery_response(entity_id, {});
     }
 
-    do_saml_discovery_response(entity_id, params) {
+    do_saml_discovery_response(entity_id) {
         let obj = this;
         console.log(entity_id);
         return obj.ps.entity(obj.context, entity_id).then(function(result) {
@@ -109,7 +109,7 @@ export class DiscoveryService {
                 return Promise.resolve(entity);
             }
         }).then(function(entity) {
-            if (params['return']) {
+            if (obj.params['return']) {
                 console.log("returning discovery response...");
                 let qs = params['return'].indexOf('?') === -1 ? '?' : '&';
                 let returnIDParam = params['returnIDParam'];

@@ -7,6 +7,7 @@ import '../assets/login.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
+import URLSearchParams from '@ungap/url-search-params';
 
 
 let mdq = process.env.MDQ_URL;
@@ -39,7 +40,7 @@ if (window.xprops.onInstitutionClicked) {
     on_institution_clicked = window.xprops.onInstitutionClicked;
 }
 
-let ds = new DiscoveryService(mdq, persistence, context);
+let ds = new DiscoveryService(new URLSearchParams(window.location.search), mdq, persistence, context);
 
 let start = Promise.resolve();
 if (window.xprops.pinned) {

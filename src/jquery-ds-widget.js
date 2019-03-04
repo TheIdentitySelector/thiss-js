@@ -7,9 +7,10 @@ import {DiscoveryService} from "./discovery";
 require("bootstrap-list-filter");
 
 jQuery(function ($) {
-    $.widget("pyff.discovery_client", {
+    $.widget("thiss.discovery_client", {
 
         options: {
+            params: undefined,
             discovery_service_persistence_url: undefined,
             discovery_service_search_url: undefined,
             discovery_service_context: undefined,
@@ -28,6 +29,10 @@ jQuery(function ($) {
 
         _create: function () {
             let obj = this;
+            if (obj.options['params'] === undefined) {
+                obj.options['params'] = new URLSearchParams(window.location.search);
+            }
+
             if (typeof obj.options['render'] !== 'function') {
                 obj._template_with_icon = Hogan.compile('<div data-href="{{entity_id}}" class="identityprovider list-group-item">' +
                     '{{^sticky}}<button type="button" alt="Remove from list" data-toggle="tooltip" data-placement="left" class="remove close">&times;</button>{{/sticky}}' +
@@ -142,7 +147,7 @@ jQuery(function ($) {
             obj.input_field_selector = obj.options['input_field_selector'] || obj.element.attr('data-inputfieldselector') || 'input';
             obj.selection_selector = obj.options['selection_selector'];
             obj.dicovery_service_context = obj.options['discovery_service_context'] || obj.element.attr('data-context');
-            obj._ds = new DiscoveryService(obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
+            obj._ds = new DiscoveryService(obj.params, obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
             obj._count = 0;
             let top_element = obj.element;
 
