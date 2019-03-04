@@ -56,6 +56,7 @@ jQuery(function ($) {
                     }
                 }
             }
+
             if (!$.isFunction(obj.options['render_search_result'])) {
                 obj.options['render_search_result'] = obj.options['render'];
             }
@@ -97,7 +98,7 @@ jQuery(function ($) {
                 search_result_element.btsListFilter(obj.input_field_selector, {
                     resetOnBlur: false,
                     casesensitive: false,
-                    maxResults: 5,
+                    maxResults: 10,
                     itemEl: '.identityprovider',
                     emptyNode: obj.options['no_results'],
                     getValue: function(that) {
@@ -210,6 +211,5 @@ jQuery(function ($) {
                 return items; // needed later by persistence
             });
         }
-
     })
 });
