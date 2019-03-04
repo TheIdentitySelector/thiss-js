@@ -304,26 +304,6 @@ ul {
   padding: 0;
 }
 
-/* ul:before {
-  content: "";
-  display: block;
-  margin: 15px 0 0 0;
-  height: 1px;
-  border: solid 1px rgba(118, 118, 118, 0.2);
-} */
-
-/* ul li {
-  padding-top: 15px;
-} */
-
-/* ul li:after {
-  content: "";
-  display: block;
-  margin: 15px 0 0 0;
-  height: 1px;
-  border: solid 1px rgba(118, 118, 118, 0.2);
-} */
-
 ul li a:hover {
   color: var(--primary-blue);
 }
