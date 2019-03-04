@@ -1,5 +1,6 @@
 require('webpack-icons-installer');
 import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../assets/ds.css';
 import '../assets/ra_1.png';
