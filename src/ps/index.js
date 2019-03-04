@@ -136,6 +136,10 @@ function clean_item(item) {
         if (entity && !entity.entity_icon && entity.icon) {
            entity.entity_icon = entity.icon;
         }
+        if (entity.domains) {
+            let domains = entity.domains.split(';') || [];
+            entity.domain = domains[0];
+        }
     }
     return item;
 }
