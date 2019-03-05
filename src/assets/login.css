@@ -10,21 +10,11 @@
   --white-three: #e6e6e6;
 }
 
-.ra21CTAcontainer {
-  text-decoration: none;
-  padding: 10px;
-  border-radius: 5px;
-  color: var(--warm-grey);
-  margin-bottom: 5px;
-  background-color: var(--primary-blue);
-  display: flex;
-  cursor: pointer;
-}
-
 .ra21-button {
   background-color: var(--primary-blue);
   border-radius: 5px;
   color: var(--warm-grey);
+  cursor: pointer;
   display: flex;
   margin-bottom: 5px;
   padding: 10px;
@@ -45,12 +35,9 @@
 }
 
 .ra21-button-text {
-  text-align:center;
+  padding-left: 10px;
+  text-align: center;
   width: 85%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: var(--white);
 }
 
