@@ -153,7 +153,7 @@ jQuery(function ($) {
             obj.input_field_selector = obj.options['input_field_selector'] || obj.element.attr('data-inputfieldselector') || 'input';
             obj.selection_selector = obj.options['selection_selector'];
             obj.dicovery_service_context = obj.options['discovery_service_context'] || obj.element.attr('data-context');
-            obj._ds = new DiscoveryService(obj.params, obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
+            obj._ds = new DiscoveryService(obj.options['params'], obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
             obj._count = 0;
             let top_element = obj.element;
 

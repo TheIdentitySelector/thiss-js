@@ -2,20 +2,6 @@ import {PersistenceService} from "./persist";
 const hex_sha1 = require('./sha1.js').default;
 const cache_time = 60 * 10 * 1000; // 10 minutes
 
-let _querystring = (function(paramsArray) {
-   let params = {};
-
-   for (let i = 0; i < paramsArray.length; ++i) {
-      let param = paramsArray[i].split('=', 2);
-      if (param.length !== 2)
-         continue;
-
-      params[param[0]] = decodeURIComponent(param[1].replace(/\+/g, " "));
-   }
-
-   return params;
-})(window.location.search.substr(1).split('&'));
-
 function _timestamp() {
    if (typeof Date.now === 'function') {
       return Date.now();
@@ -57,6 +43,7 @@ export class DiscoveryService {
 
     constructor(params, mdq, persistence_url, context = "thiss.io") {
         console.log("making ds from "+mdq+" and "+persistence_url+" and "+context);
+        console.log(params);
         if (typeof mdq === 'function') {
             this.mdq = mdq;
         } else {
@@ -109,14 +96,14 @@ export class DiscoveryService {
                 return Promise.resolve(entity);
             }
         }).then(function(entity) {
-            if (obj.params['return']) {
+            if (obj.params.has('return')) {
                 console.log("returning discovery response...");
-                let qs = params['return'].indexOf('?') === -1 ? '?' : '&';
-                let returnIDParam = params['returnIDParam'];
+                let qs = obj.params.get('return').indexOf('?') === -1 ? '?' : '&';
+                let returnIDParam = obj.params.get('returnIDParam');
                 if (!returnIDParam) {
                     returnIDParam = "entityID";
                 }
-                let response = params['return'];
+                let response = obj.params.get('return');
                 if (entity_id) {
                     response += qs + returnIDParam + '=' + entity_id;
                 }

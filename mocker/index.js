@@ -16,7 +16,7 @@ entities.forEach(function (e) {
 });
 
 function lookup(id) {
-    return entities[id];
+    return entities_map[id];
 }
 
 const search_properties = ["scope", "title"];
