@@ -115,7 +115,6 @@ function _ctx(context) {
     if (context == undefined) {
         context = "thiss.io"
     }
-    let entity = event.data.entity;
     let ns = Storages.initNamespaceStorage(context);
     let storage = ns.localStorage;
     storage.set('_name', context);
@@ -144,16 +143,14 @@ function clean_item(item) {
     return item;
 }
 
-function expire_items(storage) {
-    let _tbd = [];
-    let now = _timestamp();
-    storage.keys().forEach(function (k) {
-        let item = storage.get(k);
-        if (!is_valid(item, now)) {
-            _tbd.push(k);
-        }
-    });
-    _tbd.forEach(k => storage.remove(k));
+function gc(storage) {
+    storage.keys().filter(k => k !== undefined && k !== '_name')
+        .map(k => clean_item(get_entity(storage, k)))
+        .sort(function(a,b) {
+            return a.last_refresh - b.last_refresh;
+        }).slice(3).forEach(function (e) {
+            storage.remove(e.entity_id.hexEncode());
+        });
 }
 
 function get_entity(storage, id) {
@@ -178,7 +175,7 @@ postRobot.on('update', {window: window.parent}, function(event) {
     }
     console.log(item);
     storage.set(id, clean_item(item));
-    expire_items(storage);
+    gc(storage);
     return entity;
 });
 
@@ -194,7 +191,7 @@ postRobot.on('entities', {window: window.parent}, function(event) {
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
             return a.last_refresh - b.last_refresh;
-        });
+        }).slice(0,3);
 });
 
 postRobot.on('entity', {window: window.parent}, function(event) {
