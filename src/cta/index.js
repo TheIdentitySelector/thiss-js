@@ -19,13 +19,14 @@ let on_discovery = function () { window.top.location.href = login_handler_url; }
 let on_institution_clicked = function(url, entity_id) { window.top.location.href = url; };
 
 document.getElementById('main').style.background = window.xprops.backgroundColor;
+document.getElementById('idpbutton').style.background = window.xprops.colors;
 
 if (window.xprops.persistenceURL) {
     persistence = window.xprops.persistenceURL;
 }
 
 if (window.xprops.context) {
-   context = window.xprops.context;
+    context = window.xprops.context;
 }
 
 if (window.xprops.MDQ) {

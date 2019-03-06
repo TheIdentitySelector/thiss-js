@@ -32,6 +32,7 @@ export const DiscoveryComponent = zoid.create({
     },
 
     backgroundColor: '#FFFFFF',
+    color: '#0079ff',
 
     prerenderTemplate: function(opts) {
         const _t = opts.document.createElement("html");

@@ -1,24 +1,33 @@
 
-const entities = require("./data.json");
 
-function lookup(id) {
-    return entities.find(entity => entity.id === id);
+const hex_sha1 = require('./sha1.js');
+
+function _sha1_id(s) {
+    return "{sha1}"+hex_sha1(s);
 }
 
-const search_properties = ["scopes", "title"];
+const entities = require("./edugain.json");
+const idps = entities.filter(e => e.type === 'idp');
+const entities_map = {};
+entities.forEach(function (e) {
+    e.entity_id = e.entityID;
+    e.id = _sha1_id(e.entityID);
+    entities_map[e.id] = e;
+});
 
-function search(q) {
-    let result = [];
-    entities.forEach(function(entity) {
-        search_properties.forEach(function(p) {
-            if (entity.hasOwnProperty(p)) {
-                if (entity[p].indexOf(q) > 0) {
-                    result.push(entity);
-                }
-            }
+function lookup(id) {
+    return entities[id];
+}
+
+const search_properties = ["scope", "title"];
+
+function search(s) {
+    let m = RegExp(s,'i');
+    return idps.filter(function(e) {
+        return search_properties.some(function(p) {
+            return  e.hasOwnProperty(p) && m.test(e[p]);
         })
     });
-    return result;
 }
 
 const proxy = {
