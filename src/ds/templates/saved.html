@@ -1,8 +1,10 @@
 <a class="identityprovider" data-href="{{entity_id}}">
-    <li class="institution">
+    <li class="institution clearfix">
         <i class="institution-remove remove top-right fa fa-times d-none"></i>
         {{#entity_icon}}
-        <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon}}" />
+        <div class="institution-circle">
+            <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon}}" />
+        </div>
         {{/entity_icon}}
         {{^entity_icon}}
             <svg class="institution-icon logo"
