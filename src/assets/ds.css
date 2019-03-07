@@ -409,6 +409,7 @@ ul li a:hover {
 }
 
 .institution .label-url {
+  height: 1rem;
   max-width: 200px;
 }
 
@@ -428,6 +429,30 @@ ul li a:hover {
   transition: opacity .25s ease-in-out;
   -moz-transition: opacity .25s ease-in-out;
   -webkit-transition: opacity .25s ease-in-out;
+}
+
+.institution-circle {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 6px;
+  float: left;
+  margin-right: 10px;
+  -webkit-box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.15);
+  -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.15);
+  box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.15);
+  border: 2px solid #F0F0F0;
+}
+
+.institution-circle img {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  min-width: 40px;
 }
 
 .institution-icon {
