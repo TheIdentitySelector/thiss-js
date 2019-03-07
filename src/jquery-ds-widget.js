@@ -179,11 +179,13 @@ jQuery(function ($) {
                 e.preventDefault();
             });
 
-            $('body').on('click', 'div.remove', function (e) {
+            $('body').on('click', 'i.remove', function (e) {
                 e.stopPropagation();
                 let entity_element = $(this).closest(obj.selection_selector);
                 obj._count = entity_element.siblings().length + 1;
                 let entity_id = entity_element.attr('data-href');
+                console.log("removing "+entity_id);
+                console.log(entity_element);
                 if (entity_id) {
                     obj._ds.remove(entity_id).then(function () {
                         entity_element.remove();

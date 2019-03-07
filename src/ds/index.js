@@ -104,10 +104,12 @@ $(document).ready(function() {
             console.log("after - "+count);
             $("#searching").hide();
             if (count == 0) {
-                $("#search").toggleClass("d-none");
+                $("#search").removeClass("d-none");
+                $("#choose").addClass("d-none");
                 $("#searchinput").focus();
             } else {
-                $("#choose").toggleClass("d-none");
+                $("#choose").removeClass("d-none");
+                $("#search").addClass("d-none");
             }
         }
     }).discovery_client("sp").then(function(entity) {
