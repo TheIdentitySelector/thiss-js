@@ -409,6 +409,7 @@ ul li a:hover {
 }
 
 .institution .label-url {
+  height: 1rem;
   max-width: 200px;
 }
 
