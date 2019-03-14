@@ -12,7 +12,7 @@ import URLSearchParams from '@ungap/url-search-params';
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
-let context = null;
+let context;
 let defaultText = "Your Institution";
 let login_handler_url = window.xprops.loginHandlerURL;
 let on_discovery = function () { window.top.location.href = login_handler_url; };
@@ -41,7 +41,7 @@ if (window.xprops.onInstitutionClicked) {
     on_institution_clicked = window.xprops.onInstitutionClicked;
 }
 
-let ds = new DiscoveryService(new URLSearchParams(window.location.search), mdq, persistence, context);
+let ds = new DiscoveryService(mdq, persistence, context);
 
 let start = Promise.resolve();
 if (window.xprops.pinned) {
@@ -79,12 +79,13 @@ start.then(function() {
                 let params = {'return': login_handler_url};
                 if (entity_id) { // return the discovery response
                     ds.do_saml_discovery_response(entity_id, params).then(function (url) {
+                        console.log(url);
                         on_institution_clicked(url, entity_id);
                     });
                 } else { // off to DS
                     on_discovery();
                 }
-                window.xchild.close();
+                //window.xchild.close();
             }, 1000);
         });
 
@@ -92,7 +93,7 @@ start.then(function() {
             event.preventDefault();
             setTimeout(function() {
                 on_discovery();
-                window.xchild.close();
+                //window.xchild.close();
             }, 1000);
         });
 

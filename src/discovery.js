@@ -39,11 +39,22 @@ function json_mdq_get(id, mdq_url) {
     });
 }
 
+export function parse_qs(paramsArray) {
+    let params = {};
+
+    paramsArray.forEach( p => {
+        let av = p.split('=', 2);
+        if (av.length == 2)
+            params[av[0]] = decodeURIComponent(av[1].replace(/\+/g, " "))
+    });
+
+    return params;
+}
+
 export class DiscoveryService {
 
-    constructor(params, mdq, persistence_url, context = "thiss.io") {
+    constructor(mdq, persistence_url, context = "thiss.io") {
         console.log("making ds from "+mdq+" and "+persistence_url+" and "+context);
-        console.log(params);
         if (typeof mdq === 'function') {
             this.mdq = mdq;
         } else {
@@ -51,7 +62,6 @@ export class DiscoveryService {
         }
         this.ps = new PersistenceService(persistence_url);
         this.context = context;
-        this.params = params;
     }
 
     with_items(callback) {
@@ -66,7 +76,8 @@ export class DiscoveryService {
     }
 
     saml_discovery_response(entity_id) {
-        return this.do_saml_discovery_response(entity_id).then(function (url) {
+        let params = parse_qs(window.location.search.substr(1).split('&'));
+        return this.do_saml_discovery_response(entity_id, params).then(function (url) {
             if (url) {
                 window.location = url;
             }
@@ -79,40 +90,43 @@ export class DiscoveryService {
         return this.do_saml_discovery_response(entity_id, {});
     }
 
-    do_saml_discovery_response(entity_id) {
+    do_saml_discovery_response(entity_id, params) {
         let obj = this;
         console.log(entity_id);
-        return obj.ps.entity(obj.context, entity_id).then(function(result) {
-            return result.data;
-        }).then(function(entity) {
-            if (entity === undefined) {
-                return obj.mdq(entity_id).then(function(entity) {
-                    if (entity) {
-                        obj.ps.update(obj.context, entity);
+        console.log(obj.context);
+        return obj.ps.entity(obj.context, entity_id)
+            .then(result => { console.log(result); return result.data; })
+            .then(entity => {
+                if (entity === undefined) {
+                    return obj.mdq(entity_id).then(function(entity) {
+                        if (entity) {
+                            entity = obj.ps.update(obj.context, entity);
+                        }
+                        return entity;
+                    });
+                } else {
+                    return Promise.resolve(entity);
+                }
+            })
+            .then(function(entity) {
+                if (params['return'] !== undefined) {
+                    console.log("returning discovery response...");
+                    let response = params['return'];
+                    let qs = response.indexOf('?') === -1 ? '?' : '&';
+                    let returnIDParam = params['returnIDParam'];
+                    if (!returnIDParam) {
+                        returnIDParam = "entityID";
                     }
-                    return entity;
-                });
-            } else {
-                return Promise.resolve(entity);
-            }
-        }).then(function(entity) {
-            if (obj.params.has('return')) {
-                console.log("returning discovery response...");
-                let qs = obj.params.get('return').indexOf('?') === -1 ? '?' : '&';
-                let returnIDParam = obj.params.get('returnIDParam');
-                if (!returnIDParam) {
-                    returnIDParam = "entityID";
+
+                    if (entity_id) {
+                        response += qs + returnIDParam + '=' + entity_id;
+                    }
+                    console.log(response);
+                    return response;
+                } else {
+                    Promise.reject("missing return parameter in query-string")
                 }
-                let response = obj.params.get('return');
-                if (entity_id) {
-                    response += qs + returnIDParam + '=' + entity_id;
-                }
-                console.log(response);
-                return response;
-            } else {
-                Promise.reject("missing return parameter in query-string")
-            }
-        });
+        }).catch(ex => console.log(ex));
     }
 
     remove(entity_id) {

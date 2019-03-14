@@ -112,7 +112,7 @@ class ContextStack {
 };
 
 function _ctx(context) {
-    if (context == undefined) {
+    if (!context) {
         context = "thiss.io"
     }
     let ns = Storages.initNamespaceStorage(context);
@@ -176,7 +176,7 @@ postRobot.on('update', {window: window.parent}, function(event) {
     console.log(item);
     storage.set(id, clean_item(item));
     gc(storage);
-    return entity;
+    return item;
 });
 
 postRobot.on('entities', {window: window.parent}, function(event) {
@@ -197,16 +197,12 @@ postRobot.on('entities', {window: window.parent}, function(event) {
 postRobot.on('entity', {window: window.parent}, function(event) {
     let storage = _ctx(event.data.context);
     let entity_id = event.data.entity_id;
-    if (entity_id === undefined) {
-        return undefined;
-    } else {
-        let item = get_entity(storage, entity_id.hexEncode());
-        if (is_valid(item)) {
-            return item.entity;
-        } else {
-            return undefined;
-        }
+    if (!entity_id) {
+        throw new Error("Unable to find entity_id in request")
     }
+    let item = get_entity(storage, entity_id.hexEncode());
+    console.log(item);
+    return item;
 });
 
 postRobot.on('remove', {window: window.parent}, function(event) {

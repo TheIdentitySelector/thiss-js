@@ -3,14 +3,14 @@ require('fetch-ie8');
 const Hogan = require("hogan.js");
 $ = require("jquery");
 require("jquery-ui");
-import {DiscoveryService} from "./discovery";
+import {DiscoveryService, parse_qs} from "./discovery";
 require("bootstrap-list-filter");
+
 
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
 
         options: {
-            params: undefined,
             discovery_service_persistence_url: undefined,
             discovery_service_search_url: undefined,
             discovery_service_context: undefined,
@@ -29,9 +29,6 @@ jQuery(function ($) {
 
         _create: function () {
             let obj = this;
-            if (obj.options['params'] === undefined) {
-                obj.options['params'] = new URLSearchParams(window.location.search);
-            }
 
             if (typeof obj.options['render'] !== 'function') {
                 obj._template_with_icon = Hogan.compile('<div data-href="{{entity_id}}" class="identityprovider list-group-item">' +
@@ -82,7 +79,14 @@ jQuery(function ($) {
 
         sp: function() {
             let obj = this;
-            return obj._ds.mdq(obj.options['params'].get('entityID'));
+            let params = parse_qs(window.location.search.substr(1).split('&'));
+            let entity_id = params['entityID'];
+            if (entity_id) {
+                return obj._ds.mdq(entity_id) || {'entity_id': entity_id, 'title': entity_id};
+            } else {
+                console.log("Missing entityID parameter in discovery request");
+                return {'title': 'Unknown'}
+            }
         },
 
         _after: function (count) {
@@ -153,7 +157,7 @@ jQuery(function ($) {
             obj.input_field_selector = obj.options['input_field_selector'] || obj.element.attr('data-inputfieldselector') || 'input';
             obj.selection_selector = obj.options['selection_selector'];
             obj.dicovery_service_context = obj.options['discovery_service_context'] || obj.element.attr('data-context');
-            obj._ds = new DiscoveryService(obj.options['params'], obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
+            obj._ds = new DiscoveryService(obj.mdq_url, obj.discovery_service_persistence_url, obj.discovery_service_context);
             obj._count = 0;
             let top_element = obj.element;
 

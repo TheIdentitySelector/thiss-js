@@ -20,10 +20,7 @@ const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
     const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
     const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
 
-import URLSearchParams from '@ungap/url-search-params';
-
 $(document).ready(function() {
-    const params = new URLSearchParams(window.location.search);
     let timer = null;
 
     $("#search").on('hidden.bs.collapse',function(event) {
@@ -74,7 +71,6 @@ $(document).ready(function() {
     });
 
     $("#dsclient").discovery_client({
-        params: params,
         render_search_result: function(item) {
             console.log("render_search_result");
             if (timer) {
@@ -112,11 +108,5 @@ $(document).ready(function() {
                 $("#search").addClass("d-none");
             }
         }
-    }).discovery_client("sp").then(function(entity) {
-        if (entity) {
-            $(".sp_title").text(entity.title);
-        } else {
-            $(".sp_title").text(params.get('entityID'));
-        }
-    });
+    }).discovery_client("sp").then(entity => $(".sp_title").text(entity.title))
 });
