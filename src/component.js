@@ -37,7 +37,6 @@ export const DiscoveryComponent = zoid.create({
     prerenderTemplate: function(opts) {
         const _t = opts.document.createElement("html");
         _t.innerHTML = inner();
-        console.log(_t.innerHTML);
         return _t;
     }
 
