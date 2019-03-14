@@ -24,4 +24,4 @@ deploy:
     repo: origin.thiss.io
     on:
        all_branches: true
-       condition: $TRAVIS_TAG =~ ^release- && $TRAVIS_BRANCH =~ ^production$
+       condition: $TRAVIS_TAG =~ ^release-
