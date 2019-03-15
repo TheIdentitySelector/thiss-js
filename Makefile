@@ -1,5 +1,4 @@
-all:
-	@npm run test build
+all: test build
 
 start:
 	@npm run start
