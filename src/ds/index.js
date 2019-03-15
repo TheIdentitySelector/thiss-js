@@ -16,9 +16,9 @@ $ = require("jquery");
 require('../jquery-ds-widget.js');
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
-    const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
-    const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
-    const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
+const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
+const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
+const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
 
 $(document).ready(function() {
     let timer = null;
