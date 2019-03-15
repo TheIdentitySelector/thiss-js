@@ -82,7 +82,9 @@ jQuery(function ($) {
             let params = parse_qs(window.location.search.substr(1).split('&'));
             let entity_id = params['entityID'];
             if (entity_id) {
-                return obj._ds.mdq(entity_id) || {'entity_id': entity_id, 'title': entity_id};
+                return obj._ds.mdq(entity_id).then(entity => {
+                    return entity ? entity : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
+                });
             } else {
                 console.log("Missing entityID parameter in discovery request");
                 return {'title': 'Unknown'}

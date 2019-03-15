@@ -1,25 +1,45 @@
-require('webpack-icons-installer');
+require('webpack-icons-installer/font-awesome');
 require('es6-promise').polyfill();
 require('fetch-ie8');
-import {DiscoveryService} from "../discovery.js";
+import {DiscoveryService, ds_response_url} from "../discovery.js";
 import {DiscoveryComponent} from "../component.js";
 import '../assets/login.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
-import URLSearchParams from '@ungap/url-search-params';
 
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
 let context;
 let defaultText = "Your Institution";
-let login_handler_url = window.xprops.loginHandlerURL;
-let on_discovery = function () { window.top.location.href = login_handler_url; };
-let on_institution_clicked = function(url, entity_id) { window.top.location.href = url; };
+let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
+let discovery_request = window.xprops.discoveryRequest;
+let discovery_response = window.xprops.discoveryResponse;
+
+if (!discovery_request)
+    discovery_request = login_initiator_url;
+
+if (!discovery_response)
+    discovery_response = login_initiator_url;
+
+if (typeof discovery_request !== 'function') {
+    let discovery_request_url = discovery_request;
+    discovery_request = function () {
+        window.top.location.href = discovery_request_url;
+    };
+}
+
+if (typeof discovery_response !== 'function') {
+    let discovery_response_url = discovery_response;
+    discovery_response = function (entity) {
+        let params = {'return': discovery_response_url};
+        return window.top.location.href = ds_response_url(entity, params);
+    };
+}
 
 document.getElementById('main').style.background = window.xprops.backgroundColor;
-document.getElementById('idpbutton').style.background = window.xprops.colors;
+document.getElementById('idpbutton').style.background = window.xprops.color;
 
 if (window.xprops.persistenceURL) {
     persistence = window.xprops.persistenceURL;
@@ -31,14 +51,6 @@ if (window.xprops.context) {
 
 if (window.xprops.MDQ) {
     mdq = window.xprops.MDQ;
-}
-
-if (window.xprops.onDiscovery) {
-    on_discovery = window.xprops.onDiscovery;
-}
-
-if (window.xprops.onInstitutionClicked) {
-    on_institution_clicked = window.xprops.onInstitutionClicked;
 }
 
 let ds = new DiscoveryService(mdq, persistence, context);
@@ -75,26 +87,20 @@ start.then(function() {
 
         button.addEventListener('click', function(event) {
             event.preventDefault();
-            setTimeout(function() {
-                let params = {'return': login_handler_url};
-                if (entity_id) { // return the discovery response
-                    ds.do_saml_discovery_response(entity_id, params).then(function (url) {
-                        console.log(url);
-                        on_institution_clicked(url, entity_id);
-                    });
-                } else { // off to DS
-                    on_discovery();
-                }
-                //window.xchild.close();
-            }, 1000);
+            //setTimeout(function() {//window.xchild.close();}, 1000);
+            if (entity_id) { // return the discovery response
+                ds.do_saml_discovery_response(entity_id).then(entity => {
+                   discovery_response(entity);
+                });
+            } else { // off to DS
+                discovery_request();
+            }
         });
 
         dsbutton.addEventListener('click', function(event) {
             event.preventDefault();
-            setTimeout(function() {
-                on_discovery();
-                //window.xchild.close();
-            }, 1000);
+            //setTimeout(function() {//window.xchild.close();}, 1000);
+            discovery_request();
         });
 
         return items;

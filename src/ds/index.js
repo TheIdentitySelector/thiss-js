@@ -1,4 +1,4 @@
-require('webpack-icons-installer');
+require('webpack-icons-installer/font-awesome');
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

@@ -51,6 +51,22 @@ export function parse_qs(paramsArray) {
     return params;
 }
 
+export function ds_response_url(entity, params) {
+    let response = params['return'];
+    let qs = response.indexOf('?') === -1 ? '?' : '&';
+    let returnIDParam = params['returnIDParam'];
+    let entity_id = entity.entity_id;
+    if (!returnIDParam) {
+        returnIDParam = "entityID";
+    }
+
+    if (entity_id) {
+        response += qs + returnIDParam + '=' + entity_id;
+    }
+
+    return response;
+}
+
 export class DiscoveryService {
 
     constructor(mdq, persistence_url, context = "thiss.io") {
@@ -76,21 +92,21 @@ export class DiscoveryService {
     }
 
     saml_discovery_response(entity_id) {
-        let params = parse_qs(window.location.search.substr(1).split('&'));
-        return this.do_saml_discovery_response(entity_id, params).then(function (url) {
-            if (url) {
-                window.location = url;
-            }
+        return this.do_saml_discovery_response(entity_id).then(entity => {
+            let params = parse_qs(window.location.search.substr(1).split('&'));
+            return ds_response_url(entity, parms)
+        }).then(url => {
+            window.location.top.href = url;
         }).catch(function(error) {
             console.log(error);
         });
     }
 
     pin(entity_id) {
-        return this.do_saml_discovery_response(entity_id, {});
+        return this.do_saml_discovery_response(entity_id);
     }
 
-    do_saml_discovery_response(entity_id, params) {
+    do_saml_discovery_response(entity_id) {
         let obj = this;
         console.log(entity_id);
         console.log(obj.context);
@@ -107,26 +123,7 @@ export class DiscoveryService {
                 } else {
                     return Promise.resolve(entity);
                 }
-            })
-            .then(function(entity) {
-                if (params['return'] !== undefined) {
-                    console.log("returning discovery response...");
-                    let response = params['return'];
-                    let qs = response.indexOf('?') === -1 ? '?' : '&';
-                    let returnIDParam = params['returnIDParam'];
-                    if (!returnIDParam) {
-                        returnIDParam = "entityID";
-                    }
-
-                    if (entity_id) {
-                        response += qs + returnIDParam + '=' + entity_id;
-                    }
-                    console.log(response);
-                    return response;
-                } else {
-                    Promise.reject("missing return parameter in query-string")
-                }
-        }).catch(ex => console.log(ex));
+            }).catch(ex => console.log(ex));
     }
 
     remove(entity_id) {

@@ -14,11 +14,12 @@
         <div class="container">
             To use in your web application include the following code:
             <pre><code>
+&lt;script src="<%= process.env.BASE_URL %>thiss.js"/&gt;
 &lt;div id="container"&gt;&lt;/div&gt;
 &lt;script&gt;
     window.onload = function() {
        thiss.DiscoveryComponent.render({
-           loginHandlerURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+           loginInitiatorURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
        }, '#container');
     };
 &lt;/script&gt;
