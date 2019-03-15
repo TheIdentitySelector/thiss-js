@@ -18,3 +18,6 @@ cover:
 
 setup:
 	@npm install
+
+deploy:
+	rsync -avz --exclude .git --exclude CNAME --exclude README.md --delete dist/ $(TARGET)
