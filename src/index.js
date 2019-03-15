@@ -1,4 +1,4 @@
-require('webpack-icons-installer');
+
 import {DiscoveryComponent} from "./component";
 import 'bootstrap/dist/css/bootstrap.min.css';
 

@@ -163,6 +163,7 @@ h3 {
 
   /* Master Width Definition */
   max-width: 500px;
+  min-height: 350px !important;
 
   /* Zep */
   border-radius: 5px;

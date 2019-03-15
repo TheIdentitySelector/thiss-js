@@ -1,4 +1,3 @@
-require('webpack-icons-installer');
 const zoid = require('zoid');
 const inner = require('!ejs-loader!./cta/preload.html');
 export const DiscoveryComponent = zoid.create({

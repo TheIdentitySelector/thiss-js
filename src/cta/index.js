@@ -1,4 +1,9 @@
-require('webpack-icons-installer/font-awesome');
+import { dom, library } from '@fortawesome/fontawesome-svg-core';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPlusSquare);
+dom.i2svg();
+
 require('es6-promise').polyfill();
 require('fetch-ie8');
 import {DiscoveryService, ds_response_url} from "../discovery.js";
@@ -69,7 +74,6 @@ start.then(function() {
         if (items && items.length > 0) { // or things have gone very wrong...
             let item = items[items.length-1];
             if (item && item.entity && item.entity.title && item.entity.entityID) { // silly
-                document.getElementById('spinner').style.display = "none";
                 document.getElementById('title').innerText = item.entity.title;
                 entity_id = item.entity.entityID;
                 document.getElementById('headline').innerText = "Access through";
@@ -79,7 +83,6 @@ start.then(function() {
         }
 
         if (count == 0) {
-            document.getElementById('spinner').style.display = "none";
             document.getElementById('title').innerText = "Access through your institution";
             button.dataset['href'] = "";
             $("#dsbutton").hide();

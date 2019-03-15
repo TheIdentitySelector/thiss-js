@@ -1,4 +1,9 @@
-require('webpack-icons-installer/font-awesome');
+import { dom, library } from '@fortawesome/fontawesome-svg-core';
+import { faPlusSquare, faPen, faSearch } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faPlusSquare, faPen, faSearch);
+dom.i2svg();
+
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
