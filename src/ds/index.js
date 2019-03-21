@@ -4,7 +4,11 @@ import { faPlusSquare, faPen, faSearch } from '@fortawesome/free-solid-svg-icons
 library.add(faPlusSquare, faPen, faSearch);
 dom.i2svg();
 
-import 'bootstrap';
+import $ from 'jquery';
+window.jQuery = $;
+window.$ = $;
+
+//import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import '../assets/ds.css';
@@ -16,7 +20,6 @@ import '../assets/1x1t.png';
 import '../assets/ra_icon_2.png';
 
 const Hogan = require("hogan.js");
-$ = require("jquery");
 
 require('../jquery-ds-widget.js');
 

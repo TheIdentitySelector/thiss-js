@@ -6,10 +6,10 @@ dom.i2svg();
 
 require('es6-promise').polyfill();
 require('fetch-ie8');
-import {DiscoveryService, ds_response_url} from "../discovery.js";
-import {DiscoveryComponent} from "../component.js";
+import {DiscoveryService, ds_response_url} from "thiss-ds";
+import "../component.js";
 import '../assets/login.css';
-import 'bootstrap';
+//import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
 

@@ -7,8 +7,6 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const DotEnv = require("dotenv-webpack");
 
-require("babel-polyfill");
-
 module.exports = {
   resolve: {
     alias: {
@@ -17,22 +15,15 @@ module.exports = {
     }
   },
   entry: {
-      index: ['babel-polyfill', './src/index.js'],
-      cta:  ['babel-polyfill','./src/cta/index.js'],
-      ds: ['babel-polyfill','./src/ds/index.js'],
-      persit: ['babel-polyfill', './src/persist.js'],
-      ps: ['babel-polyfill', './src/ps/index.js'],
-      thiss: ['babel-polyfill', './src/component.js'],
-      discovery: ['babel-polyfill', './src/discovery.js']
+      index: ['./src/index.js'],
+      cta:  ['./src/cta/index.js'],
+      ds: ['./src/ds/index.js'],
+      ps: ['./src/ps/index.js'],
+      thiss: ['./src/component.js'],
   },
   plugins: [
       new DotEnv({systemvars: true}),
-      new webpack.ProvidePlugin({
-          $: "jquery",
-          jQuery: "jquery",
-          "window.jQuery": "jquery"
-      }),
-      new CleanWebpackPlugin(['dist']),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
           filename: 'index.html',
           inject: true,
