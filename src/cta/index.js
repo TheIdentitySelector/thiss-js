@@ -4,16 +4,12 @@ import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 library.add(faPlusSquare);
 dom.i2svg();
 
-require('es6-promise').polyfill();
-require('fetch-ie8');
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import "../component.js";
 import '../assets/fonts.css';
 import '../assets/login.css';
-//import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
-
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
@@ -61,12 +57,12 @@ if (window.xprops.MDQ) {
 
 let ds = new DiscoveryService(mdq, persistence, context);
 
-let start = Promise.resolve();
+let start = [];
 if (window.xprops.pinned) {
-    start = ds.pin(window.xprops.pinned);
+    start.push(ds.pin(window.xprops.pinned));
 }
 
-start.then(function() {
+Promise.all(start).then(function() {
     let count = 0;
     ds.with_items(function (items) {
         let button = document.getElementById('idpbutton');

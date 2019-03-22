@@ -8,7 +8,6 @@ import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
 
-//import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/fonts.css';
 import '../assets/ds.css';
@@ -77,6 +76,7 @@ $(document).ready(function() {
         $(".institution-select").toggleClass("d-none");
         $(".institution-remove").toggleClass("d-none");
     });
+
 
     $("#dsclient").discovery_client({
         render_search_result: function(item) {
