@@ -10,7 +10,7 @@ window.$ = $;
 
 //import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import '../assets/fonts.css';
 import '../assets/ds.css';
 import '../assets/ra_1.png';
 import '../assets/ra_2.png';

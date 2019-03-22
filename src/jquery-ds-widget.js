@@ -3,7 +3,7 @@ require('fetch-ie8');
 const Hogan = require("hogan.js");
 $ = require("jquery");
 require("jquery-ui");
-import {DiscoveryService, parse_qs} from "thiss-ds";
+import {DiscoveryService, parse_qs} from "@theidentityselector/thiss-ds";
 require("bootstrap-list-filter");
 
 

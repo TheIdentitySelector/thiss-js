@@ -6,8 +6,9 @@ dom.i2svg();
 
 require('es6-promise').polyfill();
 require('fetch-ie8');
-import {DiscoveryService, ds_response_url} from "thiss-ds";
+import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import "../component.js";
+import '../assets/fonts.css';
 import '../assets/login.css';
 //import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -4,7 +4,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const DotEnv = require("dotenv-webpack");
 
 module.exports = {
@@ -51,13 +50,7 @@ module.exports = {
       new MiniCssExtractPlugin({
           filename: "[name].css"
       }),
-      new FaviconsWebpackPlugin('./src/assets/ra21icon.svg'),
-      new GoogleFontsPlugin({
-          fonts: [
-				{ family: "Libre Franklin", variants: ['400', '700'], subsets: ['latin-ext'] },
-          ],
-          local: false
-      })
+      new FaviconsWebpackPlugin('./src/assets/ra21icon.svg')
   ],
   output: {
       filename: '[name].js',
