@@ -274,15 +274,7 @@ input {
 	width: 100%;
 }
 
-.search .material-icons {
-  position: absolute;
-  top: 12px;
-  right: 7px;
-  font-size: 24px;
-  color: var(--primary-blue);
-}
-
-.search .fa {
+.search .fa-search {
   position: absolute;
   top: 14px;
   right: 10px;
