@@ -185,7 +185,7 @@ jQuery(function ($) {
                 e.preventDefault();
             });
 
-            $('body').on('click', 'i.remove', function (e) {
+            $('body').on('click', '.remove', function (e) {
                 e.stopPropagation();
                 let entity_element = $(this).closest(obj.selection_selector);
                 obj._count = entity_element.siblings().length + 1;
