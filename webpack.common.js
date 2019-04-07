@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
 
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 module.exports = {
@@ -31,6 +31,7 @@ module.exports = {
         thiss: ['./src/component.js'],
     },
     plugins: [
+        new BundleAnalyzerPlugin(),
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
@@ -72,26 +73,44 @@ module.exports = {
     ],
     output: {
         filename: '[name].js',
-        chunkFilename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/",
         libraryTarget: 'umd',
         library: '[name]',
-        globalObject: 'this'
+        globalObject: 'this',
+        umdNamedDefine: true
     },
+    /*
     optimization: {
         runtimeChunk: 'single',
         splitChunks: {
             chunks: 'all',
             maxInitialRequests: Infinity,
+            automaticNameDelimiter: '_',
             minSize: 0,
             cacheGroups: {
                 node_modules: {
-                    test: /[\\/]node_modules[\\/]/,
+                    name: 'node_modules',
+                    enforce: true,
+                    chunks: "all",
+                    test(module, chunks) {
+                        const name = module.nameForCondition && module.nameForCondition();
+                        return chunks.some(chunk => chunk.name in ['index','ds','cta','ps'] && /node_modules/.test(name));
+                    },
+                    priority: 1,
+                },
+                thiss: {
+                    name: 'thiss',
+                    chunks: 'initial',
+                    enforce: true,
+                    priority: 0,
+                    test(module, chunks) {
+                        return chunks.some(chunk => chunk.name === 'thiss');
+                    }
                 }
             }
         },
-    },
+    },*/
     module: {
         rules: [
             {

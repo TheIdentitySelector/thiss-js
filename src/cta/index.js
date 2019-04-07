@@ -89,8 +89,8 @@ Promise.all(start).then(function() {
             event.preventDefault();
             //setTimeout(function() {//window.xchild.close();}, 1000);
             if (entity_id) { // return the discovery response
-                ds.do_saml_discovery_response(entity_id).then(entity => {
-                   discovery_response(entity);
+                ds.do_saml_discovery_response(entity_id).then(item => {
+                   discovery_response(item.entity);
                 });
             } else { // off to DS
                 discovery_request();
