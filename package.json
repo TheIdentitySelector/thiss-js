@@ -73,7 +73,7 @@
     "@babel/register": "^7.0.0",
     "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
-    "@theidentityselector/thiss-ds": "^1.0.3",
+    "@theidentityselector/thiss-ds": "^1.0.4",
     "@theidentityselector/thiss-login": "^1.0.0",
     "bootstrap-list-filter": "https://github.com/leifj/bootstrap-list-filter/tarball/2549db4b9623816ba33aa2c7665a1c32cebc2579",
     "chai": "^4.2.0",
