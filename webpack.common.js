@@ -7,9 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
-
 module.exports = {
     resolve: {
         alias: {
@@ -31,7 +28,6 @@ module.exports = {
         thiss: ['./src/component.js'],
     },
     plugins: [
-        new BundleAnalyzerPlugin(),
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
