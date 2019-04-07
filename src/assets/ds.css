@@ -360,7 +360,7 @@ ul li a:hover {
 	float: right;
 }
 
-.results i {
+.results svg {
 	float: right;
 	color: var(--primary-blue);
 }
@@ -381,7 +381,7 @@ ul li a:hover {
   border-top: 1px solid rgba(118, 118, 118, 0.2);
 }
 
-.institution:hover i.arrow {
+.institution:hover svg.arrow {
   color: var(--primary-blue);
   display: block;
 }
@@ -473,14 +473,14 @@ ul li a:hover {
     overflow: hidden
 }
 
-i.arrow {
+svg.arrow {
 	padding-top: 10px;
 	padding-right: 7px;
 	font-size: 1.4rem;
 	display: none;
 }
 
-.choose i.arrow {
+.choose svg.arrow {
   color: var(--warm-grey-two);
   display: block;
   padding-top: 5px;
@@ -490,7 +490,7 @@ i.arrow {
   margin: 15px 0 3px 0;
 }
 
-.link-bar i {
+.link-bar svg {
   font-size: 14px;
   vertical-align: middle;
   margin-bottom: 3px;

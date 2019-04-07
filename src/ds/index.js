@@ -1,8 +1,8 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import { faPlusSquare, faPen, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare, faPen, faSearch, faAngleRight, faTimes} from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPlusSquare, faPen, faSearch);
-dom.i2svg();
+library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
+dom.watch();
 
 import $ from 'jquery';
 window.jQuery = $;
