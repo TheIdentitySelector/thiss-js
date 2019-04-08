@@ -1,5 +1,7 @@
-import { dom, library } from '@fortawesome/fontawesome-svg-core';
+import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare, faPen, faSearch, faAngleRight, faTimes} from '@fortawesome/free-solid-svg-icons';
+
+config.autoReplaceSvg = 'nest';
 
 library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
 dom.watch();

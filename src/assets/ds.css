@@ -364,7 +364,7 @@ ul li a:hover {
 	float: right;
 }
 
-.results svg {
+.results i {
 	float: right;
 	color: var(--primary-blue);
 }
@@ -385,7 +385,7 @@ ul li a:hover {
   border-top: 1px solid rgba(118, 118, 118, 0.2);
 }
 
-.institution:hover svg.arrow {
+.institution:hover i.arrow {
   color: var(--primary-blue);
   display: block;
 }
@@ -467,7 +467,7 @@ ul li a:hover {
 	display: block;
 }
 
-.institution-icon svg {
+.institution-icon i {
 	width: 42px;
 	display: block;
 }
@@ -477,15 +477,14 @@ ul li a:hover {
     overflow: hidden
 }
 
-svg.arrow {
+i.arrow {
 	padding-top: 10px;
 	padding-right: 7px;
 	font-size: 1.4rem;
-    height: 20px;
 	display: none;
 }
 
-.choose svg.arrow {
+.choose i.arrow {
   color: var(--warm-grey-two);
   display: block;
   padding-top: 5px;
@@ -495,7 +494,7 @@ svg.arrow {
   margin: 15px 0 3px 0;
 }
 
-.link-bar svg {
+.link-bar i {
   font-size: 14px;
   vertical-align: middle;
   margin-bottom: 3px;
