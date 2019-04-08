@@ -181,6 +181,13 @@ jQuery(function ($) {
                 return obj._ds.saml_discovery_response(entity_id);
             });
 
+            $('body').on('keyup', obj.selection_selector, function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    $(this).click();
+                }
+            });
+
             $(obj.input_field_selector).closest('form').submit(function(e) {
                 e.preventDefault();
             });
