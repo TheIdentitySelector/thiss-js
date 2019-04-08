@@ -274,6 +274,10 @@ input {
 	width: 100%;
 }
 
+.form-content h3 {
+  margin-top: 13px;
+}
+
 .search .fa-search {
   position: absolute;
   top: 14px;
@@ -477,6 +481,7 @@ svg.arrow {
 	padding-top: 10px;
 	padding-right: 7px;
 	font-size: 1.4rem;
+    height: 20px;
 	display: none;
 }
 
