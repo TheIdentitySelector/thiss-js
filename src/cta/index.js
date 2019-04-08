@@ -82,7 +82,7 @@ Promise.all(start).then(function() {
         if (count == 0) {
             document.getElementById('title').innerText = "Access through your institution";
             button.dataset['href'] = "";
-            $("#dsbutton").hide();
+            document.getElementById("dsbutton").hidden = true;
         }
 
         button.addEventListener('click', function(event) {
