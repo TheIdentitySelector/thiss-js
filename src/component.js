@@ -1,6 +1,12 @@
-const zoid = require('zoid');
+/** @jsx node */
+
+//const zoid = require('zoid');
 const inner = require('!ejs-loader!./cta/preload.html');
-export const DiscoveryComponent = zoid.create({
+
+import { create } from 'zoid/src';
+//import { node, dom } from 'jsx-pragmatic/src';
+
+export const DiscoveryComponent = create({
 
     // The html tag used to render my component
     tag: 'thiss-component',

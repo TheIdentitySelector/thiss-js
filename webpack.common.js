@@ -9,6 +9,7 @@ const DotEnv = require("dotenv-webpack");
 
 module.exports = {
     resolve: {
+        extensions: ['.js', '.jsx'],
         alias: {
             'node_modules': path.join(__dirname, 'node_modules'),
             'bower_modules': path.join(__dirname, 'bower_modules')
@@ -135,13 +136,10 @@ module.exports = {
                 }
             },
             {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
+                test: /\.m?(js|jsx)$/,
+                exclude: /(node_modules\/.+\/dist|bower_components\/.+\/dist)/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                    }
+                    loader: 'babel-loader'
                 }
             }
         ]

@@ -19,9 +19,13 @@
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.3",
+    "@babel/plugin-transform-flow-strip-types": "^7.4.0",
     "@babel/plugin-transform-runtime": "^7.3.4",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@fortawesome/fontawesome-free": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "babel": "^6.23.0",
@@ -71,6 +75,9 @@
     ]
   ],
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.4.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
@@ -88,6 +95,7 @@
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "js-storage": "^1.0.4",
+    "jsx-pragmatic": "^2.0.4",
     "lodash": "^4.17.11",
     "mocha": "^5.2.0",
     "mock-browser": "^0.92.14",
