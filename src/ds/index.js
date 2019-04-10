@@ -1,5 +1,9 @@
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
-import {faPlusSquare, faPen, faSearch, faAngleRight, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
+import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
+import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
+import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
+import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 config.autoReplaceSvg = 'nest';
 
@@ -13,12 +17,6 @@ window.$ = $;
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/fonts.css';
 import '../assets/ds.css';
-import '../assets/ra_1.png';
-import '../assets/ra_2.png';
-import '../assets/ra_3.png';
-import '../assets/ra_4.png';
-import '../assets/1x1t.png';
-import '../assets/ra_icon_2.png';
 
 const Hogan = require("hogan.js");
 

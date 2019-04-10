@@ -1,8 +1,8 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 
 library.add(faPlusSquare);
-dom.i2svg();
+dom.watch();
 
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import "../component.js";
