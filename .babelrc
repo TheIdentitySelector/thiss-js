@@ -6,5 +6,10 @@
         "useBuiltIns": "usage"
       }
     ]
-  ]
+  ],
+  "env": {
+    "production": {
+      "presets": ["minify","transform-remove-console"]
+    }
+  }
 }

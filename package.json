@@ -28,6 +28,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.4",
     "babel-plugin-istanbul": "^5.1.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
     "clean-webpack-plugin": "^0.1.19",

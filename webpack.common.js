@@ -28,6 +28,7 @@ module.exports = {
         thiss: ['./src/component.js'],
     },
     plugins: [
+        new webpack.PrefetchPlugin(path.join(__dirname, "node_modules"),"./zoid/index.js"),
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
