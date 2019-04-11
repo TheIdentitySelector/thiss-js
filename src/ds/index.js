@@ -15,7 +15,7 @@ window.jQuery = $;
 window.$ = $;
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../assets/fonts.css';
+//import '../assets/fonts.css';
 import '../assets/ds.css';
 
 const Hogan = require("hogan.js");

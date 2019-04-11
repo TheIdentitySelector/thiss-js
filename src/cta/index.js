@@ -6,7 +6,7 @@ dom.watch();
 
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import "../component.js";
-import '../assets/fonts.css';
+//import '../assets/fonts.css';
 import '../assets/login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';

@@ -6,6 +6,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
+const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
+
 
 module.exports = {
     resolve: {
@@ -28,6 +30,12 @@ module.exports = {
         thiss: ['./src/component.js'],
     },
     plugins: [
+        new GoogleFontsPlugin({
+            fonts: [
+                { family: "Libre Franklin", variants: ["400","700"], subsets: ['latin-ext'] }
+            ],
+            local: true
+        }),
         new webpack.PrefetchPlugin(path.join(__dirname, "node_modules"),"./zoid/index.js"),
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),

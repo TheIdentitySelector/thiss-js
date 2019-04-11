@@ -72,7 +72,7 @@
   ],
   "dependencies": {
     "@babel/register": "^7.0.0",
-    "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
+    "@beyonk/google-fonts-webpack-plugin": "^1.2.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@theidentityselector/thiss-ds": "^1.0.4",
     "@theidentityselector/thiss-login": "^1.0.0",
