@@ -63,10 +63,27 @@ if (window.xprops.pinned) {
 
 Promise.all(start).then(function() {
     let count = 0;
+    let entity_id = null;
+    let button = document.getElementById('idpbutton');
+    let dsbutton = document.getElementById('dsbutton');
+
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (entity_id !== null) { // return the discovery response
+            ds.do_saml_discovery_response(entity_id).then(item => {
+               discovery_response(item.entity);
+            });
+        } else { // off to DS
+            discovery_request();
+        }
+    });
+
+    dsbutton.addEventListener('click', function(event) {
+        event.preventDefault();
+        discovery_request();
+    });
+
     ds.with_items(function (items) {
-        let button = document.getElementById('idpbutton');
-        let dsbutton = document.getElementById('dsbutton');
-        let entity_id = "";
         if (items && items.length > 0) { // or things have gone very wrong...
             let item = items[items.length-1];
             if (item && item.entity && item.entity.title && item.entity.entityID) { // silly
@@ -80,27 +97,8 @@ Promise.all(start).then(function() {
 
         if (count == 0) {
             document.getElementById('title').innerText = "Access through your institution";
-            button.dataset['href'] = "";
             document.getElementById("dsbutton").hidden = true;
         }
-
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            //setTimeout(function() {//window.xchild.close();}, 1000);
-            if (entity_id) { // return the discovery response
-                ds.do_saml_discovery_response(entity_id).then(item => {
-                   discovery_response(item.entity);
-                });
-            } else { // off to DS
-                discovery_request();
-            }
-        });
-
-        dsbutton.addEventListener('click', function(event) {
-            event.preventDefault();
-            //setTimeout(function() {//window.xchild.close();}, 1000);
-            discovery_request();
-        });
 
         return items;
     });
