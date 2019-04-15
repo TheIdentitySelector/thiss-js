@@ -1,5 +1,15 @@
 {
-
-"presets": ["@babel/preset-env"]
-
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ]
+  ],
+  "env": {
+    "production": {
+      "presets": ["minify","transform-remove-console"]
+    }
+  }
 }

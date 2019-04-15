@@ -274,15 +274,11 @@ input {
 	width: 100%;
 }
 
-.search .material-icons {
-  position: absolute;
-  top: 12px;
-  right: 7px;
-  font-size: 24px;
-  color: var(--primary-blue);
+.form-content h3 {
+  margin-top: 13px;
 }
 
-.search .fa {
+.search .fa-search {
   position: absolute;
   top: 14px;
   right: 10px;
@@ -471,7 +467,7 @@ ul li a:hover {
 	display: block;
 }
 
-.institution-icon svg {
+.institution-icon i {
 	width: 42px;
 	display: block;
 }

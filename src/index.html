@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <head>
     <title>thiss.io</title>
+    <style>
+        #login {
+            height: 80px;
+            width: 380px;
+        }
+    </style>
 </head>
 <body>
     <main role="main">
         <div class="jumbotron">
             <div class="container">
                 <h1 class="display-3">Thiss.io Login</h1>
-                <div id="container"></div>
+                <div id="login"></div>
             </div>
         </div>
 
@@ -15,12 +21,12 @@
             To use in your web application include the following code:
             <pre><code>
 &lt;script src="<%= process.env.BASE_URL %>thiss.js"/&gt;
-&lt;div id="container"&gt;&lt;/div&gt;
+&lt;div id="login"&gt;&nbsp;&lt;/div&gt;
 &lt;script&gt;
     window.onload = function() {
        thiss.DiscoveryComponent.render({
            loginInitiatorURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
-       }, '#container');
+       }, '#login');
     };
 &lt;/script&gt;
             </code></pre>

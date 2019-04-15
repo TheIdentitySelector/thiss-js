@@ -4,9 +4,6 @@
 	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	   <title class="sp_title"></title>
-
-	   <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,fetch"></script-->
 	</head>
 
 <body class="site">
@@ -38,7 +35,7 @@
 					<a id="edit_button" href="#"
 					   class="alignright"
 					   role="button"
-					   aria-expanded="false"><i class="fa fa-pencil"></i> Edit</a>
+					   aria-expanded="false"><i class="fa fa-pen"></i> Edit</a>
 				</div>
 				<a id="done_button" role="button" class="d-none center btn btn-block btn-light" href="#">Done</a>
 			</div>
@@ -50,9 +47,10 @@
 				<form>
 					<div class="form-content">
 						<div class="search">
-							<a><i class="fa fa-search"></i></a>
-							<input type="text" id="searchinput" type="search" placeholder="" aria-label="search" autofocus>
+							<i class="fa fa-search"></i>
+							<input tabindex="0" type="text" autocomplete="off" id="searchinput" type="search" placeholder="" aria-label="search" autofocus>
 						</div>
+						<h3>Examples: Science Institute, Lee@uni.edu, UCLA</h3>
 						<div class="d-none" id="searching">
 							<h3>Searching for institutions...</h3>
 							<div class="loader"></div>

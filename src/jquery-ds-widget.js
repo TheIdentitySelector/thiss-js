@@ -1,9 +1,9 @@
-require('es6-promise').polyfill();
-require('fetch-ie8');
+
+
 const Hogan = require("hogan.js");
 $ = require("jquery");
 require("jquery-ui");
-import {DiscoveryService, parse_qs} from "./discovery";
+import {DiscoveryService, parse_qs} from "@theidentityselector/thiss-ds";
 require("bootstrap-list-filter");
 
 
@@ -181,11 +181,18 @@ jQuery(function ($) {
                 return obj._ds.saml_discovery_response(entity_id);
             });
 
+            $('body').on('keyup', obj.selection_selector, function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    $(this).click();
+                }
+            });
+
             $(obj.input_field_selector).closest('form').submit(function(e) {
                 e.preventDefault();
             });
 
-            $('body').on('click', 'i.remove', function (e) {
+            $('body').on('click', '.remove', function (e) {
                 e.stopPropagation();
                 let entity_element = $(this).closest(obj.selection_selector);
                 obj._count = entity_element.siblings().length + 1;

@@ -1,18 +1,14 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 
 library.add(faPlusSquare);
-dom.i2svg();
+dom.watch();
 
-require('es6-promise').polyfill();
-require('fetch-ie8');
-import {DiscoveryService, ds_response_url} from "../discovery.js";
-import {DiscoveryComponent} from "../component.js";
+import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
+import "../component.js";
 import '../assets/login.css';
-import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ra21icon.svg';
-
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
@@ -60,17 +56,34 @@ if (window.xprops.MDQ) {
 
 let ds = new DiscoveryService(mdq, persistence, context);
 
-let start = Promise.resolve();
+let start = [];
 if (window.xprops.pinned) {
-    start = ds.pin(window.xprops.pinned);
+    start.push(ds.pin(window.xprops.pinned));
 }
 
-start.then(function() {
+Promise.all(start).then(function() {
     let count = 0;
+    let entity_id = null;
+    let button = document.getElementById('idpbutton');
+    let dsbutton = document.getElementById('dsbutton');
+
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        if (entity_id !== null) { // return the discovery response
+            ds.do_saml_discovery_response(entity_id).then(item => {
+               discovery_response(item.entity);
+            });
+        } else { // off to DS
+            discovery_request();
+        }
+    });
+
+    dsbutton.addEventListener('click', function(event) {
+        event.preventDefault();
+        discovery_request();
+    });
+
     ds.with_items(function (items) {
-        let button = document.getElementById('idpbutton');
-        let dsbutton = document.getElementById('dsbutton');
-        let entity_id = "";
         if (items && items.length > 0) { // or things have gone very wrong...
             let item = items[items.length-1];
             if (item && item.entity && item.entity.title && item.entity.entityID) { // silly
@@ -84,27 +97,8 @@ start.then(function() {
 
         if (count == 0) {
             document.getElementById('title').innerText = "Access through your institution";
-            button.dataset['href'] = "";
-            $("#dsbutton").hide();
+            document.getElementById("dsbutton").hidden = true;
         }
-
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            //setTimeout(function() {//window.xchild.close();}, 1000);
-            if (entity_id) { // return the discovery response
-                ds.do_saml_discovery_response(entity_id).then(entity => {
-                   discovery_response(entity);
-                });
-            } else { // off to DS
-                discovery_request();
-            }
-        });
-
-        dsbutton.addEventListener('click', function(event) {
-            event.preventDefault();
-            //setTimeout(function() {//window.xchild.close();}, 1000);
-            discovery_request();
-        });
 
         return items;
     });
