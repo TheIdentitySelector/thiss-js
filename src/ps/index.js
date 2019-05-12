@@ -1,5 +1,5 @@
 const postRobot = require("post-robot");
-const Storages = require('js-storage');
+const Storages = require('@theidentityselector/js-storage');
 
 const cache_time = 60 * 10 * 1000;
 
@@ -62,7 +62,7 @@ class ContextStack {
     distance(context) {
         return this.contexts.findIndex(ctx => ctx.get('_name') === context);
     }
-};
+}
 
 function _ctx(context) {
     if (!context) {

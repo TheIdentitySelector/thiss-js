@@ -433,8 +433,8 @@ ul li a:hover {
 }
 
 .institution-circle {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -447,13 +447,28 @@ ul li a:hover {
   border: 2px solid #F0F0F0;
 }
 
-.institution-circle img {
+.institution-circle2 img {
   display: inline;
   margin: 0 auto;
   height: 100%;
   width: auto;
   object-fit: cover;
   min-width: 40px;
+  margin-left: 0px;
+}
+
+.institution-circle img {
+    display: inline;
+  min-width: 100%;
+  width: auto;
+  height: auto;
+  max-height: 40px;
+  margin: auto;
+  position: absolute;
+  top: -100%;
+  right: -100%;
+  bottom: -100%;
+  left: -100%;
 }
 
 .institution-icon {
