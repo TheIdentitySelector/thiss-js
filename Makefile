@@ -35,11 +35,12 @@ cover:
 setup:
 	@npm install
 
-docker: test snyk standalone docker_build docker_push
+docker: test snyk standalone docker_build
 
 docker_build:
 	docker build --no-cache=true -t $(NAME):$(VERSION) .
 
-docker_push:
+docker_push_sunet:
 	docker tag $(NAME):$(VERSION) $(REGISTRY)/$(NAME):$(VERSION)
 	docker push $(REGISTRY)/$(NAME):$(VERSION)
+

@@ -6,12 +6,12 @@ const webpack = require('webpack');
 module.exports = merge(common, {
   mode: 'production',
   plugins: [new webpack.EnvironmentPlugin({
-    BASE_URL: "https://${PUBLIC_HOSTNAME}/",
-    COMPONENT_URL: 'https://${PUBLIC_HOSTNAME}/cta/',
+    BASE_URL: "${BASE_URL}",
+    COMPONENT_URL: '${BASE_URL}/cta/',
     MDQ_URL: "${MDQ_URL}",
-    PERSISTENCE_URL: 'https://${PUBLIC_HOSTNAME}/ps/',
+    PERSISTENCE_URL: '${BASE_URL}/ps/',
     SEARCH_URL: "${SEARCH_URL}",
-    STORAGE_DOMAIN: "${PUBLIC_HOSTNAME}",
+    STORAGE_DOMAIN: "${STORAGE_DOMAIN}",
     LOGLEVEL: 'error'
   })]
 });
