@@ -25,3 +25,5 @@ Building is via various node and docker commands depending on what you want. The
 * `make build`: Builds the instance running on thiss.io in the dist directory
 * `make standalone`: Builds a standalone instance used in the docker container (with envsubst) in the dist directory
 * `make docker`: Builds a docker container (thiss-js:<version>) based on `standalone` and nginx
+
+Running `make setup` is typically required at least once so your builds can progress.
