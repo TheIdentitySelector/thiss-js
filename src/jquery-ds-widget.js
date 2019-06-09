@@ -124,7 +124,7 @@ jQuery(function ($) {
 
                         counter = 0;
                         console.log(remote);
-                        fetch(remote, {method: 'GET', headers: {}}).then(function (response) {
+                        fetch(remote, {method: 'GET', headers: {'Accept': 'application/json'}}).then(function (response) {
                             if (response.status == 404) {
                                 throw new URIError("Entity not found in MDQ server");
                             }
