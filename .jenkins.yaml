@@ -1,0 +1,32 @@
+builders:
+  - script
+triggers:
+  cron: "@weekly"
+slack:
+  room: "devops-builds"
+clean_workspace: true
+build_in_docker:
+  image: docker.sunet.se/sunet/docker-jenkins-node-job
+archive_artifacts:
+  include: dist/*
+
+extra_jobs:
+  - name: docker-thiss-js
+    builders:
+      - docker
+    docker_name: thiss-js
+    managed_scripts:
+      - docker_build_prep.sh
+      - docker_tag.sh
+    triggers:
+      github_push: false
+    upstream:
+      - mdq-browser
+    copy_artifacts:
+      project_name: thiss-js
+      include: dist/*
+      target_dir: dist
+    archive_artifacts:
+
+script:
+  - "make setup all"
