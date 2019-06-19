@@ -17,9 +17,9 @@ module.exports = merge(common, {
        new webpack.EnvironmentPlugin({
        BASE_URL: 'http://localhost:9000/',
        COMPONENT_URL: 'http://localhost:9000/cta/',
-       MDQ_URL: 'http://localhost:8000/entities/',
+       MDQ_URL: 'http://localhost:8080/entities/',
        PERSISTENCE_URL: 'http://localhost:9000/ps/',
-       SEARCH_URL: 'http://localhost:8000/api/search',
+       SEARCH_URL: 'http://localhost:8080/api/search',
        STORAGE_DOMAIN: 'localhost:9000',
        LOGLEVEL: 'warn'
   })]
