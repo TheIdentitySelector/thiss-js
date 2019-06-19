@@ -6,6 +6,12 @@
             <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon}}" />
         </div>
         {{/entity_icon}}
+        {{#entity_icon_url}}
+        <div class="institution-mask">
+            <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon_url.url}}" />
+        </div>
+        {{/entity_icon_url}}
+        {{^entity_icon_url}}
         {{^entity_icon}}
             <svg class="institution-icon logo"
                  width="40"
@@ -20,6 +26,7 @@
                       dy=".3em">{{name_tag}}</text>
             </svg>
         {{/entity_icon}}
+        {{/entity_icon_url}}
         <div class="institution-text">
             <i class="institution-select arrow fa fa-angle-right"></i>
             <div class="primary">{{title}}</div>
