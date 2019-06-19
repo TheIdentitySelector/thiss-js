@@ -118,6 +118,9 @@ postRobot.on('update', {window: window.parent}, function(event) {
     let entity = event.data.entity;
     let storage = _ctx(event.data.context);
     let now = _timestamp();
+    if (entity.entityID && !entity.entity_id) {
+        entity.entity_id = entity.entityID;
+    }
     let id = entity.entity_id.hexEncode();
     let item = get_entity(storage, id);
     if (!is_valid(item, now)) {
