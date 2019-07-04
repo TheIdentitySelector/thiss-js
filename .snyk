@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.13.3
+version: v1.13.5
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -8,3 +8,150 @@ patch:
         patched: '2019-02-07T13:11:04.628Z'
     - '@theidentityselector/thiss-ds > ejs-loader > lodash':
         patched: '2019-03-21T21:11:27.531Z'
+  SNYK-JS-LODASH-450202:
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - mock-browser > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - ejs-loader > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > snyk-php-plugin > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > snyk-nuget-plugin > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > snyk-nodejs-lockfile-parser > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > snyk-config > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > inquirer > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > @snyk/dep-graph > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > mock-browser > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > @babel/register > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > html-webpack-plugin > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > ejs-loader > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > archiver > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > @snyk/dep-graph > graphlib > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - snyk > snyk-nodejs-lockfile-parser > graphlib > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > @snyk/dep-graph > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > inquirer > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > snyk-config > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > snyk-nodejs-lockfile-parser > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > mocha > yargs-unparser > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > webpack-dev-server > http-proxy-middleware > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-core > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > snyk-nuget-plugin > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > async > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > snyk-php-plugin > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-register > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-register > babel-core > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-template > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@babel/register > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > ngrok > request-promise-native > request-promise-core > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > archiver > archiver-utils > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > archiver > async > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > archiver > zip-stream > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-generator > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > snyk-nodejs-lockfile-parser > graphlib > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > snyk > snyk-go-plugin > graphlib > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > nyc > istanbul-lib-instrument > @babel/traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > snyk > @snyk/dep-graph > graphlib > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > nyc > istanbul-lib-instrument > @babel/template > @babel/types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-register > babel-core > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-template > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-core > babel-helpers > babel-template > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-generator > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - popper > wd > archiver > zip-stream > archiver-utils > lodash:
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-core > babel-template > babel-traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-traverse > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-template > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-generator > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-template > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-core > babel-helpers > babel-template > babel-traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-template > babel-traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-helpers > babel-template > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-traverse > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-generator > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-core > babel-helpers > babel-template > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-helpers > babel-template > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-register > babel-core > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-ds > babel-cli > babel-register > babel-core > babel-helpers > babel-template > babel-traverse > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
+    - '@theidentityselector/thiss-login > babel-cli > babel-register > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2019-07-04T03:34:38.204Z'
