@@ -90,7 +90,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "mocha": "^5.2.0",
     "mock-browser": "^0.92.14",
     "mustache-loader": "^1.4.3",
