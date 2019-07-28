@@ -116,6 +116,11 @@ jQuery(function ($) {
                         return obj.options['too_many_results'](data.length);
                     },
                     sourceData: function (text, callback) {
+                        let i = text.indexOf('@');
+                        if (i > -1) {
+                            text = text.substring(i+1, text.length);
+                        }
+
                         let remote = search_base + "?query=" + text;
 
                         if (search_related) {
