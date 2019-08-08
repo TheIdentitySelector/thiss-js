@@ -29,6 +29,7 @@ module.exports = merge(common, {
        PERSISTENCE_URL: 'http://localhost:9000/ps/',
        SEARCH_URL: '/entities/',
        STORAGE_DOMAIN: 'localhost:9000',
-       LOGLEVEL: 'warn'
+       LOGLEVEL: 'warn',
+       DEFAULT_CONTEXT: 'thiss.io'
   })]
 });

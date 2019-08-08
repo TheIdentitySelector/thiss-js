@@ -66,7 +66,7 @@ class ContextStack {
 
 function _ctx(context) {
     if (!context) {
-        context = "thiss.io"
+        context = process.env.DEFAULT_CONTEXT
     }
     let ns = Storages.initNamespaceStorage(context);
     let storage = ns.localStorage;
