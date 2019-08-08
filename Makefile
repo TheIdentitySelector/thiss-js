@@ -4,7 +4,7 @@ VERSION:=1.0.0
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 
-all: test snyk build
+all: standalone
 
 snyk:
 	@npm run snyk-protect
@@ -20,11 +20,11 @@ local:
 clean:
 	@rm -rf dist
 
-build:
-	@npm run build
+build: test snyk
+	env BASE_URL=$(BASE_URL) COMPONENT_URL=$(COMPONENT_URL) MDQ_URL=$(MDQ_URL) PERSISTENCE_URL=$(PERSISTENCE_URL) SEARCH_URL=$(SEARCH_URL) STORAGE_DOMAIN=$(STORAGE_DOMAIN) LOGLEVEL=$(LOGLEVEL) webpack --config webpack.prod.js
 
 standalone:
-	@npm run standalone
+	make BASE_URL='$$$${BASE_URL}' COMPONENT_URL='$$$${BASE_URL}/cta/' MDQ_URL='$$$${MDQ_URL}' PERSISTENCE_URL='$$$${BASE_URL}/ps/' SEARCH_URL='$$$${SEARCH_URL}' STORAGE_DOMAIN='$$$${STORAGE_DOMAIN}' LOGLEVEL='$$$${LOGLEVEL}' build
 
 tests:
 	@npm run test
@@ -35,7 +35,7 @@ cover:
 setup:
 	@npm install
 
-docker: test snyk standalone docker_build
+docker: all docker_build
 
 docker_build:
 	docker build --no-cache=true -t $(NAME):$(VERSION) .

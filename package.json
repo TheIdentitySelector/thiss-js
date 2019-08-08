@@ -10,8 +10,6 @@
     "cover": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
     "dev": "webpack-dev-server --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
-    "build": "webpack --config webpack.prod.js",
-    "standalone": "webpack --config webpack.standalone.js",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"
   },
