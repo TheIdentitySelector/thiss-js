@@ -7,7 +7,9 @@ The thiss-js includes the following components:
 * A SAML discovery service in the ``/ds/`` URI context
 * A login button component available via ``/thiss.js``
 
-Each service requires some form of integration to be used by a relying party. A good introduction to the various forms of integration is `the integration guide over at thiss.io <https://thiss.io/integration>`_. In short:
+Each service requires some form of integration to be used by a relying party. A good introduction to the various forms of integration is `the integration guide over at thiss.io <https://thiss.io/integration>`_.
+
+By order of complexity the alternatives are:
 
 OASIS Identity Provider Discovery
 ---------------------------------
