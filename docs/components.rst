@@ -14,7 +14,7 @@ By order of complexity the alternatives are:
 OASIS Identity Provider Discovery
 ---------------------------------
 
-Using the SAML discovery service requires a SAML SP implementation supporting the `SAML identity provider discovery protocol <http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-idp-discovery.pdf>`_, eg `Shibboleth <https://shibboleth.net>`_, `SimpleSAMLphp <https://simplesamlphp.org/>`_ or `pysaml2 <https://github.com/IdentityPython/pysaml2>`_. In this case you simply configure the SP to use https://your.thiss-js.instance/ds/ as the discovery service URL eg https://use.thiss.io/ds or https://service.seamlessaccess.org/ds. Note that just clicking on these links will most likely get you a 400 error (Bad Request) since the OASIS discovery protocol requires certain parameters to be sent along - your SAML SP knows how!
+Using the SAML discovery service requires a SAML SP implementation supporting the `SAML identity provider discovery protocol <http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-idp-discovery.pdf>`_, eg `Shibboleth <https://shibboleth.net>`_, `SimpleSAMLphp <https://simplesamlphp.org/>`_ or `pysaml2 <https://github.com/IdentityPython/pysaml2>`_. In this case you simply configure the SP to use https://your.thiss-js.instance/ds/ as the discovery service URL eg https://use.thiss.io/ds or https://service.seamlessaccess.org/ds.
 
 Login Button Component
 ----------------------
