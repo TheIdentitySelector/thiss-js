@@ -1,5 +1,10 @@
 const zoid = require('zoid');
 const inner = require('!ejs-loader!./cta/preload.html');
+
+/**
+ * The stub for the (zoid) DiscoveryComponent
+ */
+
 export const DiscoveryComponent = zoid.create({
 
     // The html tag used to render my component
