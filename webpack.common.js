@@ -10,6 +10,15 @@ const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 
 
 module.exports = {
+    node: {
+      console: false,
+      global: true,
+      process: true,
+      __filename: 'mock',
+      __dirname: 'mock',
+      Buffer: false,
+      setImmediate: true
+    },
     resolve: {
         alias: {
             'node_modules': path.join(__dirname, 'node_modules'),
@@ -77,7 +86,7 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].js',
+        filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/",
         libraryTarget: 'umd',
@@ -85,37 +94,6 @@ module.exports = {
         globalObject: 'this',
         umdNamedDefine: true
     },
-    /*
-    optimization: {
-        runtimeChunk: 'single',
-        splitChunks: {
-            chunks: 'all',
-            maxInitialRequests: Infinity,
-            automaticNameDelimiter: '_',
-            minSize: 0,
-            cacheGroups: {
-                node_modules: {
-                    name: 'node_modules',
-                    enforce: true,
-                    chunks: "all",
-                    test(module, chunks) {
-                        const name = module.nameForCondition && module.nameForCondition();
-                        return chunks.some(chunk => chunk.name in ['index','ds','cta','ps'] && /node_modules/.test(name));
-                    },
-                    priority: 1,
-                },
-                thiss: {
-                    name: 'thiss',
-                    chunks: 'initial',
-                    enforce: true,
-                    priority: 0,
-                    test(module, chunks) {
-                        return chunks.some(chunk => chunk.name === 'thiss');
-                    }
-                }
-            }
-        },
-    },*/
     module: {
         rules: [
             {
