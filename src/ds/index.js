@@ -13,13 +13,14 @@ dom.watch();
 import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
+global.$ = $;
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/ds.css';
 
 const Hogan = require("hogan.js");
 
-require('../jquery-ds-widget.js');
+import '@theidentityselector/thiss-jquery-plugins/src/ds-widget.js';
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
@@ -78,6 +79,10 @@ $(document).ready(function() {
 
 
     $("#dsclient").discovery_client({
+        mdq: process.env.MDQ_URL,
+        persistence: process.env.PERSISTENCE_URL,
+        search: process.env.SEARCH_URL,
+        inputfieldselector: "#searchinput",
         render_search_result: function(item) {
             console.log("render_search_result");
             if (timer) {

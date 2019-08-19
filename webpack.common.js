@@ -86,7 +86,7 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].[contenthash].js',
+        filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/",
         libraryTarget: 'umd',
