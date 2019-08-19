@@ -21,7 +21,7 @@ extra_jobs:
     triggers:
       github_push: false
     upstream:
-      - mdq-browser
+      - thiss-js
     copy_artifacts:
       project_name: thiss-js
       include: dist/*
