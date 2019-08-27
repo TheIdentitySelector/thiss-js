@@ -20,7 +20,7 @@ import '../assets/ds.css';
 
 const Hogan = require("hogan.js");
 
-import '@theidentityselector/thiss-jquery-plugins/src/ds-widget.js';
+import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
