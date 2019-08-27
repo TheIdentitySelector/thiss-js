@@ -7,5 +7,5 @@ The Identity Selector Service
 [![Dependencies](https://david-dm.org/TheIdentitySelector/thiss-js.svg)](https://david-dm.org/TheIdentitySelector/thiss-js)
 [![Documentation Status](https://readthedocs.org/projects/thiss-js/badge/?version=latest)](https://thiss-js.readthedocs.io/en/latest/?badge=latest)
 
-This is the thiss.io service endpoint. It can be combined with a Search capable MDQ service to form a complete discovery service for identity federations.  [Read the documentation](https://thiss-ds.readthedocs.io/) for more details.
+This is the thiss.io service endpoint. It can be combined with a Search capable MDQ service to form a complete discovery service for identity federations.  [Read the documentation](https://thiss-js.readthedocs.io/) for more details.
 
