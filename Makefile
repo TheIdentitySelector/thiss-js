@@ -1,6 +1,6 @@
 -include local.mk
 
-VERSION:=1.0.0
+VERSION:=1.0.1
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 
@@ -35,7 +35,7 @@ cover:
 setup:
 	@npm install
 
-docker: all docker_build
+docker: standalone docker_build
 
 docker_build:
 	docker build --no-cache=true -t $(NAME):$(VERSION) .

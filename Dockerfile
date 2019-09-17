@@ -1,8 +1,7 @@
 FROM debian:stable
 MAINTAINER Leif Johansson <leifj@sunet.se>
-RUN apt-get update -q && apt-get install -yy nginx libnginx-mod-http-lua nginx-extras gettext-base
+RUN apt-get update -q && apt-get install -yy nginx openssl nginx-extras gettext-base
 COPY dist /dist
-COPY docker/nginx.conf /etc/nginx/nginx.conf
 ADD docker/start.sh /
 RUN chmod a+rx /start.sh
 ENV BASE_URL "http://localhost"
