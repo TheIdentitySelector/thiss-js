@@ -4,6 +4,8 @@ VERSION:=1.0.1
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 
+export PATH := node_modules/.bin:$(PATH)
+
 all: standalone
 
 snyk:
