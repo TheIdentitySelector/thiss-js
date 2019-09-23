@@ -1,6 +1,8 @@
 #!/bin/bash
 
-test -f /etc/nginx/certs/dhparam.pem || openssl dhparam 2048 -out /etc/nginx/certs/dhparam.pem
+if [ -f /etc/ssl/private/dhparam.pem ]; then
+   openssl dhparam 2048 > /etc/ssl/private/dhparam.pem
+fi
 
 cat>/etc/nginx/nginx.conf<<EOF
 daemon off;
@@ -27,7 +29,7 @@ cat>>/etc/nginx/nginx.conf<<EOF
       ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
       ssl_prefer_server_ciphers on;
       ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
-      ssl_dhparam /etc/nginx/certs/dhparam.pem;
+      ssl_dhparam /etc/ssl/private/dhparam.pem;
       ssl_session_cache   shared:SSL:40m;
       ssl_session_timeout 4h;
       ssl_session_tickets on;
