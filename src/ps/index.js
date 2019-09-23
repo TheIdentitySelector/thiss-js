@@ -100,9 +100,9 @@ function gc(storage) {
     storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
-            return a.last_refresh - b.last_refresh;
-        }).slice(3).forEach(function (e) {
-            storage.remove(e.entity_id.hexEncode());
+            return b.last_refresh - a.last_refresh;
+        }).slice(0, 3).forEach(function (item) {
+            storage.remove(item.entity.entity_id.hexEncode());
         });
 }
 
@@ -146,7 +146,7 @@ postRobot.on('entities', {window: window.parent}, function(event) {
     return storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
-            return a.last_refresh - b.last_refresh;
+            return b.last_refresh - a.last_refresh;
         }).slice(0,3);
 });
 
