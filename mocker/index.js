@@ -39,6 +39,9 @@ const proxy = {
     },
     'GET /entities/': (req, res) => {
         let q = req.query.query;
+        if (!q) {
+            q = req.query.q
+        }
         return res.json(search(q));
     },
     'GET /entities/:path': (req, res) => {
