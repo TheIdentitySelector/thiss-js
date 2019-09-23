@@ -10,6 +10,7 @@ The included Makefile has a number of targets aimed at those who want to build a
 * ``make local``: Runs a local development instance for a local pyFF instance running on port 8000
 * ``make build``: Builds the instance running on thiss.io in the dist directory
 * ``make standalone``: Builds a standalone instance used in the docker container (with envsubst) in the dist directory
+* ``make sameserver``: Builds a lightweight host agnostic replacement for the deprecated embedded pyFF DS when pyFF is running on the same server
 * ``make docker``: Builds a docker container (thiss-js:<version>) based on ``standalone`` and nginx
 
 Running docker
