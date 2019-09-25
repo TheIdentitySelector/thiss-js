@@ -79,18 +79,23 @@ function is_valid(item, ts) {
 }
 
 function clean_item(item) {
-
-    if (item.entity && (item.entity.entity_id || item.entity.entityID) && item.entity.title) {
-        let entity = item.entity;
-        if (entity && entity.entityID && !entity.entity_id) {
-           entity.entity_id = entity.entityID;
+    if (item.entity) {
+    let entity = item.entity;
+        if (entity.entityID && !entity.entity_id) {
+            entity.entity_id = entity.entityID;
         }
-        if (entity && !entity.entity_icon && entity.icon) {
-           entity.entity_icon = entity.icon;
+        if (entity.icon && !entity.entity_icon) {
+            entity.entity_icon = entity.icon;
         }
         if (entity.domains) {
             let domains = entity.domains.split(';') || [];
             entity.domain = domains[0];
+        }
+        if (entity.last_refresh && !entity.last_use) {
+            entity.last_use = entity.last_refresh;
+        }
+        if (!entity.title) {
+            entity.title = entity.entity_id;
         }
     }
     return item;
@@ -100,8 +105,8 @@ function gc(storage) {
     storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
-            return b.last_refresh - a.last_refresh;
-        }).slice(0, 3).forEach(function (item) {
+            return b.last_use - a.last_use;
+        }).slice(3).forEach(function (item) {
             storage.remove(item.entity.entity_id.hexEncode());
         });
 }
@@ -124,9 +129,10 @@ postRobot.on('update', {window: window.parent}, function(event) {
     let id = entity.entity_id.hexEncode();
     let item = get_entity(storage, id);
     if (!is_valid(item, now)) {
-        item = { "last_refresh": now, "entity": entity };
+        item = { "last_refresh": now, "last_use": now, "entity": entity };
     } else {
         item.last_refresh = now;
+        item.last_use = now;
         item.entity = entity;
     }
     console.log(item);
@@ -146,7 +152,7 @@ postRobot.on('entities', {window: window.parent}, function(event) {
     return storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
-            return b.last_refresh - a.last_refresh;
+            return a.last_use - b.last_use;
         }).slice(0,3);
 });
 
@@ -156,8 +162,14 @@ postRobot.on('entity', {window: window.parent}, function(event) {
     if (!entity_id) {
         throw new Error("Unable to find entity_id in request")
     }
-    let item = get_entity(storage, entity_id.hexEncode());
+    let id = entity_id.hexEncode();
+    let item = get_entity(storage, id);
     console.log(item);
+    if (item) {
+        let now = _timestamp();
+        item.last_use = now;
+        storage.set(id, clean_item(item));
+    }
     return item;
 });
 
