@@ -66,6 +66,7 @@ Promise.all(start).then(function() {
     let entity_id = null;
     let button = document.getElementById('idpbutton');
     let dsbutton = document.getElementById('dsbutton');
+    dsbutton.hidden = true;
 
     button.addEventListener('click', function(event) {
         event.preventDefault();
@@ -97,7 +98,8 @@ Promise.all(start).then(function() {
 
         if (count == 0) {
             document.getElementById('title').innerText = "Access through your institution";
-            document.getElementById("dsbutton").hidden = true;
+        } else {
+            dsbutton.hidden = false;
         }
 
         return items;
