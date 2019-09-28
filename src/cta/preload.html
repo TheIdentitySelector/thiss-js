@@ -19,18 +19,16 @@
             margin: 0;
         }
         .ra21CTALoadingContainer {
-            width: 320px;
-            height: 88px;
+            width: 350px;
+            height: 80px;
             float: top;
         }
         .ra21CTAMain {
-            height: 57px;
+            max-height: 60px;
+            max-width: 350px;
             align: top;
             float: bottom;
-        }
-        .ra21CTALoading {
-            height: 20px;
-            font-family: 'Libre Franklin', sans-serif;
+            font-family: 'Helvetica', sans-serif;
             font-size: 12px;
             font-weight: normal;
             font-style: normal;
@@ -38,15 +36,99 @@
             line-height: 1.67;
             letter-spacing: normal;
             text-align: center;
-            color: #0079ff;
-            /* color: var(--primary-blue); */
+            background-color: var(--primary-blue);
+            border-radius: 5px;
         }
+
+        .ra21-button {
+          background-color: var(--primary-blue);
+          border-radius: 5px;
+          color: var(--warm-grey);
+          cursor: pointer;
+          display: flex;
+          margin-bottom: 5px;
+          padding: 10px;
+          text-decoration: none;
+        }
+
+        .ra21-button-logo-wrap {
+            text-align: center;
+            /* width: 50px; */
+            max-width: 50px;
+            height: 100%;
+            border-right: 1px solid #FFFFFF;
+            padding: 5px 12px 5px 7px;
+        }
+
+        .ra21-button-logo {
+          width: 30px;
+          vertical-align: middle;
+        }
+
+        .ra21-button-text {
+          padding-left: 10px;
+          text-align: center;
+          width: 85%;
+          color: var(--white);
+        }
+
+        .ra21-button-text-primary {
+          font-family: 'Helvetica', sans-serif;
+          font-size: 14px;
+          font-weight: 700;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 1.4;
+          letter-spacing: normal;
+        }
+
+        .ra21-button-text-secondary {
+          /* Zep */
+          font-family: 'Helvetica', sans-serif;
+          font-size: 13px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 1.4;
+          letter-spacing: normal;
+        }
+
+        .ra21-access-text {
+          cursor: pointer;
+          text-align: center;
+
+          /* Zep */
+          font-family: 'Helvetica', sans-serif;
+          font-size: 13px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: 1.46;
+          letter-spacing: normal;
+          color: var(--primary-blue);
+        }
+        .align-items-center {
+            -ms-flex-align: center!important;
+            align-items: center!important;
+        }
+        .justify-content-center {
+            -ms-flex-pack: center!important;
+            justify-content: center!important;
+        }
+        .d-flex { display: flex!important; }
     </style>
 </head>
 <body>
-<div class="ra21CTALoadingContainer">
-    <div class="ra21CTAMain"><span>&nbsp;</span></div>
-    <div class="ra21CTALoading"><span>&nbsp;</span></div>
-</div>
+    <div class="ra21CTALoadingContainer">
+        <div class="ra21CTAMain ra21-button">
+            <div class="ra21CTAiconButton ra21CTAbutton ra21-button-logo-wrap">
+                <img class="ra21CTAicon ra21-button-logo" src="<%= require('../assets/RA21-White.svg') %>">
+            </div>
+            <div class="identityprovider d-flex justify-content-center align-items-center ra21CTAbutton text-truncate ra21-button-text">
+                <div class="ra21CTAbuttonLabel ra21-button-text-primary text-truncate">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
