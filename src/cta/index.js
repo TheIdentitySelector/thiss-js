@@ -7,7 +7,7 @@ dom.watch();
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import "../component.js";
 import '../assets/login.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../assets/cta.scss'
 import '../assets/ra21icon.svg';
 
 let mdq = process.env.MDQ_URL;

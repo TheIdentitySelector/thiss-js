@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/utilities/flex";
+@import "~bootstrap/scss/utilities/text";
+@import "~bootstrap/scss/utilities/align";
+
+.d-flex {
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
