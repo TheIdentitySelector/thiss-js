@@ -1,6 +1,6 @@
 -include local.mk
 
-VERSION:=1.0.1
+VERSION:=1.0.2
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 
@@ -25,7 +25,7 @@ clean:
 build: test snyk
 	env BASE_URL=$(BASE_URL) COMPONENT_URL=$(COMPONENT_URL) MDQ_URL=$(MDQ_URL) PERSISTENCE_URL=$(PERSISTENCE_URL) SEARCH_URL=$(SEARCH_URL) STORAGE_DOMAIN=$(STORAGE_DOMAIN) LOGLEVEL=$(LOGLEVEL) DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) webpack --config webpack.prod.js
 
-standalone:
+standalone: test snyk
 	make BASE_URL='$$$${BASE_URL}' COMPONENT_URL='$$$${BASE_URL}/cta/' MDQ_URL='$$$${MDQ_URL}' PERSISTENCE_URL='$$$${BASE_URL}/ps/' SEARCH_URL='$$$${SEARCH_URL}' STORAGE_DOMAIN='$$$${STORAGE_DOMAIN}' LOGLEVEL='$$$${LOGLEVEL}' DEFAULT_CONTEXT='$$$${DEFAULT_CONTEXT}' build
 
 sameserver:
