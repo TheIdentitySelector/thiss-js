@@ -9,6 +9,7 @@ module.exports = merge(common, {
    mode: 'development',
    devtool: 'inline-source-map',
    devServer: {
+       disableHostCheck: true,
        contentBase: './dist',
        port: 9000,
        before(ds) {
