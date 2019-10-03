@@ -1,5 +1,21 @@
 /* Font */
-@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,700');
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/utilities/flex";
+@import "~bootstrap/scss/utilities/text";
+@import "~bootstrap/scss/utilities/align";
+@import "~bootstrap/scss/forms";
+
+.d-flex {
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
+
+//@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,700');
 
 
 /* Color palette */

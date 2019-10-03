@@ -5,8 +5,8 @@ library.add(faPlusSquare);
 dom.watch();
 
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
-import "../component.js";
-import '../assets/login.css';
+import {DiscoveryComponent} from "../component";
+
 import '../assets/cta.scss'
 import '../assets/ra21icon.svg';
 

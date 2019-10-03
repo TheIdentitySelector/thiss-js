@@ -1,4 +1,4 @@
-const zoid = require('zoid');
+const zoid = require('zoid/dist/zoid.frame');
 const inner = require('!ejs-loader!./cta/preload.html');
 
 /**

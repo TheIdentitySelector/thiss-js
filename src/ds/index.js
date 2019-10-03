@@ -1,3 +1,5 @@
+import '../assets/ds.scss';
+
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
@@ -14,9 +16,6 @@ import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
 global.$ = $;
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../assets/ds.css';
 
 const Hogan = require("hogan.js");
 

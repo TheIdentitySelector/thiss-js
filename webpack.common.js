@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
 const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
-
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     node: {
@@ -21,12 +21,15 @@ module.exports = {
     resolve: {
         alias: {
             'node_modules': path.join(__dirname, 'node_modules'),
-            'bower_modules': path.join(__dirname, 'bower_modules')
+            'bower_modules': path.join(__dirname, 'bower_modules'),
+            'jquery': 'jquery/dist/jquery.slim.js'
         }
     },
     optimization: {
         splitChunks: {
-          chunks: 'all',
+          chunks (chunk) {
+              return chunk.name != 'thiss';
+          },
           minSize: 30000,
           maxSize: 0,
           minChunks: 1,
@@ -94,6 +97,7 @@ module.exports = {
             inject: true,
             template: '!ejs-loader!src/ps/index.html'
         }),
+        new ExtractTextPlugin("[name].css"),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
@@ -119,12 +123,17 @@ module.exports = {
         rules: [
             {
                 test: /\.s[ac]ss$/i,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                use: ExtractTextPlugin.extract({
+                    use: [
+                        'css-loader',
+                        'sass-loader'
+                    ]
+                })
             },
             {
                 test: /\.(css)$/,
                 use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader']
-            },
+             },
             {
                 test: /\.(html)$/,
                 use: {
