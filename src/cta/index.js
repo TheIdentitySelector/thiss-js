@@ -61,28 +61,47 @@ if (window.xprops.pinned) {
     start.push(ds.pin(window.xprops.pinned));
 }
 
+let button = document.getElementById('idpbutton');
+let dsbutton = document.getElementById('dsbutton');
+dsbutton.hidden = true;
+let entity_id = null;
+
+button.addEventListener('click', function(event) {
+    event.preventDefault();
+    if (entity_id !== null) { // return the discovery response
+        ds.do_saml_discovery_response(entity_id).then(item => {
+           discovery_response(item.entity);
+        });
+    } else { // off to DS
+        discovery_request();
+    }
+});
+
+dsbutton.addEventListener('click', function(event) {
+    event.preventDefault();
+    discovery_request();
+});
+
+Promise.all(start).then(function() {
+    ds.ps.entities(context).then(result => result.data).then(function(items) {
+        console.log(items);
+        if (items && items.length > 0) { // or things have gone very wrong...
+            let item = items[items.length-1];
+            document.getElementById('title').innerText = item.entity.title;
+            entity_id = item.entity.entityID;
+            document.getElementById('headline').innerText = "Access through";
+            document.getElementById('headline').className = "ra21-button-text-secondary";
+            dsbutton.hidden = false;
+        } else {
+            document.getElementById('title').innerText = "Access through your institution";
+        }
+    });
+});
+/**
 Promise.all(start).then(function() {
     let count = 0;
     let entity_id = null;
-    let button = document.getElementById('idpbutton');
-    let dsbutton = document.getElementById('dsbutton');
-    dsbutton.hidden = true;
 
-    button.addEventListener('click', function(event) {
-        event.preventDefault();
-        if (entity_id !== null) { // return the discovery response
-            ds.do_saml_discovery_response(entity_id).then(item => {
-               discovery_response(item.entity);
-            });
-        } else { // off to DS
-            discovery_request();
-        }
-    });
-
-    dsbutton.addEventListener('click', function(event) {
-        event.preventDefault();
-        discovery_request();
-    });
 
     ds.with_items(function (items) {
         if (items && items.length > 0) { // or things have gone very wrong...
@@ -105,3 +124,5 @@ Promise.all(start).then(function() {
         return items;
     });
 });
+
+ **/
