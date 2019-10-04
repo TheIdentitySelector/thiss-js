@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.13.3
+version: v1.13.5
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -8,3 +8,16 @@ patch:
         patched: '2019-02-07T13:11:04.628Z'
     - '@theidentityselector/thiss-ds > ejs-loader > lodash':
         patched: '2019-03-21T21:11:27.531Z'
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - snyk > proxy-agent > https-proxy-agent:
+        patched: '2019-10-04T03:31:24.764Z'
+    - snyk > proxy-agent > pac-proxy-agent > https-proxy-agent:
+        patched: '2019-10-04T03:31:24.764Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > proxy-agent > https-proxy-agent':
+        patched: '2019-10-04T03:31:24.764Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > proxy-agent > pac-proxy-agent > https-proxy-agent':
+        patched: '2019-10-04T03:31:24.764Z'
+    - '@theidentityselector/thiss-jquery-plugin > @theidentityselector/thiss-ds > snyk > proxy-agent > https-proxy-agent':
+        patched: '2019-10-04T03:31:24.764Z'
+    - '@theidentityselector/thiss-jquery-plugin > @theidentityselector/thiss-ds > snyk > proxy-agent > pac-proxy-agent > https-proxy-agent':
+        patched: '2019-10-04T03:31:24.764Z'
