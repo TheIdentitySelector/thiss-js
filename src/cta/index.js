@@ -97,32 +97,3 @@ Promise.all(start).then(function() {
         }
     });
 });
-/**
-Promise.all(start).then(function() {
-    let count = 0;
-    let entity_id = null;
-
-
-    ds.with_items(function (items) {
-        if (items && items.length > 0) { // or things have gone very wrong...
-            let item = items[items.length-1];
-            if (item && item.entity && item.entity.title && item.entity.entityID) { // silly
-                document.getElementById('title').innerText = item.entity.title;
-                entity_id = item.entity.entityID;
-                document.getElementById('headline').innerText = "Access through";
-                document.getElementById('headline').className = "ra21-button-text-secondary";
-                count += 1;
-            }
-        }
-
-        if (count == 0) {
-            document.getElementById('title').innerText = "Access through your institution";
-        } else {
-            dsbutton.hidden = false;
-        }
-
-        return items;
-    });
-});
-
- **/
