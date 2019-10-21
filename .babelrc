@@ -5,7 +5,9 @@
       {
         "useBuiltIns": "usage"
       }
-    ]
+    ],
+    "@babel/flow",
+    "@babel/react"
   ],
   "env": {
     "production": {

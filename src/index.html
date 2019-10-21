@@ -24,9 +24,9 @@
 &lt;div id="login"&gt;&nbsp;&lt;/div&gt;
 &lt;script&gt;
     window.onload = function() {
-       thiss.DiscoveryComponent.render({
+       thiss.DiscoveryComponent({
            loginInitiatorURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
-       }, '#login');
+       }).render('#login');
     };
 &lt;/script&gt;
             </code></pre>

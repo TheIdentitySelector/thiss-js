@@ -7,6 +7,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
 const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
+
 
 module.exports = {
     node: {
@@ -97,6 +99,7 @@ module.exports = {
             inject: true,
             template: '!ejs-loader!src/ps/index.html'
         }),
+        new PreloadWebpackPlugin(),
         new ExtractTextPlugin("[name].css"),
         new MiniCssExtractPlugin({
             filename: "[name].css"
@@ -155,12 +158,12 @@ module.exports = {
                 }
             },
             {
-                test: /\.m?js$/,
-                exclude: /(node_modules|bower_components)/,
+                test: /\.m?jsx?$/,
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env'],
+                        presets: ['@babel/preset-env','@babel/preset-react','@babel/preset-flow'],
+                        plugins: ['@babel/plugin-proposal-class-properties']
                     }
                 }
             }

@@ -5,31 +5,26 @@
     <style>
         :root {
           --white: #ffffff;
-          --text-grey: #444444;
           --warm-grey: #767676;
-          --white-two: #f6f6f6;
-          --footer-grey: #ebebeb;
-          --primary-blue: #0079ff;
-          --white-50: rgba(255, 255, 255, 0.5);
-          --white-three: #e6e6e6;
+          --primary-blue: <%= color %>;
         }
         body {
             box-sizing: border-box;
             padding: 0;
             margin: 0;
-            -webkit-transform:translate3d(0,0,0);
+            /* -webkit-transform:translate3d(0,0,0); */
         }
         .ra21CTALoadingContainer {
-            width: 350px;
-            height: 60px;
-            max-height: 60px;
+            /* width: <%= dimensions.width %>; */
+            /* height: 60px; */
+            /* max-height: 60px; */
             float: top;
             z-index: -999;
             position: relative;
         }
         .ra21CTAMain {
-            max-height: 60px;
-            max-width: 350px;
+            /* max-height: 60px; */
+            /* max-width: <%= dimensions.width %>; */
             align: top;
             float: bottom;
             font-family: 'Helvetica', sans-serif;
@@ -57,9 +52,7 @@
 
         .ra21-button-logo-wrap {
             text-align: center;
-            /* width: 50px; */
             max-width: 50px;
-            /* height: 100%; */
             border-right: 1px solid #FFFFFF;
             padding: 5px 12px 5px 7px;
         }
@@ -120,6 +113,10 @@
             justify-content: center!important;
         }
         .d-flex { display: flex!important; }
+        .ra21-choose-another {
+            /* height: 20px;
+            min-height: 20px; */
+        }
     </style>
 </head>
 <body>
@@ -132,6 +129,7 @@
                 <div class="ra21-button-text-primary"></div>
             </div>
         </div>
+        <div class="ra21-choose-another"></div>
     </div>
 </body>
 </html>
