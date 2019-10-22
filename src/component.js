@@ -1,3 +1,5 @@
+import {ds_response_url} from "@theidentityselector/thiss-ds";
+
 const zoid = require('zoid/dist/zoid.frame');
 const preload_template = require('!ejs-loader!./cta/preload.html');
 import {toCSS, destroyElement} from 'belter/src';
@@ -23,11 +25,28 @@ function _set_default_props(opts) {
 }
 
 function prerenderTemplate(opts) {
-    _set_default_props(opts);
-    console.log(opts);
-    const _t = opts.doc.createElement("html");
 
+    let login_initiator_url = opts.props.loginInitiatorURL || opts.props.loginHandlerURL;
+    let discovery_request = opts.props.discoveryRequest;
+
+    if (!discovery_request)
+        discovery_request = login_initiator_url;
+
+
+    if (typeof discovery_request !== 'function') {
+        let discovery_request_url = discovery_request;
+        discovery_request = function () {
+            window.top.location.href = discovery_request_url;
+        };
+    }
+
+    _set_default_props(opts);
+    const _t = opts.doc.createElement("html");
     _t.innerHTML = preload_template(opts.props);
+    _t.addEventListener('click', function(event) {
+        event.preventDefault();
+        discovery_request();
+    });
     return _t;
 }
 

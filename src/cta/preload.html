@@ -112,19 +112,21 @@
             /* height: 20px;
             min-height: 20px; */
         }
+        a, a:hover { text-decoration: none; }
+
     </style>
 </head>
 <body>
-    <div class="ra21CTALoadingContainer">
+    <a id="fallbacklink" href="#"><div class="ra21CTALoadingContainer">
         <div class="ra21CTAMain ra21-button">
             <div class="ra21-button-logo-wrap">
                 <img class="ra21-button-logo" src="<%= require('../assets/RA21-White.svg') %>">
             </div>
             <div class="d-flex justify-content-center align-items-center ra21-button-text">
-                <div class="ra21-button-text-primary">Access through <span class="blink">...</span></div>
+                <div class="ra21-button-text-primary">Access through your institution</div>
             </div>
         </div>
         <div class="ra21-choose-another"></div>
-    </div>
+    </div></a>
 </body>
 </html>
