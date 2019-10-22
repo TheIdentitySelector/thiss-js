@@ -1,0 +1,15 @@
+[build]
+   base = "."
+   publish = "dist/"
+
+[context.production]
+   environment = {BASE_URL = "https://use.thiss.io", MDQ_URL = "https://md.thiss.io/entities/", SEARCH_URL = "https://md.thiss.io/entities" }
+   command = "make netlify"
+
+[context.deploy-preview]
+   environment = { MDQ_URL = "https://md.thiss.io/entities/", SEARCH_URL = "https://md.thiss.io/entities" }
+   command = "make netlify"
+
+[context.branch-deploy]
+   environment = { MDQ_URL = "https://md.thiss.io/entities/", SEARCH_URL = "https://md.thiss.io/entities" }
+   command = "make netlify"
