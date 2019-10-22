@@ -93,6 +93,7 @@ function containerTemplate(opts) {
         }, 1);
     });
 
+    /*
     event.on('zoid-resize', ({ width: newWidth, height: newHeight }) => {
         if (typeof newWidth === 'number') {
             div.style.width = toCSS(newWidth);
@@ -102,6 +103,7 @@ function containerTemplate(opts) {
             div.style.height = toCSS(newHeight);
         }
     });
+     */
 
     return div;
 }
@@ -126,7 +128,7 @@ export const DiscoveryComponent = zoid.create({
     
     // defines if the container should be resized
     autoResize: {
-        width: true,
+        width: false,
         height: false
     },
     

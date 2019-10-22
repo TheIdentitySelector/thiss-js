@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f /etc/ssl/private/dhparam.pem ]; then
+if [ ! -f /etc/ssl/private/dhparam.pem ]; then
    openssl dhparam 2048 > /etc/ssl/private/dhparam.pem
 fi
 

@@ -30,8 +30,9 @@
   color: var(--warm-grey);
   cursor: pointer;
   display: flex;
-  margin-bottom: 5px;
-  padding: 10px;
+  margin-bottom: 3px;
+  padding: 9px;
+  width: 100%;
   text-decoration: none;
 }
 
@@ -79,7 +80,7 @@
 .ra21-access-text {
   cursor: pointer;
   text-align: center;
-
+  width: 100%;
   /* Zep */
   font-family: 'Libre Franklin', sans-serif;
   font-size: 13px;
