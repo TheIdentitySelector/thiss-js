@@ -43,6 +43,9 @@ fi
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
+         location ~*  \.(jpg|jpeg|png|gif|svg|ico|css|js|html|eot|ttf|woff|woff2)$ {
+            expires 10d;
+         }
          root /usr/share/nginx/html;
          try_files \$uri \$uri/index.html \$uri.html @mdq;
       }
