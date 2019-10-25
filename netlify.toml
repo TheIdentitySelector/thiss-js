@@ -4,7 +4,7 @@
    environment = { NODE_VERSION = "8.16.1", NPM_VERSION = "6.12.0" }
 
 [context.production]
-   environment = {BASE_URL = "https://use.thiss.io", MDQ_URL = "https://md.thiss.io/entities/", SEARCH_URL = "https://md.thiss.io/entities" }
+   environment = {BASE_URL = "https://use.thiss.io/", MDQ_URL = "https://md.thiss.io/entities/", SEARCH_URL = "https://md.thiss.io/entities" }
    command = "make netlify"
 
 [context.deploy-preview]
