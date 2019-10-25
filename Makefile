@@ -4,7 +4,7 @@ VERSION:=1.1.1
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 ifndef BASE_URL
-override BASE_URL = $(DEPLOY_PRIME_URL)
+override BASE_URL = $(DEPLOY_PRIME_URL)/
 endif
 ifndef LOGLEVEL
 override LOGLEVEL = warn
