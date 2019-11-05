@@ -84,7 +84,6 @@ dsbutton.addEventListener('click', function(event) {
 
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
-        console.log(items);
         if (items && items.length > 0) { // or things have gone very wrong...
             let item = items[items.length-1];
             document.getElementById('title').innerText = item.entity.title;

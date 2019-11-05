@@ -13,7 +13,8 @@ module.exports = merge(common, {
       SEARCH_URL: "${SEARCH_URL}",
       STORAGE_DOMAIN: "${STORAGE_DOMAIN}",
       LOGLEVEL: 'error',
-      DEFAULT_CONTEXT: "${DEFAULT_CONTEXT}"
+      DEFAULT_CONTEXT: "${DEFAULT_CONTEXT}",
+      WHITELIST: "${WHITELIST}"
     })
   ]
 });
