@@ -1,6 +1,6 @@
 -include local.mk
 
-VERSION:=1.1.1
+VERSION:=1.1.2
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 ifndef BASE_URL

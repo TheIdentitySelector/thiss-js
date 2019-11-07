@@ -27,3 +27,5 @@ Persistence Service
 -------------------
 
 In order to directly interact with the persistence service and low-level discovery components you need to implement your own components using the low-level APIs in `thiss-ds-js <https://github.com/TheIdentitySelector/thiss-ds-js>`_.
+
+The persistence service supports ACLs based on whitelisting (currently). Turn on by providing a comma-separated list of domains in the env variable WHITELIST. Only ORIGINs that end with any of the items in the list (remember that port-numbers are part of the ORIGIN if present!) are allowed to call the API when this feature is turned on. This is only meant for small scale deployments.

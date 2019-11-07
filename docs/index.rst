@@ -18,6 +18,7 @@ Use together with the `thiss-ds-js <https://github.com/TheIdentitySelector/thiss
    intro
    install
    components
+   releasenotes
 
 
 Indices and tables
