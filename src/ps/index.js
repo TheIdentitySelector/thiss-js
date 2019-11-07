@@ -1,4 +1,8 @@
 const postRobot = require("post-robot");
+let whitelist = undefined;
+if (process.env.WHITELIST) {
+    whitelist = process.env.WHITELIST.split(',').map(s => s.trim())
+}
 const Storages = require('@theidentityselector/js-storage');
 
 const cache_time = 60 * 10 * 1000;
@@ -119,7 +123,16 @@ function get_entity(storage, id) {
     }
 }
 
+function check_access(event) {
+    if (whitelist) {
+        if (!whitelist.some(o => { return event.origin.endsWith(o) })) {
+            throw `Access denied from ${event.origin}`
+        }
+    }
+}
+
 postRobot.on('update', {window: window.parent}, function(event) {
+    check_access(event);
     let entity = event.data.entity;
     let storage = _ctx(event.data.context);
     let now = _timestamp();
@@ -135,20 +148,19 @@ postRobot.on('update', {window: window.parent}, function(event) {
         item.last_use = now;
         item.entity = entity;
     }
-    console.log(item);
     storage.set(id, clean_item(item));
     gc(storage);
     return item;
 });
 
 postRobot.on('entities', {window: window.parent}, function(event) {
+    check_access(event);
     let storage = _ctx(event.data.context);
     let count = event.data.count;
     if (count === undefined) {
         count = 3;
     }
     let now = _timestamp();
-    console.log(storage.keys());
     return storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
@@ -157,6 +169,7 @@ postRobot.on('entities', {window: window.parent}, function(event) {
 });
 
 postRobot.on('entity', {window: window.parent}, function(event) {
+    check_access(event);
     let storage = _ctx(event.data.context);
     let entity_id = event.data.entity_id;
     if (!entity_id) {
@@ -164,7 +177,6 @@ postRobot.on('entity', {window: window.parent}, function(event) {
     }
     let id = entity_id.hexEncode();
     let item = get_entity(storage, id);
-    console.log(item);
     if (item) {
         let now = _timestamp();
         item.last_use = now;
@@ -174,6 +186,7 @@ postRobot.on('entity', {window: window.parent}, function(event) {
 });
 
 postRobot.on('remove', {window: window.parent}, function(event) {
+    check_access(event);
     let storage = _ctx(event.data.context);
     let entity_id = event.data.entity_id;
     if (entity_id === undefined) {
