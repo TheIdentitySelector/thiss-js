@@ -57,7 +57,6 @@
     "preload-webpack-plugin": "^3.0.0-beta.3",
     "raw-loader": "^1.0.0",
     "sass-loader": "^8.0.0",
-    "snyk": "^1.236.0",
     "style-loader": "^0.23.1",
     "svg-inline-loader": "^0.8.0",
     "url-loader": "^1.1.2",
@@ -106,7 +105,8 @@
     "popper.js": "^1.14.7",
     "post-robot": "^10.0.14",
     "proxy-agent": "^3.1.1",
-    "sass": "^1.23.0"
+    "sass": "^1.23.0",
+    "snyk": "^1.258.2"
   },
   "snyk": true
 }
