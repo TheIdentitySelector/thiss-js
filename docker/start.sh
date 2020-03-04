@@ -23,7 +23,7 @@ EOF
 
 if [ "x${TLS_CERT}" != "x" -a "x${TLS_KEY}" != "x" ]; then
 cat>>/etc/nginx/nginx.conf<<EOF
-      listen 443 ssl;
+      listen 443 ssl backlog=4096;
       ssl_certificate ${TLS_CERT};
       ssl_certificate_key ${TLS_KEY};
       ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
@@ -44,6 +44,10 @@ cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
          location ~*  \.(jpg|jpeg|png|gif|svg|ico|css|js|html|eot|ttf|woff|woff2)$ {
+            sendfile on;
+            tcp_nopush on;
+            tcp_nodelay on;
+            keepalive_timeout 65;
             expires 10d;
          }
          root /usr/share/nginx/html;
@@ -62,7 +66,7 @@ for f in `find . -printf '%P\n'`; do
    if [ "x$f" != "x" -a -f $f ]; then
       d=`dirname $f`
       mkdir -p /usr/share/nginx/html/$d
-      envsubst '${BASE_URL} ${STORAGE_DOMAIN} ${MDQ_URL} ${SEARCH_URL} ${DEFAULT_CONTEXT} ${LOGLEVEL}' < $f > /usr/share/nginx/html/$f
+      envsubst '${BASE_URL} ${STORAGE_DOMAIN} ${MDQ_URL} ${SEARCH_URL} ${DEFAULT_CONTEXT} ${LOGLEVEL} ${WHITELIST}' < $f > /usr/share/nginx/html/$f
    fi
 done
 
