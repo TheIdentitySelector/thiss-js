@@ -63,9 +63,6 @@ module.exports = {
         ps: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/ps/index.js']
         })}!`,
-        confirm: `webpack-polyfill-injector?${JSON.stringify({
-            modules: ['./src/confirm/index.js']
-        })}!`,
         thiss: ['./src/component.js'],
     },
     plugins: [
