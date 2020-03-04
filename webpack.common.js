@@ -63,6 +63,9 @@ module.exports = {
         ps: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/ps/index.js']
         })}!`,
+        confirm: `webpack-polyfill-injector?${JSON.stringify({
+            modules: ['./src/confirm/index.js']
+        })}!`,
         thiss: ['./src/component.js'],
     },
     plugins: [
@@ -99,7 +102,13 @@ module.exports = {
             inject: true,
             template: '!ejs-loader!src/ps/index.html'
         }),
-        new PreloadWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            filename: 'confirm/index.html',
+            chunks: ['confirm'],
+            inject: true,
+            template: '!ejs-loader!src/confirm/index.html'
+        }),
+        //new PreloadWebpackPlugin(),
         new ExtractTextPlugin("[name].css"),
         new MiniCssExtractPlugin({
             filename: "[name].css"
@@ -109,7 +118,8 @@ module.exports = {
                 'Promise',
                 'fetch',
                 'Object.values',
-                'Array.prototype.findIndex'
+                'Array.prototype.findIndex',
+		'String.prototype.includes'
             ]
         })
     ],
