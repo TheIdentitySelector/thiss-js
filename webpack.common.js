@@ -99,12 +99,6 @@ module.exports = {
             inject: true,
             template: '!ejs-loader!src/ps/index.html'
         }),
-        new HtmlWebpackPlugin({
-            filename: 'confirm/index.html',
-            chunks: ['confirm'],
-            inject: true,
-            template: '!ejs-loader!src/confirm/index.html'
-        }),
         //new PreloadWebpackPlugin(),
         new ExtractTextPlugin("[name].css"),
         new MiniCssExtractPlugin({
