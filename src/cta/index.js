@@ -94,5 +94,7 @@ Promise.all(start).then(function() {
         } else {
             document.getElementById('title').innerText = "Access through your institution";
         }
+    }).catch(ex => {
+          document.getElementById('title').innerText = "Access through your institution";
     });
 });

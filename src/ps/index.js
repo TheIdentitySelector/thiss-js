@@ -1,6 +1,6 @@
 const postRobot = require("post-robot");
-let whitelist = undefined;
-if (process.env.WHITELIST) {
+let whitelist = [];
+if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
     whitelist = process.env.WHITELIST.split(',').map(s => s.trim())
 }
 const Storages = require('@theidentityselector/js-storage');
@@ -124,7 +124,7 @@ function get_entity(storage, id) {
 }
 
 function check_access(event) {
-    if (whitelist) {
+    if (whitelist && whitelist.length > 0) {
         if (!whitelist.some(o => { return event.origin.endsWith(o) })) {
             throw `Access denied from ${event.origin}`
         }
