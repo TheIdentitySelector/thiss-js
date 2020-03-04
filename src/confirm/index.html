@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	   <title class="sp_title"></title>
+	</head>
+
+<body class="site">
+
+	<header>
+		<h2 class="accessHeader account">
+			<img alt="" class="header-ra21-logo" src="<%= require('../assets/RA21-Black.svg') %>"/><span class="light">Access to</span>
+			<span class="sp_title account-pill"></span>
+		</h2>
+	</header>
+	<main class="content">
+		<div class="container" id="confirm">
+			<div class="d-none" id="choose">
+				<h1><span class="idpname"></span></h1>
+				<div class="confirm-info">
+					You will be taken to <span class="idpname"></span> website. Once signed in, you will be taken back
+					to the site you were using.
+				</div>
+				<div class="ra21CTAcontainer ra21-button" role="button" data-href="" id="idpbutton">
+					<div class="identityprovider ra21CTAiconButton ra21CTAbutton ra21-button-logo-wrap">
+						<img class="ra21CTAicon ra21-button-logo" src="<%= require('../assets/RA21-White.svg') %>">
+					</div>
+					<div class="identityprovider d-flex justify-content-center align-items-center ra21CTAbutton text-truncate ra21-button-text">
+						<div class="ra21CTAbuttonLabel text-truncate">
+							<div class="ra21CTAheadline ra21-button-text-primary text-truncate" id="headline">Continue to</div>
+							<div class="ra21CTAtitle ra21-button-text-primary text-truncate idpname" id="title"></div>
+						</div>
+					</div>
+				</div>
+				<div class="confirm-remember"><input type="checkbox"><span class="confirm-remember-label">Remember this choice</span></div>
+				<div class="confirm-warning hidden">
+					<i class="fa-info-circle"></i>
+					<div class="confirm-warning-text"></div>
+				</div>
+			</div>
+      	</div>
+	</main>
+
+	<footer>
+		<div class="footer-credential">
+			<p>
+				<span class="footer-pill">
+					<img class="footer-ra21-logo" src="<%= require('../assets/RA21-White.svg') %>">
+					RA21
+				</span>
+				Resource Access for the 21st Century
+				<a href="https://ra21.org/index.php/what-is-ra21/">About Us</a>
+			</p>
+		</div>
+	</footer>
+
+</body>
+
+</html>
