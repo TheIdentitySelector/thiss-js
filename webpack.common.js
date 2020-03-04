@@ -110,7 +110,8 @@ module.exports = {
                 'fetch',
                 'Object.values',
                 'Array.prototype.findIndex',
-		'String.prototype.includes'
+		'String.prototype.includes',
+                'String.prototype.endsWith'
             ]
         })
     ],
