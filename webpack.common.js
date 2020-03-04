@@ -7,7 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
 const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 
 module.exports = {
@@ -102,7 +101,12 @@ module.exports = {
             inject: true,
             template: '!ejs-loader!src/ps/index.html'
         }),
-        new PreloadWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            filename: 'confirm/index.html',
+            chunks: ['confirm'],
+            inject: true,
+            template: '!ejs-loader!src/confirm/index.html'
+        }),
         new ExtractTextPlugin("[name].css"),
         new MiniCssExtractPlugin({
             filename: "[name].css"
