@@ -1,6 +1,4 @@
--include local.mk
-
-VERSION:=1.1.2
+VERSION:=$(shell jq -r .version package.json)
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 ifndef BASE_URL
@@ -16,6 +14,8 @@ endif
 export PATH := node_modules/.bin:$(PATH)
 
 all: standalone
+
+-include local.mk
 
 snyk:
 	@npm run snyk-protect
