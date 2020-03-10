@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'The Identity Selector Service'
-copyright = u'2019, Leif Johansson'
+copyright = u'2019, Swedish University Network (SUNET)'
 author = u'Leif Johansson'
 
 # The short X.Y version
