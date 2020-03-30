@@ -13,6 +13,11 @@ The included Makefile has a number of targets aimed at those who want to build a
 * ``make sameserver``: Builds a lightweight host agnostic replacement for the deprecated embedded pyFF DS when pyFF is running on the same server
 * ``make docker``: Builds a docker container (thiss-js:<version>) based on ``standalone`` and nginx
 
+Deploy to CDN
+=============
+
+If you are deploying to a CDN origin server (eg netlify or github pages) simply copy the files from the build directory over to the CDN origin server.
+
 Running docker
 ==============
 
