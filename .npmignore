@@ -7,3 +7,10 @@ coverage
 .nyc_output
 local.mk
 docker
+src
+docs
+webpack.*
+mocker
+netlify.toml
+.jenkins.yaml
+.readthedocs.yml
