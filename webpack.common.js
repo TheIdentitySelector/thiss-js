@@ -160,6 +160,14 @@ module.exports = {
                 }
             },
             {
+              test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+              loader: 'url-loader',
+              options: {
+                name: '[hash]_[name].[ext]',
+                outputPath: 'assets'
+              }
+            },
+            {
                 test: /\.m?jsx?$/,
                 use: {
                     loader: 'babel-loader',
