@@ -134,18 +134,12 @@ module.exports = {
             },
             {
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].[ext]',
-                            include: [
-                              path.resolve(__dirname, "src/asset/fonts/")
-                            ],
-                            outputPath: 'fonts/'
-                        }
-                    }
-                ]
+                include: path.resolve(__dirname, "src/asset/fonts/"),
+                loader: 'file-loader',
+                options: {
+                  name: '[name].[ext]',
+                  outputPath: 'fonts/'
+                }
             },
             {
                 test: /\.(html)$/,
@@ -160,6 +154,7 @@ module.exports = {
                 }
             },
             {
+              exclude: path.resolve(__dirname, "src/asset/fonts/"),
               test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
               loader: 'url-loader',
               options: {
