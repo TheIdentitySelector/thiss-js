@@ -11,7 +11,8 @@
     "dev": "webpack-dev-server --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
     "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "prepare": "npm run snyk-protect",
+    "postinstall": "npm rebuild node-sass"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
