@@ -26,6 +26,3 @@ deploy:
     on:
        all_branches: true
        condition: $TRAVIS_TAG =~ ^release-
-
-after_script:
-    - npm rebuild node-sass --force
