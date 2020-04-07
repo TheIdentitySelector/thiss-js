@@ -1,30 +1,4 @@
 /* Font */
-/* Libre Franklin Font */
-@font-face {
-  font-family: 'Libre Franklin';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/libre-franklin-v4-latin-ext-regular.eot');
-  src: local('Libre Franklin'), local('LibreFranklin-Regular'),
-  url('./fonts/libre-franklin-v4-latin-ext-regular.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/libre-franklin-v4-latin-ext-regular.woff2') format('woff2'),
-  url('./fonts/libre-franklin-v4-latin-ext-regular.woff') format('woff'),
-  url('./fonts/libre-franklin-v4-latin-ext-regular.ttf') format('truetype'),
-  url('./fonts/libre-franklin-v4-latin-ext-regular.svg#LibreFranklin') format('svg');
-}
-
-@font-face {
-  font-family: 'Libre Franklin';
-  font-style: normal;
-  font-weight: 700;
-  src: url('./fonts/libre-franklin-v4-latin-ext-700.eot');
-  src: local('Libre Franklin Bold'), local('LibreFranklin-Bold'),
-  url('./fonts/libre-franklin-v4-latin-ext-700.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/libre-franklin-v4-latin-ext-700.woff2') format('woff2'),
-  url('./fonts/libre-franklin-v4-latin-ext-700.woff') format('woff'),
-  url('./fonts/libre-franklin-v4-latin-ext-700.ttf') format('truetype'),
-  url('./fonts/libre-franklin-v4-latin-ext-700.svg#LibreFranklin') format('svg');
-}
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
