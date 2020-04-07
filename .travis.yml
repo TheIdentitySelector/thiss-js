@@ -6,14 +6,12 @@ node_js:
 install:
     - npm install
 
-postinstall:
-    - npm rebuild node-sass
-
 test:
     - npm run test
 
 build:
     - npm run build
+    - npm rebuild node-sass
 
 after_success: npm run coverage
 
