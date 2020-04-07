@@ -133,15 +133,6 @@ module.exports = {
                 use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
-                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                include: path.resolve(__dirname, "src/asset/fonts/"),
-                loader: 'file-loader',
-                options: {
-                  name: '[name].[ext]',
-                  outputPath: 'fonts/'
-                }
-            },
-            {
                 test: /\.(html)$/,
                 use: {
                     loader: 'html-loader',
