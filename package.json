@@ -12,7 +12,7 @@
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
-    "postinstall": "npm rebuild node-sass"
+    "postinstall": "npm rebuild node-sass --force"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
