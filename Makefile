@@ -54,7 +54,6 @@ cover:
 
 setup:
 	@npm install
-	@npm rebuild node-sass
 
 docker: standalone docker_build
 
