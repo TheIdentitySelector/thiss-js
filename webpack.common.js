@@ -145,7 +145,6 @@ module.exports = {
                 }
             },
             {
-              exclude: path.resolve(__dirname, "src/asset/fonts/"),
               test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
               loader: 'url-loader',
               options: {
