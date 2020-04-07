@@ -12,9 +12,6 @@ test:
 build:
     - npm run build
 
-before_script:
-    - npm rebuild node-sass --force
-
 after_success:
     -npm run coverage
 
@@ -29,3 +26,6 @@ deploy:
     on:
        all_branches: true
        condition: $TRAVIS_TAG =~ ^release-
+
+after_script:
+    - npm rebuild node-sass --force
