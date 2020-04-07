@@ -1,7 +1,6 @@
 [build]
    base = "."
    publish = "dist/"
-   command = "npm rebuild node-sass --force"
    environment = { NODE_VERSION = "12.14.1", NPM_VERSION = "6.12.0" }
 
 [context.production]
