@@ -12,9 +12,11 @@ test:
 build:
     - npm run build
 
-after_success: npm run coverage
+before_script:
+    - npm rebuild node-sass --force
 
-before_deploy: npm rebuild node-sass --force
+after_success:
+    -npm run coverage
 
 deploy:
     provider: pages
