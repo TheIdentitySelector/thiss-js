@@ -1,3 +1,30 @@
+// Font
+@font-face {
+  font-family: 'Libre Franklin';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/LibreFranklin-Regular.eot');
+  src: local('Libre Franklin'), local('LibreFranklin-Regular'),
+  url('./fonts/LibreFranklin-Regular.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/LibreFranklin-Regular.woff2') format('woff2'),
+  url('./fonts/LibreFranklin-Regular.woff') format('woff'),
+  url('./fonts/LibreFranklin-Regular.ttf') format('truetype'),
+  url('./fonts/LibreFranklin-Regular.svg#LibreFranklin') format('svg');
+}
+
+@font-face {
+  font-family: 'Libre Franklin';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/LibreFranklin-Bold.eot');
+  src: local('Libre Franklin'), local('LibreFranklin-Bold'),
+  url('./fonts/LibreFranklin-Bold.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/LibreFranklin-Bold.woff2') format('woff2'),
+  url('./fonts/LibreFranklin-Bold.woff') format('woff'),
+  url('./fonts/LibreFranklin-Bold.ttf') format('truetype'),
+  url('./fonts/LibreFranklin-Bold.svg#LibreFranklin') format('svg');
+}
+
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
@@ -57,7 +84,7 @@
 }
 
 .ra21-button-text-primary {
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 14px;
   font-weight: 700;
   font-style: normal;
@@ -68,7 +95,7 @@
 
 .ra21-button-text-secondary {
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
@@ -82,7 +109,7 @@
   text-align: center;
   width: 100%;
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;

@@ -5,9 +5,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+
 
 
 module.exports = {
@@ -66,12 +66,6 @@ module.exports = {
         thiss: ['./src/component.js'],
     },
     plugins: [
-        new GoogleFontsPlugin({
-            fonts: [
-                { family: "Libre Franklin", variants: ["400","700"], subsets: ['latin-ext'] }
-            ],
-            local: true
-        }),
         new webpack.PrefetchPlugin(path.join(__dirname, "node_modules"),"./zoid/index.js"),
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
@@ -140,6 +134,15 @@ module.exports = {
                 use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader']
              },
             {
+                include: path.resolve(__dirname, "src/asset/fonts/"),
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'fonts/'
+                }
+            },
+            {
                 test: /\.(html)$/,
                 use: {
                     loader: 'html-loader',
@@ -152,6 +155,7 @@ module.exports = {
                 }
             },
             {
+                exclude: path.resolve(__dirname, "src/asset/fonts/"),
                 test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'url-loader',
                 options: {
