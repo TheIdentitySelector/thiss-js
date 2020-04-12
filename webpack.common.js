@@ -63,6 +63,9 @@ module.exports = {
         ps: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/ps/index.js']
         })}!`,
+        nc: `webpack-polyfill-injector?${JSON.stringify({
+          modules: ['./src/nc/index.js']
+        })}!`,
         thiss: ['./src/component.js'],
     },
     plugins: [
@@ -98,6 +101,12 @@ module.exports = {
             chunks: ['ps'],
             inject: true,
             template: '!ejs-loader!src/ps/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'nc/index.html',
+            chunks: ['nc'],
+            inject: true,
+            template: '!ejs-loader!src/nc/index.html'
         }),
         //new PreloadWebpackPlugin(),
         new ExtractTextPlugin("[name].css"),

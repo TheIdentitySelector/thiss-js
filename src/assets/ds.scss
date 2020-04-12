@@ -9,6 +9,9 @@
 @import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/utilities/align";
 @import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/utilities/spacing";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/custom-forms";
 
 .d-flex {
     display: -ms-flexbox!important;
@@ -70,7 +73,7 @@ body {
 
 
 /* Text styles */
-p, a {
+p, a, label {
   /* Zep */
   font-family: 'Libre Franklin', sans-serif;
   font-size: 13px;
@@ -87,6 +90,18 @@ p, a {
 a {
   /* Zep */
   color: var(--primary-blue);
+
+  &.disabled {
+    color: $gray-300;
+    pointer-events: none;
+  }
+}
+
+a, label {
+  &.disabled {
+    color: $gray-600;
+    pointer-events: none;
+  }
 }
 
 .btn {
@@ -179,7 +194,6 @@ h3 {
 
   /* Master Width Definition */
   max-width: 500px;
-  min-height: 350px !important;
 
   /* Zep */
   border-radius: 5px;
@@ -263,14 +277,19 @@ form {
   flex-direction: column;
 }
 
-input {
-  padding: 10px;
+.custom-control-label {
+  line-height: 24px;
+}
 
-  /* Zep */
-  height: 48px;
-  border-radius: 3px;
-  box-shadow: 0 2px 5px 2px rgba(25, 134, 255, 0.29);
-  border: solid 1px #0077ff;
+#notice-and-consent-actions {
+  margin-bottom: 1rem;
+
+  p {
+    line-height: 24px;
+  }
+}
+
+input {
   background-color: var(--white);
   font-family: 'Libre Franklin', sans-serif;
   font-size: 14px;
@@ -280,6 +299,16 @@ input {
   line-height: normal;
   letter-spacing: normal;
   color: var(--text-grey);
+  border-radius: 3px;
+}
+
+input[type='button'], input[type='submit'] {
+  padding: 10px;
+
+  /* Zep */
+  height: 48px;
+  box-shadow: 0 2px 5px 2px rgba(25, 134, 255, 0.29);
+  border: solid 1px #0077ff;
 }
 
 .search {
@@ -526,6 +555,20 @@ i.arrow {
 }
 
 /* Alerts */
+
+.alert {
+  padding: 0.5rem 0.75rem;
+
+  &.alert-warning {
+    color: black;
+    background-color: $warning;
+    border-color: $warning;
+  }
+
+  p {
+    color: black;
+  }
+}
 
 .type-ahead-alert, .no-results-alert {
   padding: 5px 10px;
