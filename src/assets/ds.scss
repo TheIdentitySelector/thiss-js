@@ -9,9 +9,6 @@
 @import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/utilities/align";
 @import "~bootstrap/scss/forms";
-@import "~bootstrap/scss/utilities/spacing";
-@import "~bootstrap/scss/alert";
-@import "~bootstrap/scss/custom-forms";
 
 .d-flex {
     display: -ms-flexbox!important;
@@ -90,11 +87,6 @@ p, a, label {
 a {
   /* Zep */
   color: var(--primary-blue);
-
-  &.disabled {
-    color: $gray-300;
-    pointer-events: none;
-  }
 }
 
 a, label {
@@ -275,18 +267,6 @@ form {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-}
-
-.custom-control-label {
-  line-height: 24px;
-}
-
-#notice-and-consent-actions {
-  margin-bottom: 1rem;
-
-  p {
-    line-height: 24px;
-  }
 }
 
 input {
@@ -552,22 +532,6 @@ i.arrow {
   font-size: 14px;
   vertical-align: middle;
   margin-bottom: 3px;
-}
-
-/* Alerts */
-
-.alert {
-  padding: 0.5rem 0.75rem;
-
-  &.alert-warning {
-    color: black;
-    background-color: $warning;
-    border-color: $warning;
-  }
-
-  p {
-    color: black;
-  }
 }
 
 .type-ahead-alert, .no-results-alert {

@@ -1,0 +1,60 @@
+@import "./ds";
+
+@import "~bootstrap/scss/utilities/spacing";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/custom-forms";
+
+label {
+  /* Zep */
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: var(--warm-grey);
+
+  text-decoration: none;
+}
+
+a {
+  &.disabled {
+    color: $gray-300;
+    pointer-events: none;
+  }
+}
+
+a, label {
+  &.disabled {
+    color: $gray-600;
+    pointer-events: none;
+  }
+}
+
+.custom-control-label {
+  line-height: 24px;
+}
+
+#notice-and-consent-actions {
+  margin-bottom: 1rem;
+
+  p {
+    line-height: 24px;
+  }
+}
+
+/* Alerts */
+.alert {
+  padding: 0.5rem 0.75rem;
+
+  &.alert-warning {
+    color: black;
+    background-color: $warning;
+    border-color: $warning;
+  }
+
+  p {
+    color: black;
+  }
+}
