@@ -8,8 +8,6 @@ const DotEnv = require("dotenv-webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
-
-
 module.exports = {
     node: {
       console: false,
