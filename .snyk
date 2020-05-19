@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.13.3
+version: v1.14.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -8,3 +8,144 @@ patch:
         patched: '2019-02-07T13:11:04.628Z'
     - '@theidentityselector/thiss-ds > ejs-loader > lodash':
         patched: '2019-03-21T21:11:27.531Z'
+  SNYK-JS-LODASH-567746:
+    - lodash:
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@beyonk/google-fonts-webpack-plugin > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - ejs-loader > lodash:
+        patched: '2020-05-01T03:29:34.318Z'
+    - mock-browser > lodash:
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/core > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > ejs-loader > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > html-webpack-plugin > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > mock-browser > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > webpack-merge > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-block-scoping > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > mocha > yargs-unparser > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > @snyk/dep-graph > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > inquirer > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-config > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-mvn-plugin > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-nodejs-lockfile-parser > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-nuget-plugin > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > webpack-dev-server > http-proxy-middleware > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-modules-umd > @babel/helper-module-transforms > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > nyc > istanbul-lib-instrument > @babel/traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-generator > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-template > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-register > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > @snyk/dep-graph > graphlib > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-go-plugin > graphlib > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-nodejs-lockfile-parser > graphlib > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > @snyk/snyk-cocoapods-plugin > @snyk/dep-graph > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-nuget-plugin > dotnet-deps-parser > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > webpack-dev-server > portfinder > async > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-parameters > @babel/helper-call-delegate > @babel/traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > nyc > istanbul-lib-instrument > @babel/traverse > @babel/generator > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-generator > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-traverse > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-template > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-generator > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-template > babel-traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-helpers > babel-template > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-template > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > @snyk/snyk-cocoapods-plugin > @snyk/dep-graph > graphlib > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > @snyk/snyk-cocoapods-plugin > @snyk/cocoapods-lockfile-parser > @snyk/ruby-semver > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-generator > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-traverse > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-helpers > babel-template > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-template > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-helpers > babel-template > babel-traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-template > babel-traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-helpers > babel-template > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > snyk > @snyk/snyk-cocoapods-plugin > @snyk/cocoapods-lockfile-parser > @snyk/dep-graph > graphlib > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/generator > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > nyc > istanbul-lib-instrument > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-helpers > babel-template > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-helpers > babel-template > babel-traverse > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > babel-cli > babel-register > babel-core > babel-helpers > babel-template > babel-traverse > babel-types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
+    - '@theidentityselector/thiss-jquery-plugin > @babel/preset-env > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash':
+        patched: '2020-05-01T03:29:34.318Z'
