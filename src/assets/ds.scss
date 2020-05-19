@@ -1,4 +1,29 @@
 /* Font */
+@font-face {
+  font-family: 'Libre Franklin';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/LibreFranklin-Regular.eot');
+  src: local('Libre Franklin'), local('LibreFranklin-Regular'),
+  url('./fonts/LibreFranklin-Regular.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/LibreFranklin-Regular.woff2') format('woff2'),
+  url('./fonts/LibreFranklin-Regular.woff') format('woff'),
+  url('./fonts/LibreFranklin-Regular.ttf') format('truetype'),
+  url('./fonts/LibreFranklin-Regular.svg#LibreFranklin') format('svg');
+}
+
+@font-face {
+  font-family: 'Libre Franklin';
+  font-style: normal;
+  font-weight: 700;
+  src: url('./fonts/LibreFranklin-Bold.eot');
+  src: local('Libre Franklin'), local('LibreFranklin-Bold'),
+  url('./fonts/LibreFranklin-Bold.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/LibreFranklin-Bold.woff2') format('woff2'),
+  url('./fonts/LibreFranklin-Bold.woff') format('woff'),
+  url('./fonts/LibreFranklin-Bold.ttf') format('truetype'),
+  url('./fonts/LibreFranklin-Bold.svg#LibreFranklin') format('svg');
+}
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
@@ -14,8 +39,6 @@
     display: -ms-flexbox!important;
     display: flex!important;
 }
-
-//@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:300,400,700');
 
 
 /* Color palette */
@@ -72,7 +95,7 @@ body {
 /* Text styles */
 p, a {
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
@@ -113,7 +136,7 @@ a {
 
 h1 {
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 24px;
   font-weight: bold;
   font-style: normal;
@@ -126,7 +149,7 @@ h1 {
 
 h2 {
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
@@ -139,7 +162,7 @@ h2 {
 
 h3 {
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
@@ -150,7 +173,7 @@ h3 {
 }
 
 .H2-inactive-text {
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   font-style: italic;
@@ -272,7 +295,7 @@ input {
   box-shadow: 0 2px 5px 2px rgba(25, 134, 255, 0.29);
   border: solid 1px #0077ff;
   background-color: var(--white);
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
@@ -311,7 +334,7 @@ input {
 }
 
 ul {
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -323,7 +346,7 @@ ul li a:hover {
 
 /* Primary Name Match/Non-Match Classes */
 .primary {
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 15px;
   font-weight: 700;
   font-style: normal;
@@ -342,7 +365,7 @@ ul li a:hover {
   display: block;
 
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
@@ -549,7 +572,7 @@ i.arrow {
   padding: 0;
 
   /* Zep */
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
   font-style: normal;
