@@ -1,55 +1,4 @@
-// Font
-@font-face {
-  font-family: 'Libre Franklin';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/LibreFranklin-Regular.eot');
-  src: local('Libre Franklin'), local('LibreFranklin-Regular'),
-  url('./fonts/LibreFranklin-Regular.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/LibreFranklin-Regular.woff2') format('woff2'),
-  url('./fonts/LibreFranklin-Regular.woff') format('woff'),
-  url('./fonts/LibreFranklin-Regular.ttf') format('truetype'),
-  url('./fonts/LibreFranklin-Regular.svg#LibreFranklin') format('svg');
-}
-
-@font-face {
-  font-family: 'Libre Franklin';
-  font-style: normal;
-  font-weight: 700;
-  src: url('./fonts/LibreFranklin-Bold.eot');
-  src: local('Libre Franklin'), local('LibreFranklin-Bold'),
-  url('./fonts/LibreFranklin-Bold.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/LibreFranklin-Bold.woff2') format('woff2'),
-  url('./fonts/LibreFranklin-Bold.woff') format('woff'),
-  url('./fonts/LibreFranklin-Bold.ttf') format('truetype'),
-  url('./fonts/LibreFranklin-Bold.svg#LibreFranklin') format('svg');
-}
-
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/utilities/flex";
-@import "~bootstrap/scss/utilities/text";
-@import "~bootstrap/scss/utilities/align";
-
-.d-flex {
-    display: -ms-flexbox!important;
-    display: flex!important;
-}
-
-:root {
-  --white: #ffffff;
-  --text-grey: #444444;
-  --warm-grey: #767676;
-  --warm-grey-two: #bfbfbf;
-  --white-two: #f6f6f6;
-  --footer-grey: #ebebeb;
-  --primary-blue: #0079ff;
-  --white-50: rgba(255, 255, 255, 0.5);
-  --white-three: #e6e6e6;
-}
+@import "./main";
 
 .ra21-button {
   background-color: var(--primary-blue);
@@ -83,25 +32,23 @@
   color: var(--white);
 }
 
-.ra21-button-text-primary {
+.ra21-button-text-primary, .ra21-button-text-secondary, .ra21-access-text {
   font-family: 'Libre Franklin', Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
   font-style: normal;
   font-stretch: normal;
   line-height: 1.4;
   letter-spacing: normal;
 }
 
+.ra21-button-text-primary {
+  font-size: 14px;
+  font-weight: 700;
+}
+
 .ra21-button-text-secondary {
   /* Zep */
-  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
   font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.4;
-  letter-spacing: normal;
 }
 
 .ra21-access-text {
@@ -109,13 +56,8 @@
   text-align: center;
   width: 100%;
   /* Zep */
-  font-family: 'Libre Franklin', Arial, sans-serif;
   font-size: 13px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   line-height: 1.46;
-  letter-spacing: normal;
   color: var(--primary-blue);
 }
 
