@@ -105,7 +105,7 @@
     "popper.js": "^1.14.7",
     "post-robot": "^10.0.14",
     "proxy-agent": "^3.1.1",
-    "sass": "^1.23.0",
+    "sass": "^1.26.5",
     "snyk": "^1.316.1"
   },
   "snyk": true
