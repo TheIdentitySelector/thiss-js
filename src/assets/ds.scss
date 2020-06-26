@@ -148,9 +148,9 @@ header p {
 
 
 footer {
-  height: 200px;
+  max-height: 70px;
   background-color: var(--footer-grey);
-  margin-top: 40px;
+  margin-top: 60px;
   padding: 20px 20px 0 20px;
 }
 
@@ -169,9 +169,9 @@ footer {
 }
 
 .footer-ra21-logo {
-	width: 20px;
-	vertical-align: middle;
-    margin: 0 3px 5px 0;
+  width: 100px;
+  vertical-align: middle;
+  margin: 0 20px 0 0;
 }
 
 .header-ra21-logo {
