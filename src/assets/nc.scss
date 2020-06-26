@@ -1,0 +1,45 @@
+@import "~bootstrap/scss/utilities/spacing";
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/custom-forms";
+
+label {
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 1.46;
+  color: var(--warm-grey);
+  text-decoration: none;
+}
+
+a, label {
+  &.disabled {
+    color: $gray-600;
+    pointer-events: none;
+  }
+}
+
+.custom-control-label {
+  line-height: 24px;
+}
+
+/* Alerts */
+.alert {
+  padding: 0.5rem 0.75rem;
+
+  &.alert-warning {
+    color: black;
+    background-color: $warning;
+    border-color: $warning;
+  }
+
+  p {
+    color: black;
+  }
+}
+
+#notice-and-consent-actions {
+  margin-bottom: 1rem;
+
+  p {
+    line-height: 24px;
+  }
+}
