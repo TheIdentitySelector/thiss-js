@@ -1,4 +1,5 @@
 import '../assets/ds.scss';
+import '../assets/nc.scss';
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -25,9 +26,19 @@ const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
 const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
 const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
+const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
+const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
+
 
 $(document).ready(function() {
     let timer = null;
+
+    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
+    $('#learn-more-banner').html(learnMoreBanner.render({}));
+
+    $('#learn-more-trigger').on('click', function() {
+      $("#learn-more-banner").toggleClass("d-none");
+    })
 
     $("#search").on('hidden.bs.collapse',function(event) {
         $("#choose").toggleClass("d-none");
@@ -75,7 +86,6 @@ $(document).ready(function() {
         $(".institution-select").toggleClass("d-none");
         $(".institution-remove").toggleClass("d-none");
     });
-
 
     $("#dsclient").discovery_client({
         mdq: process.env.MDQ_URL,
