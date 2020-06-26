@@ -1,6 +1,8 @@
 
 import '../assets/ds.scss';
 import '../assets/nc.scss';
+import '../assets/ds.scss';
+
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -41,7 +43,7 @@ $(document).ready(function() {
     $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({}));
 
-    $('#learn-more-trigger').on('click', function() {
+    $('#learn-more-trigger, #learn-more-close').on('click', function() {
       $("#learn-more-banner").toggleClass("d-none");
     })
 
