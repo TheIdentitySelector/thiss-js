@@ -22,7 +22,7 @@ module.exports = {
         alias: {
             'node_modules': path.join(__dirname, 'node_modules'),
             'bower_modules': path.join(__dirname, 'bower_modules'),
-            'jquery': 'jquery/dist/jquery.slim.js'
+            'jquery': 'jquery/dist/jquery.js'
         }
     },
     optimization: {
@@ -102,7 +102,8 @@ module.exports = {
                 'fetch',
                 'Object.values',
                 'Array.prototype.findIndex',
-		'String.prototype.includes',
+                'Array.prototype.filter',
+		        'String.prototype.includes',
                 'String.prototype.endsWith'
             ]
         })
