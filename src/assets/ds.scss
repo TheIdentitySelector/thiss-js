@@ -151,7 +151,7 @@ footer {
   max-height: 70px;
   background-color: var(--footer-grey);
   margin-top: 60px;
-  padding: 20px 20px 0 20px;
+  padding: 20px;
 }
 
 .footer-credential {
@@ -163,7 +163,7 @@ footer {
   padding: 8px;
   margin-right: 10px;
   border-radius: 3px;
-  background-color: var(--text-grey);
+  background-color: transparent;
   font-weight: 700;
   color: #ffffff;
 }
