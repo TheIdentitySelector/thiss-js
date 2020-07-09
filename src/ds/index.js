@@ -84,7 +84,7 @@ $(document).ready(function() {
 
     $("#dsclient").discovery_client({
         mdq: process.env.MDQ_URL,
-        persistence: process.env.PERSISTENCE_URL,
+        persistence: new PersistenceService(process.env.PERSISTENCE_URL, {apikey: process.env.APIKEY}),
         search: process.env.SEARCH_URL,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",

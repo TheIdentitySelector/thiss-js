@@ -9,10 +9,12 @@ import {DiscoveryComponent} from "../component";
 
 import '../assets/cta.scss'
 import '../assets/ra21icon.svg';
+import {PersistenceService} from "@theidentityselector/thiss-ds/src/persist";
 
 let mdq = process.env.MDQ_URL;
-let persistence = process.env.PERSISTENCE_URL;
+let persistenceURL = process.env.PERSISTENCE_URL;
 let context;
+let apikey;
 let defaultText = "Your Institution";
 let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
 let discovery_request = window.xprops.discoveryRequest;
@@ -43,7 +45,7 @@ document.getElementById('main').style.background = window.xprops.backgroundColor
 document.getElementById('idpbutton').style.background = window.xprops.color;
 
 if (window.xprops.persistenceURL) {
-    persistence = window.xprops.persistenceURL;
+    persistenceURL = window.xprops.persistenceURL;
 }
 
 if (window.xprops.context) {
@@ -54,6 +56,11 @@ if (window.xprops.MDQ) {
     mdq = window.xprops.MDQ;
 }
 
+if (window.xprops.apikey) {
+    apikey = window.xprops.apikey
+}
+
+let persistence = new PersistenceService(persistenceURL, {apikey: apikey})
 let ds = new DiscoveryService(mdq, persistence, context);
 
 let start = [];
