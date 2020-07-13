@@ -23,7 +23,7 @@ const Hogan = require("hogan.js");
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
 import {PersistenceService} from "@theidentityselector/thiss-ds";
 import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds";
-require("bootstrap-list-filter");
+require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
@@ -99,12 +99,14 @@ $(document).ready(function() {
         render_saved_choice: function(item) {
             return saved.render(item);
         },
-        too_many_results: function(count) {
+        too_many_results: function(bts, count) {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
             $("#searching").hide();
-            return too_many.render({"count": count});
+            let too_many_node = too_many.render({"count": count});
+            $('body').on('click', "#showall", function() { console.log(bts); bts.showall() })
+            return too_many_node;
         },
         no_results: function() {
             if (timer) {

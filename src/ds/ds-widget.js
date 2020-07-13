@@ -1,5 +1,14 @@
 import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
 
+function render_results(results, counter, render) {
+    for (let data in results) {
+        counter += 1;
+        data.counter = counter;
+        data.saved = false;
+        render(data)
+    }
+}
+
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
 
@@ -85,22 +94,31 @@ jQuery(function ($) {
                     casesensitive: false,
                     maxResults: 10,
                     itemEl: obj.options.entity_selector,
-                    emptyNode: obj.options.no_results,
                     getValue: function(that) {
                         let v = that.val();
                         let i = v.indexOf('@');
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
-                    maxResultsNode: function(data) {
-                        return obj.options.too_many_results(data.length);
+                    sourceNodes: function(opts, val, results, render) {
+                        console.log(opts)
+                        console.log(val)
+                        console.log(results)
+                        console.log(render)
+                        if (results.length == 0 || !results) {
+                            render(obj.options.no_results(val))
+                        } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
+                            render(obj.options.too_many_results(this, results.length))
+                        } else {
+                            for (let i in results) {
+                                let data = results[i]
+                                counter += 1;
+                                data.counter = counter;
+                                data.saved = false;
+                                render(obj.options.render_search_result(data))
+                            }
+                        }
                     },
                     sourceData: obj.options.search,
-                    sourceNode: function (data) {
-                        counter += 1;
-                        data.counter = counter;
-                        data.saved = false;
-                        return obj.options.render_search_result(data);
-                    },
                     cancelNode: function () { console.log("cancel"); },
                 });
             }
