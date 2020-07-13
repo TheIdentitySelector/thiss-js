@@ -32,7 +32,7 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.search)) {
                 obj.options.search_url = obj.options.search;
                 obj.options.search = function (text, callback) {
-                    return json_mdq_search(text, obj.options.search_url).then(data => data.filter(o => o.hidden)).then(callback);
+                    return json_mdq_search(text, obj.options.search_url).then(data => data.filter(o => o.hidden != "true")).then(callback);
                 }
             }
 
