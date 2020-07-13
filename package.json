@@ -84,7 +84,6 @@
     "@theidentityselector/js-storage": "^1.0.4",
     "@theidentityselector/thiss-ds": "^1.0.11",
     "belter": "^1.0.109",
-    "bootstrap-list-filter": "https://github.com/leifj/bootstrap-list-filter/tarball/c8bd41ad1b9a02386a940d5edf210c41a4e20813",
     "chai": "^4.2.0",
     "chownr": "^1.1.1",
     "dotenv-webpack": "^1.7.0",
