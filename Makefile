@@ -1,4 +1,5 @@
 VERSION:=$(shell jq -r .version package.json)
+PWD:=$(shell pwd)
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
 ifndef BASE_URL
@@ -34,6 +35,9 @@ clean:
 publish:
 	@npm publish --access public
 
+build_in_docker: thiss_builder
+	docker run -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=${WHITELIST} thiss-builder:$(VERSION) webpack --config webpack.prod.js
+	
 build: test snyk
 	env BASE_URL=$(BASE_URL) COMPONENT_URL=$(COMPONENT_URL) MDQ_URL=$(MDQ_URL) PERSISTENCE_URL=$(PERSISTENCE_URL) SEARCH_URL=$(SEARCH_URL) STORAGE_DOMAIN=$(STORAGE_DOMAIN) LOGLEVEL=$(LOGLEVEL) DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) WHITELIST=${WHITELIST} webpack --config webpack.prod.js
 
@@ -64,3 +68,5 @@ docker_push_sunet:
 	docker tag $(NAME):$(VERSION) $(REGISTRY)/$(NAME):$(VERSION)
 	docker push $(REGISTRY)/$(NAME):$(VERSION)
 
+thiss_builder:
+	docker build -t thiss-builder:$(VERSION) -f Dockerfile.build .
