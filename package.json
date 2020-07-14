@@ -90,7 +90,7 @@
     "dotenv-webpack": "^1.7.0",
     "ejs": "^2.6.1",
     "ejs-compiled-loader": "^2.1.0",
-    "ejs-loader": "^0.3.3",
+    "ejs-loader": "^0.5.0",
     "fibers": "^4.0.1",
     "hogan": "^1.0.2",
     "isomorphic-fetch": "^2.2.1",
