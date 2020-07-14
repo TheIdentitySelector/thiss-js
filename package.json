@@ -79,7 +79,7 @@
     ]
   ],
   "dependencies": {
-    "@babel/register": "^7.9.0",
+    "@babel/register": "^7.10.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
     "@theidentityselector/js-storage": "^1.0.4",
     "@theidentityselector/thiss-ds": "^1.0.11",
