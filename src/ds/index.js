@@ -24,7 +24,7 @@ const Hogan = require("hogan.js");
 import {PersistenceService} from "@theidentityselector/thiss-ds";
 import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds";
 require("bootstrap-list-filter");
-require("ds-widget");
+require("./ds-widget.js");
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
