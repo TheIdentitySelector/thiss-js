@@ -148,10 +148,10 @@ header p {
 
 
 footer {
-  height: 200px;
+  max-height: 70px;
   background-color: var(--footer-grey);
-  margin-top: 40px;
-  padding: 20px 20px 0 20px;
+  margin-top: 60px;
+  padding: 20px;
 }
 
 .footer-credential {
@@ -163,15 +163,15 @@ footer {
   padding: 8px;
   margin-right: 10px;
   border-radius: 3px;
-  background-color: var(--text-grey);
+  background-color: transparent;
   font-weight: 700;
   color: #ffffff;
 }
 
 .footer-ra21-logo {
-	width: 20px;
-	vertical-align: middle;
-    margin: 0 3px 5px 0;
+  width: 100px;
+  vertical-align: middle;
+  margin: 0 20px 0 0;
 }
 
 .header-ra21-logo {

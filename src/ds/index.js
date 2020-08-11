@@ -14,14 +14,18 @@ config.autoReplaceSvg = 'nest';
 library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
 dom.watch();
 
-import $ from 'jquery';
+import * as $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
-global.$ = $;
+import 'jquery-ui/ui/widget.js';
 
 const Hogan = require("hogan.js");
 
-import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
+//import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
+import {PersistenceService} from "@theidentityselector/thiss-ds";
+import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds";
+require("bootstrap-list-filter");
+require("./ds-widget.js");
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
