@@ -100,10 +100,6 @@ jQuery(function ($) {
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
                     sourceNodes: function(opts, val, results, render) {
-                        console.log(opts)
-                        console.log(val)
-                        console.log(results)
-                        console.log(render)
                         if (results.length == 0 || !results) {
                             render(obj.options.no_results(val))
                         } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
