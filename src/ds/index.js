@@ -2,7 +2,7 @@
 import '../assets/ds.scss';
 import '../assets/nc.scss';
 import '../assets/ds.scss';
-
+import '../assets/nc.scss';
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -58,7 +58,7 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
-        timer = setTimeout( function () { $("#searching").show(); }, 500);
+        timer = setTimeout( function () { if (timer) { $("#searching").show(); } }, 500);
     }).on('hide.bs', function(event) {
         $("#searching").hide();
         if (timer) {
@@ -101,11 +101,11 @@ $(document).ready(function() {
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         render_search_result: function(item) {
+            $("#searching").hide();
             console.log("render_search_result");
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#searching").hide();
             return search.render(item);
         },
         render_saved_choice: function(item) {
@@ -124,6 +124,10 @@ $(document).ready(function() {
             }
             $("#searching").hide();
             return no_results.render();
+        },
+        persist: function() {
+            console.log($("#rememberThisChoice").is(':checked'));
+            return $("#rememberThisChoice").is(':checked');
         },
         after: function(count,elt) {
             console.log("after - "+count);
