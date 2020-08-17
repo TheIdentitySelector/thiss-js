@@ -1,5 +1,5 @@
-
 import '../assets/ds.scss';
+import '../assets/nc.scss';
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -30,9 +30,19 @@ const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
 const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
 const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
+const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
+const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
+
 
 $(document).ready(function() {
     let timer = null;
+
+    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
+    $('#learn-more-banner').html(learnMoreBanner.render({}));
+
+    $('#learn-more-trigger, #learn-more-close').on('click', function() {
+      $("#learn-more-banner").toggleClass("d-none");
+    })
 
     $("#search").on('hidden.bs.collapse',function(event) {
         $("#choose").toggleClass("d-none");
@@ -45,7 +55,7 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
-        timer = setTimeout( function () { $("#searching").show(); }, 500);
+        timer = setTimeout( function () { if (timer) { $("#searching").show(); } }, 500);
     }).on('hide.bs', function(event) {
         $("#searching").hide();
         if (timer) {
@@ -81,7 +91,6 @@ $(document).ready(function() {
         $(".institution-remove").toggleClass("d-none");
     });
 
-
     $("#dsclient").discovery_client({
         mdq: process.env.MDQ_URL,
         persistence: process.env.PERSISTENCE_URL,
@@ -89,11 +98,11 @@ $(document).ready(function() {
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         render_search_result: function(item) {
+            $("#searching").hide();
             console.log("render_search_result");
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#searching").hide();
             return search.render(item);
         },
         render_saved_choice: function(item) {
@@ -114,6 +123,10 @@ $(document).ready(function() {
             }
             $("#searching").hide();
             return no_results.render();
+        },
+        persist: function() {
+            console.log($("#rememberThisChoice").is(':checked'));
+            return $("#rememberThisChoice").is(':checked');
         },
         after: function(count,elt) {
             console.log("after - "+count);

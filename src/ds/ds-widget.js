@@ -28,7 +28,8 @@ jQuery(function ($) {
             saved_choices_selector: '#ds-saved-choices',
             entity_selector: '.identityprovider',
             too_many_results: undefined,
-            no_results: undefined
+            no_results: undefined,
+            persist: undefined
         },
 
         _create: function () {
@@ -59,6 +60,9 @@ jQuery(function ($) {
             }
             if (!$.isFunction(obj.options.before)) {
                 obj.options.before = function(x) { return x; }
+            }
+            if (!$.isFunction(obj.options.persist)) {
+                obj.options.persist = function() { return true; }
             }
             obj._update();
         },
@@ -142,7 +146,7 @@ jQuery(function ($) {
             $('body').on('click', obj.options.entity_selector, function (e) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
                 console.log(entity_id);
-                return obj._ds.saml_discovery_response(entity_id);
+                return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 
             $('body').on('keyup', obj.options.entity_selector, function (e) {
