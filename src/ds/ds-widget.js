@@ -1,5 +1,14 @@
 import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
 
+function render_results(results, counter, render) {
+    for (let data in results) {
+        counter += 1;
+        data.counter = counter;
+        data.saved = false;
+        render(data)
+    }
+}
+
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
 
@@ -19,7 +28,8 @@ jQuery(function ($) {
             saved_choices_selector: '#ds-saved-choices',
             entity_selector: '.identityprovider',
             too_many_results: undefined,
-            no_results: undefined
+            no_results: undefined,
+            persist: undefined
         },
 
         _create: function () {
@@ -50,6 +60,9 @@ jQuery(function ($) {
             }
             if (!$.isFunction(obj.options.before)) {
                 obj.options.before = function(x) { return x; }
+            }
+            if (!$.isFunction(obj.options.persist)) {
+                obj.options.persist = function() { return true; }
             }
             obj._update();
         },
@@ -85,22 +98,27 @@ jQuery(function ($) {
                     casesensitive: false,
                     maxResults: 10,
                     itemEl: obj.options.entity_selector,
-                    emptyNode: obj.options.no_results,
                     getValue: function(that) {
                         let v = that.val();
                         let i = v.indexOf('@');
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
-                    maxResultsNode: function(data) {
-                        return obj.options.too_many_results(data.length);
+                    sourceNodes: function(opts, val, results, render) {
+                        if (results.length == 0 || !results) {
+                            render(obj.options.no_results(val))
+                        } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
+                            render(obj.options.too_many_results(this, results.length))
+                        } else {
+                            for (let i in results) {
+                                let data = results[i]
+                                counter += 1;
+                                data.counter = counter;
+                                data.saved = false;
+                                render(obj.options.render_search_result(data))
+                            }
+                        }
                     },
                     sourceData: obj.options.search,
-                    sourceNode: function (data) {
-                        counter += 1;
-                        data.counter = counter;
-                        data.saved = false;
-                        return obj.options.render_search_result(data);
-                    },
                     cancelNode: function () { console.log("cancel"); },
                 });
             }
@@ -128,7 +146,7 @@ jQuery(function ($) {
             $('body').on('click', obj.options.entity_selector, function (e) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
                 console.log(entity_id);
-                return obj._ds.saml_discovery_response(entity_id);
+                return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 
             $('body').on('keyup', obj.options.entity_selector, function (e) {

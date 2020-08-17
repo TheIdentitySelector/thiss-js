@@ -18,7 +18,7 @@ body {
   box-sizing: border-box;
 }
 
-p, a, h1, h2, h3, .H2-inactive-text, input, ul, li, .primary, .secondary {
+p, a, h1, h2, h3, .H2-inactive-text, input, ul, li, .primary, .secondary, label {
   font-family: 'Libre Franklin', Arial, sans-serif;
   font-style: normal;
   font-stretch: normal;
@@ -228,7 +228,7 @@ input {
 	position: relative;
 }
 
-.search input {
+#search, .search, .search input {
 	width: 100%;
 }
 
