@@ -7,6 +7,17 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DotEnv = require("dotenv-webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const package = require('./package.json');
+
+function make_manifest(buffer) {
+   var manifest = JSON.parse(buffer.toString());
+   manifest.version = package.version;
+   manifest_JSON = JSON.stringify(manifest, null, 2);
+   return manifest_JSON;
+}
+
 
 module.exports = {
     node: {
@@ -67,6 +78,15 @@ module.exports = {
         new webpack.PrefetchPlugin(path.join(__dirname, "node_modules"),"./zoid/index.js"),
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [{ 
+              from: "./src/assets/manifest.json", 
+              to: "./manifest.json",
+              transform(content, path) {
+                 return make_manifest(content)
+              },
+            }]
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: true,
