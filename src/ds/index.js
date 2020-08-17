@@ -1,6 +1,7 @@
 import '../assets/ds.scss';
 import '../assets/nc.scss';
 
+
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
