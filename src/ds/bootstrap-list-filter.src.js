@@ -94,7 +94,7 @@
 
 		self.showall = function() {
 			opts.maxResults = -1;
-			inputEl$.trigger(opts.eventKey);
+			inputEl$.val(inputEl$.val()).trigger(opts.eventKey);
 		}
 
 		if($.isFunction(opts.cancelNode)) {

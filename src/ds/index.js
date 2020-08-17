@@ -100,7 +100,6 @@ $(document).ready(function() {
         inputfieldselector: "#searchinput",
         render_search_result: function(item) {
             $("#searching").hide();
-            console.log("render_search_result");
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
@@ -115,7 +114,7 @@ $(document).ready(function() {
             }
             $("#searching").hide();
             let too_many_node = too_many.render({"count": count});
-            $('body').on('click', "#showall", function() { console.log(bts); bts.showall() })
+            $('body').on('click', "#showall", function() {  bts.showall() })
             return too_many_node;
         },
         no_results: function() {
