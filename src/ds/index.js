@@ -1,5 +1,5 @@
-import '../assets/ds.scss';
 import '../assets/nc.scss';
+import '../assets/ds.scss';
 
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
