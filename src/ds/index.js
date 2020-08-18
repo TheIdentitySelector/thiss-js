@@ -26,6 +26,7 @@ import {PersistenceService} from "@theidentityselector/thiss-ds";
 import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
+const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
@@ -38,7 +39,7 @@ const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/n
 $(document).ready(function() {
     let timer = null;
 
-    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
+    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({learn_more_url: learn_more_url}));
     $('#learn-more-banner').html(learnMoreBanner.render({}));
 
     $('#learn-more-trigger, #learn-more-close').on('click', function() {
