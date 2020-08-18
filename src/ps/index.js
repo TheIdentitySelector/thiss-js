@@ -129,41 +129,45 @@ function get_entity(storage, id) {
     }
 }
 
-async function check_apikey (event, jwKey) {
-  const jwsSigningInput = event.data.apikey.split('.').slice(0, 2).join('.')
-  const jwsSignature = event.data.apikey.split('.')[2]
-  return window.crypto.subtle
-    .importKey('jwk', jwKey, {
-         name: 'ECDSA',
-         hash: { name: 'SHA-256' }
-       }, false, ['verify'])
-    .then(key=>
-      window.crypto.subtle.verify(
-        {
+async function check_apikey(apikey, jwKey) {
+    const jwsSigningInput = apikey.split('.').slice(0, 2).join('.')
+    const jwsObject = apikey.split('.')[1]
+    const jwsSignature = apikey.split('.')[2]
+    return window.crypto.subtle
+        .importKey('jwk', jwKey, {
             name: 'ECDSA',
-            hash: {name: 'SHA-256' }},
-        key,
-        base64url.parse(jwsSignature, { loose: true }),
-        new TextEncoder().encode(jwsSigningInput))
-      ).then(function(valid) { event.valid = valid; return event })
+            hash: { name: 'SHA-256' }
+            }, false, ['verify'])
+        .then(key=>
+            window.crypto.subtle.verify(
+                {
+                    name: 'ECDSA',
+                    hash: {name: 'SHA-256' }
+                    },
+                key,
+                base64url.parse(jwsSignature, { loose: true }),
+                new TextEncoder().encode(jwsSigningInput))).
+        then(valid => valid ? JSON.parse(jwsObject): undefined)
 }
 
 function validate(event) {
-    event.valid = false
+    event.caller = undefined
     if (whitelist && whitelist.length > 0) {
-        event.valid = whitelist.some(o => { return event.origin.endsWith(o) })
+        if (whitelist.some(o => { return event.origin.endsWith(o) })) {
+            event.caller = {origin: event.origin}
+        }
     } else if (pubkey && pubkey.length > 0) {
         if (event.data.apikey.length > 0) {
-            return check_apikey(event, pubkey)
+            check_apikey(event.data.apikey, jwKey).then(payload => event.caller = payload)
         }
     } else {
-        event.valid = true
+        event.caller = {origin: event.origin}
     }
     return Promise.resolve(event)
 }
 
 function check_access(event) {
-    if (!event.valid) {
+    if (!event.caller) {
         throw new Error(`Access denied from ${event.origin}`)
     }
     return event;
