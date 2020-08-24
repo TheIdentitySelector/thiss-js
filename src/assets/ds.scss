@@ -340,6 +340,12 @@ ul li a:hover {
   }
 }
 
+input, .institution, .identityprovider {
+  &:focus, &:active {
+    outline: none;
+  }
+}
+
 .institution {
   .label {
     max-width: 80%;
