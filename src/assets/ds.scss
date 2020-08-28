@@ -317,6 +317,17 @@ ul li a:hover {
 }
 
 .choose {
+  .institution:hover {
+    i.arrow {
+      color: var(--primary-blue);
+      display: block;
+    }
+
+    .primary {
+      color: var(--primary-blue);
+    }
+  }
+
   li.institution {
     border-bottom: 1px solid rgba(118, 118, 118, 0.2);
     cursor: pointer;
@@ -326,17 +337,6 @@ ul li a:hover {
 
   a:first-child li{
     border-top: 1px solid rgba(118, 118, 118, 0.2);
-  }
-}
-
-.institution:hover {
-  i.arrow {
-    color: var(--primary-blue);
-    display: block;
-  }
-
-  .primary {
-    color: var(--primary-blue);
   }
 }
 
