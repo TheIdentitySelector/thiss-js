@@ -1,5 +1,4 @@
 @import "./main";
-@import "~bootstrap/scss/forms";
 
 /* Base */
 html, body {
@@ -85,7 +84,7 @@ h1 {
   margin-bottom: 0px;
 }
 
-h2 {
+h2, .type-ahead-alert p, .type-ahead-alert a {
   /* Zep */
   font-size: 14px;
   font-weight: normal;
@@ -318,6 +317,17 @@ ul li a:hover {
 }
 
 .choose {
+  .institution:hover {
+    i.arrow {
+      color: var(--primary-blue);
+      display: block;
+    }
+
+    .primary {
+      color: var(--primary-blue);
+    }
+  }
+
   li.institution {
     border-bottom: 1px solid rgba(118, 118, 118, 0.2);
     cursor: pointer;
@@ -330,14 +340,9 @@ ul li a:hover {
   }
 }
 
-.institution:hover {
-  i.arrow {
-    color: var(--primary-blue);
-    display: block;
-  }
-
-  .primary {
-    color: var(--primary-blue);
+input, .institution, .identityprovider {
+  &:focus, &:active {
+    outline: none;
   }
 }
 
