@@ -26,3 +26,9 @@ Version 1.2.1
 -------------
 
 * support for building in a docker container - no need to have node installed to deploy
+
+Version 1.3.0
+-------------
+
+* UX for overriding limits on search results
+* Notice and consent information
