@@ -27,6 +27,8 @@ import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
+const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
+const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
