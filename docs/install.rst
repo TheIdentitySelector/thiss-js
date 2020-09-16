@@ -16,7 +16,7 @@ The included Makefile has a number of targets aimed at those who want to build a
 Configuration
 =============
 
-The thiss-js application is a set of SPAs and web components that are configured via environment variables via calls to process.env.Deploying the apps essentially either amounts to building the app with the environment variables set, or substituting the environment variables at runtime. This latter approach is what is done in the docker container start.sh.
+The thiss-js application is a set of SPAs and web components that are configured via environment variables via calls to process.env. dDeploying the apps essentially either amounts to building the app with the environment variables set, or substituting the environment variables at runtime. This latter approach is what is done in the docker container start.sh.
 
 The thiss-js button component is partially configured by the caller that can pass several parameters into the button change its behaviour. This is documented in detail in the thiss-ds-js package.
 
