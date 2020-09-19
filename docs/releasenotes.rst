@@ -33,7 +33,7 @@ Version 1.3.0
 * UX for overriding limits on search results
 * Notice and consent information
 
-Version ****
+Version 1.3.1
 ------------
 
 * Configurable links and service name in privacy notice
