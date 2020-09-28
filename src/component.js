@@ -19,7 +19,7 @@ function _set_default_props(opts) {
         opts.dimensions.width = '350px';
     }
     if (opts.dimensions.height === undefined) {
-        opts.dimensions.height = '80px';
+        opts.dimensions.height = '85px';
     }
     opts.props.dimensions = opts.dimensions;
 }
