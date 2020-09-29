@@ -19,7 +19,7 @@ function _set_default_props(opts) {
         opts.dimensions.width = '350px';
     }
     if (opts.dimensions.height === undefined) {
-        opts.dimensions.height = '80px';
+        opts.dimensions.height = '85px';
     }
     opts.props.dimensions = opts.dimensions;
 }
@@ -139,18 +139,18 @@ export const DiscoveryComponent = zoid.create({
     // default dimensions for the component
     dimensions: {
     	width: '350px',
-    	height: '80px'
+    	height: '85px'
     },
-    
+
     // defines the log level in the JavaScript console
     defaultLogLevel: process.env.LOGLEVEL,
-    
+
     // defines if the container should be resized
     autoResize: {
         width: false,
         height: false
     },
-    
+
     contexts: {
         iframe: true,
         popup: false
