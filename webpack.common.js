@@ -121,6 +121,7 @@ module.exports = {
                 'Promise',
                 'fetch',
                 'Object.values',
+                'AbortController',
                 'Array.prototype.findIndex',
                 'Array.prototype.filter',
 		        'String.prototype.includes',
