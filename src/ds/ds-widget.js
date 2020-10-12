@@ -187,6 +187,7 @@ jQuery(function ($) {
                     items.forEach(function (item) {
                         let entity = item.entity;
                         entity.saved = true;
+
                         let entity_element = obj.options.render_saved_choice(entity);
                         saved_choices_element.prepend(entity_element);
                         count++;

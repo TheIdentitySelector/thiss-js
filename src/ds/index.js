@@ -29,6 +29,7 @@ require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
 const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
+const item_ttl = parseInt(process.env.ITEM_TTL || "3600");
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
@@ -134,6 +135,19 @@ $(document).ready(function() {
         persist: function() {
             console.log($("#rememberThisChoice").is(':checked'));
             return $("#rememberThisChoice").is(':checked');
+        },
+        before: function(items) {
+            let now = Date.now();
+            let o = this;
+            console.log(this);
+            return items.map(item => {
+                if (item.last_refresh + item_ttl < now) {
+                    console.log("refresh ..."+item)
+                    return item;
+                } else {
+                    return item;
+                }
+            }).filter(item => item != undefined)
         },
         after: function(count,elt) {
             console.log("after - "+count);
