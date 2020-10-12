@@ -52,8 +52,8 @@ In order to run your own instance of thiss-js you need a search-capable MDQ serv
 .. code-block:: bash
 
   # docker run -ti -p 9000:80 \
-        -e MDQ_URL=http://mdq:8080/entities \
-        -e SEARCH_URL=http://mdq:8080/entities \
+        -e MDQ_URL=http://mdq:8080/entities/ \
+        -e SEARCH_URL=http://mdq:8080/entities/ \
         -e BASE_URL=http://localhost:9000/ \
         -e STORAGE_DOMAIN="example.com" \
         thiss-js:1.0.0
