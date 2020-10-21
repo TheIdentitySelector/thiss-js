@@ -102,7 +102,7 @@
     "mustache-loader": "^1.4.3",
     "node-fetch": "^2.6.1",
     "popper.js": "^1.16.1",
-    "post-robot": "^10.0.14",
+    "post-robot": "^10.0.40",
     "proxy-agent": "^3.1.1",
     "sass": "^1.23.0",
     "snyk": "^1.348.1"
