@@ -21,7 +21,54 @@ Login Button Component
 
 If your SP supports SAML discovery *or something similar* you can deploy the login button component to your SP to simplify the discovery process for your users if they typically only use a single IdP. In this case the user only has to find their identity provider once for each device/browser. On each following visit to your relying party the user can simply click on the login button componet and be taken directly to their preferred identity provider.
 
-An example of how to do this is described in https://thiss.io/use/. Essentially you load a javascript from the service called thiss.js which contains a function to initialize and render the login button component on a DOM selector of your choice.
+The login button component is instantiated like this:
+```javascript
+<script src="https://your.service/thiss.js"/>
+<div id="login"> </div>
+<script>
+    window.onload = function() {
+       thiss.DiscoveryComponent({
+           loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/Login?target=https://sp.example.com/loginhandler',
+       }).render('#login');
+    };
+</script>
+```
+
+This example assumes the client uses the shibboleth SP but all SPs provides a mechanism to initiate a login flow. This is typically triggered by sending the user to a URL that triggers the SAML authentication request.
+
+The login button component accepts the following configuration parameters:
+
+```json
+{
+  loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - acts as both discoveryRequest and discoveryResponse
+  discoveryRequest:  #<string|callable> a URL or callable that initiates a discovery flow
+  discoveryResponse: #<string|callable> a URL or callable that handles a discovery response
+  persistenceURL: #<string> the URL of the persistence service
+
+  MDQ: #<string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
+  pinned: #<string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
+  backgroundColor: # <string> (default '#FFFFFF') the background color of the iframe where the button is rendered
+  color: # <string> (default '#0079ff') the color of the button
+}
+```
+
+The login button is rendered in an iframe with a fixed size.
+
+When you initiate the button for use with the Shibboleth SP you typically only provide the loginInitiatorURL parameter (and possibly the color and backgroundColor parameters). The loginInitiatorURL should map to a Shibboleth SessionInitiator configuration which is configured for discovery. In theory you can use any SAML discovery service but the intent is of course to use the thiss-js discovery service.
+
+A typicall Shibboleth configuration matching the above call to the login button might look something like this:
+
+```xml
+<SessionInitiator type="Chaining" Location="/Login" id="ds" relayState="cookie">
+   <SessionInitiator type="SAML2" defaultACSIndex="1" acsByIndex="false" template="bindingTemplate.html"/>
+   <SessionInitiator type="Shib1" defaultACSIndex="5"/>
+   <SessionInitiator type="SAMLDS" URL="https://your.service/ds"/>
+</SessionInitiator>
+```
+
+You typically provide a target parameter with the loginInitiatorURL which in Shibboleth has the effect of sending the user to a secondary URL after successful authentication. The target URL is typically used to create the user session in your application.
+
+If you are not using Shibboleth pls consult your SAML SP documentation for functional equivalents of the Shibboleth SessionInitiator concept.
 
 Persistence Service
 -------------------
