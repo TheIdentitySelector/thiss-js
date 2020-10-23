@@ -24,6 +24,7 @@ If your SP supports SAML discovery *or something similar* you can deploy the log
 The login button component is instantiated like this:
 
 .. code-block:: js
+
     <script src="https://your.service/thiss.js"/>
     <div id="login"> </div>
     <script>
@@ -41,6 +42,7 @@ This example assumes the client uses the shibboleth SP but all SPs provides a me
 The login button component accepts the following configuration parameters in the call to DiscoveryComponent
 
 .. code-block:: js
+
     {
       loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - acts as both discoveryRequest and discoveryResponse
       discoveryRequest:  #<string|callable> a URL or callable that initiates a discovery flow
@@ -61,6 +63,7 @@ When you initiate the button for use with the Shibboleth SP you typically only p
 A typicall Shibboleth configuration matching the above call to the login button might look something like this:
 
 .. code-block:: xml
+
     <SessionInitiator type="Chaining" Location="/Login" id="ds" relayState="cookie">
        <SessionInitiator type="SAML2" defaultACSIndex="1" acsByIndex="false" template="bindingTemplate.html"/>
        <SessionInitiator type="Shib1" defaultACSIndex="5"/>
