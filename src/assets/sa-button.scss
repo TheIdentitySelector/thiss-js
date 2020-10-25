@@ -13,6 +13,19 @@
 @font-face {
   font-family: 'Libre Franklin';
   font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/LibreFranklin-Regular.eot');
+  src: local('Libre Franklin'), local('LibreFranklin-Regular'),
+  url('./fonts/LibreFranklin-Regular.eot?#iefix') format('embedded-opentype'),
+  url('./fonts/LibreFranklin-Regular.woff2') format('woff2'),
+  url('./fonts/LibreFranklin-Regular.woff') format('woff'),
+  url('./fonts/LibreFranklin-Regular.ttf') format('truetype'),
+  url('./fonts/LibreFranklin-Regular.svg#LibreFranklin') format('svg');
+}
+
+@font-face {
+  font-family: 'Libre Franklin';
+  font-style: normal;
   font-weight: 700;
   src: url('./fonts/LibreFranklin-Bold.eot');
   src: local('Libre Franklin'), local('LibreFranklin-Bold'),
@@ -36,17 +49,23 @@
   justify-content: center;
 }
 
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sa-button, .sa-access-text {
+  font-family: 'Libre Franklin', Arial, sans-serif;
+  line-height: 1.4;
+}
+
 .sa-button {
   background-color: var(--primary-blue);
   border-radius: 5px;
   cursor: pointer;
   display: flex;
   padding: 9px;
-  font-family: 'Libre Franklin', Arial, sans-serif;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.4;
-  letter-spacing: normal;
 }
 
 .sa-button-logo-wrap {
@@ -72,4 +91,20 @@
 .sa-button-text-primary {
   font-size: 14px;
   font-weight: 700;
+}
+
+.sa-access-text {
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.46;
+  color: var(--primary-blue);
+}
+
+.sa-cta-access, .sa-cta-plus {
+  display: inline;
+  padding: 0 3px;
 }
