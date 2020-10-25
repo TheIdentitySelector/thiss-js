@@ -66,6 +66,9 @@ module.exports = {
         cta: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/cta/index.js']
         })}!`,
+        demo: `webpack-polyfill-injector?${JSON.stringify({
+            modules: ['./src/demo/index.js']
+        })}!`,
         ds: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/ds/index.js']
         })}!`,
@@ -79,8 +82,8 @@ module.exports = {
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
-            patterns: [{ 
-              from: "./src/assets/manifest.json", 
+            patterns: [{
+              from: "./src/assets/manifest.json",
               to: "./manifest.json",
               transform(content, path) {
                  return make_manifest(content)
@@ -98,6 +101,12 @@ module.exports = {
             chunks: ['cta'],
             inject: true,
             template: '!ejs-loader!src/cta/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'demo/index.html',
+            chunks: ['demo'],
+            inject: true,
+            template: '!ejs-loader!src/demo/index.html'
         }),
         new HtmlWebpackPlugin({
             filename: 'ds/index.html',
