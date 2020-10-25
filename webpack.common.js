@@ -66,7 +66,7 @@ module.exports = {
         cta: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/cta/index.js']
         })}!`,
-        demo: `webpack-polyfill-injector?${JSON.stringify({
+        'sa-button': `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/sa-button/index.js']
         })}!`,
         ds: `webpack-polyfill-injector?${JSON.stringify({
