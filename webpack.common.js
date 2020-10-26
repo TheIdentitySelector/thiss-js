@@ -82,13 +82,19 @@ module.exports = {
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
-            patterns: [{
-              from: "./src/assets/manifest.json",
-              to: "./manifest.json",
-              transform(content, path) {
-                 return make_manifest(content)
-              },
-            }]
+            patterns: [
+                {
+                  from: "./src/assets/manifest.json",
+                  to: "./manifest.json",
+                  transform(content, path) {
+                     return make_manifest(content)
+                  },
+                },
+                {
+                    from: "./src/assets/*.svg",
+                    to: "./[name].[ext]",
+                },
+            ],
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',

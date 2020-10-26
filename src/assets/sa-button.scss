@@ -61,10 +61,9 @@
 }
 
 .sa-button {
+  cursor: pointer;
   background-color: var(--primary-blue);
   border-radius: 5px;
-  cursor: pointer;
-  display: flex;
   padding: 9px;
 }
 
@@ -107,4 +106,8 @@
 .sa-cta-access, .sa-cta-plus {
   display: inline;
   padding: 0 3px;
+}
+
+.sa-cta-plus > img {
+  height: 13px
 }
