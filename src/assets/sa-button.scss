@@ -1,44 +1,10 @@
 :root {
-  --white: #ffffff;
-  --text-grey: #444444;
-  --warm-grey: #767676;
-  --footer-grey: #ebebeb;
-  --primary-blue: #0079ff;
-  --white-50: rgba(255, 255, 255, 0.5);
-  --white-two: #f6f6f6;
-  --white-three: #e6e6e6;
-  --warm-grey-two: #bfbfbf;
-}
-
-@font-face {
-  font-family: 'Libre Franklin';
-  font-style: normal;
-  font-weight: 400;
-  src: url('./fonts/LibreFranklin-Regular.eot');
-  src: local('Libre Franklin'), local('LibreFranklin-Regular'),
-  url('./fonts/LibreFranklin-Regular.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/LibreFranklin-Regular.woff2') format('woff2'),
-  url('./fonts/LibreFranklin-Regular.woff') format('woff'),
-  url('./fonts/LibreFranklin-Regular.ttf') format('truetype'),
-  url('./fonts/LibreFranklin-Regular.svg#LibreFranklin') format('svg');
-}
-
-@font-face {
-  font-family: 'Libre Franklin';
-  font-style: normal;
-  font-weight: 700;
-  src: url('./fonts/LibreFranklin-Bold.eot');
-  src: local('Libre Franklin'), local('LibreFranklin-Bold'),
-  url('./fonts/LibreFranklin-Bold.eot?#iefix') format('embedded-opentype'),
-  url('./fonts/LibreFranklin-Bold.woff2') format('woff2'),
-  url('./fonts/LibreFranklin-Bold.woff') format('woff'),
-  url('./fonts/LibreFranklin-Bold.ttf') format('truetype'),
-  url('./fonts/LibreFranklin-Bold.svg#LibreFranklin') format('svg');
+  --white: rgba(255, 255, 255, 1);
+  --primary-blue: rgba(0, 121, 255, 1);
 }
 
 .d-flex {
-  display: -ms-flexbox!important;
-  display: flex!important;
+  display: flex !important;
 }
 
 .align-items-center {
@@ -56,7 +22,7 @@
 }
 
 .sa-button, .sa-access-text {
-  font-family: 'Libre Franklin', Arial, sans-serif;
+  font-family: Arial, sans-serif;
   line-height: 1.4;
 }
 
