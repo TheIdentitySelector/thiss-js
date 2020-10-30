@@ -8,7 +8,7 @@
    command = "make netlify"
 
 [context.staging]
-   environment = {BASE_URL = "https://staging.thiss.io/", MDQ_URL = "https://md.thiss.io/entities/", SEARCH_URL = "https://md.thiss.io/entities" }
+   environment = {BASE_URL = "https://staging.thiss.io/", MDQ_URL = "https://md-staging.thiss.io/entities/", SEARCH_URL = "https://md-staging.thiss.io/entities" }
    command = "make netlify"
 
 [context.deploy-preview]
