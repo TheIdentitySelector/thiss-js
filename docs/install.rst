@@ -1,7 +1,7 @@
 Building and Installing
 =======================
 
-Note that most users won't want to install and deploy their own isntance of thiss-js but will most likely want to use one of the existing service instances such as service.seamlessaccess.org.
+Note that most users won't want to install and deploy their own instance of thiss-js but will most likely want to use one of the existing service instances such as service.seamlessaccess.org.
 
 The included Makefile has a number of targets aimed at those who want to build and package their own instance:
 
@@ -61,4 +61,4 @@ In order to run your own instance of thiss-js you need a search-capable MDQ serv
 * Replace example.com with the domain of your DS instance - eg localhost if you are just experimenting.
 * Some MDQ implementations have multiple search endpoints - you only need one that is capable of returning JSON-formatted metadata for this to work. 
 * Running your own instance of thiss-js means having your own ORIGIN for browser local storage.  If you want to share storage domain with another instance of thiss-js then you're better off implementing your own discovery frontend (eg to thiss.io). This is documented in github.com/TheIdentitySelector/thiss-ds-js.
-* The docker container does not currently support overriding all configuration parameters.Consult the start.sh script in the docker dir for details.
+* The docker container does not currently support overriding all configuration parameters. Consult the start.sh script in the docker dir for details.
