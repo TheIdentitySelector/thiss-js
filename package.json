@@ -10,6 +10,7 @@
     "cover": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
     "dev": "webpack-dev-server --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
+    "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "postinstall": "npm rebuild node-sass --force"

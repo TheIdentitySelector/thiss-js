@@ -29,6 +29,9 @@ dev:
 local:
 	@npm run local
 
+beta:
+	@npm run beta
+
 clean:
 	@rm -rf dist
 
