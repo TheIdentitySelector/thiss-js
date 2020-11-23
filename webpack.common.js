@@ -66,6 +66,9 @@ module.exports = {
         cta: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/cta/index.js']
         })}!`,
+        'sa-button': `webpack-polyfill-injector?${JSON.stringify({
+            modules: ['./src/sa-button/index.js']
+        })}!`,
         ds: `webpack-polyfill-injector?${JSON.stringify({
             modules: ['./src/ds/index.js']
         })}!`,
@@ -79,13 +82,19 @@ module.exports = {
         new DotEnv({systemvars: true}),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
-            patterns: [{ 
-              from: "./src/assets/manifest.json", 
-              to: "./manifest.json",
-              transform(content, path) {
-                 return make_manifest(content)
-              },
-            }]
+            patterns: [
+                {
+                  from: "./src/assets/manifest.json",
+                  to: "./manifest.json",
+                  transform(content, path) {
+                     return make_manifest(content)
+                  },
+                },
+                {
+                    from: "./src/assets/*.svg",
+                    to: "./[name].[ext]",
+                },
+            ],
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
@@ -98,6 +107,12 @@ module.exports = {
             chunks: ['cta'],
             inject: true,
             template: '!ejs-loader!src/cta/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'sa-button/index.html',
+            chunks: ['sa-button'],
+            inject: true,
+            template: '!ejs-loader!src/sa-button/index.html'
         }),
         new HtmlWebpackPlugin({
             filename: 'ds/index.html',
