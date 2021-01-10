@@ -34,6 +34,7 @@ jQuery(function ($) {
 
         _create: function () {
             let obj = this;
+            obj.ac = [];
 
             if (!$.isFunction(obj.options.render)) {
                 obj.options.render = $.noop;
@@ -42,7 +43,17 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.search)) {
                 obj.options.search_url = obj.options.search;
                 obj.options.search = function (text, callback) {
-                    return json_mdq_search(text, obj.options.search_url).then(data => data.filter(o => o.hidden != "true")).then(callback);
+                    obj.ac.forEach(ab => ab.abort())
+                    let this_ab = new AbortController();
+                    obj.ac.push(this_ab);
+                    json_mdq_search(text, obj.options.search_url, {signal: this_ab.signal})
+                        .then(data => data.filter(o => o.hidden != "true"))
+                        .then(data => {
+                            let first_ab = obj.ac.shift()
+                            if (!this_ab.signal.aborted) {
+                                callback(data)
+                            }
+                        });
                 }
             }
 

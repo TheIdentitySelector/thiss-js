@@ -8,7 +8,7 @@ import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import {DiscoveryComponent} from "../component";
 
 import '../assets/cta.scss'
-import '../assets/ra21icon.svg';
+import '../assets/sa-icon.svg';
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;

@@ -1,6 +1,6 @@
 {
   "name": "thiss",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": true,
@@ -10,6 +10,7 @@
     "cover": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
     "dev": "webpack-dev-server --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
+    "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect",
     "postinstall": "npm rebuild node-sass --force"
@@ -18,7 +19,7 @@
   "author": "Leif Johansson <leifj@sunet.se>",
   "license": "BSD",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
+    "@babel/cli": "^7.12.7",
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.3.4",
@@ -81,10 +82,10 @@
   ],
   "dependencies": {
     "@babel/register": "^7.10.3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@theidentityselector/js-storage": "^1.0.4",
     "@theidentityselector/thiss-ds": "^1.0.13",
-    "belter": "^1.0.109",
+    "belter": "^1.0.148",
     "chai": "^4.2.0",
     "chownr": "^1.1.1",
     "dotenv-webpack": "^1.7.0",
@@ -105,7 +106,7 @@
     "post-robot": "^10.0.14",
     "proxy-agent": "^3.1.1",
     "sass": "^1.23.0",
-    "snyk": "^1.348.1"
+    "snyk": "^1.437.2"
   },
   "snyk": true
 }
