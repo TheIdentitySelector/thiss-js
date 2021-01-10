@@ -8,8 +8,8 @@ import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import {DiscoveryComponent} from "../component";
 
 import '../assets/cta.scss'
-import '../assets/ra21icon.svg';
 import {PersistenceService} from "@theidentityselector/thiss-ds/src/persist";
+import '../assets/sa-icon.svg';
 
 let mdq = process.env.MDQ_URL;
 let persistenceURL = process.env.PERSISTENCE_URL;

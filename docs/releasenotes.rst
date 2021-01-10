@@ -38,3 +38,9 @@ Version 1.3.1
 
 * Configurable links and service name in privacy notice
 * Updated privacy notice text
+
+Version 1.4.0
+-------------
+
+* Cancel backend calls as the user types
+* Static artifacts provided as separate entrypoint
