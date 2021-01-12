@@ -44,3 +44,8 @@ Version 1.4.0
 
 * Cancel backend calls as the user types
 * Static artifacts provided as separate entrypoint
+
+Version 1.4.1
+-------------
+
+* Include link to service when users klicks "learn more" link.
