@@ -43,7 +43,11 @@ $(document).ready(function() {
     let timer = null;
 
     $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
-    $('#learn-more-banner').html(learnMoreBanner.render({learn_more_url: learn_more_url}));
+    $('#learn-more-banner').html(learnMoreBanner.render({
+        service_url: service_url,
+        service_name: service_name,
+        learn_more_url: learn_more_url
+    }));
 
     $('#learn-more-trigger, #learn-more-close').on('click', function() {
       $("#learn-more-banner").toggleClass("d-none");
