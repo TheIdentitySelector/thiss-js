@@ -89,7 +89,7 @@
     "chai": "^4.2.0",
     "chownr": "^1.1.1",
     "dotenv-webpack": "^1.7.0",
-    "ejs": "^2.7.4",
+    "ejs": "^3.1.6",
     "ejs-compiled-loader": "^2.1.0",
     "ejs-loader": "^0.3.3",
     "fibers": "^4.0.1",
