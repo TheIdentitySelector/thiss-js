@@ -87,7 +87,7 @@ Promise.all(start).then(function() {
         if (items && items.length > 0) { // or things have gone very wrong...
             let item = items[items.length-1];
             document.getElementById('title').innerText = item.entity.title;
-            entity_id = item.entity.entityID;
+            entity_id = item.entity.entity_id || item.entity.entityID;
             document.getElementById('headline').innerText = "Access through";
             document.getElementById('headline').className = "ra21-button-text-secondary";
             dsbutton.hidden = false;
