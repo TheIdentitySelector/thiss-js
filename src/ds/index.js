@@ -151,6 +151,7 @@ $(document).ready(function() {
                 if (item.last_refresh + item_ttl < now) {
                     console.log("refresh ...")
                     return json_mdq_get(encodeURIComponent(item.entity.id), o.mdq).then(entity => {
+                        console.log("... found entity on refresh")
                         item.entity = entity;
                         item.modified = true;
                         item.last_refresh = now;
