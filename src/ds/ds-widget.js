@@ -1,14 +1,5 @@
 import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
 
-function render_results(results, counter, render) {
-    for (let data in results) {
-        counter += 1;
-        data.counter = counter;
-        data.saved = false;
-        render(data)
-    }
-}
-
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
 
@@ -120,13 +111,35 @@ jQuery(function ($) {
                         } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
                             render(obj.options.too_many_results(this, results.length))
                         } else {
-                            for (let i in results) {
-                                let data = results[i]
-                                counter += 1;
-                                data.counter = counter;
-                                data.saved = false;
-                                render(obj.options.render_search_result(data))
+                            const getResults = function() {
+                                const numberDisplayed = $(obj.options.search_result_selector + " > *").length
+
+                                if (numberDisplayed === 0) {
+                                    return results.slice(0, 24)
+                                } else {
+                                    return results.slice(numberDisplayed, numberDisplayed + 25)
+                                }
                             }
+
+                            const displayResults = function() {
+                                const resultsSubset = getResults()
+
+                                for (let i in resultsSubset) {
+                                    let data = resultsSubset[i]
+                                    counter += 1;
+                                    data.counter = counter;
+                                    data.saved = false;
+                                    render(obj.options.render_search_result(data))
+                                }
+                            }
+
+                            displayResults();
+
+                            window.onscroll = function(ev) {
+                                if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+                                    displayResults();
+                                }
+                            };
                         }
                     },
                     sourceData: obj.options.search,
