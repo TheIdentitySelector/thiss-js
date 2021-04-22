@@ -1,9 +1,9 @@
 {
-  "name": "thiss",
-  "version": "1.4.1",
+  "name": "@theidentityselector/thiss",
+  "version": "1.5.0-dev0",
   "description": "The Identity Selector",
   "main": "index.js",
-  "private": true,
+  "private": false,
   "scripts": {
     "test": "./node_modules/.bin/nyc --reporter=lcov -- ./node_modules/mocha/bin/_mocha --require @babel/register",
     "lint": "node_modules/.bin/goodparts src",
