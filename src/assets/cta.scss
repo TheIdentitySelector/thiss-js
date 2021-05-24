@@ -1,72 +1,76 @@
 @import "./main";
 
-.ra21-button {
-  background-color: var(--primary-blue);
-  border-radius: 5px;
-  color: var(--warm-grey);
-  cursor: pointer;
-  display: flex;
-  margin-bottom: 3px;
-  padding: 9px;
-  width: 100%;
-  text-decoration: none;
+body {
+  text-align: center
 }
 
-.ra21-button-logo-wrap {
-  text-align: center;
-  width: 50px;
-  height: 100%;
-  border-right: 1px solid #FFFFFF;
-  padding: 5px 5px 5px 0;
+button {
+  &.ra21-button {
+    background-color: var(--primary-blue);
+    border-radius: 5px;
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  .ra21-button  {
+    border-radius: 5px;
+    display: flex;
+    padding: 9px;
+  }
+  .ra21-button-logo-wrap {
+    text-align: center;
+    width: 50px;
+    height: 100%;
+    border-right: 1px solid var(--white);
+    padding: 5px 5px 5px 0;
+  }
+
+  .ra21-button-logo {
+    width: 30px;
+    vertical-align: middle;
+  }
+
+  .ra21-button-text {
+    padding-left: 10px;
+    text-align: center;
+    width: 85%;
+    color: var(--white);
+  }
+
+  .ra21-button-text-primary, .ra21-button-text-secondary, .ra21-access-text {
+    font-family: 'Libre Franklin', Arial, sans-serif;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.4;
+    letter-spacing: normal;
+  }
+
+  .ra21-button-text-primary {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ra21-button-text-secondary {
+    /* Zep */
+    font-size: 13px;
+    font-weight: normal;
+  }
 }
 
-.ra21-button-logo {
-  width: 30px;
-  vertical-align: middle;
-}
+a {
+  &.ra21-access-text {
+    cursor: pointer;
+    width: 100%;
+    text-decoration: none;
+    /* Zep */
+    font-size: 13px;
+    line-height: 1.46;
+    color: var(--primary-blue);
+  }
 
-.ra21-button-text {
-  padding-left: 10px;
-  text-align: center;
-  width: 85%;
-  color: var(--white);
-}
-
-.ra21-button-text-primary, .ra21-button-text-secondary, .ra21-access-text {
-  font-family: 'Libre Franklin', Arial, sans-serif;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.4;
-  letter-spacing: normal;
-}
-
-.ra21-button-text-primary {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.ra21-button-text-secondary {
-  /* Zep */
-  font-size: 13px;
-  font-weight: normal;
-}
-
-.ra21-access-text {
-  cursor: pointer;
-  text-align: center;
-  width: 100%;
-  margin-top: 5px;
-  /* Zep */
-  font-size: 13px;
-  line-height: 1.46;
-  color: var(--primary-blue);
-}
-
-.ra21-cta-plus, .ra21-cta-access {
-  display: inline;
-  padding: 0 3px;
-}
-
-.light-grey {
-  color: var(--warm-grey-two);
+  &.ra21-access-text:hover {
+    color: var(--secondary-blue);
+    border-bottom: 1px solid var(--secondary-blue);
+  }
 }

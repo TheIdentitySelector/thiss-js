@@ -77,9 +77,21 @@ button.addEventListener('click', function(event) {
     }
 });
 
+button.addEventListener('keypress', function (event) {
+    if (e.key === 'Enter') {
+        button.click()
+    }
+});
+
 dsbutton.addEventListener('click', function(event) {
     event.preventDefault();
     discovery_request();
+});
+
+dsbutton.addEventListener('keypress', function (event) {
+    if (e.key === 'Enter') {
+        dsbutton.click()
+    }
 });
 
 Promise.all(start).then(function() {

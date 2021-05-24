@@ -2,20 +2,22 @@
 <html>
 <head></head>
 <body id="main">
-        <div class="ra21-button" role="button" data-href="" id="idpbutton">
-            <div class="identityprovider ra21-button-logo-wrap">
-                <img class="ra21-button-logo" src="<%= require('../assets/sa-white.svg') %>">
-            </div>
-            <div class="identityprovider d-flex justify-content-center align-items-center text-truncate ra21-button-text">
-                <div class="text-truncate">
-                    <div class="ra21-button-text-primary text-truncate" id="headline"></div>
-                    <div class="ra21-button-text-primary text-truncate" id="title">Access through your institution</div>
+        <button class="ra21-button" type="button" id="idpbutton">
+            <div class="ra21-button">
+                <div class="identityprovider ra21-button-logo-wrap">
+                    <img class="ra21-button-logo" src="<%= require('../assets/sa-white.svg') %>">
+                </div>
+                <div class="identityprovider d-flex justify-content-center align-items-center text-truncate ra21-button-text">
+                    <div class="text-truncate">
+                        <div class="ra21-button-text-primary text-truncate" id="headline"></div>
+                        <div class="ra21-button-text-primary text-truncate" id="title">Access through your institution</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="ra21-access-text" hidden  id="dsbutton">
-            <div class="ra21-cta-plus"><i class="fa fa-pen"></i></div>
-            <div class="ra21-cta-access"><span>Add or Change Institution</span></div>
-        </div>
+        </button>
+        <a class="ra21-access-text" href="#" hidden id="dsbutton">
+            <i class="fa fa-pen ra21-cta-plus"></i>
+            <span class="ra21-cta-access">Add or change institution</span>
+        </a>
 </body>
 </html>
