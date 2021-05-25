@@ -136,7 +136,7 @@ jQuery(function ($) {
                             displayResults();
 
                             window.onscroll = function(ev) {
-                                if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+                                if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
                                     displayResults();
                                 }
                             };
