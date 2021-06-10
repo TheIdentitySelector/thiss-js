@@ -90,7 +90,7 @@
     "chownr": "^1.1.1",
     "dotenv-webpack": "^1.7.0",
     "ejs": "^2.7.4",
-    "ejs-compiled-loader": "^2.1.0",
+    "ejs-compiled-loader": "^3.0.2",
     "ejs-loader": "^0.3.3",
     "fibers": "^4.0.1",
     "hogan": "^1.0.2",
