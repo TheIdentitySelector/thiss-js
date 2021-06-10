@@ -85,7 +85,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@theidentityselector/js-storage": "^1.0.4",
     "@theidentityselector/thiss-ds": "^1.0.13",
-    "belter": "^1.0.165",
+    "belter": "^1.0.169",
     "chai": "^4.2.0",
     "chownr": "^1.1.1",
     "dotenv-webpack": "^1.7.0",
