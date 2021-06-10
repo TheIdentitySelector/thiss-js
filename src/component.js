@@ -10,7 +10,7 @@ import {toCSS, destroyElement} from 'belter/src';
 
 function _set_default_props(opts) {
     if (opts.props.color === undefined) {
-        opts.props.color = "#0079ff";
+        opts.props.color = "#216e93";
     }
     if (opts.props.backgroundColor === undefined) {
         opts.props.backgroundColor = "#FFFFFF";

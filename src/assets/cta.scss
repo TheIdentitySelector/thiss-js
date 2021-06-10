@@ -6,12 +6,17 @@ body {
 
 button {
   &.ra21-button {
-    background-color: var(--primary-blue);
+    background-color: var(--pastel-blue);
     color: var(--white);
     border-radius: 5px;
     width: 100%;
     padding: 0;
     border: none;
+  }
+
+  &.ra21-button:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 1pt var(--primary-blue);
   }
 
   .ra21-button  {
@@ -67,7 +72,12 @@ a {
     /* Zep */
     font-size: 13px;
     line-height: 1.46;
-    color: var(--primary-blue);
+    color: var(--pastel-blue);
+  }
+
+  &.ra21-access-text:focus {
+    outline: none;
+    text-decoration: underline;
   }
 
   &.ra21-access-text:hover {
