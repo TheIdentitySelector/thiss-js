@@ -53,8 +53,9 @@ function prerenderTemplate(opts) {
 function containerTemplate(opts) {
     _set_default_props(opts);
 
-    opts.frame.title = 'SeamlessAccess Button'
-    opts.frame.ariaLabel = 'SeamlessAccess Button'
+    opts.frame.setAttribute('title', 'SeamlessAccess Button')
+    opts.frame.setAttribute('aria-label', 'SeamlessAccess Button')
+    opts.frame.setAttribute('role', 'presentation')
 
     let uid = opts.uid;
     let doc = opts.doc;
