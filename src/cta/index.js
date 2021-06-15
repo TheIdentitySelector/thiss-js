@@ -41,8 +41,7 @@ if (typeof discovery_response !== 'function') {
 
 document.getElementById('main').style.background = window.xprops.backgroundColor;
 document.getElementById('idpbutton').style.background = window.xprops.color;
-document.getElementById('idpbutton').style.color = window.xprops.buttonTextColor;
-document.getElementById('dsbutton').style.color = window.xprops.linkTextColor;
+document.getElementById('dsbutton').style.color = window.xprops.color;
 
 if (window.xprops.persistenceURL) {
     persistence = window.xprops.persistenceURL;
