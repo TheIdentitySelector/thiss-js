@@ -49,3 +49,13 @@ Version 1.4.1
 -------------
 
 * Include link to service when users klicks "learn more" link.
+
+Version 1.5.0
+-------------
+
+* Multiple dependency updates
+* Accessibility updates
+* Progressive scrolling in discovery service
+* Additional customizability (se docs)
+* Make sure entity_id and entityID attributes are treated as equivalent in the API (issue #135)
+
