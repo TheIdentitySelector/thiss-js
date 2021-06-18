@@ -202,22 +202,25 @@ jQuery(function ($) {
             });
 
             obj._ds.with_items(function (items) {
-                console.log(items);
-                items = obj.options.before(items);
-                let count = 0;
                 let saved_choices_element = $(obj.options.saved_choices_selector);
-                console.log(items);
-                if (items && items.length > 0) {
-                    items.forEach(function (item) {
-                        let entity = item.entity;
-                        entity.saved = true;
-                        let entity_element = obj.options.render_saved_choice(entity);
-                        saved_choices_element.prepend(entity_element);
-                        count++;
-                    });
-                }
-                obj._after(count);
-                return items; // needed later by persistence
+                return obj.options.before(items).then(items => {
+                    let count = 0;
+                    if (items && items.length > 0) {
+                        items.forEach(function (item) {
+                            let entity = item.entity;
+                            entity.saved = true;
+
+                            let entity_element = obj.options.render_saved_choice(entity);
+                            saved_choices_element.prepend(entity_element);
+                            count++;
+                        });
+                    }
+                    return count;
+                }).then(count => {
+                    obj._after(count);
+                    console.log(items);
+                    return items; // needed later by persistence
+                });
             });
         }
     })

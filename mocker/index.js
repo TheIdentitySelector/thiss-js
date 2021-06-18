@@ -46,6 +46,7 @@ const proxy = {
     },
     'GET /entities/:path': (req, res) => {
         let id = req.params.path.split('.');
+        console.log(id)
         let entity = lookup(id[0]);
         if (entity) {
             return res.json(entity);

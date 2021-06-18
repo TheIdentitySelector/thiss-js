@@ -24,11 +24,13 @@ const Hogan = require("hogan.js");
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
 import {PersistenceService} from "@theidentityselector/thiss-ds";
 import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds";
+import {json_mdq_get} from "@theidentityselector/thiss-ds/src/discovery";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
 const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
+const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
 
 const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
@@ -138,6 +140,28 @@ $(document).ready(function() {
         persist: function() {
             console.log($("#rememberThisChoice").is(':checked'));
             return $("#rememberThisChoice").is(':checked');
+        },
+        before: function(items) {
+            let now = Date.now();
+            let o = this;
+            return Promise.all(items.map(item => {
+                console.log(item)
+                console.log(item_ttl)
+                console.log(item.last_refresh + item_ttl - now)
+                if (item.last_refresh + item_ttl < now) {
+                    console.log("refresh ...")
+                    return json_mdq_get(encodeURIComponent(item.entity.id), o.mdq).then(entity => {
+                        console.log("... found entity on refresh")
+                        item.entity = entity;
+                        item.modified = true;
+                        item.last_refresh = now;
+                        item.last_use = now;
+                        return item;
+                    })
+                } else {
+                    return Promise.resolve(item)
+                }
+            })).then(items => items.filter(item => item.entity != undefined))
         },
         after: function(count,elt) {
             console.log("after - "+count);

@@ -5,7 +5,9 @@ if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
 }
 const Storages = require('@theidentityselector/js-storage');
 
-const cache_time = 60 * 10 * 1000;
+const max_cache_time = 30  * 1000;
+const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
+
 
 if (!Date.now) {
     Date.now = function() { return new Date().getTime(); }
@@ -79,7 +81,13 @@ function _ctx(context) {
 }
 
 function is_valid(item, ts) {
-    return item !== undefined && item.last_refresh !== undefined && item.last_refresh + cache_time > ts;
+    console.log(item !== undefined)
+    console.log(item.last_refresh !== undefined)
+    const a = item.last_refresh + max_cache_time  + item_ttl
+    console.log(a)
+    console.log(ts)
+    console.log(ts - a)
+    return item !== undefined && item.last_refresh !== undefined && item.last_refresh + max_cache_time  +item_ttl > ts;
 }
 
 function clean_item(item) {
@@ -106,12 +114,23 @@ function clean_item(item) {
 }
 
 function gc(storage) {
+    console.log("gc...")
     storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
             return b.last_use - a.last_use;
         }).slice(3).forEach(function (item) {
             storage.remove(item.entity.entity_id.hexEncode());
+        });
+    let now = _timestamp();
+    storage.keys().filter(k => k !== undefined && k !== '_name')
+        .map(k => get_entity(storage, k))
+        .forEach(item => {
+            console.log(item)
+            if (!is_valid(item, now)) {
+                console.log("... removing")
+                storage.remove(item.entity.entity_id.hexEncode())
+            }
         });
 }
 
@@ -131,26 +150,49 @@ function check_access(event) {
     }
 }
 
-postRobot.on('update', {window: window.parent}, function(event) {
-    check_access(event);
-    let entity = event.data.entity;
-    let storage = _ctx(event.data.context);
+function set_entity(storage, entity) {
+    let item;
     let now = _timestamp();
+    console.log("setting...")
+    console.log(entity)
+    if (entity.entity != undefined) { // we were given the full metadata interface
+        item = entity;
+        entity = item.entity;
+    } else { // legacy interface
+        item = {"last_refresh": now, "last_use": now, "entity": entity};
+    }
+
     if (entity.entityID && !entity.entity_id) {
         entity.entity_id = entity.entityID;
     }
     let id = entity.entity_id.hexEncode();
-    let item = get_entity(storage, id);
-    if (!is_valid(item, now)) {
-        item = { "last_refresh": now, "last_use": now, "entity": entity };
-    } else {
-        item.last_refresh = now;
-        item.last_use = now;
-        item.entity = entity;
-    }
-    storage.set(id, clean_item(item));
+    item = clean_item(item);
+    return storage.set(id, item)
+}
+
+postRobot.on('persist', {window: window.parent}, function(event) {
+    check_access(event);
+    let entities = event.data.entities;
+    let storage = _ctx(event.data.context);
+    storage.removeAll();
+    storage.set('_name', event.data.context);
+
+    entities.forEach(entity => {
+        set_entity(storage, entity)
+    })
+});
+
+postRobot.on('update', {window: window.parent}, function(event) {
+    check_access(event);
+    let entity = event.data.entity;
+    let storage = _ctx(event.data.context);
+    return set_entity(storage, entity);
+});
+
+postRobot.on('expire', {window: window.parent}, function(event) {
+    check_access(event);
+    let storage = _ctx(event.data.context);
     gc(storage);
-    return item;
 });
 
 postRobot.on('entities', {window: window.parent}, function(event) {
