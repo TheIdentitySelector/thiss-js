@@ -10,7 +10,7 @@ import {toCSS, destroyElement} from 'belter/src';
 
 function _set_default_props(opts) {
     if (opts.props.color === undefined) {
-        opts.props.color = "#0079ff";
+        opts.props.color = "#216e93";
     }
     if (opts.props.backgroundColor === undefined) {
         opts.props.backgroundColor = "#FFFFFF";
@@ -52,6 +52,10 @@ function prerenderTemplate(opts) {
 
 function containerTemplate(opts) {
     _set_default_props(opts);
+
+    opts.frame.setAttribute('title', 'SeamlessAccess Button')
+    opts.frame.setAttribute('aria-label', 'SeamlessAccess Button')
+    opts.frame.setAttribute('role', 'presentation')
 
     let uid = opts.uid;
     let doc = opts.doc;

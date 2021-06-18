@@ -41,6 +41,7 @@ if (typeof discovery_response !== 'function') {
 
 document.getElementById('main').style.background = window.xprops.backgroundColor;
 document.getElementById('idpbutton').style.background = window.xprops.color;
+document.getElementById('dsbutton').style.color = window.xprops.color;
 
 if (window.xprops.persistenceURL) {
     persistence = window.xprops.persistenceURL;
@@ -77,9 +78,21 @@ button.addEventListener('click', function(event) {
     }
 });
 
+button.addEventListener('keypress', function (event) {
+    if (e.key === 'Enter') {
+        button.click()
+    }
+});
+
 dsbutton.addEventListener('click', function(event) {
     event.preventDefault();
     discovery_request();
+});
+
+dsbutton.addEventListener('keypress', function (event) {
+    if (e.key === 'Enter') {
+        dsbutton.click()
+    }
 });
 
 Promise.all(start).then(function() {
@@ -87,7 +100,7 @@ Promise.all(start).then(function() {
         if (items && items.length > 0) { // or things have gone very wrong...
             let item = items[items.length-1];
             document.getElementById('title').innerText = item.entity.title;
-            entity_id = item.entity.entityID;
+            entity_id = item.entity.entity_id || item.entity.entityID;
             document.getElementById('headline').innerText = "Access through";
             document.getElementById('headline').className = "ra21-button-text-secondary";
             dsbutton.hidden = false;

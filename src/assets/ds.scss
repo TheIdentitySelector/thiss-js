@@ -316,27 +316,29 @@ ul li a:hover {
   }
 }
 
-.choose {
-  .institution:hover {
-    i.arrow {
-      color: var(--primary-blue);
-      display: block;
+.results {
+  &.choose, &.search-list {
+    .institution:hover {
+      i.arrow {
+        color: var(--primary-blue);
+        display: block;
+      }
+
+      .primary {
+        color: var(--primary-blue);
+      }
     }
 
-    .primary {
-      color: var(--primary-blue);
+    li.institution {
+      border-bottom: 1px solid rgba(118, 118, 118, 0.2);
+      cursor: pointer;
+      padding-bottom: 15px;
+      padding-top: 15px;
     }
-  }
 
-  li.institution {
-    border-bottom: 1px solid rgba(118, 118, 118, 0.2);
-    cursor: pointer;
-    padding-bottom: 15px;
-    padding-top: 15px;
-  }
-
-  a:first-child li{
-    border-top: 1px solid rgba(118, 118, 118, 0.2);
+    a:first-child li{
+      border-top: 1px solid rgba(118, 118, 118, 0.2);
+    }
   }
 }
 
