@@ -563,3 +563,10 @@ i.arrow {
 .display-block {
   display: block;
 }
+
+#language-selector {
+  background-color: transparent;
+  border: none;
+  padding: 0 0 0 0.75rem;
+  color: var(--primary-blue)
+}

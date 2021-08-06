@@ -10,7 +10,7 @@
 
 	<header>
 		<h2 class="accessHeader account">
-			<img alt="" class="header-ra21-logo" src="<%= require('../assets/sa-black.svg') %>"/><span class="light">Access to</span>
+			<img alt="" class="header-ra21-logo" src="<%= require('../assets/sa-black.svg') %>"/><span class="light" data-i18n="ds-header">Access to</span>
 			<span class="sp_title account-pill"></span>
 		</h2>
 	</header>
@@ -18,8 +18,8 @@
 		<div class="container" id="dsclient">
 			<!-- choose -->
 			<div class="d-none" id="choose">
-				<h1 class="choose">Choose Your Institution</h1>
-				<h2 class="choose">Recent institutions</h2>
+				<h1 class="choose" data-i18n="ds-choose-heading">Choose Your Institution</h1>
+				<h2 class="choose" data-i18n="ds-choose-subheading">Recent institutions</h2>
 				<div class="results choose" id="savedchoices">
 					<ul id="ds-saved-choices"></ul>
 				</div>
@@ -27,30 +27,30 @@
 					<a id="add_button" href="#"
 					   class="align-left"
 					   role="button"
-					   aria-expanded="false"><i class="fa fa-plus-square"></i> Add another institution</a>
+					   aria-expanded="false"><i class="fa fa-plus-square"></i> <span data-i18n="ds-choose-add-another">Add another institution</span></a>
 					<a id="edit_button" href="#"
 					   class="align-right"
 					   role="button"
-					   aria-expanded="false"><i class="fa fa-pen"></i> Edit</a>
+					   aria-expanded="false"><i class="fa fa-pen"></i> <span data-i18n="ds-choose-edit">Edit</span></a>
 				</div>
-				<a id="done_button" role="button" class="d-none center btn btn-block btn-light" href="#">Done</a>
+				<a id="done_button" role="button" class="d-none center btn btn-block btn-light" href="#" data-i18n="ds-choose-done">Done</a>
 			</div>
 
 			<!-- search -->
 			<div class="d-none d-block" id="search">
-				<h1>Find Your Institution</h1>
-				<h2>Your university, organization or company</h2>
+				<h1 data-i18n="ds-search-heading">Find Your Institution</h1>
+				<h2 data-i18n="ds-search-subheading">Your university, organization or company</h2>
 				<form>
 					<div class="form-content">
 						<div class="search">
 							<i class="fa fa-search"></i>
 							<input tabindex="0" type="text" autocomplete="off" id="searchinput" placeholder="" aria-label="search" autofocus>
 						</div>
-						<h3>Examples: Science Institute, Lee@uni.edu, UCLA</h3>
+						<h3 data-i18n="ds-search-example">Examples: Science Institute, Lee@uni.edu, UCLA</h3>
 						<div id="notice-and-consent-actions"></div>
 						<div id="learn-more-banner" class="alert alert-secondary d-none"></div>
 						<div class="d-none" id="searching">
-							<h3>Searching for institutions...</h3>
+							<h3 data-i18n="ds-search-placeholder">Searching for institutions...</h3>
 							<div class="loader"></div>
 						</div>
 					</div>
@@ -69,7 +69,11 @@
 				<span class="footer-pill">
 					<img alt="Seamless Logo" class="footer-ra21-logo" src="<%= require('../assets/SeamlessFooterLogo.svg') %>">
 				</span>
-				<a href="https://seamlessaccess.org/about/">About Us</a>
+				<a href="https://seamlessaccess.org/about/" data-i18n="ds-footer-about-us">About Us</a>
+				<select name="language-selector" id="language-selector" class="ml-4">
+					<option value="en-US">English</option>
+					<option value="es-ES">Español</option>
+				</select>
 			</p>
 		</div>
 	</footer>

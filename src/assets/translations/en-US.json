@@ -1,0 +1,27 @@
+{
+  "@metadata": {
+    "authors": [
+      "Robert Haidari"
+    ],
+    "last-updated": "2021-06-01",
+    "locale": "en-US"
+  },
+  "ds-header": "Access to",
+  "ds-footer-about-us": "About Us",
+  "ds-search-heading": "Find Your Institution",
+  "ds-search-subheading": "Your university, organization or company",
+  "ds-search-example": "Examples: Science Institute, Lee@uni.edu, UCLA",
+  "ds-search-placeholder": "Searching for institutions...",
+  "ds-choose-heading": "Choose Your Institution",
+  "ds-choose-subheading": "Recent institutions",
+  "ds-choose-add-another": "Add another institution",
+  "ds-choose-edit": "Edit",
+  "ds-choose-done": "Done",
+  "ds-notice-and-consent-remember": "Remember this choice",
+  "ds-notice-and-consent-learn-more": "Learn More",
+  "ds-notice-and-consent-banner-more-info": "Additional Privacy Information",
+  "ds-notice-and-consent-banner-personal-info": "No login, email or personal information is stored.",
+  "ds-too-many-result-show": "Show me all matches anyway",
+  "ds-too-many-result-matches": "Matches",
+  "ds-too-many-result-keep-typing": "keep typing to refine your search"
+}
