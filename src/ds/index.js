@@ -85,8 +85,8 @@ $(document).ready(function() {
         $("#choosetools").toggleClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#savedchoices").removeClass('choose').addClass('edit');
-        $("h1.choose").text('Edit institutions');
-        $("h2.choose").text('If you don’t want an institution to be remembered on this computer, remove it from the list below.');
+        $("#choose > span.choose").hide();
+        $("#choose > span.edit").show();
         $(".institution-text").addClass("item-fade");
         $(".institution-icon").addClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -98,8 +98,8 @@ $(document).ready(function() {
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#choosetools").toggleClass("d-none");
         $("#savedchoices").removeClass('edit').addClass('choose');
-        $("h1.choose").text('Choose Your Institution');
-        $("h2.choose").text('Recent institutions');
+        $("#choose > span.edit").hide();
+        $("#choose > span.choose").show();
         $(".institution-text").removeClass("item-fade");
         $(".institution-icon").removeClass("item-fade");
         $(".institution-select").toggleClass("d-none");

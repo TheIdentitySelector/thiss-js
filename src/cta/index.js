@@ -6,6 +6,7 @@ dom.watch();
 
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
 import {DiscoveryComponent} from "../component";
+import setLocale from '../localization.js'
 
 import '../assets/cta.scss'
 import '../assets/sa-icon.svg';
@@ -42,6 +43,11 @@ if (typeof discovery_response !== 'function') {
 document.getElementById('main').style.background = window.xprops.backgroundColor;
 document.getElementById('idpbutton').style.background = window.xprops.color;
 document.getElementById('dsbutton').style.color = window.xprops.color;
+
+if (window.xprops) {
+    console.log('window.xprops.locale: ', window.xprops)
+    //setLocale(window.xprops.locale)
+}
 
 if (window.xprops.persistenceURL) {
     persistence = window.xprops.persistenceURL;

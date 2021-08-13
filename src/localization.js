@@ -4,6 +4,7 @@ const DEFAULT_LANGUAGE = 'en-US'
 const I18N_DATA_ATTRIBUTE = '[data-i18n]'
 
 const locale = window.navigator.userLanguage || window.navigator.language;
+
 const languageSelector = document.getElementById('language-selector')
 const i18n = new I18n()
 
@@ -37,14 +38,17 @@ const setLanguage = (language) => {
         })
 }
 
-const setLanguageSelector = (language) => {
-    languageSelector.value = language
-}
+const language = 'es-ES'
 
 setLanguage(locale)
-setLanguageSelector(locale)
 
 if (languageSelector) {
+    const setLanguageSelector = (language) => {
+        languageSelector.value = language
+    }
+
+    setLanguageSelector(locale)
+
     languageSelector.addEventListener('change', (event) => {
         setLanguage(event.target.value)
     });
