@@ -1,7 +1,7 @@
 import '../assets/nc.scss';
 import '../assets/ds.scss';
 
-import '../localization.js'
+import Localization from '../localization.js'
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -11,6 +11,8 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 config.autoReplaceSvg = 'nest';
+
+new Localization();
 
 library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
 dom.watch();

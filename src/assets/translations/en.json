@@ -4,7 +4,7 @@
       "Robert Haidari"
     ],
     "last-updated": "2021-06-01",
-    "locale": "en-US"
+    "locale": "en"
   },
   "cta-button-placeholder": "Access through your institution",
   "cta-button-header": "Access through",
@@ -19,13 +19,12 @@
   "ds-choose-subheading": "Recent institutions",
   "ds-choose-add-another": "Add another institution",
   "ds-edit-heading": "Edit institutions",
-  "ds-edit-subheading": "If you don’t want an institution to be remembered on this computer, remove it from the list below.",
+  "ds-edit-subheading": "If you no longer want an institution to be remembered on this device, remove it from the list below.",
   "ds-choose-edit": "Edit",
   "ds-choose-done": "Done",
   "ds-notice-and-consent-remember": "Remember this choice",
   "ds-notice-and-consent-learn-more": "Learn More",
-  "ds-notice-and-consent-banner-storage-info-1": "The institution you select will be saved in the browser local storage of this device and will be made available to this and other sites that use",
-  "ds-notice-and-consent-banner-storage-info-2": "You may clear your browser local storage at any time.",
+  "ds-notice-and-consent-banner-storage-info": "The institution you select will be saved in this browser's local storage and will be made available to this and other sites that use SeamlessAccess. You may clear your browser local storage at any time.",
   "ds-notice-and-consent-banner-more-info": "Additional Privacy Information",
   "ds-notice-and-consent-banner-personal-info": "No login, email or personal information is stored.",
   "ds-too-many-result-show": "Show me all matches anyway",
