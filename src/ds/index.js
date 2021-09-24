@@ -12,7 +12,7 @@ import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 config.autoReplaceSvg = 'nest';
 
-new Localization();
+const localization = new Localization();
 
 library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
 dom.watch();
@@ -129,7 +129,12 @@ $(document).ready(function() {
                 clearTimeout(timer); timer = null;
             }
             $("#searching").hide();
-            let too_many_node = too_many.render({"count": count});
+            let too_many_node = too_many.render({
+                    "count": count,
+                    "matchesString": localization.translateString('ds-too-many-result-matches'),
+                    "keepTypingString": localization.translateString('ds-too-many-result-keep-typing'),
+                    "showAnywayString": localization.translateString('ds-too-many-result-show')
+                });
             $('body').on('click', "#showall", function() {  bts.showall() })
             return too_many_node;
         },
