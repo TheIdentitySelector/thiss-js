@@ -44,12 +44,7 @@ document.getElementById('main').style.background = window.xprops.backgroundColor
 document.getElementById('idpbutton').style.background = window.xprops.color;
 document.getElementById('dsbutton').style.color = window.xprops.color;
 
-if (window.xprops.locale) {
-    console.log(window.xprops)
-    new Localization(window.xprops.locale);
-} else {
-    new Localization();
-}
+const localization = new Localization(window.xprops.locale);
 
 if (window.xprops.persistenceURL) {
     persistence = window.xprops.persistenceURL;
@@ -109,13 +104,13 @@ Promise.all(start).then(function() {
             let item = items[items.length-1];
             document.getElementById('title').innerText = item.entity.title;
             entity_id = item.entity.entity_id || item.entity.entityID;
-            document.getElementById('headline').innerText = "Access through";
+            document.getElementById('headline').innerText = localization.translateString('cta-button-header');
             document.getElementById('headline').className = "ra21-button-text-secondary";
             dsbutton.hidden = false;
         } else {
-            document.getElementById('title').innerText = "Access through your institution";
+            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
         }
     }).then(() => ds.ps.expire()).catch(ex => {
-          document.getElementById('title').innerText = "Access through your institution";
+          document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
     });
 });

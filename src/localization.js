@@ -86,5 +86,9 @@ export default class Localization extends I18n {
                 })
         })
     }
+
+    translateString (string) {
+        return this.i18n(string)
+    }
 }
 
