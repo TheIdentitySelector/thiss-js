@@ -1,6 +1,7 @@
 import '../assets/nc.scss';
 import '../assets/ds.scss';
 
+import Localization from '../localization.js'
 
 import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
@@ -10,6 +11,8 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 config.autoReplaceSvg = 'nest';
+
+const localization = new Localization();
 
 library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
 dom.watch();
@@ -84,8 +87,8 @@ $(document).ready(function() {
         $("#choosetools").toggleClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#savedchoices").removeClass('choose').addClass('edit');
-        $("h1.choose").text('Edit institutions');
-        $("h2.choose").text('If you don’t want an institution to be remembered on this computer, remove it from the list below.');
+        $("#choose > span.choose").hide();
+        $("#choose > span.edit").show();
         $(".institution-text").addClass("item-fade");
         $(".institution-icon").addClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -97,8 +100,8 @@ $(document).ready(function() {
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#choosetools").toggleClass("d-none");
         $("#savedchoices").removeClass('edit').addClass('choose');
-        $("h1.choose").text('Choose Your Institution');
-        $("h2.choose").text('Recent institutions');
+        $("#choose > span.edit").hide();
+        $("#choose > span.choose").show();
         $(".institution-text").removeClass("item-fade");
         $(".institution-icon").removeClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -126,7 +129,12 @@ $(document).ready(function() {
                 clearTimeout(timer); timer = null;
             }
             $("#searching").hide();
-            let too_many_node = too_many.render({"count": count});
+            let too_many_node = too_many.render({
+                    "count": count,
+                    "matchesString": localization.translateString('ds-too-many-result-matches'),
+                    "keepTypingString": localization.translateString('ds-too-many-result-keep-typing'),
+                    "showAnywayString": localization.translateString('ds-too-many-result-show')
+                });
             $('body').on('click', "#showall", function() {  bts.showall() })
             return too_many_node;
         },
