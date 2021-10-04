@@ -94,6 +94,10 @@ module.exports = {
                     from: "./src/assets/*.svg",
                     to: "./[name].[ext]",
                 },
+                {
+                    from: "./src/assets/translations",
+                    to: "./translations",
+                },
             ],
         }),
         new HtmlWebpackPlugin({

@@ -85,6 +85,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@theidentityselector/js-storage": "^1.0.4",
     "@theidentityselector/thiss-ds": "^1.0.13",
+    "banana-i18n": "^2.2.0",
     "belter": "^1.0.165",
     "chai": "^4.2.0",
     "chownr": "^1.1.1",
@@ -105,8 +106,8 @@
     "popper.js": "^1.16.1",
     "post-robot": "^10.0.14",
     "proxy-agent": "^3.1.1",
-    "snyk": "^1.606.0",
-    "sass": "^1.32.12"
+    "sass": "^1.32.12",
+    "snyk": "^1.606.0"
   },
   "snyk": true
 }
