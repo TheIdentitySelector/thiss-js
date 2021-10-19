@@ -98,6 +98,10 @@ dsbutton.addEventListener('keypress', function (event) {
     }
 });
 
+if (!ds.ps.expire) {
+    ds.ps.expire = function() {}
+}
+
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
         if (items && items.length > 0) { // or things have gone very wrong...
