@@ -131,7 +131,7 @@ module.exports = {
             template: '!ejs-loader!src/ps/index.html'
         }),
         //new PreloadWebpackPlugin(),
-        new ExtractTextPlugin("[name].css"),
+        new ExtractTextPlugin("[name]_[chunkhash].css"),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         }),
@@ -150,6 +150,7 @@ module.exports = {
     ],
     output: {
         filename: '[name].js',
+        chunkFilename: "[name]_[contenthash].js",
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/",
         libraryTarget: 'umd',
