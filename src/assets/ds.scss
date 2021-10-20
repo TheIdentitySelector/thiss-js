@@ -156,6 +156,12 @@ footer {
 .footer-credential {
 	margin: 0 auto;
 	text-align: center;
+
+    #locale-selector {
+        border: none;
+        background: transparent;
+        color: var(--primary-blue);
+    }
 }
 
 .footer-pill {
