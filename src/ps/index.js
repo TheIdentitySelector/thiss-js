@@ -1,8 +1,14 @@
 const postRobot = require("post-robot");
 let whitelist = [];
+let expire_enabled = false;
 if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
     whitelist = process.env.WHITELIST.split(',').map(s => s.trim())
 }
+if (process.env.EXPIRE_ENABLED) {
+    let v = process.env.EXPIRE_ENABLED.toLowerCase()
+    expire_enabled = (v === 'true') || (v === 'on') || (v === '1')
+}
+
 const Storages = require('@theidentityselector/js-storage');
 
 const max_cache_time = 30  * 1000;
@@ -190,9 +196,11 @@ postRobot.on('update', {window: window.parent}, function(event) {
 });
 
 postRobot.on('expire', {window: window.parent}, function(event) {
-    check_access(event);
-    let storage = _ctx(event.data.context);
-    gc(storage);
+    if (expire_enabled) {
+        check_access(event);
+        let storage = _ctx(event.data.context);
+        gc(storage);
+    }
 });
 
 postRobot.on('entities', {window: window.parent}, function(event) {
