@@ -6,8 +6,9 @@ if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
 }
 if (process.env.EXPIRE_ENABLED) {
     let v = process.env.EXPIRE_ENABLED.toLowerCase()
-    expire_enabled = (v === 'true') || (v === 'on') || (v === '1')
+    expire_enabled = ((v === 'true') || (v === 'on') || (v === '1'))
 }
+
 
 const Storages = require('@theidentityselector/js-storage');
 
