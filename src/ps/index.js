@@ -93,7 +93,7 @@ function is_valid(item, ts) {
     console.log(a)
     console.log(ts)
     console.log(ts - a)
-    return item !== undefined && item.last_refresh !== undefined && item.last_refresh + max_cache_time  +item_ttl > ts;
+    return item !== undefined && item.last_refresh !== undefined && item.last_refresh + max_cache_time  + item_ttl > ts;
 }
 
 function clean_item(item) {
