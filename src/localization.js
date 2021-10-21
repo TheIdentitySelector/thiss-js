@@ -12,7 +12,6 @@ export default class Localization extends I18n {
     }
 
     selectAvailableLocale (defaultLocale) {
-
         let locale = this.formatLocale(window.navigator.userLanguage || window.navigator.language || DEFAULT_LOCALE);
 
         if (defaultLocale) {
@@ -20,6 +19,8 @@ export default class Localization extends I18n {
         } else {
             if (this.locale) {
                 locale = this.formatLocale(this.locale)
+            } else {
+                locale = this.formatLocale(locale)
             }
         }
 

@@ -9,9 +9,6 @@ import {toCSS, destroyElement} from 'belter/src';
  */
 
 function _set_default_props(opts) {
-    if (opts.props.locale === undefined) {
-        opts.props.locale = "en-US";
-    }
     if (opts.props.color === undefined) {
         opts.props.color = "#216e93";
     }
@@ -165,7 +162,7 @@ export const DiscoveryComponent = zoid.create({
 
     backgroundColor: '#FFFFFF',
     color: '#0079ff',
-    locale: 'en-US',
+    locale: null,
 
     containerTemplate: containerTemplate,
     prerenderTemplate: prerenderTemplate
