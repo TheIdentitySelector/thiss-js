@@ -215,7 +215,7 @@ postRobot.on('entities', {window: window.parent}, function(event) {
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
             return a.last_use - b.last_use;
-        }).slice(0, count);
+        }).slice(-count);
 });
 
 postRobot.on('entity', {window: window.parent}, function(event) {
