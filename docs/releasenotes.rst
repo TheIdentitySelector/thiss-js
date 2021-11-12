@@ -59,3 +59,8 @@ Version 1.5.0
 * Additional customizability (se docs)
 * Make sure entity_id and entityID attributes are treated as equivalent in the API (issue #135)
 
+Version 1.6.0
+-------------
+
+* Initial support for entity refresh
+* i18n
