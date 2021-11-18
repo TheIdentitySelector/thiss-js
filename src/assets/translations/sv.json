@@ -1,0 +1,33 @@
+{
+  "@metadata": {
+    "authors": [
+      "Fredrik Domeij"
+    ],
+    "last-updated": "2021-11-18",
+    "locale": "sv"
+  },
+  "cta-button-placeholder": "Inloggning via din organisation",
+  "cta-button-header": "Inloggning via",
+  "cta-link": "Lägg till eller ändra organisation",
+  "ds-header": "Inloggning till",
+  "ds-footer-about-us": "Om oss",
+  "ds-search-heading": "Hitta Din Organisation",
+  "ds-search-subheading": "Ditt lärosäte, organisation eller företag",
+  "ds-search-example": "Exempel: Umeå universitet, eduID Sweden",
+  "ds-search-placeholder": "Söker efter organisationer...",
+  "ds-choose-heading": "Välj Din Organisation",
+  "ds-choose-subheading": "Nyligen använda",
+  "ds-choose-add-another": "Välj en annan organisation",
+  "ds-edit-heading": "Ändra organisationer",
+  "ds-edit-subheading": "Om du inte längre vill att en organisation ska listas på denna enhet, ta bort den från listan nedan.",
+  "ds-choose-edit": "Ändra",
+  "ds-choose-done": "Klar",
+  "ds-notice-and-consent-remember": "Kom ihåg mitt val",
+  "ds-notice-and-consent-learn-more": "Mer information",
+  "ds-notice-and-consent-banner-storage-info": "Organisationen du väljer kommer att sparas i denna enhets lokala lagring och kommer att vara tillgänglig för denna och andra tjänster som använder SeamlessAccess. Du kan rensa den lokala lagringen i din enhet när du vill.",
+  "ds-notice-and-consent-banner-more-info": "Hantering av personuppgifter i SeamlessAccess",
+  "ds-notice-and-consent-banner-personal-info": "Inga personuppgifter sparas.",
+  "ds-too-many-result-show": "Visa alla träffar",
+  "ds-too-many-result-matches": "träffar",
+  "ds-too-many-result-keep-typing": "fortsätt skriva för att begränsa sökresultatet"
+}
