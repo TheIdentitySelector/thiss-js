@@ -18,6 +18,9 @@ events {
 http {
    server {
       include "mime.types";
+      charset utf-8;
+      charset_types text/html text/xml text/plain text/vnd.wap.wml application/javascript application/rss+xml application/json;
+      source_charset utf-8;
 
 EOF
 
