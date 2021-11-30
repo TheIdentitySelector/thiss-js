@@ -64,3 +64,9 @@ Version 1.6.0
 
 * Initial support for entity refresh
 * i18n
+
+Version 1.6.1
+-------------
+
+* i18n fixes for docker image
+* Swedish translation
