@@ -46,12 +46,21 @@ fi
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
-         location ~*  \.(jpg|jpeg|png|gif|svg|ico|css|js|html|eot|ttf|woff|woff2)$ {
+         location ~*  \.html$ {
+            sendfile on;
+            tcp_nopush on;
+            tcp_nodelay on;
+            keepalive_timeout 65;
+            expires 1h;
+            add_header Cache-Control max-age=300, must-revalidate, s-maxage=300, proxy-revalidate
+         }
+         location ~*  \.(jpg|jpeg|png|gif|svg|ico|css|js|eot|ttf|woff|woff2)$ {
             sendfile on;
             tcp_nopush on;
             tcp_nodelay on;
             keepalive_timeout 65;
             expires 10d;
+            add_header Cache-Control: public, max-age=604800, must-revalidate, s-maxage=604800, proxy-revalidate
          }
          root /usr/share/nginx/html;
          try_files \$uri \$uri/index.html \$uri.html @mdq;
