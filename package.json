@@ -104,7 +104,7 @@
     "mocha": "^5.2.0",
     "mock-browser": "^0.92.14",
     "mustache-loader": "^1.4.3",
-    "node-fetch": "^2.6.5",
+    "node-fetch": "^2.6.6",
     "popper.js": "^1.16.1",
     "post-robot": "==10.0.14",
     "proxy-agent": "^3.1.1",
