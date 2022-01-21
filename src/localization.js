@@ -7,6 +7,7 @@ export default class Localization extends I18n {
     constructor(locale) {
         super();
         this.locale = locale;
+        this.file = null;
         this.selectAvailableLocale();
         this.selectNewLocale();
     }
@@ -61,6 +62,7 @@ export default class Localization extends I18n {
                     return response.json()
                 })
                 .then((messages) => {
+                    this.file = messages
                     this.setLocale(locale);
                     this.load(messages, locale);
 
@@ -89,7 +91,17 @@ export default class Localization extends I18n {
     }
 
     translateString (string) {
-        return this.i18n(string)
+        const translated = this.i18n(string)
+
+        if (this.file.hasOwnProperty(translated)) {
+            if (this.file[translated]) {
+                return this.file[translated]
+            } else {
+                return ''
+            }
+        } else {
+            return translated
+        }
     }
 }
 

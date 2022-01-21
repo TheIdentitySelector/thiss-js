@@ -4,3 +4,4 @@ dist
 coverage
 .nyc*
 local.mk
+package-lock.json
