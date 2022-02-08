@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
@@ -11,8 +11,7 @@
     "dev": "webpack-dev-server --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
     "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect",
+    "snyk": "snyk protect",
     "prebuild": "rebuild-node-sass",
     "postinstall": "npm rebuild node-sass --force"
   },

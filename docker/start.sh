@@ -46,13 +46,13 @@ fi
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
-         location ~*  \.html$ {
+         location ~*  \.(html|json)$ {
             sendfile on;
             tcp_nopush on;
             tcp_nodelay on;
             keepalive_timeout 65;
             expires 1h;
-            add_header 'Cache-Control' 'max-age=300, must-revalidate, s-maxage=300, proxy-revalidate';
+            add_header 'Cache-Control' 'public, max-age=300, must-revalidate, s-maxage=300, proxy-revalidate';
          }
          location ~*  \.(jpg|jpeg|png|gif|svg|ico|css|js|eot|ttf|woff|woff2)$ {
             sendfile on;

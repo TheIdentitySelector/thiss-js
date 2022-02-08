@@ -19,7 +19,7 @@ all: standalone
 -include local.mk
 
 snyk:
-	@npm run snyk-protect
+	@npm run snyk
 
 start: dev
 
