@@ -70,3 +70,9 @@ Version 1.6.1
 
 * i18n fixes for docker image
 * Swedish translation
+
+Version 1.6.2
+-------------
+
+* fixes for cache headers in docker image
+* fixes for i18n
