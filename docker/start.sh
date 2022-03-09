@@ -1,9 +1,5 @@
 #!/bin/bash
 
-if [ ! -f /etc/ssl/private/dhparam.pem ]; then
-   openssl dhparam 2048 > /etc/ssl/private/dhparam.pem
-fi
-
 cat>/etc/nginx/nginx.conf<<EOF
 daemon off;
 
@@ -22,7 +18,17 @@ http {
 EOF
 
 if [ "x${TLS_CERT}" != "x" -a "x${TLS_KEY}" != "x" ]; then
-cat>>/etc/nginx/nginx.conf<<EOF
+   cat>/etc/ssl/private/dhparam.pem<<EOF
+-----BEGIN DH PARAMETERS-----
+MIIBCAKCAQEA//////////+t+FRYortKmq/cViAnPTzx2LnFg84tNpWp4TZBFGQz
++8yTnc4kmz75fS/jY2MMddj2gbICrsRhetPfHtXV/WVhJDP1H18GbtCFY2VVPe0a
+87VXE15/V8k1mE8McODmi3fipona8+/och3xWKE2rec1MKzKT0g6eXq8CrGCsyT7
+YdEIqUuyyOP7uWrat2DX9GgdT0Kj3jlN9K5W7edjcrsZCwenyO4KbXCeAvzhzffi
+7MA0BM0oNC9hkXL+nOmFg/+OTxIy7vKBg8P+OxtMb61zO7X8vC7CIAXFjvGDfRaD
+ssbzSibBsu/6iGtCOGEoXJf//////////wIBAg==
+-----END DH PARAMETERS-----
+EOF
+   cat>>/etc/nginx/nginx.conf<<EOF
       listen 443 ssl backlog=4096;
       ssl_certificate ${TLS_CERT};
       ssl_certificate_key ${TLS_KEY};
@@ -35,7 +41,7 @@ cat>>/etc/nginx/nginx.conf<<EOF
       ssl_session_tickets on;
 EOF
 else
-cat>>/etc/nginx/nginx.conf<<EOF
+   cat>>/etc/nginx/nginx.conf<<EOF
       listen 80;
 EOF
 fi
