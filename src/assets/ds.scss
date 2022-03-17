@@ -17,7 +17,7 @@ body {
   box-sizing: border-box;
 }
 
-p, a, h1, h2, h3, .H2-inactive-text, input, ul, li, .primary, .secondary, label {
+p, a, h1, h2, h3, .H2-inactive-text, input, ul, li, .primary, .secondary, label, legend {
   font-family: 'Libre Franklin', Arial, sans-serif;
   font-style: normal;
   font-stretch: normal;
@@ -72,7 +72,7 @@ a {
   color: var(--warm-grey);
 }
 
-h1, h2, h3 {
+h1, h2, h3, legend {
   color: var(--text-grey);
 }
 
@@ -92,7 +92,7 @@ h2, .type-ahead-alert p, .type-ahead-alert a {
   margin: 5px 0 20px 0;
 }
 
-h3 {
+h3, legend {
   /* Zep */
   font-size: 13px;
   font-weight: normal;
@@ -237,7 +237,7 @@ input {
 	width: 100%;
 }
 
-.form-content h3 {
+.form-content legend {
   margin-top: 13px;
 }
 
@@ -496,7 +496,7 @@ i.arrow {
 .no-results-alert {
   text-align: left;
 
-  h3 {
+  h3, legend {
     color: var(--text-grey);
   }
 
