@@ -49,22 +49,17 @@ else
 EOF
 fi
 
+CACHE_CONTROL=${CACHE_CONTROL:"public, max-age=36000, must-revalidate, s-maxage=36000, proxy-revalidate"}
+
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
-         location ~*  \.(html|json)$ {
+         location ~*  \.(jpg|jpeg|png|gif|svg|ico|html|json|css|js|eot|ttf|woff|woff2)$ {
             sendfile on;
             tcp_nopush on;
             tcp_nodelay on;
             keepalive_timeout 65;
-            add_header 'Cache-Control' 'public, max-age=300, must-revalidate, s-maxage=300, proxy-revalidate';
-         }
-         location ~*  \.(jpg|jpeg|png|gif|svg|ico|css|js|eot|ttf|woff|woff2)$ {
-            sendfile on;
-            tcp_nopush on;
-            tcp_nodelay on;
-            keepalive_timeout 65;
-            add_header 'Cache-Control' 'public, max-age=604800, must-revalidate, s-maxage=604800, proxy-revalidate';
+            add_header 'Cache-Control' '${CACHE_CONTROL}';
          }
          root /usr/share/nginx/html;
          try_files \$uri \$uri/index.html \$uri.html @mdq;
