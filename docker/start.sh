@@ -40,6 +40,8 @@ cat>>/etc/nginx/nginx.conf<<EOF
 EOF
 fi
 
+export CACHE_CONTROL=${CACHE_CONTROL:-"public, max-age=36000, must-revalidate, s-maxage=36000, proxy-revalidate"}
+
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
