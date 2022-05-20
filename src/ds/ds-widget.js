@@ -89,6 +89,8 @@ jQuery(function ($) {
         },
 
         _after: function (count) {
+            let initFlag = 0
+
             let saved_choices_element = $(this.options.saved_choices_selector);
             if (this.options.search) {
                 let obj = this;
@@ -169,7 +171,6 @@ jQuery(function ($) {
 
             $('body').on('click', obj.options.entity_selector, function (e) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
-                console.log(entity_id);
                 return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 
@@ -198,6 +199,12 @@ jQuery(function ($) {
                         obj._count -= 1;
                         obj._after(obj._count)
                     });
+                }
+            });
+
+            $('body').on('keypress', '.remove', function (e) {
+                if(e.which == 13){
+                    $('.remove').click();
                 }
             });
 
