@@ -89,6 +89,8 @@ jQuery(function ($) {
         },
 
         _after: function (count) {
+            let initFlag = 0
+
             let saved_choices_element = $(this.options.saved_choices_selector);
             if (this.options.search) {
                 let obj = this;
