@@ -113,9 +113,9 @@
 		}
 
 		inputEl$.on(opts.eventKey, debouncer(function(e) {
-			var inputType = $(this).attr('type')
+			var keyCode = e.keyCode
 
-			if (inputType === 'text') {
+			if (keyCode !== 9) {
 				var val = $(this).val();
 
 				if(opts.itemEl)
