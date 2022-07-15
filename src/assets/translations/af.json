@@ -1,0 +1,34 @@
+{
+  "@metadata": {
+    "authors": [
+      "TENET",
+      "ST Communications"
+    ],
+    "last-updated": "2022-07-17",
+    "locale": "af"
+  },
+  "cta-button-placeholder": "Kry toegang deur jou instelling",
+  "cta-button-header": "Kry toegang deur",
+  "cta-link": "Voeg instelling by of verwyder",
+  "ds-header": "Toegang tot",
+  "ds-footer-about-us": "Meer omtrent ons",
+  "ds-search-heading": "Vind jou instelling",
+  "ds-search-subheading": "Jou universiteit, organisasie of maatskappy",
+  "ds-search-example": "Voorbeelde: Science Institute, Lee@uni.edu, UCLA",
+  "ds-search-placeholder": "Soek tans vir instellings …",
+  "ds-choose-heading": "Kies jou instelling",
+  "ds-choose-subheading": "Onlangse instellings",
+  "ds-choose-add-another": "Voeg ’n ander instelling by",
+  "ds-edit-heading": "Redigeer instellings",
+  "ds-edit-subheading": "As jy nie langer wil hê dat ’n instelling op hierdie toestel onthou word nie, verwyder dit van die lys hier onder.",
+  "ds-choose-edit": "Redigeer  ",
+  "ds-choose-done": "Klaar",
+  "ds-notice-and-consent-remember": "Onthou hierdie keuse",
+  "ds-notice-and-consent-learn-more": "Vind meer uit",
+  "ds-notice-and-consent-banner-storage-info": "Die instelling wat jy kies sal in hierdie blaaier se plaaslike berging gebêre word en sal beskikbaar gemaak word aan hierdie werf en ander werwe wat SeamlessAccess gebruik. Jy kan enige tyd jou blaaier se plaaslike berging skoonmaak.",
+  "ds-notice-and-consent-banner-more-info": "Bykomende privaatheidsinligting",
+  "ds-notice-and-consent-banner-personal-info": "Geen aanmeld-, e-pos- of persoonlike inligting word gebêre nie.",
+  "ds-too-many-result-show": "Wys my in elk geval alle passings",
+  "ds-too-many-result-matches": "Passings",
+  "ds-too-many-result-keep-typing": "hou aan tik om jou soektog te verfyn"
+}
