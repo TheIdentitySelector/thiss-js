@@ -16,7 +16,7 @@ button {
     box-shadow: 0 0 0 5px var(--pastel-blue);
   }
 
-  &.ra21-button:focus, &.ra21-button:active {
+  &.ra21-button:hover, &.ra21-button:focus, &.ra21-button:active {
     outline: none;
     box-shadow: 0 0 0 1px, 0 0 0 4px var(--pastel-blue);
   }

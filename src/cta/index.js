@@ -49,12 +49,36 @@ button.style.background = window.xprops.color;
 button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
 dsbutton.style.color = window.xprops.color;
 
-button.addEventListener('focus', (event) => {
+let ctaFocus = false
+
+const setCtaFocus = () => {
     button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + window.xprops.color;
+}
+
+const clearCtaFocus = () => {
+    button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+}
+
+button.addEventListener('focus', (event) => {
+    ctaFocus = true
+    setCtaFocus()
 });
 
 button.addEventListener('blur', (event) => {
-    button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+    ctaFocus = false
+    clearCtaFocus()
+});
+
+button.addEventListener('mouseover', (event) => {
+    if (!ctaFocus) {
+        setCtaFocus()
+    }
+});
+
+button.addEventListener('mouseout', (event) => {
+    if (!ctaFocus) {
+        clearCtaFocus()
+    }
 });
 
 const localization = new Localization(window.xprops.locale);
