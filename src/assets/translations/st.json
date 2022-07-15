@@ -1,0 +1,34 @@
+{
+  "@metadata": {
+    "authors": [
+      "TENET",
+      "ST Communications"
+    ],
+    "last-updated": "2022-07-17",
+    "locale": "st"
+  },
+  "cta-button-placeholder": "Ho kena ka mokgatlo wa hao",
+  "cta-button-header": "Ho kena ka",
+  "cta-link": "Kenya kapa fetola mokgatlo",
+  "ds-header": "Ho kena",
+  "ds-footer-about-us": "Mabapi le Rona",
+  "ds-search-heading": "Fumana Mokgatlo wa Hao",
+  "ds-search-subheading": "Yunivesiti ya hao, mokgatlo kapa khampani",
+  "ds-search-example": "Mehlala: Mokgatlo wa saense, Lee@uni.edu, UCLA",
+  "ds-search-placeholder": "Ho batla mekgatlo...",
+  "ds-choose-heading": "Kgetha Mokgatlo wa Hao",
+  "ds-choose-subheading": "Mekgatlo ya moraorao",
+  "ds-choose-add-another": "Kenya mokgatlo o mong",
+  "ds-edit-heading": "Etsa tokiso mekgatlong",
+  "ds-edit-subheading": "Haeba ha o sa batle hore mokgatlo o hopolwe divaeseng ena, o tlose lethathamong le ka tlase.",
+  "ds-choose-edit": "Lokisa",
+  "ds-choose-done": "O qetile",
+  "ds-notice-and-consent-remember": "Hopola kgetho ena",
+  "ds-notice-and-consent-learn-more": "Ithute Haholwanyane",
+  "ds-notice-and-consent-banner-storage-info": "Mokgatlo oo o o kgethang o tla bolokwa polokelong ya boraosara ena mme e tla fumaneha ditsing tsena le tse ding tse sebedisang SeamlessAccess. O ka nna wa tlosa dintho tse leng polokelong ya boraosara ena neng kapa neng.",
+  "ds-notice-and-consent-banner-more-info": "Tlhahisoleseding e Eketsehileng ya Lekunutu",
+  "ds-notice-and-consent-banner-personal-info": "Ha ho na tlhahisoleseding ya ho kena, ya imeili kapa ya botho e tla bolokwa",
+  "ds-too-many-result-show": "Ho ntse ho le jwalo mpontshe yohle e nyallanang",
+  "ds-too-many-result-matches": "E nyallanang",
+  "ds-too-many-result-keep-typing": "tswela pele o ntse o thaepa ho ntlafatsa tsela ya hao ya ho batla"
+}
