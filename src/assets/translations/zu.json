@@ -1,0 +1,34 @@
+{
+  "@metadata": {
+    "authors": [
+      "TENET",
+      "ST Communications"
+    ],
+    "last-updated": "2022-07-17",
+    "locale": "zu"
+  },
+  "cta-button-placeholder": "Finyelela ngesikhungo sakho",
+  "cta-button-header": "Ukufinyelela usebenzisa",
+  "cta-link": "Engeza noma shintsha isikhungo",
+  "ds-header": "Ukufinyelela kokuthi",
+  "ds-footer-about-us": "Mayelana Nathi",
+  "ds-search-heading": "Thola Isikhungo Sakho",
+  "ds-search-subheading": "Inyuvesi yakho, inhlangano noma inkampani",
+  "ds-search-example": "Izibonelo: Isikhungo Sesayensi, Lee@uni.edu, UCLA",
+  "ds-search-placeholder": "Isesha izikhungo...",
+  "ds-choose-heading": "Khetha Isikhungo Sakho",
+  "ds-choose-subheading": "Izikhungo Zakamuva",
+  "ds-choose-add-another": "Engeza esinye isikhungo",
+  "ds-edit-heading": "Hlela izikhungo",
+  "ds-edit-subheading": "Uma ungasafuni ukuthi izikhungo zikhunjulwe kule divayisi, sisuse ohlwini olungezansi.",
+  "ds-choose-edit": "Hlela",
+  "ds-choose-done": "Iqedile",
+  "ds-notice-and-consent-remember": "Khumbula lokhu kukhetha",
+  "ds-notice-and-consent-learn-more": "Funda Kabanzi",
+  "ds-notice-and-consent-banner-storage-info": "Isikhungo ozama ukusikhetha sizolondolozwa  kusitoreji sasendaweni sale bhrawuza futhi sizokwenziwa sitholakale kule sayithi kanye namanye asebenzisa Ukufinyelela Okulula. Ungakwazi ukusula isitoreji sasendaweni sebhrawuza yakho nganom yisiphi isikhathi.",
+  "ds-notice-and-consent-banner-more-info": "Ulwazi Lobumfihlo Olwengeziwe",
+  "ds-notice-and-consent-banner-personal-info": "Akukho ukungena ngemvume, i-imeyili noma ulwazi lomuntu siqu olugcinwayo.",
+  "ds-too-many-result-show": "Ngibonise konke okufanayo noma kunjalo",
+  "ds-too-many-result-matches": "Okufanayo",
+  "ds-too-many-result-keep-typing": "qhubeka uthayipha ukuze ucwengisise usesho lwakho"
+}
