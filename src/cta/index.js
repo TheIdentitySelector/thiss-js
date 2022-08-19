@@ -40,9 +40,46 @@ if (typeof discovery_response !== 'function') {
     };
 }
 
-document.getElementById('main').style.background = window.xprops.backgroundColor;
-document.getElementById('idpbutton').style.background = window.xprops.color;
-document.getElementById('dsbutton').style.color = window.xprops.color;
+let button = document.getElementById('idpbutton');
+let dsbutton = document.getElementById('dsbutton');
+let main = document.getElementById('main');
+
+main.style.background = window.xprops.backgroundColor;
+button.style.background = window.xprops.color;
+button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+dsbutton.style.color = window.xprops.color;
+
+let ctaFocus = false
+
+const setCtaFocus = () => {
+    button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + window.xprops.color;
+}
+
+const clearCtaFocus = () => {
+    button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+}
+
+button.addEventListener('focus', (event) => {
+    ctaFocus = true
+    setCtaFocus()
+});
+
+button.addEventListener('blur', (event) => {
+    ctaFocus = false
+    clearCtaFocus()
+});
+
+button.addEventListener('mouseover', (event) => {
+    if (!ctaFocus) {
+        setCtaFocus()
+    }
+});
+
+button.addEventListener('mouseout', (event) => {
+    if (!ctaFocus) {
+        clearCtaFocus()
+    }
+});
 
 const localization = new Localization(window.xprops.locale);
 
@@ -65,8 +102,6 @@ if (window.xprops.pinned) {
     start.push(ds.pin(window.xprops.pinned));
 }
 
-let button = document.getElementById('idpbutton');
-let dsbutton = document.getElementById('dsbutton');
 dsbutton.hidden = true;
 let entity_id = null;
 

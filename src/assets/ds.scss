@@ -348,9 +348,10 @@ ul li a:hover {
   }
 }
 
-input, .institution, .identityprovider {
-  &:focus, &:active {
-    outline: none;
+input, .identityprovider {
+  &:focus, &:focus, &:active,, &:focus-visible {
+    outline: var(--secondary-blue);
+    border-color: var(--secondary-blue);
   }
 }
 
@@ -461,7 +462,7 @@ input, .institution, .identityprovider {
 }
 
 i.arrow {
-	padding-top: 10px;
+	padding-top: 4px;
 	padding-right: 7px;
 	font-size: 1.4rem;
 	display: none;
