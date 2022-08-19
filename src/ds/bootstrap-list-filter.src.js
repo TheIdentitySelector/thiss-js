@@ -18,7 +18,7 @@
 	$.fn.btsListFilter = function(inputEl, opts) {
 
 		'use strict';
-		
+
 		var self = this,
 			searchlist$ = $(this),
 			inputEl$ = $(inputEl),
@@ -43,7 +43,7 @@
 
 			return regSearch.test( text );
 		}
-		
+
 		opts = $.extend({
 			delay: 300,
 			minLength: 1,
@@ -103,7 +103,7 @@
 
 			inputEl$.after( cancelEl$ );
 			inputEl$.parents('.form-group').addClass('has-feedback');
-			
+
 			if(!inputEl$.prev().is('.control-label'))
 				cancelEl$.css({top: 0});
 
@@ -113,85 +113,88 @@
 		}
 
 		inputEl$.on(opts.eventKey, debouncer(function(e) {
-			
-			var val = $(this).val();
+			var keyCode = e.keyCode
 
-			if(opts.itemEl)
-				items$ = searchlist$.find(opts.itemEl);
+			if (keyCode !== 9) {
+				var val = $(this).val();
 
-			if(opts.itemChild)
-				items$ = items$.find(opts.itemChild);
+				if(opts.itemEl)
+					items$ = searchlist$.find(opts.itemEl);
 
-			var contains = items$.filter(function(){
-					return opts.itemFilter.call(self, this, val);
-				}),
-				containsNot = items$.not(contains);
+				if(opts.itemChild)
+					items$ = items$.find(opts.itemChild);
 
-			if (opts.itemChild){
-				contains = contains.parents(opts.itemEl);
-				containsNot = containsNot.parents(opts.itemEl).hide();
-			}
+				var contains = items$.filter(function(){
+						return opts.itemFilter.call(self, this, val);
+					}),
+					containsNot = items$.not(contains);
 
-			if(val!=='' && val.length >= opts.minLength)
-			{
-				contains.show();
-				containsNot.hide();
-				cancelEl$.show();
-				self.trigger(opts.showEvent);
-
-				if($.type(opts.sourceData)==='function')
-				{
-					contains.hide();
-					containsNot.hide();
-					
-					if(callReq)
-					{
-						if($.isFunction(callReq.abort))
-							callReq.abort();
-						else if($.isFunction(callReq.stop))
-							callReq.stop();
-					}
-					
-					searchlist$.addClass(opts.loadingClass);
-					callReq = opts.sourceData.call(self, val, function(data) {
-						callReq = null;
-						contains.hide();
-						containsNot.hide();
-						searchlist$.find('.'+opts.itemClassTmp).remove();
-
-						if (opts.sourceNodes) {
-							opts.sourceNodes.call(self, opts, val, data, function (n) {
-								$(n).addClass(opts.itemClassTmp).appendTo(searchlist$);
-							})
-						} else {
-							if (!data || data.length === 0)
-								$(opts.emptyNode.call(self, val)).addClass(opts.itemClassTmp).appendTo(searchlist$);
-							else if (opts.maxResults < 0 || data.length <= opts.maxResults) {
-								for (var i in data)
-									$(opts.sourceNode.call(self, data[i])).addClass(opts.itemClassTmp).appendTo(searchlist$);
-							} else {
-								$(opts.maxResultsNode(data)).addClass(opts.itemClassTmp).appendTo(searchlist$);
-							}
-						}
-
-						searchlist$.removeClass(opts.loadingClass);
-					});
-				} 
-				else {
-                    searchlist$.find('.'+opts.itemClassTmp).remove();
-                    
-                    if(contains.length===0)
-						$( opts.emptyNode.call(self, val) ).addClass(opts.itemClassTmp).appendTo(searchlist$);
+				if (opts.itemChild){
+					contains = contains.parents(opts.itemEl);
+					containsNot = containsNot.parents(opts.itemEl).hide();
 				}
 
-			}
-			else
-			{
-				contains.show();
-				containsNot.show();
-				cancelEl$.hide();
-				self.trigger(opts.hideEvent);
-				searchlist$.find('.'+opts.itemClassTmp).remove();
+				if(val!=='' && val.length >= opts.minLength)
+				{
+					contains.show();
+					containsNot.hide();
+					cancelEl$.show();
+					self.trigger(opts.showEvent);
+
+					if($.type(opts.sourceData)==='function')
+					{
+						contains.hide();
+						containsNot.hide();
+
+						if(callReq)
+						{
+							if($.isFunction(callReq.abort))
+								callReq.abort();
+							else if($.isFunction(callReq.stop))
+								callReq.stop();
+						}
+
+						searchlist$.addClass(opts.loadingClass);
+						callReq = opts.sourceData.call(self, val, function(data) {
+							callReq = null;
+							contains.hide();
+							containsNot.hide();
+							searchlist$.find('.'+opts.itemClassTmp).remove();
+
+							if (opts.sourceNodes) {
+								opts.sourceNodes.call(self, opts, val, data, function (n) {
+									$(n).addClass(opts.itemClassTmp).appendTo(searchlist$);
+								})
+							} else {
+								if (!data || data.length === 0)
+									$(opts.emptyNode.call(self, val)).addClass(opts.itemClassTmp).appendTo(searchlist$);
+								else if (opts.maxResults < 0 || data.length <= opts.maxResults) {
+									for (var i in data)
+										$(opts.sourceNode.call(self, data[i])).addClass(opts.itemClassTmp).appendTo(searchlist$);
+								} else {
+									$(opts.maxResultsNode(data)).addClass(opts.itemClassTmp).appendTo(searchlist$);
+								}
+							}
+
+							searchlist$.removeClass(opts.loadingClass);
+						});
+					}
+					else {
+						searchlist$.find('.'+opts.itemClassTmp).remove();
+
+						if(contains.length===0)
+							$( opts.emptyNode.call(self, val) ).addClass(opts.itemClassTmp).appendTo(searchlist$);
+					}
+
+				}
+				else
+				{
+					contains.show();
+					containsNot.show();
+					cancelEl$.hide();
+					self.trigger(opts.hideEvent);
+					searchlist$.find('.'+opts.itemClassTmp).remove();
+				}
 			}
 		}, opts.delay));
 

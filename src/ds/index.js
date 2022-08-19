@@ -83,7 +83,6 @@ $(document).ready(function() {
     });
 
     $("#edit_button").on('click',function(event) {
-        event.preventDefault();
         $("#choosetools").toggleClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#savedchoices").removeClass('choose').addClass('edit');
