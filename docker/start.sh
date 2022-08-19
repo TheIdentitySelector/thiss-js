@@ -61,8 +61,6 @@ cat>>/etc/nginx/nginx.conf<<EOF
             keepalive_timeout 65;
             add_header 'Cache-Control' '${CACHE_CONTROL}';
          }
-         root /usr/share/nginx/html;
-         try_files \$uri \$uri/index.html \$uri.html @mdq;
       }
 
       location @mdq {
