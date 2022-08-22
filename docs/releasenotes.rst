@@ -76,3 +76,9 @@ Version 1.6.2
 
 * fixes for cache headers in docker image
 * fixes for i18n
+
+Version 1.6.3
+-------------
+
+* translation for several African languages
+* multiple accessibility fixes
