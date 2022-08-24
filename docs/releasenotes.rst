@@ -80,5 +80,12 @@ Version 1.6.2
 Version 1.6.3
 -------------
 
+* minor fixes
+
+Version 1.6.4
+-------------
+
 * translation for several African languages
 * multiple accessibility fixes
+
+

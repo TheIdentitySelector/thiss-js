@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
@@ -11,9 +11,7 @@
     "dev": "webpack-dev-server --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
     "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js",
-    "snyk": "snyk protect",
-    "prebuild": "rebuild-node-sass",
-    "postinstall": "npm rebuild node-sass --force"
+    "snyk": "snyk protect"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
@@ -54,11 +52,9 @@
     "mini-css-extract-plugin": "^0.4.4",
     "mocha-lcov-reporter": "^1.3.0",
     "mocker-api": "^1.6.7",
-    "node-sass": "^4.14.1",
     "nyc": "^13.3.0",
     "preload-webpack-plugin": "^3.0.0-beta.3",
     "raw-loader": "^1.0.0",
-    "rebuild-node-sass": "^1.1.0",
     "sass-loader": "^8.0.0",
     "style-loader": "^0.23.1",
     "svg-inline-loader": "^0.8.0",
@@ -106,7 +102,7 @@
     "popper.js": "^1.16.1",
     "post-robot": "==10.0.14",
     "proxy-agent": "^3.1.1",
-    "sass": "^1.35.1",
+    "sass": "^1.54.5",
     "snyk": "^1.730.0"
   },
   "snyk": true
