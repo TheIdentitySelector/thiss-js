@@ -46,6 +46,27 @@ const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/n
 $(document).ready(function() {
     let timer = null;
 
+    function updateVoiceOverLiveRegion(caption, body) {
+        console.log('updateVoiceOverLiveRegion: ', caption)
+
+        setTimeout(function() {
+            if ($("#searchinput").val().length > 0) {
+                $("#voice-over-live-region > figcaption").text(caption)
+                $("#voice-over-live-region > p").text(body)
+            } else {
+                $("#voice-over-live-region > figcaption").text("")
+                $("#voice-over-live-region > p").text("")
+            }
+        }, 1000)
+    }
+
+    function delayedNumberOfResults() {
+        setTimeout(function() {
+            const count = $("#ds-search-list a").length
+            updateVoiceOverLiveRegion("Number of search results.", count)
+        }, 1000)
+    }
+
     $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({
         service_url: service_url,
@@ -118,12 +139,15 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
+            delayedNumberOfResults()
             return search.render(item);
         },
         render_saved_choice: function(item) {
             return saved.render(item);
         },
         too_many_results: function(bts, count) {
+            updateVoiceOverLiveRegion("Too many results.", "")
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
@@ -138,6 +162,8 @@ $(document).ready(function() {
             return too_many_node;
         },
         no_results: function() {
+            updateVoiceOverLiveRegion("There were no results.", "")
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
@@ -149,6 +175,8 @@ $(document).ready(function() {
             return $("#rememberThisChoice").is(':checked');
         },
         before: function(items) {
+            updateVoiceOverLiveRegion("Searching for results.", "")
+
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
@@ -172,6 +200,9 @@ $(document).ready(function() {
         },
         after: function(count,elt) {
             console.log("after - "+count);
+
+            updateVoiceOverLiveRegion("Number of search results.", count)
+
             $("#searching").hide();
             if (count == 0) {
                 $("#search").removeClass("d-none");
