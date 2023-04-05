@@ -1,5 +1,6 @@
 import '../assets/nc.scss';
 import '../assets/ds.scss';
+import 'core-js/actual';
 
 import Localization from '../localization.js'
 
