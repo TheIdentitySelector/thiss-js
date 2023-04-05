@@ -5,3 +5,4 @@ How to do a release:
 3. commit changes
 4. git tag <version>
 5. git push
+6. git push --tags
