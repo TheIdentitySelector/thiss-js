@@ -1,5 +1,6 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import 'core-js/actual';
 
 library.add(faPen);
 dom.watch();

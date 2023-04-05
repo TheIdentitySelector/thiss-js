@@ -1,4 +1,4 @@
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const webpack = require("webpack");
 const path = require('path');
@@ -9,16 +9,18 @@ module.exports = merge(common, {
    mode: 'development',
    devtool: 'inline-source-map',
    devServer: {
-       disableHostCheck: true,
-       contentBase: './dist',
+       allowedHosts: 'all',
+       static: { directory: path.join(__dirname,'dist'), },
        port: 9000,
-       before(ds) {
-           apiMocker(ds, path.resolve('./mocker/index.js'), {
+       setupMiddlewares(mw, ds) {
+           apiMocker(ds.app, path.resolve('./mocker/index.js'), {
                proxy: {
                    '/entities/*': 'http://localhost:8080/'
                },
                changeHost: true
-           })
+           });
+
+	   return mw;
        }
    },
    plugins: [

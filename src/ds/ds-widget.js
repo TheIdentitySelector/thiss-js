@@ -1,4 +1,6 @@
 import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
+import {fetch} from 'whatwg-fetch';
+import 'core-js/actual';
 
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {

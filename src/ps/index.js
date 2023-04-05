@@ -1,4 +1,6 @@
 const postRobot = require("post-robot");
+import 'core-js/actual';
+
 let whitelist = [];
 let expire_enabled = false;
 if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
