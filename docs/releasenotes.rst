@@ -88,4 +88,7 @@ Version 1.6.4
 * translation for several African languages
 * multiple accessibility fixes
 
+Version 1.6.5
+-------------
 
+* Docker build fix
