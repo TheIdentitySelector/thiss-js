@@ -92,3 +92,13 @@ Version 1.6.5
 -------------
 
 * Docker build fix
+
+Version 1.6.6
+-------------
+
+* Docker build fix
+
+Version 1.6.7
+-------------
+
+* nginx.conf fix

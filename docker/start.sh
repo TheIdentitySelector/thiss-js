@@ -55,7 +55,7 @@ cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
          try_files \$uri \$uri/index.html \$uri/ =404;
-         absolute_redirect off
+         absolute_redirect off;
          location ~*  \.(jpg|jpeg|png|gif|svg|ico|html|json|css|js|eot|ttf|woff|woff2)$ {
             sendfile on;
             tcp_nopush on;
