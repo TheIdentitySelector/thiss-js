@@ -309,7 +309,7 @@ ul li a:hover {
     font-weight: normal;
   }
 
-  a li {
+  li {
     border-bottom: 1px solid rgba(118, 118, 118, 0.2);
     cursor: pointer;
     min-height: 4rem;
@@ -317,7 +317,7 @@ ul li a:hover {
     padding-top: 15px;
   }
 
-  a:first-child li {
+  li:first-child {
     border-top: 1px solid rgba(118, 118, 118, 0.2);
   }
 }
@@ -326,13 +326,19 @@ ul li a:hover {
   &.choose, &.search-list {
     .institution:hover {
       i.arrow {
+        right: 0;
         color: var(--primary-blue);
         display: block;
+        position: absolute;
       }
 
       .primary {
         color: var(--primary-blue);
       }
+    }
+
+    .institution-warning {
+      background: lightgray;
     }
 
     li.institution {
@@ -356,6 +362,8 @@ input, .identityprovider {
 }
 
 .institution {
+  position: relative;
+
   .label {
     max-width: 80%;
   }
