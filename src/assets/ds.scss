@@ -312,7 +312,7 @@ ul li a:hover {
 	float: right;
 }
 
-.results i {
+.institution i {
 	float: right;
 	color: var(--primary-blue);
 }
@@ -337,12 +337,34 @@ ul li a:hover {
 
 .results {
   &.choose, &.search-list {
+    .list-item-legend {
+      i {
+        color: rgba(255, 184, 0, 1)
+      }
+    }
+
+    .list-item {
+      .list-item-legend {
+        display: none;
+      }
+    }
+
+    .list-item:hover {
+      .list-item-legend {
+        display: block;
+      }
+    }
+
     .institution:hover {
       i.arrow {
         right: 0;
         color: var(--primary-blue);
         display: block;
         position: absolute;
+      }
+
+      i.list-item-warning {
+        display: none
       }
 
       .primary {
@@ -487,6 +509,11 @@ i.arrow {
 	padding-right: 7px;
 	font-size: 1.4rem;
 	display: none;
+}
+
+i.list-item-warning {
+  color: rgba(133, 99, 29, 1);
+  font-size: 16px;
 }
 
 .choose i.arrow {
