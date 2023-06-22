@@ -8,13 +8,14 @@ import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
 
-library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
+library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes, faExclamationTriangle);
 dom.watch();
 
 import * as $ from 'jquery';
