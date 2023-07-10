@@ -23,6 +23,11 @@ module.exports = {
             'node_modules': path.join(__dirname, 'node_modules'),
             'bower_modules': path.join(__dirname, 'bower_modules'),
             'jquery': 'jquery/dist/jquery.slim.js'
+        },
+        fallback: {
+            "path": require.resolve("path-browserify"),
+            "crypto": require.resolve("crypto-browserify"),
+            "stream": require.resolve("stream-browserify"),
         }
     },
     optimization: {
@@ -83,31 +88,31 @@ module.exports = {
             filename: 'index.html',
             inject: true,
             chunks: ['index'],
-            template: '!ejs-loader!src/index.html'
+            template: 'src/index.ejs'
         }),
         new HtmlWebpackPlugin({
             filename: 'cta/index.html',
             chunks: ['cta'],
             inject: true,
-            template: '!ejs-loader!src/cta/index.html'
+            template: 'src/cta/index.ejs'
         }),
         new HtmlWebpackPlugin({
             filename: 'sa-button/index.html',
             chunks: ['sa-button'],
             inject: true,
-            template: '!ejs-loader!src/sa-button/index.html'
+            template: 'src/sa-button/index.ejs'
         }),
         new HtmlWebpackPlugin({
             filename: 'ds/index.html',
             chunks: ['ds'],
             inject: true,
-            template: '!ejs-loader!src/ds/index.html'
+            template: 'src/ds/index.ejs'
         }),
         new HtmlWebpackPlugin({
             filename: 'ps/index.html',
             chunks: ['ps'],
             inject: true,
-            template: '!ejs-loader!src/ps/index.html'
+            template: 'src/ps/index.ejs'
         }),
         new MiniCssExtractPlugin({
             filename: "[name].css"
@@ -139,19 +144,15 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[name].[ext]',
-                    outputPath: 'fonts/'
+                    outputPath: 'fonts/',
+                    esModule: false
                 }
             },
             {
-                test: /\.(html)$/,
-                use: {
-                    loader: 'html-loader',
-                    options: {
-                        attrs: ['img:src', ':data-src'],
-                        options: {
-                            minimize: true
-                        }
-                    }
+                test: /\.(ejs)$/,
+                loader: 'ejs-loader',
+                options: {
+                    esModule: false
                 }
             },
             {
@@ -160,16 +161,15 @@ module.exports = {
                 loader: 'url-loader',
                 options: {
                     name: '[hash]_[name].[ext]',
-                    outputPath: 'assets'
+                    outputPath: 'assets',
+                    esModule: false
                 }
             },
             {
                 test: /\.m?jsx?$/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env','@babel/preset-react','@babel/preset-flow'],
-                    }
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env','@babel/preset-react','@babel/preset-flow'],
                 }
             }
         ]
