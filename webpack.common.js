@@ -149,12 +149,16 @@ module.exports = {
                 }
             },
             {
+                test: /\.ejs$/i,
+                use: ['html-loader', 'template-ejs-loader'],
+            },
+/*            {
                 test: /\.(ejs)$/,
                 loader: 'ejs-loader',
                 options: {
                     esModule: false
                 }
-            },
+            },*/
             {
                 exclude: path.resolve(__dirname, "src/asset/fonts/"),
                 test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,

@@ -36,12 +36,12 @@ const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
 
-const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
+// const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
 const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
 const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
-const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
-const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
+// const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
+// const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
 
 
 $(document).ready(function() {
