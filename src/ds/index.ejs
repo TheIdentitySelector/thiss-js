@@ -53,7 +53,9 @@
 							<input tabindex="0" type="text" autocomplete="off" id="searchinput" placeholder="" aria-label="Find your institution, university, organization or company edit text" aria-describedby="Find your institution, university, organization or company edit text" autofocus>
 						</div>
 						<legend data-i18n="ds-search-example">Examples: Science Institute, Lee@uni.edu, UCLA</legend>
-						<div id="notice-and-consent-actions"></div>
+						<div id="notice-and-consent-actions">
+							<%- include('templates/notice_and_consent_actions.ejs') %>
+						</div>
 						<div id="learn-more-banner" class="alert alert-secondary d-none"></div>
 						<div class="d-none" id="searching" role="region" aria-live="assertive">
 							<h3 data-i18n="ds-search-placeholder">Searching for institutions...</h3>
