@@ -1,20 +1,18 @@
-<a class="identityprovider" data-href="{{entity_id}}">
+<a class="identityprovider" data-href="<%= entity_id %>">
     <li class="institution clearfix" tabindex="1">
         <span class="top-right">
             <svg class="institution-remove remove d-none svg-inline--fa fa-times fa-w-11" tabindex="0" aria-labelledby="Remove Institute Central Washington University from remembered institutions" focusable="true" data-prefix="fa" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" data-fa-i2svg=""><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>
         </span>
-        {{#entity_icon}}
+        <% if (entity_icon) { %>
+            <div class="institution-mask">
+                <img class="institution-icon" alt="<%= name_tag %>" src="<%= entity_icon %>" />
+            </div>
+        <% } %>
+        <% if (entity_icon_url) { %>
         <div class="institution-mask">
-            <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon}}" />
+            <img class="institution-icon" alt="<%= name_tag %>" src="<%= entity_icon_url.url %>" />
         </div>
-        {{/entity_icon}}
-        {{#entity_icon_url}}
-        <div class="institution-mask">
-            <img class="institution-icon" alt="{{name_tag}}" src="{{entity_icon_url.url}}" />
-        </div>
-        {{/entity_icon_url}}
-        {{^entity_icon_url}}
-        {{^entity_icon}}
+        <% } else if (!entity_icon && !entity_icon_url) { %>
             <svg class="institution-icon logo"
                  width="40"
                  height="40">
@@ -25,14 +23,13 @@
                       fill="white"
                       font-size="12px"
                       font-family="Arial"
-                      dy=".3em">{{name_tag}}</text>
+                      dy=".3em"><%= name_tag %></text>
             </svg>
-        {{/entity_icon}}
-        {{/entity_icon_url}}
+        <% } %>
         <div class="institution-text">
             <i class="institution-select arrow fa fa-angle-right"></i>
-            <div class="primary">{{title}}</div>
-            <span class="secondary">{{domain}}</span>
+            <div class="primary"><%= title %></div>
+            <span class="secondary"><%= domain %></span>
         </div>
     </li>
 </a>

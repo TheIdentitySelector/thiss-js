@@ -108,38 +108,55 @@ jQuery(function ($) {
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
                     sourceNodes: function(opts, val, results, render) {
+                        const MAX_RESULTS = 25
+
                         if (results.length == 0 || !results) {
                             render(obj.options.no_results(val))
                         } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
                             render(obj.options.too_many_results(this, results.length))
                         } else {
-                            const getResults = function() {
-                                const numberDisplayed = $(obj.options.search_result_selector + " > *").length
+                            let numberDisplayed = 0
 
+                            const getResults = function() {
                                 if (numberDisplayed === 0) {
-                                    return results.slice(0, 24)
+                                    if (results.length < MAX_RESULTS) {
+                                        numberDisplayed = results.length
+                                    } else {
+                                        numberDisplayed = MAX_RESULTS
+                                    }
+
+                                    return results.slice(0, MAX_RESULTS - 1)
                                 } else {
-                                    return results.slice(numberDisplayed, numberDisplayed + 25)
+                                    if (results.length >= MAX_RESULTS) {
+                                        const updatedResults = results.slice(numberDisplayed, numberDisplayed + MAX_RESULTS)
+                                        numberDisplayed += updatedResults.length
+                                        return updatedResults
+                                    }
                                 }
                             }
 
                             const displayResults = function() {
                                 const resultsSubset = getResults()
+                                let updatedResultsSubset = []
 
                                 for (let i in resultsSubset) {
                                     let data = resultsSubset[i]
                                     counter += 1;
                                     data.counter = counter;
                                     data.saved = false;
-                                    render(obj.options.render_search_result(data))
+                                    updatedResultsSubset.push(data)
                                 }
+
+                                render(obj.options.render_search_result(resultsSubset))
                             }
 
                             displayResults();
 
                             window.onscroll = function(ev) {
-                                if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
-                                    displayResults();
+                                if (results.length >= MAX_RESULTS) {
+                                    if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
+                                        displayResults();
+                                    }
                                 }
                             };
                         }
@@ -190,8 +207,6 @@ jQuery(function ($) {
                 let entity_element = $(this).closest(obj.options.entity_selector);
                 obj._count = entity_element.siblings().length + 1;
                 let entity_id = entity_element.attr('data-href');
-                console.log("removing "+entity_id);
-                console.log(entity_element);
                 if (entity_id) {
                     obj._ds.remove(entity_id).then(function () {
                         entity_element.remove();
@@ -209,23 +224,21 @@ jQuery(function ($) {
             });
 
             obj._ds.with_items(function (items) {
-                let saved_choices_element = $(obj.options.saved_choices_selector);
                 return obj.options.before(items).then(items => {
                     let count = 0;
+                    let entities = []
                     if (items && items.length > 0) {
                         items.forEach(function (item) {
                             let entity = item.entity;
                             entity.saved = true;
-
-                            let entity_element = obj.options.render_saved_choice(entity);
-                            saved_choices_element.prepend(entity_element);
+                            entities.push(entity)
                             count++;
                         });
                     }
+                    obj.options.render_saved_choice(entities);
                     return count;
                 }).then(count => {
                     obj._after(count);
-                    console.log(items);
                     return items; // needed later by persistence
                 });
             });

@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const DotEnv = require("dotenv-webpack");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -75,19 +76,23 @@ module.exports = {
                   },
                 },
                 {
-                    from: "./src/assets/*.svg",
-                    to: "./[name].[ext]",
-                },
-                {
                     from: "./src/assets/translations",
                     to: "./translations",
+                },
+                {
+                    from: "./src/assets/fonts",
+                    to: "./fonts",
+                },
+                {
+                    from: "./src/assets/*.svg",
+                    to: "./[name].svg",
                 },
             ],
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            inject: true,
             chunks: ['index'],
+            inject: true,
             template: 'src/index.ejs'
         }),
         new HtmlWebpackPlugin({
@@ -114,6 +119,9 @@ module.exports = {
             inject: true,
             template: 'src/ps/index.ejs'
         }),
+        new HtmlWebpackInlineSVGPlugin({
+            allowFromUrl: true,
+        }),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         })
@@ -139,7 +147,14 @@ module.exports = {
                 ],
             },
             {
-                include: path.resolve(__dirname, "src/asset/fonts/"),
+                test: /\.svg$/i,
+                loader: 'svg-url-loader',
+                options: {
+                    iesafe: true,
+                }
+            },
+            {
+                include: path.resolve(__dirname, "src/assets/fonts/"),
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'file-loader',
                 options: {
@@ -152,15 +167,12 @@ module.exports = {
                 test: /\.ejs$/i,
                 use: ['html-loader', 'template-ejs-loader'],
             },
-/*            {
-                test: /\.(ejs)$/,
-                loader: 'ejs-loader',
-                options: {
-                    esModule: false
-                }
-            },*/
             {
-                exclude: path.resolve(__dirname, "src/asset/fonts/"),
+                test: /\.html$/i,
+                use: ['html-loader'],
+            },
+            {
+                exclude: path.resolve(__dirname, "src/assets/fonts/"),
                 test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 loader: 'url-loader',
                 options: {

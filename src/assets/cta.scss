@@ -26,16 +26,15 @@ button {
     padding: 4px;
   }
   .ra21-button-logo-wrap {
-    text-align: center;
     width: 50px;
     height: 100%;
-    border-right: 1px solid var(--white);
     padding: 5px 5px 5px 0;
+    border-right: 1px solid var(--white);
   }
 
   .ra21-button-logo {
     width: 30px;
-    vertical-align: middle;
+    margin: 0 6px;
   }
 
   .ra21-button-text {
