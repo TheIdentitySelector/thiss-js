@@ -1,6 +1,9 @@
 import '../assets/nc.scss';
+import '../assets/nc.scss';
 import '../assets/ds.scss';
 import 'core-js/actual';
+let headerLogo = require('../assets/sa-black.svg')
+let footerLogo = require('../assets/SeamlessFooterLogo.svg')
 
 import Localization from '../localization.js'
 
@@ -10,6 +13,11 @@ import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+
+import searchHTML from './templates/search.html'
+import savedHTML from './templates/saved.html'
+import tooManyHTML from './templates/too_many.html'
+import noResultsHTML from './templates/no_results.html'
 
 config.autoReplaceSvg = 'nest';
 
@@ -22,6 +30,7 @@ import * as $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
 import 'jquery-ui/ui/widget.js';
+import 'ejs/ejs.min';
 
 const Hogan = require("hogan.js");
 
@@ -47,12 +56,15 @@ const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.htm
 $(document).ready(function() {
     let timer = null;
 
-    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
+    $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,""));
+    $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,""));
+
+/*    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({
         service_url: service_url,
         service_name: service_name,
         learn_more_url: learn_more_url
-    }));
+    }));*/
 
     $('#learn-more-trigger, #learn-more-close').on('click', function() {
       $("#learn-more-banner").toggleClass("d-none");
@@ -69,9 +81,11 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
-        timer = setTimeout( function () { if (timer) { $("#searching").show(); } }, 500);
+        console.log('event: ', event)
+        timer = setTimeout( function () { if (timer) { console.log('searching'); $("#searching").removeClass('d-none') } }, 500);
     }).on('hide.bs', function(event) {
-        $("#searching").hide();
+        $("#searching").addClass('d-none');
+
         if (timer) {
             clearTimeout(timer);
         }
@@ -114,35 +128,77 @@ $(document).ready(function() {
         search: process.env.SEARCH_URL,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
-        render_search_result: function(item) {
-            $("#searching").hide();
+        render_search_result: function(items) {
+            console.log('render_search_result items: ', items)
+            $("#searching").addClass('d-none');
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            return search.render(item);
+
+            let htmlItemList = []
+
+            items.forEach((item) => {
+                let html = ejs.render(searchHTML, {
+                    title: item.title,
+                    domain: item.domain,
+                    entity_id: item.entity_id
+                })
+
+                htmlItemList.push(html)
+            })
+
+            $("#ds-search-list").html(htmlItemList);
+
         },
-        render_saved_choice: function(item) {
-            return saved.render(item);
+        render_saved_choice: function(items) {
+            console.log('render_saved_choice')
+
+            $("#searching").addClass('d-none');
+
+            if (timer) {
+                clearTimeout(timer); timer = null;
+            }
+
+            items.forEach((item) => {
+                let html = ejs.render(savedHTML, {
+                    title: item.title,
+                    domain: item.domain,
+                    entity_id: item.entity_id,
+                    entity_icon: item.entity_icon,
+                    name_tag: item.name_tag,
+                    entity_icon_url: item.entity_icon_url
+                })
+
+                $("#ds-saved-choices").append(html);
+            })
         },
         too_many_results: function(bts, count) {
+            console.log('too_many_results')
+
+            $("#searching").addClass('d-none');
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#searching").hide();
-            let too_many_node = too_many.render({
-                    "count": count,
-                    "matchesString": localization.translateString('ds-too-many-result-matches'),
-                    "keepTypingString": localization.translateString('ds-too-many-result-keep-typing'),
-                    "showAnywayString": localization.translateString('ds-too-many-result-show')
-                });
-            $('body').on('click', "#showall", function() {  bts.showall() })
-            return too_many_node;
+
+            let html = ejs.render(tooManyHTML, {
+                count: count,
+                matchesString: localization.translateString('ds-too-many-result-matches'),
+                keepTypingString: localization.translateString('ds-too-many-result-keep-typing'),
+                showAnywayString: localization.translateString('ds-too-many-result-show')
+            })
+
+            $("#ds-search-list").append(html);
         },
         no_results: function() {
+            console.log('no_results')
+
+            $("#searching").addClass('d-none');
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#searching").hide();
             return no_results.render();
         },
         persist: function() {
@@ -173,7 +229,7 @@ $(document).ready(function() {
         },
         after: function(count,elt) {
             console.log("after - "+count);
-            $("#searching").hide();
+            $("#searching").addClass('d-none');
             if (count == 0) {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");

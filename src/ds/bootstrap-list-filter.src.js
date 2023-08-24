@@ -15,9 +15,11 @@
 * itemFilter   *function for filter results(receive: text, item)*
 */
 (function($) {
+	console.log('bootstrap filter starting')
 	$.fn.btsListFilter = function(inputEl, opts) {
 
 		'use strict';
+		console.log('bootstrap filter started')
 
 		var self = this,
 			searchlist$ = $(this),
@@ -27,6 +29,8 @@
 			callData,
 			callReq;	//last callData execution
 
+		console.log('self: ', self)
+		console.log('inputEl$: ', inputEl$)
 		function tmpl(str, data) {
 			return str.replace(/\{ *([\w_]+) *\}/g, function (str, key) {
 				return data[key] || '';
@@ -77,6 +81,7 @@
 		}, opts);
 
 		function debouncer(func, timeout) {
+			console.log('debouncer')
 			var timeoutID;
 			timeout = timeout || 300;
 			return function () {
@@ -95,7 +100,15 @@
 		self.showall = function() {
 			opts.maxResults = -1;
 			inputEl$.val(inputEl$.val()).trigger(opts.eventKey);
-		}
+		};
+
+		$('body').on('click', '#reset', function () {
+			self.reset()
+		});
+
+		$('body').on('click', '#showall', function () {
+			self.showall()
+		});
 
 		if($.isFunction(opts.cancelNode)) {
 
@@ -113,6 +126,7 @@
 		}
 
 		inputEl$.on(opts.eventKey, debouncer(function(e) {
+			console.log('action 1')
 			var keyCode = e.keyCode
 
 			if (keyCode !== 9) {
@@ -172,6 +186,7 @@
 									for (var i in data)
 										$(opts.sourceNode.call(self, data[i])).addClass(opts.itemClassTmp).appendTo(searchlist$);
 								} else {
+									console.log('max results')
 									$(opts.maxResultsNode(data)).addClass(opts.itemClassTmp).appendTo(searchlist$);
 								}
 							}
@@ -200,6 +215,7 @@
 
 		if(opts.resetOnBlur)
 			inputEl$.on('blur', function(e) {
+				console.log('action 2')
 				self.reset();
 			});
 

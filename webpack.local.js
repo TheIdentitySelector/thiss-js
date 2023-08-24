@@ -22,6 +22,8 @@ module.exports = merge(common, {
        SEARCH_URL: 'http://localhost:8080/entities/',
        STORAGE_DOMAIN: 'localhost:9000',
        LOGLEVEL: 'warn',
-       DEFAULT_CONTEXT: 'thiss.io'
+       DEFAULT_CONTEXT: 'thiss.io',
+           NODE_ENV: 'development',
+           DEBUG: true,
   })]
 });

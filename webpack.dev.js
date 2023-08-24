@@ -8,19 +8,26 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = merge(common, {
    mode: 'development',
    devtool: 'inline-source-map',
-   devServer: {
+    devServer: {
+        client: {
+            logging: 'verbose',
+        },
        allowedHosts: 'all',
        static: { directory: path.join(__dirname,'dist'), },
        port: 9000,
        setupMiddlewares(mw, ds) {
-           apiMocker(ds.app, path.resolve('./mocker/index.js'), {
-               proxy: {
-                   '/entities/*': 'http://localhost:8080/'
-               },
-               changeHost: true
-           });
 
-	   return mw;
+           mw.push(
+               apiMocker(ds.app, path.resolve('./mocker/index.js'), {
+                   proxy: {
+                       '/': 'http://127.0.0.1:8080/',
+                       secure: false,
+                       changeOrigin: true,
+                   },
+                   changeHost: true,
+               })
+           );
+           return mw;
        }
    },
    plugins: [
@@ -28,9 +35,9 @@ module.exports = merge(common, {
        new webpack.EnvironmentPlugin({
        BASE_URL: 'http://localhost:9000/',
        COMPONENT_URL: 'http://localhost:9000/cta/',
-       MDQ_URL: '/entities/',
+       MDQ_URL: 'http://localhost:3000/entities/',
        PERSISTENCE_URL: 'http://localhost:9000/ps/',
-       SEARCH_URL: '/entities/',
+       SEARCH_URL: 'http://localhost:3000/entities/',
        STORAGE_DOMAIN: 'localhost:9000',
        LOGLEVEL: 'warn',
        DEFAULT_CONTEXT: 'thiss.io'
