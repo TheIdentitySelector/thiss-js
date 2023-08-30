@@ -71,7 +71,7 @@
       "other": {
         "entity": [
           {
-            "entity_id": "https://cpauth.icos-cp.eu/saml/cpauth",
+            "entity_id": "https://idp.cardiff.ac.uk/shibboleth",
             "include": true
           }
         ],
@@ -84,7 +84,7 @@
       "another": {
         "entity": [
           {
-            "entity_id": "https://cpauth.icos-cp.eu/saml/cpauth",
+            "entity_id": "https://idp.cardiff.ac.uk/shibboleth",
             "include": false
           }
         ],
