@@ -23,11 +23,11 @@ function lookup(id) {
 }
 
 const trustInfo = require("./tinfo.json");
-function trustInfoFilter(idps, entityID, trustProfile) {
+function trustInfoFilter(preresult, entityID, trustProfile) {
     const trustSpecs = trustInfo.filter((ti) => {
         return ti.entityID === entityID;
     });
-    let result = [...idps];
+    let result = [...preresult];
     if (trustSpecs.length > 0) {
         const trustSpec = trustSpecs[0];
         const extraMd = trustSpec.extra_md || {};
@@ -41,7 +41,7 @@ function trustInfoFilter(idps, entityID, trustProfile) {
                             result = [];
                             emptied = true;
                         }
-                        const inMd = idps.filter((idp) => (idp.entityID === ent.entity_id));
+                        const inMd = preresult.filter((idp) => (idp.entityID === ent.entity_id));
                         if (inMd.length > 0) {
                             result.push(inMd[0]);
                         }
@@ -50,37 +50,42 @@ function trustInfoFilter(idps, entityID, trustProfile) {
                     }
                 }
             });
+            profile.entities.forEach((ents) => {
+                const select = ents.select;
+                const match = ents.match;
+                if (ents.include) {
+                    result = result.filter((idp) => (idp[match] === select));
+                } else {
+                    result = result.filter((idp) => (idp[match] !== select));
+                }
+            });
             profile.entity.forEach((ent) => {
                 if (ent.entity_id in extraMd) {
                     result.push(extraMd[ent.entity_id]);
                 }
             });
-            profile.entities.forEach((ents) => {
-                const select = ents.select;
-                const match = ents.match;
-                if (ents.include) {
-                    results = results.filter((idp) => (idp[match] === select));
-                } else {
-                    results = results.filter((idp) => (idp[match] !== select));
-                }
-            });
         }
     }
-    return results;
+    return result;
 }
 
 
 const search_properties = ["scope", "title"];
 
 function search(s, entityID, trustProfile) {
-    let m = RegExp(s,'i');
-    console.log('s: ', s)
-    console.log('m: ', m)
-    let result = idps.filter(function(e) {
-        return search_properties.some(function(p) {
-            return  e.hasOwnProperty(p) && m.test(e[p]);
-        })
-    });
+    let result;
+    if (s !== undefined) {
+        let m = RegExp(s,'i');
+        console.log('s: ', s)
+        console.log('m: ', m)
+        result = idps.filter(function(e) {
+            return search_properties.some(function(p) {
+                return  e.hasOwnProperty(p) && m.test(e[p]);
+            })
+        });
+    } else {
+        result = idps;
+    }
     if (entityID !== undefined) {
         result = trustInfoFilter(result, entityID, trustProfile);
     }
@@ -100,8 +105,8 @@ const proxy = {
         if (!q) {
             q = req.query.q
         }
-        const entityID = req.query.entityID;
-        const trustProfile = req.query.trustProfile;
+        const entityID = decodeURI(req.query.entityID);
+        const trustProfile = decodeURI(req.query.trustProfile);
         return res.json(search(q, entityID, trustProfile));
     },
     'GET /entities/:path': (req, res) => {
