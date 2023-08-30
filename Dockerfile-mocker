@@ -1,0 +1,20 @@
+FROM node:16
+
+# USAGE:
+# docker build -t thiss-js:latest -f Dockerfile-mocker .
+# docker run -d -p 9000:9000 --name thiss-js thiss-js:latest
+# curl "http://localhost:9000/entities/?entityID=https%3A%2F%2Fexample.com%2Fshibboleth&trustProfile=customer"
+
+RUN apt-get update -q && apt-get install -yy git curl
+
+WORKDIR /opt
+
+RUN git clone -b fix/node16 https://github.com/enriquepablo/thiss-js.git
+
+WORKDIR /opt/thiss-js
+
+RUN npm install
+
+EXPOSE 8080
+
+CMD npm run dev
