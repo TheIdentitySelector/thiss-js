@@ -1,8 +1,9 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/grid";
+@import "~bootstrap-scss/bootstrap.scss";
+@import "~bootstrap-scss/bootstrap-utilities.scss";
+@import "~bootstrap-scss/bootstrap-grid.scss";
+@import "~bootstrap-scss/bootstrap-reboot.scss";
+
+/*
 @import "~bootstrap/scss/utilities/flex";
 @import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/utilities/align";
@@ -10,13 +11,14 @@
 @import "~bootstrap/scss/utilities/spacing";
 @import "~bootstrap/scss/alert";
 @import "~bootstrap/scss/custom-forms";
+*/
 
 // Font
 @font-face {
   font-family: 'Libre Franklin';
   font-style: normal;
   font-weight: 400;
-  src: url('./fonts/LibreFranklin-Regular.eot');
+  src: url('./fonts/LibreFranklin-Regular.eot') format('embedded-opentype');
   src: local('Libre Franklin'), local('LibreFranklin-Regular'),
   url('./fonts/LibreFranklin-Regular.eot?#iefix') format('embedded-opentype'),
   url('./fonts/LibreFranklin-Regular.woff2') format('woff2'),
@@ -29,7 +31,7 @@
   font-family: 'Libre Franklin';
   font-style: normal;
   font-weight: 700;
-  src: url('./fonts/LibreFranklin-Bold.eot');
+  src: url('./fonts/LibreFranklin-Bold.eot') format('embedded-opentype');
   src: local('Libre Franklin'), local('LibreFranklin-Bold'),
   url('./fonts/LibreFranklin-Bold.eot?#iefix') format('embedded-opentype'),
   url('./fonts/LibreFranklin-Bold.woff2') format('woff2'),

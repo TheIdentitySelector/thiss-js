@@ -1,7 +1,6 @@
 import {ds_response_url} from "@theidentityselector/thiss-ds";
-
 const zoid = require('zoid/dist/zoid.frame');
-const preload_template = require('!ejs-loader!./cta/preload.html');
+const preload_template = require('./cta/preload.ejs');
 import {toCSS, destroyElement} from 'belter/src';
 
 /**
@@ -32,7 +31,6 @@ function prerenderTemplate(opts) {
     if (!discovery_request)
         discovery_request = login_initiator_url;
 
-
     if (typeof discovery_request !== 'function') {
         let discovery_request_url = discovery_request;
         discovery_request = function () {
@@ -42,7 +40,7 @@ function prerenderTemplate(opts) {
 
     _set_default_props(opts);
     const _t = opts.doc.createElement("html");
-    _t.innerHTML = preload_template(opts.props);
+    //_t.innerHTML = preload_template_fn(opts.props);
     _t.addEventListener('click', function(event) {
         event.preventDefault();
         discovery_request();

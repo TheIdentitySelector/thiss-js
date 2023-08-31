@@ -229,6 +229,19 @@ input {
   color: var(--text-grey);
 }
 
+.custom-checkbox > .custom-control-input {
+  height: 100%;
+  padding-top: 10px;
+}
+
+.custom-checkbox > .custom-control-label {
+  display: inline-block;
+  float: right;
+  clear: left;
+  margin-left: 5px;
+  margin-top:0px;
+}
+
 .search {
 	position: relative;
 }

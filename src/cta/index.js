@@ -1,5 +1,6 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import 'core-js/actual';
 
 library.add(faPen);
 dom.watch();
@@ -10,6 +11,7 @@ import Localization from '../localization.js'
 
 import '../assets/cta.scss'
 import '../assets/sa-icon.svg';
+import saWhite from '../assets/sa-white.svg';
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
@@ -48,6 +50,8 @@ main.style.background = window.xprops.backgroundColor;
 button.style.background = window.xprops.color;
 button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
 dsbutton.style.color = window.xprops.color;
+let entityID = window.xprops.entityID || null;
+let trustProfile = window.xprops.trustProfile || null;
 
 let ctaFocus = false
 
@@ -95,7 +99,7 @@ if (window.xprops.MDQ) {
     mdq = window.xprops.MDQ;
 }
 
-let ds = new DiscoveryService(mdq, persistence, context);
+let ds = new DiscoveryService(mdq, persistence, context, entityID, trustProfile);
 
 let start = [];
 if (window.xprops.pinned) {
