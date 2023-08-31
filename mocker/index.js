@@ -22,17 +22,74 @@ function lookup(id) {
     return entities_map[id];
 }
 
+const trustInfo = require("./tinfo.json");
+function trustInfoFilter(preresult, entityID, trustProfile) {
+    const trustSpecs = trustInfo.filter((ti) => {
+        return ti.entityID === entityID;
+    });
+    let result = [...preresult];
+    if (trustSpecs.length > 0) {
+        const trustSpec = trustSpecs[0];
+        const extraMd = trustSpec.extra_md || {};
+        const profile = trustSpec.profiles[trustProfile];
+        if (profile !== undefined) {
+            let emptied = false;
+            profile.entity.forEach((ent) => {
+                if (!(ent.entity_id in extraMd)) {
+                    if (ent.include) {
+                        if (!emptied) {
+                            result = [];
+                            emptied = true;
+                        }
+                        const inMd = preresult.filter((idp) => (idp.entityID === ent.entity_id));
+                        if (inMd.length > 0) {
+                            result.push(inMd[0]);
+                        }
+                    } else {
+                        result = result.filter((idp) => (idp.entityID !== ent.entity_id));
+                    }
+                }
+            });
+            profile.entities.forEach((ents) => {
+                const select = ents.select;
+                const match = ents.match;
+                if (ents.include) {
+                    result = result.filter((idp) => (idp[match] === select));
+                } else {
+                    result = result.filter((idp) => (idp[match] !== select));
+                }
+            });
+            profile.entity.forEach((ent) => {
+                if (ent.entity_id in extraMd) {
+                    result.push(extraMd[ent.entity_id]);
+                }
+            });
+        }
+    }
+    return result;
+}
+
+
 const search_properties = ["scope", "title"];
 
-function search(s) {
-    let m = RegExp(s,'i');
-    console.log('s: ', s)
-    console.log('m: ', m)
-    return idps.filter(function(e) {
-        return search_properties.some(function(p) {
-            return  e.hasOwnProperty(p) && m.test(e[p]);
-        })
-    });
+function search(s, entityID, trustProfile) {
+    let result;
+    if (s !== null) {
+        let m = RegExp(s,'i');
+        console.log('s: ', s)
+        console.log('m: ', m)
+        result = idps.filter(function(e) {
+            return search_properties.some(function(p) {
+                return  e.hasOwnProperty(p) && m.test(e[p]);
+            })
+        });
+    } else {
+        result = idps;
+    }
+    if (entityID !== undefined) {
+        result = trustInfoFilter(result, entityID, trustProfile);
+    }
+    return result;
 }
 
 const proxy = {
@@ -48,7 +105,9 @@ const proxy = {
         if (!q) {
             q = req.query.q
         }
-        return res.json(search(q));
+        const entityID = decodeURI(req.query.entityID);
+        const trustProfile = decodeURI(req.query.trustProfile);
+        return res.json(search(q, entityID, trustProfile));
     },
     'GET /entities/:path': (req, res) => {
         let id = req.params.path.split('.');
