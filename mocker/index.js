@@ -74,7 +74,7 @@ const search_properties = ["scope", "title"];
 
 function search(s, entityID, trustProfile) {
     let result;
-    if (s !== undefined) {
+    if (s !== null) {
         let m = RegExp(s,'i');
         console.log('s: ', s)
         console.log('m: ', m)
