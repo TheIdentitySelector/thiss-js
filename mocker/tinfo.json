@@ -3,7 +3,7 @@
     "entityID": "https://example.com/shibboleth",
     "extra_md": {
       "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php": {
-        "title": "Universidad Laica Eloy Alfaro de Manabí - uleam",
+        "title": "Universidad Laica Eloy Alfaro de Manabí - uleam - external",
         "descr": "uleam - Federated access by CEDIA",
         "title_langs": {
           "en": "Universidad Laica Eloy Alfaro de Manabí - uleam",
