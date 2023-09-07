@@ -24,14 +24,26 @@ function lookup(id) {
 
 const trustInfo = require("./tinfo.json");
 function trustInfoFilter(preresult, entityID, trustProfile) {
+    console.log('running trustInfoFilter entityID: ', entityID)
+    console.log('running trustInfoFilter trustProfile: ', trustProfile)
+
     const trustSpecs = trustInfo.filter((ti) => {
+        console.log('ti: ', ti)
         return ti.entityID === entityID;
     });
+    console.log('running trustInfoFilter trustSpecs: ', trustSpecs)
+
     let result = [...preresult];
+    console.log('running trustInfoFilter result: ', result)
+
     if (trustSpecs.length > 0) {
         const trustSpec = trustSpecs[0];
         const extraMd = trustSpec.extra_md || {};
         const profile = trustSpec.profiles[trustProfile];
+        console.log('running trustInfoFilter trustSpec: ', trustSpec)
+        console.log('running trustInfoFilter extraMd: ', extraMd)
+        console.log('running trustInfoFilter profile: ', profile)
+
         if (profile !== undefined) {
             let emptied = false;
             profile.entity.forEach((ent) => {
@@ -73,6 +85,10 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
 const search_properties = ["scope", "title"];
 
 function search(s, entityID, trustProfile) {
+    console.log('search')
+    console.log('search entityID: ', entityID)
+    console.log('search trustProfile: ', trustProfile)
+
     let result;
     if (s !== null) {
         let m = RegExp(s,'i');
@@ -87,6 +103,7 @@ function search(s, entityID, trustProfile) {
         result = idps;
     }
     if (entityID !== undefined) {
+        console.log('init trustInfoFilter')
         result = trustInfoFilter(result, entityID, trustProfile);
     }
     return result;
@@ -101,7 +118,6 @@ const proxy = {
     },
     '/entities/': (req, res) => {
         let q = req.query.query;
-        console.log('entities: ', q)
         if (!q) {
             q = req.query.q
         }

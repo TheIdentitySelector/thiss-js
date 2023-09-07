@@ -126,7 +126,6 @@
 		}
 
 		inputEl$.on(opts.eventKey, debouncer(function(e) {
-			console.log('action 1')
 			var keyCode = e.keyCode
 
 			if (keyCode !== 9) {

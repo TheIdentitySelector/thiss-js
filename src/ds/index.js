@@ -56,6 +56,19 @@ const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.htm
 $(document).ready(function() {
     let timer = null;
 
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    let entityID = null
+    let trustProfile = null
+
+    if (urlParams.has('entityID'))
+        entityID = urlParams.get('entityID')
+
+    if (urlParams.has('trustProfile'))
+        trustProfile = urlParams.get('trustProfile')
+
+
     $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,""));
     $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,""));
 
@@ -126,6 +139,8 @@ $(document).ready(function() {
         mdq: process.env.MDQ_URL,
         persistence: process.env.PERSISTENCE_URL,
         search: process.env.SEARCH_URL,
+        entityID: entityID,
+        trustProfile: trustProfile,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         render_search_result: function(items) {

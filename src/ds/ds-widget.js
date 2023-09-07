@@ -1,4 +1,4 @@
-import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
+import {DiscoveryService, json_mdq_search, parse_qs} from "../../node_modules/@theidentityselector/thiss-ds";
 import {fetch} from 'whatwg-fetch';
 import 'core-js/actual';
 
@@ -9,6 +9,8 @@ jQuery(function ($) {
             persistence: undefined,
             search: undefined,
             mdq: undefined,
+            entityID: null,
+            trustProfile: null,
             context: undefined,
             before: undefined,
             after: undefined,
@@ -39,7 +41,9 @@ jQuery(function ($) {
                     obj.ac.forEach(ab => ab.abort())
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
-                    json_mdq_search(text, obj.options.search_url, {signal: this_ab.signal})
+
+                    console.log('SEARCH QUERIES: ', obj.options)
+                    json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => data.filter(o => o.hidden != "true"))
                         .then(data => {
                             let first_ab = obj.ac.shift()
@@ -170,7 +174,9 @@ jQuery(function ($) {
 
         _update: function () {
             let obj = this;
-            obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence, obj.options.context);
+            console.log('OPTIONS: ', obj.options)
+            obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence,
+                obj.options.context, obj.options.entityID, obj.options.trustProfile);
             obj._count = 0;
             let top_element = obj.element;
 

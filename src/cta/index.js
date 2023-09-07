@@ -6,6 +6,7 @@ library.add(faPen);
 dom.watch();
 
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
+
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'
 
@@ -16,6 +17,8 @@ import saWhite from '../assets/sa-white.svg';
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
 let context;
+let entityID = null;
+let trustProfile = null;
 let defaultText = "Your Institution";
 let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
 let discovery_request = window.xprops.discoveryRequest;
@@ -26,6 +29,19 @@ if (!discovery_request)
 
 if (!discovery_response)
     discovery_response = login_initiator_url;
+
+if (window.xprops.entityID)
+    entityID = window.xprops.entityID;
+
+if (window.xprops.trustProfile)
+    trustProfile = window.xprops.trustProfile;
+
+console.log('1 entityID= ', entityID)
+console.log('2 trustProfile= ', trustProfile)
+
+if (entityID && trustProfile)
+    discovery_request =  `${login_initiator_url}&entityID=${entityID}&trustProfile=${trustProfile}`
+console.log('discovery_response: ', discovery_response)
 
 if (typeof discovery_request !== 'function') {
     let discovery_request_url = discovery_request;
@@ -50,8 +66,6 @@ main.style.background = window.xprops.backgroundColor;
 button.style.background = window.xprops.color;
 button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
 dsbutton.style.color = window.xprops.color;
-let entityID = window.xprops.entityID || null;
-let trustProfile = window.xprops.trustProfile || null;
 
 let ctaFocus = false
 
