@@ -4,14 +4,18 @@
             <div class="text-truncate label primary">{{title}}</div>
             <div class="text-truncate label-url secondary">{{domain}}</div>
         </div>
+        <% if(!filtered){ %>
         <div class="col-3 pr-0">
             <i class="fa fa-exclamation-triangle mt-2 mr-2 list-item-warning"></i>
         </div>
+        <% } %>
         <i class="arrow fa fa-angle-right"></i>
     </a>
+    <% if(!filtered){ %>
     <div class="row list-item-legend">
         <div class="col px-0 mt-3 institution-warning">
             <p class="px-2 py-2 mt-0 mb-0"><i class="fa fa-exclamation-triangle mr-1"></i> This institution may not provide access. <a href="#">Learn more</a></p>
         </div>
     </div>
+    <% } %>
 </li>

@@ -24,25 +24,16 @@ function lookup(id) {
 
 const trustInfo = require("./tinfo.json");
 function trustInfoFilter(preresult, entityID, trustProfile) {
-    console.log('running trustInfoFilter entityID: ', entityID)
-    console.log('running trustInfoFilter trustProfile: ', trustProfile)
-
     const trustSpecs = trustInfo.filter((ti) => {
-        console.log('ti: ', ti)
         return ti.entityID === entityID;
     });
-    console.log('running trustInfoFilter trustSpecs: ', trustSpecs)
 
     let result = [...preresult];
-    console.log('running trustInfoFilter result: ', result)
 
     if (trustSpecs.length > 0) {
         const trustSpec = trustSpecs[0];
         const extraMd = trustSpec.extra_md || {};
         const profile = trustSpec.profiles[trustProfile];
-        console.log('running trustInfoFilter trustSpec: ', trustSpec)
-        console.log('running trustInfoFilter extraMd: ', extraMd)
-        console.log('running trustInfoFilter profile: ', profile)
 
         if (profile !== undefined) {
             let emptied = false;
@@ -55,6 +46,9 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
                         }
                         const inMd = preresult.filter((idp) => (idp.entityID === ent.entity_id));
                         if (inMd.length > 0) {
+                            inMd[0]['filtered'] = true
+                            inMd[0]['idp_entity_id'] = entityID
+                            console.log('inMd[0]: ', inMd[0])
                             result.push(inMd[0]);
                         }
                     } else {
@@ -66,13 +60,27 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
                 const select = ents.select;
                 const match = ents.match;
                 if (ents.include) {
-                    result = result.filter((idp) => (idp[match] === select));
+                    result = result.filter((idp) => {
+                        if (idp[match] === select) {
+                            idp['filtered'] = true
+                            idp['idp_entity_id'] = entityID
+                            return idp
+                        }
+                    });
                 } else {
-                    result = result.filter((idp) => (idp[match] !== select));
+                    result = result.filter((idp) => {
+                        if (idp[match] !== select) {
+                            idp['filtered'] = true
+                            idp['idp_entity_id'] = entityID
+                            return idp
+                        }
+                    });
                 }
             });
             profile.entity.forEach((ent) => {
                 if (ent.entity_id in extraMd) {
+                    extraMd[ent.entity_id]['filtered'] = true
+                    extraMd[ent.entity_id]['idp_entity_id'] = entityID
                     result.push(extraMd[ent.entity_id]);
                 }
             });

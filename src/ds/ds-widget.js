@@ -42,7 +42,6 @@ jQuery(function ($) {
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
 
-                    console.log('SEARCH QUERIES: ', obj.options)
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => data.filter(o => o.hidden != "true"))
                         .then(data => {
@@ -174,7 +173,6 @@ jQuery(function ($) {
 
         _update: function () {
             let obj = this;
-            console.log('OPTIONS: ', obj.options)
             obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence,
                 obj.options.context, obj.options.entityID, obj.options.trustProfile);
             obj._count = 0;

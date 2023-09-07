@@ -36,12 +36,8 @@ if (window.xprops.entityID)
 if (window.xprops.trustProfile)
     trustProfile = window.xprops.trustProfile;
 
-console.log('1 entityID= ', entityID)
-console.log('2 trustProfile= ', trustProfile)
-
 if (entityID && trustProfile)
     discovery_request =  `${login_initiator_url}&entityID=${entityID}&trustProfile=${trustProfile}`
-console.log('discovery_response: ', discovery_response)
 
 if (typeof discovery_request !== 'function') {
     let discovery_request_url = discovery_request;

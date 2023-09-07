@@ -17,9 +17,7 @@
 (function($) {
 	console.log('bootstrap filter starting')
 	$.fn.btsListFilter = function(inputEl, opts) {
-
 		'use strict';
-		console.log('bootstrap filter started')
 
 		var self = this,
 			searchlist$ = $(this),
@@ -29,8 +27,6 @@
 			callData,
 			callReq;	//last callData execution
 
-		console.log('self: ', self)
-		console.log('inputEl$: ', inputEl$)
 		function tmpl(str, data) {
 			return str.replace(/\{ *([\w_]+) *\}/g, function (str, key) {
 				return data[key] || '';

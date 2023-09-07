@@ -95,7 +95,6 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
-        console.log('event: ', event)
         timer = setTimeout( function () { if (timer) { console.log('searching'); $("#searching").removeClass('d-none') } }, 500);
     }).on('hide.bs', function(event) {
         $("#searching").addClass('d-none');
@@ -145,7 +144,6 @@ $(document).ready(function() {
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         render_search_result: function(items) {
-            console.log('render_search_result items: ', items)
             $("#searching").addClass('d-none');
 
             if (timer) {
@@ -158,7 +156,8 @@ $(document).ready(function() {
                 let html = ejs.render(searchHTML, {
                     title: item.title,
                     domain: item.domain,
-                    entity_id: item.entity_id
+                    entity_id: item.entity_id,
+                    filtered: item.filtered || null
                 })
 
                 htmlItemList.push(html)
@@ -168,8 +167,6 @@ $(document).ready(function() {
 
         },
         render_saved_choice: function(items) {
-            console.log('render_saved_choice')
-
             $("#searching").addClass('d-none');
 
             if (timer) {
@@ -183,6 +180,7 @@ $(document).ready(function() {
                     entity_id: item.entity_id,
                     entity_icon: item.entity_icon,
                     name_tag: item.name_tag,
+                    filtered: item.filtered || null,
                     entity_icon_url: item.entity_icon_url
                 })
 
@@ -190,9 +188,8 @@ $(document).ready(function() {
             })
         },
         too_many_results: function(bts, count) {
-            console.log('too_many_results')
-
             $("#searching").addClass('d-none');
+            document.getElementById('ds-search-list').innerHTML = ''
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -208,9 +205,9 @@ $(document).ready(function() {
             $("#ds-search-list").append(html);
         },
         no_results: function() {
-            console.log('no_results')
-
             $("#searching").addClass('d-none');
+
+            document.getElementById('ds-search-list').innerHTML = ''
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -225,9 +222,6 @@ $(document).ready(function() {
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
-                console.log(item)
-                console.log(item_ttl)
-                console.log(item.last_refresh + item_ttl - now)
                 if (item.last_refresh + item_ttl < now) {
                     console.log("refresh ...")
                     return json_mdq_get(encodeURIComponent(item.entity.id), o.mdq).then(entity => {

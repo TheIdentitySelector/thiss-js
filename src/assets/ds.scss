@@ -358,6 +358,8 @@ ul li a:hover {
     .institution:hover {
       i.arrow {
         right: 0;
+        width: 12px;
+        margin-right: 20px;
         color: var(--primary-blue);
         display: block;
         position: absolute;
