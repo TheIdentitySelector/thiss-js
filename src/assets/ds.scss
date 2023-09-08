@@ -308,8 +308,9 @@ ul li a:hover {
 }
 
 .top-right {
-	top:0;
-	float: right;
+	top:  -5px;
+    right: 0;
+    position: absolute;
 }
 
 .institution i {
@@ -317,7 +318,7 @@ ul li a:hover {
 	color: var(--primary-blue);
 }
 
-.search-list {
+.search-list, .choose, .edit {
   .primary {
     font-weight: normal;
   }
@@ -327,11 +328,37 @@ ul li a:hover {
     cursor: pointer;
     min-height: 4rem;
     padding-bottom: 15px;
-    padding-top: 15px;
+    padding-top: 12px;
   }
 
   li:first-child {
     border-top: 1px solid rgba(118, 118, 118, 0.2);
+  }
+}
+
+.edit {
+  .list-item-warning {
+    display: none
+  }
+
+  .top-right {
+    right: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    svg {
+      right: 10px;
+      position: absolute;
+    }
+  }
+
+
+  li, li:first-child {
+    border: solid 1px var(--primary-blue);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
   }
 }
 
@@ -518,12 +545,6 @@ i.list-item-warning {
   font-size: 16px;
 }
 
-.choose i.arrow {
-  color: var(--warm-grey-two);
-  display: block;
-  padding-top: 5px;
-}
-
 .link-bar {
   margin: 15px 0 3px 0;
 
@@ -542,6 +563,12 @@ i.list-item-warning {
   background-color: var(--white-two);
   color: var(--text-grey);
   text-align: center;
+}
+
+.warning-banner {
+  border: 1px solid rgb(133, 99, 29);
+  background: rgb(245, 245, 245);
+  border-radius: 2px;
 }
 
 .no-results-alert {

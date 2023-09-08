@@ -19,6 +19,7 @@ import searchHTML from './templates/search.html'
 import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
+import filterWarningHTML from './templates/filter_warning.html'
 
 config.autoReplaceSvg = 'nest';
 
@@ -112,10 +113,11 @@ $(document).ready(function() {
 
     $("#edit_button").on('click',function(event) {
         $("#choosetools").toggleClass("d-none");
+        $(".warning-banner").toggleClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#savedchoices").removeClass('choose').addClass('edit');
-        $("#choose > span.choose").hide();
-        $("#choose > span.edit").show();
+        $("#choose > span.choose").toggleClass("d-none");
+        $("#choose > span.edit").toggleClass("d-none");
         $(".institution-text").addClass("item-fade");
         $(".institution-icon").addClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -126,9 +128,10 @@ $(document).ready(function() {
         event.preventDefault();
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#choosetools").toggleClass("d-none");
+        $(".warning-banner").toggleClass("d-none");
         $("#savedchoices").removeClass('edit').addClass('choose');
-        $("#choose > span.edit").hide();
-        $("#choose > span.choose").show();
+        $("#choose > span.edit").toggleClass("d-none");
+        $("#choose > span.choose").toggleClass("d-none");
         $(".institution-text").removeClass("item-fade");
         $(".institution-icon").removeClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -186,6 +189,17 @@ $(document).ready(function() {
 
                 $("#ds-saved-choices").append(html);
             })
+
+            let displayFilterWarning = items.find(item => item.filtered !== true)
+
+            if (displayFilterWarning) {
+                let registrationAuthority = displayFilterWarning.registrationAuthority
+                let html = ejs.render(filterWarningHTML, {
+                    registrationAuthority: registrationAuthority,
+                })
+
+                $("#filter-warning").append(html);
+            }
         },
         too_many_results: function(bts, count) {
             $("#searching").addClass('d-none');
