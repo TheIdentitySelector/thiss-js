@@ -1,6 +1,38 @@
 [
   {
     "entityID": "https://cpauth.icos-cp.eu/saml/cpauth",
+    "extra_md": [
+      {
+        "title": "Universidad Laica Eloy Alfaro de Manabí - uleam",
+        "descr": "uleam - Federated access by CEDIA",
+        "title_langs": {
+          "en": "Universidad Laica Eloy Alfaro de Manabí - uleam",
+          "es": "Universidad Laica Eloy Alfaro de Manabí - uleam"
+        },
+        "descr_langs": {
+          "en": "uleam - Federated access by CEDIA",
+          "es": "uleam - Acceso federado ofrecido por CEDIA"
+        },
+        "auth": "saml",
+        "entity_id": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+        "entityID": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+        "registrationAuthority": "https://minga.cedia.org.ec",
+        "type": "idp",
+        "hidden": "false",
+        "scope": "uleam.edu.ec",
+        "domain": "uleam.edu.ec",
+        "name_tag": "ULEAM",
+        "entity_icon_url": {
+          "url": "https://static.cedia.edu.ec/logos/uleam-250x50.png",
+          "width": "200",
+          "height": "160"
+        },
+        "trusted": {
+          "en": "Extra md en",
+          "sv": "Extra md sv"
+        }
+      }
+    ],
     "profiles": {
       "customer": {
         "strict": true,
@@ -107,6 +139,7 @@
   },
   {
     "entityID": "http://fs.liu.se/adfs/services/trust",
+    "extra_md": [],
     "profiles": {
       "other": {
         "strict": false,
@@ -202,6 +235,7 @@
   },
   {
     "entityID": "https://test-edusign.ed-integrations.com/shibboleth",
+    "extra_md": [],
     "profiles": {
       "customer": {
         "strict": true,
@@ -283,6 +317,7 @@
   },
   {
     "entityID": "https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+    "extra_md": [],
     "profiles": {
       "customer": {
         "strict": true,
@@ -374,6 +409,7 @@
   },
   {
     "entityID": "https://csucoast.infoready4.com/shibboleth",
+    "extra_md": [],
     "profiles": {
       "customer": {
         "strict": true,
