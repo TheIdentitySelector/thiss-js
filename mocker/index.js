@@ -90,7 +90,6 @@ const search_properties = ["scope", "title"];
 
 function search(s, entityID, trustProfile) {
     let result = idps;
-    }
     if (entityID !== null) {
         result = trustInfoFilter(result, entityID, trustProfile);
     }
