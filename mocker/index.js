@@ -89,21 +89,20 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
 const search_properties = ["scope", "title"];
 
 function search(s, entityID, trustProfile) {
-    let result;
+    let result = idps;
+    }
+    if (entityID !== null) {
+        result = trustInfoFilter(result, entityID, trustProfile);
+    }
     if (s !== null) {
         let m = RegExp(s,'i');
         console.log('s: ', s)
         console.log('m: ', m)
-        result = idps.filter(function(e) {
+        result = result.filter(function(e) {
             return search_properties.some(function(p) {
                 return  e.hasOwnProperty(p) && m.test(e[p]);
             })
         });
-    } else {
-        result = idps;
-    }
-    if (entityID !== null) {
-        result = trustInfoFilter(result, entityID, trustProfile);
     }
     return result;
 }
