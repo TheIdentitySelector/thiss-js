@@ -54,7 +54,7 @@ export CACHE_CONTROL=${CACHE_CONTROL:-"public, max-age=36000, must-revalidate, s
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
-         try_files \$uri \$uri/index.html \$uri/ =404;
+         try_files \$uri \$uri/index.html \$uri/ =404 @mdq;
          absolute_redirect off;
          location ~*  \.(jpg|jpeg|png|gif|svg|ico|html|css|js|eot|ttf|woff|woff2)$ {
             sendfile on;
