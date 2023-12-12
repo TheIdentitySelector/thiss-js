@@ -244,3 +244,9 @@ postRobot.on('remove', {window: window.parent}, function(event) {
         storage.remove(entity_id.hexEncode());
     }
 });
+
+postRobot.on('clear', {window: window.parent}, function(event) {
+    check_access(event);
+    let storage = _ctx(event.data.context);
+    storage.removeAll();
+});
