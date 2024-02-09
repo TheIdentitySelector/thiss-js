@@ -17,8 +17,6 @@ entities.forEach(function (e) {
 });
 
 function lookup(id) {
-    console.log('id: ', id)
-    console.log('entities_map[id]: ', entities_map[id])
     return entities_map[id];
 }
 
@@ -31,37 +29,22 @@ trustInfo.forEach(function (e) {
     tiEntitiesMap[e.entityID] = e;
 });
 
-console.log('tiEntitiesMap: ', tiEntitiesMap)
 function lookup_with_profile(id, entityID, trustProfileName) {
-    console.log('lookup_with_profile id: ', id)
-    console.log('lookup_with_profile entityID: ', entityID)
-    console.log('lookup_with_profile trustProfileName: ', trustProfileName)
-
     try {
         // here we check that the requested entity fits with the specified trust profile,
         // and add a hint if necessary
         let entity = entities_map[id];
 
-        console.log('entity 00: ', entity)
-
-
-        console.log('tiEntitiesMap[entityID]: ', tiEntitiesMap[entityID])
-
         const trustProfile = tiEntitiesMap[entityID]['profiles'][trustProfileName];
         const extraMetadata = tiEntitiesMap[entityID]['extra_md'];
         const strictProfile = trustProfile.strict;
-        console.log('trustProfile: ', trustProfile)
-        console.log('extraMetadata: ', extraMetadata)
-        console.log('strictProfile: ', strictProfile)
 
         let fromExtraMd = false;
         // first we check whether the entity comes from external metadata
         if (entityID in extraMetadata) {
-            console.log('first we check whether the entity comes from external metadata')
             entity = {...extraMetadata[id]};
             fromExtraMd = true;
         }
-        console.log('0 entity: ', entity)
         // if the entity is not in the internal or external metadata, return not found.
         if (!entity) {
             console.log('if the entity is not in the internal or external metadata, return not found.')
@@ -71,11 +54,6 @@ function lookup_with_profile(id, entityID, trustProfileName) {
 
         // check whether the entity is selected by some specific entity clause
         trustProfile.entity.forEach((e) => {
-            console.log('trustProfile entity e: ', e)
-            console.log('trustProfile entity e.entity_id: ', e.entity_id)
-            console.log('trustProfile entity entity.entity_id: ', entity.entity_id)
-            console.log('e.include : ', e.include)
-
             if (e.include && e.entity_id === entity.entity_id) {
                 seen = true;
             } else if (!e.include && e.entity_id !== entity.entity_id) {
@@ -94,7 +72,6 @@ function lookup_with_profile(id, entityID, trustProfileName) {
         }
         // check whether the entity is selected by some entities clause in the profile
         trustProfile.entities.forEach((e) => {
-            console.log('trustProfile entities e: ', e)
             if (e.include && entity[e.match] === e.select) {
                 seen = true;
             } else if ((!e.include) && entity[e.match] !== e.select) {
@@ -104,7 +81,6 @@ function lookup_with_profile(id, entityID, trustProfileName) {
             }
         });
 
-        console.log('seen: ', seen)
         // if the profile is strict, return the entity if it was selected by the profile,
         // and not found otherwise
         if (strictProfile) {
@@ -129,11 +105,9 @@ function lookup_with_profile(id, entityID, trustProfileName) {
 }
 
 function trustInfoFilter(preresult, entityID, trustProfile) {
-    console.log(`entity: ${entityID}, profile: ${trustProfile}`);
     const trustSpecs = trustInfo.filter((ti) => {
         return ti.entityID === entityID;
     });
-    console.log(`trsutSpecs: ${JSON.stringify(trustSpecs)}`);
     let result = [...preresult];
     if (trustSpecs.length > 0) {
         const trustSpec = trustSpecs[0];
@@ -161,14 +135,13 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
                             }
 
                             result.push(inMd[0]);
-                            //console.log(`preresult: ${JSON.stringify(result)}`);
                         }
                     } else {
                         result = result.filter((idp) => (idp.entityID !== ent.entity_id));
                     }
                 }
             });
-            // console.log(`temp result: ${JSON.stringify(result)}`);
+
             profile.entities.forEach((ents) => {
                 const select = ents.select;
                 const match = ents.match;
@@ -176,8 +149,6 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
 
                     result = result.filter((idp) => (idp[match] === select));
                 } else {
-                    console.log('7, len: ', result.length)
-
                     result = result.filter((idp) => (idp[match] !== select));
                 }
 
@@ -220,8 +191,6 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
         }
     }
 
-    console.log('Final, len: ', result.length)
-
     return result;
 }
 
@@ -232,8 +201,6 @@ function search(s, entityID, trustProfile) {
     let result = idps;
     if (entityID !== null) {
         result = trustInfoFilter(result, entityID, trustProfile);
-
-        console.log('search result: ', result.length)
     }
     if (s !== null) {
         let m = RegExp(s,'i');
@@ -256,7 +223,6 @@ const proxy = {
     },
     '/entities/': (req, res) => {
         let q = req.query.query;
-        console.log('entities: ', q)
         if (!q) {
             q = req.query.q
         }
@@ -277,12 +243,6 @@ const proxy = {
             trustProfile = req.params.trust_profile;
         }
 
-        console.log('req.params: ', req.params)
-
-        console.log('entityID: ', entityID)
-        console.log('trustProfile: ', trustProfile)
-        console.log('id: ', id)
-
         let entity
 
         if (entityID && trustProfile) {
@@ -294,7 +254,6 @@ const proxy = {
             entity = lookup(id[0])
         }
 
-        console.log('entity: ', entity)
         if (entity) {
             return res.json(entity);
         } else {
