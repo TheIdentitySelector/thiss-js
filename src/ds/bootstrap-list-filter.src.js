@@ -15,7 +15,6 @@
 * itemFilter   *function for filter results(receive: text, item)*
 */
 (function($) {
-	console.log('bootstrap filter starting')
 	$.fn.btsListFilter = function(inputEl, opts) {
 		'use strict';
 
@@ -77,7 +76,6 @@
 		}, opts);
 
 		function debouncer(func, timeout) {
-			console.log('debouncer')
 			var timeoutID;
 			timeout = timeout || 300;
 			return function () {
@@ -181,7 +179,6 @@
 									for (var i in data)
 										$(opts.sourceNode.call(self, data[i])).addClass(opts.itemClassTmp).appendTo(searchlist$);
 								} else {
-									console.log('max results')
 									$(opts.maxResultsNode(data)).addClass(opts.itemClassTmp).appendTo(searchlist$);
 								}
 							}
@@ -210,7 +207,6 @@
 
 		if(opts.resetOnBlur)
 			inputEl$.on('blur', function(e) {
-				console.log('action 2')
 				self.reset();
 			});
 

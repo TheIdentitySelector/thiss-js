@@ -10,8 +10,7 @@
     "cover": "./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
     "dev": "DANGEROUSLY_DISABLE_HOST_CHECK=true webpack serve --hot --json --open --config webpack.dev.js",
     "local": "webpack-dev-server --hot --json --open --config webpack.local.js",
-    "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js",
-    "snyk": "snyk protect"
+    "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
@@ -77,7 +76,7 @@
     "@popperjs/core": "^2.11.6",
     "@snyk/protect": "^1.1068.0",
     "@theidentityselector/js-storage": "^1.0.4",
-    "@theidentityselector/thiss-ds": "1.0.13",
+    "@theidentityselector/thiss-ds": "^1.0.13",
     "banana-i18n": "^2.2.0",
     "belter": "^1.0.165",
     "bootstrap-scss": "^5.3.1",
@@ -102,5 +101,5 @@
     "svg-url-loader": "^8.0.0",
     "whatwg-fetch": "^3.6.2"
   },
-  "snyk": true
+  "snyk": false
 }

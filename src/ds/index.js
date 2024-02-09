@@ -96,7 +96,7 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
-        timer = setTimeout( function () { if (timer) { console.log('searching'); $("#searching").removeClass('d-none') } }, 500);
+        timer = setTimeout( function () { if (timer) { console.log('searching'); $("#searching").removeClass('d-none') } }, 2500);
     }).on('hide.bs', function(event) {
         $("#searching").addClass('d-none');
 
@@ -155,19 +155,80 @@ $(document).ready(function() {
 
             let htmlItemList = []
 
+            function getUrlVars()
+            {
+                let vars = [], hash;
+                let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for(let i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+
+            const urlQueryParams = getUrlVars()
+
+            let trustProfile = null
+
+            if (urlQueryParams.trustProfile) {
+                trustProfile = urlQueryParams.trustProfile
+            }
+
             items.forEach((item) => {
+                let showWarning = true
+                let hint = null
+                let trustProfile = null
+
+                if (item.hasOwnProperty('hint')) {
+                    let browserLanguage = window.navigator.language
+                    browserLanguage = (browserLanguage.split('-'))[0]
+
+                    if (item['hint'].hasOwnProperty(browserLanguage)) {
+                        hint = item['hint'][browserLanguage]
+                    } else if (item['hint'].hasOwnProperty('en'))  {
+                        hint = item['hint']['en']
+                    } else {
+                        hint = 'This institution may not provide access.'
+                    }
+                }
+
+                if (item.hasOwnProperty('strict')) {
+                    if (item.strict) {
+                        hint = null
+                    }
+                }
+
+                if (item.hasOwnProperty('trust_profile')) {
+                    trustProfile = item.trust_profile
+                }
+
                 let html = ejs.render(searchHTML, {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
-                    filtered: item.filtered || null
+                    trust_profile: trustProfile,
+                    show_warning: showWarning,
+                    hint: hint
                 })
 
                 htmlItemList.push(html)
             })
 
-            $("#ds-search-list").html(htmlItemList);
-
+            if (items) {
+                if (items.length > 0) {
+                    if (items[0].hasOwnProperty('counter')) {
+                        if (items[0].counter > 1) {
+                            $("#ds-search-list").append(htmlItemList);
+                        } else {
+                            $("#ds-search-list").html(htmlItemList);
+                        }
+                    } else {
+                        $("#ds-search-list").html(htmlItemList);
+                    }
+                }
+            }
         },
         render_saved_choice: function(items) {
             $("#searching").addClass('d-none');
@@ -175,25 +236,49 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
+            let showWarning = true
 
             items.forEach((item) => {
+                let hint = null
+
+                if (item.hasOwnProperty('hint')) {
+                    let browserLanguage = window.navigator.language
+                    browserLanguage = (browserLanguage.split('-'))[0]
+
+                    if (item['hint'].hasOwnProperty(browserLanguage)) {
+                        hint = item['hint'][browserLanguage]
+                    } else if (item['hint'].hasOwnProperty('en'))  {
+                        hint = item['hint']['en']
+                    } else {
+                        hint = 'This institution may not provide access.'
+                    }
+                }
+
+                if (item.hasOwnProperty('strict')) {
+                    if (item.strict) {
+                        hint = null
+                    }
+                } else {
+                    hint = true
+                }
+
                 let html = ejs.render(savedHTML, {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
                     entity_icon: item.entity_icon,
                     name_tag: item.name_tag,
-                    filtered: item.filtered || null,
+                    hint: hint,
                     entity_icon_url: item.entity_icon_url
                 })
 
                 $("#ds-saved-choices").append(html);
             })
 
-            let displayFilterWarning = items.find(item => item.filtered !== true)
+            let warningItem = items.find((item) => !item.strict)
 
-            if (displayFilterWarning) {
-                let registrationAuthority = displayFilterWarning.registrationAuthority
+            if (warningItem) {
+                let registrationAuthority = warningItem.registrationAuthority
                 let html = ejs.render(filterWarningHTML, {
                     registrationAuthority: registrationAuthority,
                 })
@@ -220,16 +305,17 @@ $(document).ready(function() {
         },
         no_results: function() {
             $("#searching").addClass('d-none');
-
             document.getElementById('ds-search-list').innerHTML = ''
 
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            return no_results.render();
+
+            let html = ejs.render(noResultsHTML)
+
+            $("#ds-search-list").append(html);
         },
         persist: function() {
-            console.log($("#rememberThisChoice").is(':checked'));
             return $("#rememberThisChoice").is(':checked');
         },
         before: function(items) {
@@ -252,7 +338,6 @@ $(document).ready(function() {
             })).then(items => items.filter(item => item.entity != undefined))
         },
         after: function(count,elt) {
-            console.log("after - "+count);
             $("#searching").addClass('d-none');
             if (count == 0) {
                 $("#search").removeClass("d-none");

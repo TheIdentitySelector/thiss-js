@@ -7,7 +7,7 @@ window.onload = function() {
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}`,
         backgroundColor: '#e9ecef',
-        entityID: 'https://example.com/shibboleth',
+        entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         trustProfile: 'customer'
     }).render('#login');
 };

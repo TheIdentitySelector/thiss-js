@@ -43,7 +43,9 @@ jQuery(function ($) {
                     obj.ac.push(this_ab);
 
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
-                        .then(data => data.filter(o => o.hidden != "true"))
+                        .then(data => {
+                            return data.filter(o => o.hidden != "true")
+                        })
                         .then(data => {
                             let first_ab = obj.ac.shift()
                             if (!this_ab.signal.aborted) {
@@ -192,7 +194,9 @@ jQuery(function ($) {
 
             $('body').on('click', obj.options.entity_selector, function (e) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
-                return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
+                let trust_profile = $(this).closest(obj.options.entity_selector).attr('data-trust_profile');
+
+                return obj._ds.saml_discovery_response(entity_id, trust_profile, obj.options.persist());
             });
 
             $('body').on('keyup', obj.options.entity_selector, function (e) {
@@ -209,10 +213,8 @@ jQuery(function ($) {
             $('body').on('click', '.remove', function (e) {
                 e.stopPropagation();
                 let entity_element = $(this).closest(obj.options.entity_selector);
-                console.log('entity_element: ', entity_element)
                 obj._count = entity_element.siblings().length + 1;
                 let entity_id = entity_element.attr('data-href');
-                console.log('entity_element: ', entity_id)
 
                 if (entity_id) {
                     obj._ds.remove(entity_id).then(function () {

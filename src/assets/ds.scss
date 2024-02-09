@@ -592,6 +592,8 @@ i.list-item-warning {
 
   li {
     border: none;
+    height: auto;
+    min-height: auto;
     padding: 0 0 5px 0;
   }
 }
