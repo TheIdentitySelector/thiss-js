@@ -9,7 +9,7 @@ module.exports = merge(common, {
    mode: 'development',
    devtool: 'inline-source-map',
    devServer: {
-       contentBase: './dist',
+       static: './dist',
        port: 9000,
    },
    plugins: [
