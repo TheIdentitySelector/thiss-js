@@ -1,0 +1,550 @@
+[
+  {
+    "entityID": "https://cpauth.icos-cp.eu/saml/cpauth",
+    "extra_md": {
+      "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php": {
+        "title": "Universidad Laica Eloy Alfaro de Manabí - uleam",
+        "descr": "uleam - Federated access by CEDIA",
+        "title_langs": {
+          "en": "Universidad Laica Eloy Alfaro de Manabí - uleam",
+          "es": "Universidad Laica Eloy Alfaro de Manabí - uleam"
+        },
+        "descr_langs": {
+          "en": "uleam - Federated access by CEDIA",
+          "es": "uleam - Acceso federado ofrecido por CEDIA"
+        },
+        "auth": "saml",
+        "entity_id": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+        "entityID": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+        "registrationAuthority": "https://minga.cedia.org.ec",
+        "type": "idp",
+        "hidden": "false",
+        "scope": "uleam.edu.ec",
+        "domain": "uleam.edu.ec",
+        "name_tag": "ULEAM",
+        "entity_icon_url": {
+          "url": "https://static.cedia.edu.ec/logos/uleam-250x50.png",
+          "width": "200",
+          "height": "160"
+        },
+        "hint": {
+          "en": "Display name for extra md - en",
+          "sv": "Display name for extra md - sv"
+        }
+      }
+    },
+    "profiles": {
+      "customer": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+            "include": true
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer Access",
+          "sv": "Kundinloggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "provider": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://cafe.usf.edu.br/idp/shibboleth",
+            "include": true
+          },
+          {
+            "entity_id": "https://idp.u-picardie.fr/idp/shibboleth",
+            "include": true
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Provider Access",
+          "sv": "loggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/provider"
+        }
+      },
+      "other": {
+        "strict": false,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": true
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/other"
+        }
+      },
+      "another": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": false
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Another Access",
+          "sv": "Another Access"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/another"
+        }
+      },
+      "global1": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Global 1 en",
+          "sv": "Global 1 sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about1"
+        }
+      }
+    }
+  },
+  {
+    "entityID": "http://fs.liu.se/adfs/services/trust",
+    "extra_md": {},
+    "profiles": {
+      "other": {
+        "strict": false,
+        "entity": [
+          {
+            "entity_id": "https://kimlik.29mayis.edu.tr/simplesaml/saml2/idp/metadata.php",
+            "include": true
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/other"
+        }
+      },
+      "another": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://kimlik.29mayis.edu.tr/simplesaml/saml2/idp/metadata.php",
+            "include": false
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Another Access",
+          "sv": "Another Access sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/another"
+        }
+      },
+      "yetanother": {
+        "strict": false,
+        "entity": [
+          {
+            "entity_id": "https://kimlik.29mayis.edu.tr/simplesaml/saml2/idp/metadata.php",
+            "include": false
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/another"
+        }
+      },
+      "yetanotherone": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://kimlik.29mayis.edu.tr/simplesaml/saml2/idp/metadata.php",
+            "include": true
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "yet Another one Access",
+          "sv": "yet Another one Access sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/another"
+        }
+      },
+      "global2": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": true
+          }
+        ],
+        "entities": [],
+        "display_name": {
+          "en": "Global 2 en",
+          "sv": "Global 2 sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about2"
+        }
+      }
+    }
+  },
+  {
+    "entityID": "https://test-edusign.ed-integrations.com/shibboleth",
+    "extra_md": {},
+    "profiles": {
+      "customer": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer Access",
+          "sv": "Kundinloggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer2": {
+        "strict": false,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer3": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": false
+          }
+        ],
+        "display_name": {
+          "en": "Customer 3 Access",
+          "sv": "Kundinloggning 3"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer4": {
+        "strict": false,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": false
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      }
+    }
+  },
+  {
+    "entityID": "https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp",
+    "extra_md": {},
+    "profiles": {
+      "customer": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://refeds.org/category/research-and-scholarship",
+            "match": "entity_category",
+            "include": true
+          },
+          {
+            "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
+            "match": "entity_category",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer Access",
+          "sv": "Kundinloggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer2": {
+        "strict": false,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://refeds.org/category/research-and-scholarship",
+            "match": "entity_category",
+            "include": true
+          },
+          {
+            "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
+            "match": "entity_category",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer3": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://refeds.org/category/research-and-scholarship",
+            "match": "entity_category",
+            "include": false
+          }
+        ],
+        "display_name": {
+          "en": "Customer 3 Access",
+          "sv": "Kundinloggning 3"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer4": {
+        "strict": false,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://refeds.org/category/research-and-scholarship",
+            "match": "entity_category",
+            "include": false
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      }
+    }
+  },
+  {
+    "entityID": "https://csucoast.infoready4.com/shibboleth",
+    "extra_md": {},
+    "profiles": {
+      "customer": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": false
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer Access",
+          "sv": "Kundinloggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer2": {
+        "strict": false,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": false
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer3": {
+        "strict": true,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": false
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
+            "match": "entity_category",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer 3 Access",
+          "sv": "Kundinloggning 3"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer4": {
+        "strict": false,
+        "entity": [
+          {
+            "entity_id": "https://login.idp.eduid.se/idp.xml",
+            "include": false
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
+            "match": "entity_category",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer5": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
+            "match": "entity_category_support",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer 5 Access",
+          "sv": "Kundinloggning 5"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer6": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "https://refeds.org/sirtfi",
+            "match": "assurance_certification",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer 6 Access",
+          "sv": "Kundinloggning 6"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      }
+    }
+  }
+]

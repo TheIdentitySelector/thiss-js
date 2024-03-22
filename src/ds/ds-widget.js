@@ -196,6 +196,7 @@ jQuery(function ($) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
                 let trust_profile = $(this).closest(obj.options.entity_selector).attr('data-trust_profile');
 
+                console.log('entity_id XX: ', entity_id)
                 return obj._ds.saml_discovery_response(entity_id, trust_profile, obj.options.persist());
             });
 
