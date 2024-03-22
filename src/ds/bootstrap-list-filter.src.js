@@ -16,7 +16,6 @@
 */
 (function($) {
 	$.fn.btsListFilter = function(inputEl, opts) {
-
 		'use strict';
 
 		var self = this,
@@ -95,7 +94,15 @@
 		self.showall = function() {
 			opts.maxResults = -1;
 			inputEl$.val(inputEl$.val()).trigger(opts.eventKey);
-		}
+		};
+
+		$('body').on('click', '#reset', function () {
+			self.reset()
+		});
+
+		$('body').on('click', '#showall', function () {
+			self.showall()
+		});
 
 		if($.isFunction(opts.cancelNode)) {
 

@@ -1,0 +1,99 @@
+[
+  {
+    "entityID": "https://example.com/shibboleth",
+    "extra_md": {
+      "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php": {
+        "title": "Universidad Laica Eloy Alfaro de Manabí - uleam - external",
+        "descr": "uleam - Federated access by CEDIA",
+        "title_langs": {
+          "en": "Universidad Laica Eloy Alfaro de Manabí - uleam",
+          "es": "Universidad Laica Eloy Alfaro de Manabí - uleam"
+        },
+        "descr_langs": {
+          "en": "uleam - Federated access by CEDIA",
+          "es": "uleam - Acceso federado ofrecido por CEDIA"
+        },
+        "auth": "saml",
+        "entity_id": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+        "entityID": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+        "registrationAuthority": "https://minga.cedia.org.ec",
+        "type": "idp",
+        "hidden": "false",
+        "scope": "uleam.edu.ec",
+        "domain": "uleam.edu.ec",
+        "name_tag": "ULEAM",
+        "entity_icon_url": {
+          "url": "https://static.cedia.edu.ec/logos/uleam-250x50.png",
+          "width": "200",
+          "height": "160"
+        }
+      }
+    },
+    "profiles": {
+      "customer": {
+        "entity": [
+          {
+            "entity_id": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+            "include": true
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "provider": {
+        "entity": [
+          {
+            "entity_id": "https://login.uleam.cedia.edu.ec/saml2/idp/metadata.php",
+            "include": true
+          }
+        ],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": false
+          }
+        ],
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "other": {
+        "entity": [
+          {
+            "entity_id": "https://idp.cardiff.ac.uk/shibboleth",
+            "include": true
+          }
+        ],
+        "entities": [],
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "another": {
+        "entity": [
+          {
+            "entity_id": "https://idp.cardiff.ac.uk/shibboleth",
+            "include": false
+          }
+        ],
+        "entities": [],
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      }
+    }
+  }
+]

@@ -1,7 +1,6 @@
 import {ds_response_url} from "@theidentityselector/thiss-ds";
-
 const zoid = require('zoid/dist/zoid.frame');
-const preload_template = require('!ejs-loader!./cta/preload.html');
+const preload_template = require('./cta/preload.ejs');
 import {toCSS, destroyElement} from 'belter/src';
 
 /**
@@ -29,10 +28,19 @@ function prerenderTemplate(opts) {
     let login_initiator_url = opts.props.loginInitiatorURL || opts.props.loginHandlerURL;
     let discovery_request = opts.props.discoveryRequest;
 
+    let entity_id = opts.props.entityID || null
+    let trust_profile = opts.props.trustProfile || null
+
     if (!discovery_request)
         discovery_request = login_initiator_url;
 
+    if (entity_id && trust_profile)
+        discovery_request =  `${login_initiator_url}&entityID=${entity_id}&trustProfile=${trust_profile}`
 
+    console.log('3 entityID= ', entity_id)
+    console.log('4 trustProfile= ', trust_profile)
+
+    console.log('discovery_request: ', discovery_request)
     if (typeof discovery_request !== 'function') {
         let discovery_request_url = discovery_request;
         discovery_request = function () {
@@ -42,7 +50,7 @@ function prerenderTemplate(opts) {
 
     _set_default_props(opts);
     const _t = opts.doc.createElement("html");
-    _t.innerHTML = preload_template(opts.props);
+    //_t.innerHTML = preload_template_fn(opts.props);
     _t.addEventListener('click', function(event) {
         event.preventDefault();
         discovery_request();

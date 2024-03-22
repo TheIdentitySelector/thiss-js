@@ -1,19 +1,24 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import 'core-js/actual';
 
 library.add(faPen);
 dom.watch();
 
 import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
+
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'
 
 import '../assets/cta.scss'
 import '../assets/sa-icon.svg';
+import saWhite from '../assets/sa-white.svg';
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
 let context;
+let entityID = null;
+let trustProfile = null;
 let defaultText = "Your Institution";
 let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
 let discovery_request = window.xprops.discoveryRequest;
@@ -24,6 +29,15 @@ if (!discovery_request)
 
 if (!discovery_response)
     discovery_response = login_initiator_url;
+
+if (window.xprops.entityID)
+    entityID = window.xprops.entityID;
+
+if (window.xprops.trustProfile)
+    trustProfile = window.xprops.trustProfile;
+
+if (entityID && trustProfile)
+    discovery_request =  `${login_initiator_url}&entityID=${entityID}&trustProfile=${trustProfile}`
 
 if (typeof discovery_request !== 'function') {
     let discovery_request_url = discovery_request;
@@ -95,7 +109,7 @@ if (window.xprops.MDQ) {
     mdq = window.xprops.MDQ;
 }
 
-let ds = new DiscoveryService(mdq, persistence, context);
+let ds = new DiscoveryService(mdq, persistence, context, entityID, trustProfile);
 
 let start = [];
 if (window.xprops.pinned) {

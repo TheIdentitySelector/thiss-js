@@ -1,5 +1,9 @@
 import '../assets/nc.scss';
+import '../assets/nc.scss';
 import '../assets/ds.scss';
+import 'core-js/actual';
+let headerLogo = require('../assets/sa-black.svg')
+let footerLogo = require('../assets/SeamlessFooterLogo.svg')
 
 import Localization from '../localization.js'
 
@@ -8,19 +12,27 @@ import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
+import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+
+import searchHTML from './templates/search.html'
+import savedHTML from './templates/saved.html'
+import tooManyHTML from './templates/too_many.html'
+import noResultsHTML from './templates/no_results.html'
+import filterWarningHTML from './templates/filter_warning.html'
 
 config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
 
-library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes);
+library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes, faExclamationTriangle);
 dom.watch();
 
 import * as $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
 import 'jquery-ui/ui/widget.js';
+import 'ejs/ejs.min';
 
 const Hogan = require("hogan.js");
 
@@ -35,23 +47,39 @@ const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
 
-const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
+// const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
 const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
 const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
 const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
-const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
-const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
+// const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
+// const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
 
 
 $(document).ready(function() {
     let timer = null;
 
-    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    let entityID = null
+    let trustProfile = null
+
+    if (urlParams.has('entityID'))
+        entityID = urlParams.get('entityID')
+
+    if (urlParams.has('trustProfile'))
+        trustProfile = urlParams.get('trustProfile')
+
+
+    $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,""));
+    $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,""));
+
+/*    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({
         service_url: service_url,
         service_name: service_name,
         learn_more_url: learn_more_url
-    }));
+    }));*/
 
     $('#learn-more-trigger, #learn-more-close').on('click', function() {
       $("#learn-more-banner").toggleClass("d-none");
@@ -68,9 +96,10 @@ $(document).ready(function() {
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
-        timer = setTimeout( function () { if (timer) { $("#searching").show(); } }, 500);
+        timer = setTimeout( function () { if (timer) { console.log('searching'); $("#searching").removeClass('d-none') } }, 2500);
     }).on('hide.bs', function(event) {
-        $("#searching").hide();
+        $("#searching").addClass('d-none');
+
         if (timer) {
             clearTimeout(timer);
         }
@@ -84,10 +113,11 @@ $(document).ready(function() {
 
     $("#edit_button").on('click',function(event) {
         $("#choosetools").toggleClass("d-none");
+        $(".warning-banner").toggleClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#savedchoices").removeClass('choose').addClass('edit');
-        $("#choose > span.choose").hide();
-        $("#choose > span.edit").show();
+        $("#choose > span.choose").toggleClass("d-none");
+        $("#choose > span.edit").toggleClass("d-none");
         $(".institution-text").addClass("item-fade");
         $(".institution-icon").addClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -98,9 +128,10 @@ $(document).ready(function() {
         event.preventDefault();
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#choosetools").toggleClass("d-none");
+        $(".warning-banner").toggleClass("d-none");
         $("#savedchoices").removeClass('edit').addClass('choose');
-        $("#choose > span.edit").hide();
-        $("#choose > span.choose").show();
+        $("#choose > span.edit").toggleClass("d-none");
+        $("#choose > span.choose").toggleClass("d-none");
         $(".institution-text").removeClass("item-fade");
         $(".institution-icon").removeClass("item-fade");
         $(".institution-select").toggleClass("d-none");
@@ -111,50 +142,186 @@ $(document).ready(function() {
         mdq: process.env.MDQ_URL,
         persistence: process.env.PERSISTENCE_URL,
         search: process.env.SEARCH_URL,
+        entityID: entityID,
+        trustProfile: trustProfile,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
-        render_search_result: function(item) {
-            $("#searching").hide();
+        render_search_result: function(items) {
+            $("#searching").addClass('d-none');
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            return search.render(item);
+
+            let htmlItemList = []
+
+            function getUrlVars()
+            {
+                let vars = [], hash;
+                let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for(let i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+
+            const urlQueryParams = getUrlVars()
+
+            let trustProfile = null
+
+            if (urlQueryParams.trustProfile) {
+                trustProfile = urlQueryParams.trustProfile
+            }
+
+            items.forEach((item) => {
+                let showWarning = true
+                let hint = null
+                let trustProfile = null
+
+                if (item.hasOwnProperty('hint')) {
+                    let browserLanguage = window.navigator.language
+                    browserLanguage = (browserLanguage.split('-'))[0]
+
+                    if (item['hint'].hasOwnProperty(browserLanguage)) {
+                        hint = item['hint'][browserLanguage]
+                    } else if (item['hint'].hasOwnProperty('en'))  {
+                        hint = item['hint']['en']
+                    } else {
+                        hint = 'This institution may not provide access.'
+                    }
+                }
+
+                if (item.hasOwnProperty('strict')) {
+                    if (item.strict) {
+                        hint = null
+                    }
+                }
+
+                if (item.hasOwnProperty('trust_profile')) {
+                    trustProfile = item.trust_profile
+                }
+
+                let html = ejs.render(searchHTML, {
+                    title: item.title,
+                    domain: item.domain,
+                    entity_id: item.entity_id,
+                    trust_profile: trustProfile,
+                    show_warning: showWarning,
+                    hint: hint
+                })
+
+                htmlItemList.push(html)
+            })
+
+            if (items) {
+                if (items.length > 0) {
+                    if (items[0].hasOwnProperty('counter')) {
+                        if (items[0].counter > 1) {
+                            $("#ds-search-list").append(htmlItemList);
+                        } else {
+                            $("#ds-search-list").html(htmlItemList);
+                        }
+                    } else {
+                        $("#ds-search-list").html(htmlItemList);
+                    }
+                }
+            }
         },
-        render_saved_choice: function(item) {
-            return saved.render(item);
+        render_saved_choice: function(items) {
+            $("#searching").addClass('d-none');
+
+            if (timer) {
+                clearTimeout(timer); timer = null;
+            }
+            let showWarning = true
+
+            items.forEach((item) => {
+                let hint = null
+
+                if (item.hasOwnProperty('hint')) {
+                    let browserLanguage = window.navigator.language
+                    browserLanguage = (browserLanguage.split('-'))[0]
+
+                    if (item['hint'].hasOwnProperty(browserLanguage)) {
+                        hint = item['hint'][browserLanguage]
+                    } else if (item['hint'].hasOwnProperty('en'))  {
+                        hint = item['hint']['en']
+                    } else {
+                        hint = 'This institution may not provide access.'
+                    }
+                }
+
+                if (item.hasOwnProperty('strict')) {
+                    if (item.strict) {
+                        hint = null
+                    }
+                } else {
+                    hint = true
+                }
+
+                let html = ejs.render(savedHTML, {
+                    title: item.title,
+                    domain: item.domain,
+                    entity_id: item.entity_id,
+                    entity_icon: item.entity_icon,
+                    name_tag: item.name_tag,
+                    hint: hint,
+                    entity_icon_url: item.entity_icon_url
+                })
+
+                $("#ds-saved-choices").append(html);
+            })
+
+            let warningItem = items.find((item) => !item.strict)
+
+            if (warningItem) {
+                let registrationAuthority = warningItem.registrationAuthority
+                let html = ejs.render(filterWarningHTML, {
+                    registrationAuthority: registrationAuthority,
+                })
+
+                $("#filter-warning").append(html);
+            }
         },
         too_many_results: function(bts, count) {
+            $("#searching").addClass('d-none');
+            document.getElementById('ds-search-list').innerHTML = ''
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#searching").hide();
-            let too_many_node = too_many.render({
-                    "count": count,
-                    "matchesString": localization.translateString('ds-too-many-result-matches'),
-                    "keepTypingString": localization.translateString('ds-too-many-result-keep-typing'),
-                    "showAnywayString": localization.translateString('ds-too-many-result-show')
-                });
-            $('body').on('click', "#showall", function() {  bts.showall() })
-            return too_many_node;
+
+            let html = ejs.render(tooManyHTML, {
+                count: count,
+                matchesString: localization.translateString('ds-too-many-result-matches'),
+                keepTypingString: localization.translateString('ds-too-many-result-keep-typing'),
+                showAnywayString: localization.translateString('ds-too-many-result-show')
+            })
+
+            $("#ds-search-list").append(html);
         },
         no_results: function() {
+            $("#searching").addClass('d-none');
+            document.getElementById('ds-search-list').innerHTML = ''
+
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            $("#searching").hide();
-            return no_results.render();
+
+            let html = ejs.render(noResultsHTML)
+
+            $("#ds-search-list").append(html);
         },
         persist: function() {
-            console.log($("#rememberThisChoice").is(':checked'));
             return $("#rememberThisChoice").is(':checked');
         },
         before: function(items) {
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
-                console.log(item)
-                console.log(item_ttl)
-                console.log(item.last_refresh + item_ttl - now)
                 if (item.last_refresh + item_ttl < now) {
                     console.log("refresh ...")
                     return json_mdq_get(encodeURIComponent(item.entity.id), o.mdq).then(entity => {
@@ -171,8 +338,7 @@ $(document).ready(function() {
             })).then(items => items.filter(item => item.entity != undefined))
         },
         after: function(count,elt) {
-            console.log("after - "+count);
-            $("#searching").hide();
+            $("#searching").addClass('d-none');
             if (count == 0) {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");
