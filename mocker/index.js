@@ -74,8 +74,8 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
                 result = [];
                 for (idp of idps) {
                     const newIdp = {...idp};
-                    if (selected.includes(newIdp.entityID)) {
-                        newIdp.trusted = profile.display_name;
+                    if (newIdp.hint === undefined && !selected.includes(newIdp.entityID)) {
+                        newIdp.hint = profile.display_name;
                     }
                     result.push(newIdp);
                 }
