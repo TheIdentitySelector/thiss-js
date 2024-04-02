@@ -45,6 +45,7 @@ Make TLS certificates. mkcert is a handy tool for this.
   $ mkcert test.sp1.net
   $ mkcert test.sp2.net
   $ mkcert test.sa.net
+  $ mkcert -install
   $ cd -
 ```
 
