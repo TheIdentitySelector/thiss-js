@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+  </head>
+  <body>
+	<script type="text/javascript">
+
+    window.onload = () => {
+
+    // function that returns a boolean which defaults to false except for
+    // browsers which don't support the API - where we assume
+    // such browsers also don't block third-party cookies.
+    async function hasCookieAccess() {
+      // Check if Storage Access API is supported
+      if (!document.requestStorageAccess) {
+        // Storage Access API is not supported so best we can do is
+        // hope it's an older browser that doesn't block 3P cookies.
+        console.log('API not supported');
+        return true;
+      }
+
+      // Check if access has already been granted
+      if (await document.hasStorageAccess()) {
+        console.log('access has already been granted');
+        return true;
+      }
+
+      // Check the storage-access permission
+      // Wrap this in a try/catch for browsers that support the
+      // Storage Access API but not this permission check
+      // (e.g. Safari and older versions of Firefox).
+      let permission;
+      try {
+        permission = await navigator.permissions.query(
+          {name: 'storage-access'}
+        );
+      } catch (error) {
+        // storage-access permission not supported. Assume no cookie access.
+        console.log('storage-access permission not supported');
+        return false;
+      }
+
+        if (permission) {
+        if (permission.state === 'granted') {
+          // Permission has previously been granted so can just call
+          // requestStorageAccess() without a user interaction and
+          // it will resolve automatically.
+          console.log('storage-access permission is granted');
+          try {
+            const ret = await document.requestStorageAccess();
+            console.log(`requestStorageAccess return ${ret}`);
+            return true;
+          } catch (error) {
+            // This shouldn't really fail if access is granted, but return false
+            // if it does.
+            console.log(`error calling requestStorageAccess: ${error}`);
+            return false;
+          }
+        } else if (permission.state === 'prompt') {
+          // Need to call requestStorageAccess() after a user interaction
+          // (potentially with a prompt). Can't do anything further here,
+          // so handle this in the click handler.
+          console.log('storage-access permission is prompt');
+          return false;
+        } else if (permission.state === 'denied') {
+          // Currently not used. See:
+          // https://github.com/privacycg/storage-access/issues/149
+          console.log('storage-access permission is denied');
+          return false;
+        }
+      }
+      // By default return false, though should really be caught by one of above.
+      return false;
+    }
+
+    async function handleCookieAccessInit() {
+      const hasAccess = await hasCookieAccess();
+      console.log(`Can access cookies: ${hasAccess}`);
+
+      if (hasAccess) {
+        // Use the cookies.
+        if (hasAccess) {
+          console.log(`Cookie: ${document.cookie}`);
+          const cookieValue = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("sa-choice="))
+            ?.split("=")[1];
+          console.log(`Cookie read: ${cookieValue}`);
+          if (cookieValue !== undefined) {
+            document.getElementById('value-holder').innerHTML = cookieValue;
+          } else {
+            document.getElementById('value-holder').innerHTML = 'unset';
+          }
+        }
+      }
+    }
+    handleCookieAccessInit();
+
+    const button = document.getElementById('main-button');
+    button.addEventListener('click', async (e) => {
+      try {
+        await document.requestStorageAccess();
+      } catch(err) {
+        console.log(`error requesting storage access: ${err}`);
+      }
+      window.parent.location = 'https://test.sa.net';
+    });
+  }
+
+  </script>
+  <h3>SeamlessAccess iframe</h3>
+  <button id="main-button">SeamlessAccess</button>
+  <p>Chosen IdP: <span id="value-holder">Unset</span><p>
+  </body>
+</html>

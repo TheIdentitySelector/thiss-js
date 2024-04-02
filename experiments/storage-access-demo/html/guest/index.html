@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Storage access demo</title>
+  </head>
+  <body>
+	<script type="text/javascript">
+    window.onload = () => {
+      const choices = Array.from(document.getElementsByClassName('sa-choice'));
+      choices.forEach(choice => {
+        choice.addEventListener('click', (event) => {
+          const self = event.target;
+          const data = self.dataset.choice;
+
+          var date = new Date();
+          date.setTime(date.getTime() + (2*60*1000));
+          expires = "; expires=" + date.toUTCString();
+
+          document.cookie = `sa-choice=${data}; Path=/; Expires=${expires}; Secure; SameSite=None;`;
+          document.getElementById('value-holder').innerHTML = `Chosen IdP: ${data}`;
+        });
+      });
+      const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("sa-choice="))
+        ?.split("=")[1];
+      if (cookieValue !== undefined) {
+        document.getElementById('value-holder').innerHTML = `Stored IdP: ${cookieValue}`;
+      } else {
+        document.getElementById('value-holder').innerHTML = 'No stored IdP';
+      }
+
+          var date = new Date();
+          date.setTime(date.getTime() + (2*60*1000));
+          expires = "; expires=" + date.toUTCString();
+
+          document.cookie = `sa-choice=https://idp.zero; Path=/; Expires=${expires}; Secure; SameSite=None;`;
+
+      //const choosers = Array.from(document.getElementsByClassName('sp-chooser'));
+      //choosers.forEach(chooser => {
+        //chooser.addEventListener('click', async (event) => {
+          //window.location = event.target.dataset.href;
+        //});
+      //});
+    }
+  </script>
+  <h1>SeamlessAccess Page</h1>
+  <ul>
+    <li><button class="sa-choice" data-choice="https://one.idp">Choose IdP one</button></li>
+    <li><button class="sa-choice" data-choice="https://two.idp">Choose Idp two</button></li>
+    <li><button class="sa-choice" data-choice="https://three.idp">Choose IdP three</button></li>
+  </ul>
+  <p><span id="value-holder"></span><p>
+  <p><a href="https://test.sp1.net" class="sp-chooser">Service provider 1</a><p>
+  <p><a href="https://test.sp2.net" class="sp-chooser">Service provider 2</a><p>
+  </body>
+</html>

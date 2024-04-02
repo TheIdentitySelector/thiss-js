@@ -1,0 +1,3 @@
+export USERNAME=eperez
+export CERTS_LOCATION=/home/eperez/certs-mkcert
+export DEMO_LOCATION=/home/eperez/src/git/seamlessaccess/thiss-js/experiments/storage-access-demo
