@@ -34,6 +34,7 @@ To launch the demo:
 ```bash
   $ git clone https://github.com/TheIdentitySelector/thiss-js/
   $ cd thiss-js/experiments/storage-access-demo
+  $ mkdir logs
 ```
 
 Make TLS certificates. mkcert is a handy tool for this.
