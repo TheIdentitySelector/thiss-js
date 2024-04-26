@@ -33,11 +33,6 @@
         document.getElementById('value-holder').innerHTML = 'No stored IdP';
       }
 
-          var date = new Date();
-          date.setTime(date.getTime() + (2*60*1000));
-          expires = "; expires=" + date.toUTCString();
-
-          document.cookie = `sa-choice=https://idp.zero; Path=/; Expires=${expires}; Secure; SameSite=None;`;
 
       //const choosers = Array.from(document.getElementsByClassName('sp-chooser'));
       //choosers.forEach(chooser => {
