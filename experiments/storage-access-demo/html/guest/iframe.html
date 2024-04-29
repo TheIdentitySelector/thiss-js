@@ -83,29 +83,32 @@
 
       if (hasAccess) {
         // Use the cookies.
-        if (hasAccess) {
-          console.log(`Cookie: ${document.cookie}`);
-          const cookieValue = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("sa-choice="))
-            ?.split("=")[1];
-          console.log(`Cookie read: ${cookieValue}`);
-          if (cookieValue !== undefined) {
-            document.getElementById('value-holder').innerHTML = cookieValue;
-          } else {
-            document.getElementById('value-holder').innerHTML = 'unset';
-          }
+        console.log(`Cookie: ${document.cookie}`);
+        const cookieValue = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("sa-choice="))
+          ?.split("=")[1];
+        console.log(`Cookie read: ${cookieValue}`);
+        if (cookieValue !== undefined) {
+          document.getElementById('value-holder').innerHTML = `has access - ${cookieValue}`;
+        } else {
+          document.getElementById('value-holder').innerHTML = 'unset';
+        }
+      } else {
+        console.log(`Cookie with no access: ${document.cookie}`);
+        const cookieValue = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("sa-choice="))
+          ?.split("=")[1];
+        console.log(`Cookie read: ${cookieValue}`);
+        if (cookieValue !== undefined) {
+          document.getElementById('value-holder').innerHTML = `has no access - ${cookieValue}`;
+        } else {
+          document.getElementById('value-holder').innerHTML = 'unset';
         }
       }
     }
     handleCookieAccessInit();
-
-    if (!document.cookie) {
-          var date = new Date();
-          date.setTime(date.getTime() + (2*60*1000));
-          expires = "; expires=" + date.toUTCString();
-          document.cookie = `sa-choice=https://idp.zero; Path=/; Expires=${expires}; Secure; SameSite=None; Partitioned;`;
-    }
 
     const button = document.getElementById('main-button');
     button.addEventListener('click', async (e) => {
@@ -116,11 +119,21 @@
       }
       window.parent.location = 'https://test.sa.net';
     });
+
+    const button2 = document.getElementById('cookie-button');
+    button2.addEventListener('click', async (e) => {
+      var date = new Date();
+      date.setTime(date.getTime() + (2*60*1000));
+      expires = "; expires=" + date.toUTCString();
+      document.cookie = `sa-choice=https://idp.zero; Path=/; Expires=${expires}; Secure; SameSite=None;`;
+      console.log(`Setting cookie from iframe: ${expires}`);
+    });
   }
 
   </script>
   <h3>SeamlessAccess iframe</h3>
   <button id="main-button">SeamlessAccess</button>
   <p>Chosen IdP: <span id="value-holder">Unset</span><p>
+  <button id="cookie-button">Set cookie</button>
   </body>
 </html>
