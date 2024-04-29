@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Storage access demo</title>
+  </head>
+  <body>
+	<script type="text/javascript">
+    window.onload = () => {
+      document.getElementById('title').innerHTML = `Service provider at ${window.location.hostname}`;
+    }
+  </script>
+  <h1 id="title">Service provider</h1>
+  <iframe sandbox="allow-storage-access-by-user-activation
+                 allow-scripts
+                 allow-same-origin
+                 allow-top-navigation"
+          src="https://test.sa.net/iframe.html">
+  </iframe>
+  </body>
+</html>
