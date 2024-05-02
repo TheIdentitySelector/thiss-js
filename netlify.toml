@@ -12,7 +12,7 @@
    command = "make netlify"
 
 [context.deploy-preview]
-   environment = { MDQ_URL = "https://md-staging.thiss.io/entities/", SEARCH_URL = "https://md-staging.thiss.io/entities" }
+   environment = { MDQ_URL = "https://md-dev.thiss.io/entities/", SEARCH_URL = "https://md-dev.thiss.io/entities" }
    command = "make netlify"
 
 [context.branch-deploy]
