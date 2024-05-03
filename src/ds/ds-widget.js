@@ -42,6 +42,11 @@ jQuery(function ($) {
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
 
+                    console.log('widget json_mdq_search text: ', text)
+                    console.log('widget json_mdq_search search_url: ', obj.options.search_url)
+                    console.log('widget json_mdq_search entityID: ', obj.options.entityID)
+                    console.log('widget json_mdq_search trustProfile: ', obj.options.trustProfile)
+
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => {
                             return data.filter(o => o.hidden != "true")
