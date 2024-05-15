@@ -46,6 +46,7 @@ jQuery(function ($) {
                     console.log('widget json_mdq_search search_url: ', obj.options.search_url)
                     console.log('widget json_mdq_search entityID: ', obj.options.entityID)
                     console.log('widget json_mdq_search trustProfile: ', obj.options.trustProfile)
+                    json_mdq_search.toString()
 
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => {
