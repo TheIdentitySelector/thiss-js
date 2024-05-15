@@ -5,5 +5,6 @@ RUN rm -rf ./node_modules
 RUN rm ./package-lock.json
 RUN npm cache clean --force
 RUN npm install -g webpack webpack-cli
-RUN npm install
+RUN echo "Force reinstall"
+RUN npm install --force
 COPY src ./src
