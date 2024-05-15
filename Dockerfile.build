@@ -1,6 +1,9 @@
 FROM node:16
 WORKDIR /usr/src/app
 COPY package*.json webpack* ./
+RUN rm -rf ./node_modules
+RUN rm ./package-lock.json
+RUN npm cache clean --force
 RUN npm install -g webpack webpack-cli
 RUN npm install
 COPY src ./src
