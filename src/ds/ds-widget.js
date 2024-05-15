@@ -1,4 +1,4 @@
-import {DiscoveryService, json_mdq_search, parse_qs} from "../../node_modules/@theidentityselector/thiss-ds";
+import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
 import {fetch} from 'whatwg-fetch';
 import 'core-js/actual';
 
