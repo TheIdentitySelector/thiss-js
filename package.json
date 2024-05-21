@@ -14,7 +14,7 @@
     "prepare": "npm run snyk",
     "snyk": "snyk-protect",
     "preinstall": "echo Clearing Cache & npm cache clean --force",
-    "postinstall": "echo Finished Installing & npm list -g --depth=0"
+    "postinstall": "echo Finished Installing & npm list --depth=0"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
