@@ -13,7 +13,8 @@
     "beta": "webpack-dev-server --hot --json --open --config webpack.beta.js",
     "prepare": "npm run snyk",
     "snyk": "snyk-protect",
-    "preinstall": "echo Clearing Cache & npm cache clean --force"
+    "preinstall": "echo Clearing Cache & npm cache clean --force",
+    "postinstall": "echo Finished Installing & npm list -g --depth=0"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
