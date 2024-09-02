@@ -3,9 +3,7 @@ const webpack = require("webpack");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const DotEnv = require("dotenv-webpack");
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const package = require('./package.json');
@@ -83,10 +81,6 @@ module.exports = {
                     from: "./src/assets/fonts",
                     to: "./fonts",
                 },
-                {
-                    from: "./src/assets/*.svg",
-                    to: "./[name].svg",
-                },
             ],
         }),
         new HtmlWebpackPlugin({
@@ -119,9 +113,6 @@ module.exports = {
             inject: true,
             template: 'src/ps/index.ejs'
         }),
-        new HtmlWebpackInlineSVGPlugin({
-            allowFromUrl: true,
-        }),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         })
@@ -139,6 +130,11 @@ module.exports = {
     module: {
         rules: [
             {
+                resourceQuery: /raw/,
+                type: 'asset/source',
+
+            },
+            {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
                    MiniCssExtractPlugin.loader,
@@ -148,19 +144,14 @@ module.exports = {
             },
             {
                 test: /\.svg$/i,
-                loader: 'svg-url-loader',
-                options: {
-                    iesafe: true,
-                }
+                type: 'asset/inline',
             },
             {
                 include: path.resolve(__dirname, "src/assets/fonts/"),
                 test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]',
-                    outputPath: 'fonts/',
-                    esModule: false
+                type: 'asset/resource',
+                generator: {
+                    filename: 'fonts/[name].[ext]'
                 }
             },
             {
@@ -173,12 +164,10 @@ module.exports = {
             },
             {
                 exclude: path.resolve(__dirname, "src/assets/fonts/"),
-                test: /\.(woff(2)?|ttf|eot|svg|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: 'url-loader',
-                options: {
-                    name: '[hash]_[name].[ext]',
-                    outputPath: 'assets',
-                    esModule: false
+                test: /\.(woff(2)?|ttf|eot|xml|png)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                type: 'asset/inline',
+                generator: {
+                    filename: 'assets/[hash]_[name].[ext]'
                 }
             },
             {

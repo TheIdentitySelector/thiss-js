@@ -2,8 +2,8 @@ import '../assets/nc.scss';
 import '../assets/nc.scss';
 import '../assets/ds.scss';
 import 'core-js/actual';
-let headerLogo = require('../assets/sa-black.svg')
-let footerLogo = require('../assets/SeamlessFooterLogo.svg')
+import headerLogo from '../assets/sa-black.svg';
+import footerLogo from '../assets/SeamlessFooterLogo.svg';
 
 import Localization from '../localization.js'
 
@@ -34,25 +34,16 @@ window.$ = $;
 import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
-const Hogan = require("hogan.js");
-
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {PersistenceService} from "@theidentityselector/thiss-ds";
-import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds";
-import {json_mdq_get} from "@theidentityselector/thiss-ds/src/discovery";
+import {PersistenceService} from "@theidentityselector/thiss-ds/src/persist.js";
+import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_get} from "@theidentityselector/thiss-ds/src/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
 const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
-
-// const search = Hogan.compile(require('!raw-loader!./templates/search.html'));
-const saved = Hogan.compile(require('!raw-loader!./templates/saved.html'));
-const too_many = Hogan.compile(require('!raw-loader!./templates/too_many.html'));
-const no_results = Hogan.compile(require('!raw-loader!./templates/no_results.html'));
-// const learnMoreBanner = Hogan.compile(require('!raw-loader!./templates/learn_more_banner.html'));
-// const noticeAndConsentActions = Hogan.compile(require('!raw-loader!./templates/notice_and_consent_actions.html'));
 
 
 $(document).ready(function() {
@@ -71,9 +62,12 @@ $(document).ready(function() {
         trustProfile = urlParams.get('trustProfile')
 
 
-    $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,""));
-    $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,""));
-
+/*
+    $("#ra-21-logo").attr("src", headerLogo);
+    $("#seamlessaccess_footer_logo").attr("src", footerLogo);
+    $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
+    $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
+*/
 /*    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({
         service_url: service_url,

@@ -1,5 +1,4 @@
-import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
-import {fetch} from 'whatwg-fetch';
+import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
 
 jQuery(function ($) {
@@ -41,12 +40,6 @@ jQuery(function ($) {
                     obj.ac.forEach(ab => ab.abort())
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
-
-                    console.log('widget json_mdq_search text: ', text)
-                    console.log('widget json_mdq_search search_url: ', obj.options.search_url)
-                    console.log('widget json_mdq_search entityID: ', obj.options.entityID)
-                    console.log('widget json_mdq_search trustProfile: ', obj.options.trustProfile)
-                    console.log(json_mdq_search.toString())
 
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => {
@@ -121,7 +114,7 @@ jQuery(function ($) {
                     sourceNodes: function(opts, val, results, render) {
                         const MAX_RESULTS = 25
 
-                        if (results.length == 0 || !results) {
+                        if (!results || results.length === 0) {
                             render(obj.options.no_results(val))
                         } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
                             render(obj.options.too_many_results(this, results.length))
@@ -146,27 +139,31 @@ jQuery(function ($) {
                                 }
                             }
 
-                            const displayResults = function() {
+                            const displayResults = function(newResults) {
                                 const resultsSubset = getResults()
                                 let updatedResultsSubset = []
+
+                                if (newResults) {
+                                    counter = 0;
+                                }
 
                                 for (let i in resultsSubset) {
                                     let data = resultsSubset[i]
                                     counter += 1;
                                     data.counter = counter;
                                     data.saved = false;
-                                    updatedResultsSubset.push(data)
+                                    updatedResultsSubset.push(data);
                                 }
 
                                 render(obj.options.render_search_result(resultsSubset))
                             }
 
-                            displayResults();
+                            displayResults(true);
 
                             window.onscroll = function(ev) {
                                 if (results.length >= MAX_RESULTS) {
                                     if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
-                                        displayResults();
+                                        displayResults(false);
                                     }
                                 }
                             };

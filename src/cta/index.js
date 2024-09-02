@@ -5,7 +5,7 @@ import 'core-js/actual';
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds";
+import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds/src/discovery.js";
 
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'

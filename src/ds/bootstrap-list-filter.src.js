@@ -120,6 +120,7 @@
 		}
 
 		inputEl$.on(opts.eventKey, debouncer(function(e) {
+      console.log(`EVENT KEY ${e.keyCode}`);
 			var keyCode = e.keyCode
 
 			if (keyCode !== 9) {
@@ -143,6 +144,8 @@
 
 				if(val!=='' && val.length >= opts.minLength)
 				{
+          console.log(`EVENT there is value ${val}`);
+          searchlist$.html('');
 					contains.show();
 					containsNot.hide();
 					cancelEl$.show();
@@ -196,11 +199,13 @@
 				}
 				else
 				{
+          console.log(`EVENT there is NO value, searchList: ${searchlist$.attr('id')}`);
 					contains.show();
 					containsNot.show();
 					cancelEl$.hide();
 					self.trigger(opts.hideEvent);
 					searchlist$.find('.'+opts.itemClassTmp).remove();
+          searchlist$.html('');
 				}
 			}
 		}, opts.delay));

@@ -1,4 +1,4 @@
-import {ds_response_url} from "@theidentityselector/thiss-ds";
+import {ds_response_url} from "@theidentityselector/thiss-ds/src/discovery.js";
 const zoid = require('zoid/dist/zoid.frame');
 const preload_template = require('./cta/preload.ejs');
 import {toCSS, destroyElement} from 'belter/src';
