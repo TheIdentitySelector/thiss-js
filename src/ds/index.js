@@ -62,13 +62,6 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
-    console.log(`GETTING SP ENTITY ${entityID} AT ${mdq_url}`);
-    const spEntity = json_mdq_get_sp(entityID, mdq_url).then(entity => {
-        return entity ? entity : Promise.resolve({'entity_id': entityID, 'title': entityID});
-    });
-
-    console.log(`SP ENTITY ${JSON.stringify(spEntity)}`);
-
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
@@ -233,6 +226,7 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
+                const spEntity = this.ds.sp();
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];

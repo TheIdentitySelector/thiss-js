@@ -1,4 +1,4 @@
-import {DiscoveryService, json_mdq_get_sp, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
 
 jQuery(function ($) {
@@ -23,7 +23,8 @@ jQuery(function ($) {
             entity_selector: '.identityprovider',
             too_many_results: undefined,
             no_results: undefined,
-            persist: undefined
+            persist: undefined,
+            sp_entity: undefined
         },
 
         _create: function () {
@@ -82,12 +83,17 @@ jQuery(function ($) {
 
         sp: function() {
             let obj = this;
+            if (obj.sp_entity !== undefined) {
+                return obj.sp_entity;
+            }
             let params = parse_qs(window.location.search.substr(1).split('&'));
             let entity_id = params.entityID;
             if (entity_id) {
-                return obj._ds.mdq_sp(entity_id).then(entity => {
+                const sp = obj._ds.mdq_sp(entity_id).then(entity => {
                     return entity ? entity : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
                 });
+                obj.sp_entity = sp;
+                return sp;
             } else {
                 console.log("Missing entityID parameter in discovery request");
                 return {'title': 'Unknown'}
