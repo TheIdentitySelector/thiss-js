@@ -62,6 +62,8 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
+    const spEntity = json_mdq_get_sp(entityID, mdq_url)
+
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
@@ -227,8 +229,6 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
-                const spEntity = json_mdq_get_sp(entityID, mdq_url)
-
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
