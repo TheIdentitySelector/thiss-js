@@ -226,6 +226,7 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
+                console.log(`THIS ${JSON.stringify(this)}`);
                 const spEntity = this.sp_entity;
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
