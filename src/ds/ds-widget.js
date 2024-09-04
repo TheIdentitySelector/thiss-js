@@ -80,20 +80,6 @@ jQuery(function ($) {
             this._update();
         },
 
-        sp: function() {
-            let obj = this;
-            let params = parse_qs(window.location.search.substr(1).split('&'));
-            let entity_id = params.entityID;
-            if (entity_id) {
-                return obj._ds.mdq(entity_id).then(entity => {
-                    return entity ? entity : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
-                });
-            } else {
-                console.log("Missing entityID parameter in discovery request");
-                return {'title': 'Unknown'}
-            }
-        },
-
         _after: function (count) {
             let saved_choices_element = $(this.options.saved_choices_selector);
             if (this.options.search) {
@@ -197,10 +183,9 @@ jQuery(function ($) {
 
             $('body').on('click', obj.options.entity_selector, function (e) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
-                let trust_profile = $(this).closest(obj.options.entity_selector).attr('data-trust_profile');
 
                 console.log('entity_id XX: ', entity_id)
-                return obj._ds.saml_discovery_response(entity_id, trust_profile, obj.options.persist());
+                return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 
             $('body').on('keyup', obj.options.entity_selector, function (e) {

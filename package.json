@@ -68,7 +68,7 @@
     "@popperjs/core": "^2.11.8",
     "@snyk/protect": "^1.1292.4",
     "@theidentityselector/js-storage": "^1.0.4",
-    "@theidentityselector/thiss-ds": "https://github.com/enriquepablo/thiss-ds-js/tarball/eperez-filtering-fix1",
+    "@theidentityselector/thiss-ds": "https://github.com/enriquepablo/thiss-ds-js/tarball/eperez-filtering-fix2",
     "banana-i18n": "^2.3.3",
     "belter": "^1.0.190",
     "bootstrap-scss": "^5.3.3",

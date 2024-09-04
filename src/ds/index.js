@@ -174,7 +174,6 @@ $(document).ready(function() {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
-                    trust_profile: trustProfile,
                     hint: hint
                 })
 
