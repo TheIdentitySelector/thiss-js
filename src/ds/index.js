@@ -281,7 +281,7 @@ $(document).ready(function() {
             return Promise.all(items.map(item => {
                 if (item.last_refresh + item_ttl < now) {
                     console.log("refresh ...")
-                    return json_mdq_get(encodeURIComponent(item.entity.id), null, null, o.mdq).then(entity => {
+                    return json_mdq_get(encodeURIComponent(item.entity.id), trustProfile, entityID, o.mdq).then(entity => {
                         console.log("... found entity on refresh")
                         item.entity = entity;
                         item.modified = true;
