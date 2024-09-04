@@ -228,9 +228,7 @@ $(document).ready(function() {
             if (hasHint) {
 
                 console.log(`GETTING SP ENTITY ${entityID} AT ${mdq_url}`);
-                const spEntity = json_mdq_get_sp(entityID, mdq_url).then(entity => {
-                    return entity ? entity : Promise.resolve({'entity_id': entityID, 'title': entityID});
-                });
+                const spEntity = json_mdq_get_sp(entityID, mdq_url);
 
                 console.log(`SP ENTITY ${JSON.stringify(spEntity)}`);
                 let org = spEntity.title;
