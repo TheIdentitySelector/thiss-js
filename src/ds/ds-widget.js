@@ -37,9 +37,6 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.search)) {
                 obj.options.search_url = obj.options.search;
                 obj.options.search = function (text, callback) {
-:BufferNext
-                  :BufferNext
-                  :BufferNext
                   obj.ac.forEach(ab => ab.abort())
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
