@@ -73,7 +73,6 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.persist)) {
                 obj.options.persist = function() { return true; }
             }
-            obj.sp();
             obj._update();
         },
 
@@ -189,6 +188,8 @@ jQuery(function ($) {
                 obj.options.context, obj.options.entityID, obj.options.trustProfile);
             obj._count = 0;
             let top_element = obj.element;
+
+            obj.sp();
 
             $('img.pyff-idp-icon').bind('error', function () {
                 $(this).unbind('error');
