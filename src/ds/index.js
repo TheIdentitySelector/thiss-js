@@ -64,6 +64,8 @@ $(document).ready(function() {
 
     const spEntity = json_mdq_get_sp(entityID, mdq_url)
 
+    console.log(`SP ENTITY ${JSON.stringify(spEntity)}`);
+
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
