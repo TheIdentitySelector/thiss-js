@@ -15,6 +15,8 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
+import { json_mdq_get_sp } from "@theidentityselector/thiss-ds/src/discovery.js";
+
 import searchHTML from './templates/search.html'
 import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
@@ -44,6 +46,7 @@ const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org
 const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
+const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities";
 
 
 $(document).ready(function() {
@@ -61,6 +64,7 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
+    const spEntity = json_mdq_get_sp(entityID, mdq_url)
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -149,31 +153,8 @@ $(document).ready(function() {
 
             let htmlItemList = []
 
-            function getUrlVars()
-            {
-                let vars = [], hash;
-                let hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for(let i = 0; i < hashes.length; i++)
-                {
-                    hash = hashes[i].split('=');
-                    vars.push(hash[0]);
-                    vars[hash[0]] = hash[1];
-                }
-                return vars;
-            }
-
-            const urlQueryParams = getUrlVars()
-
-            let trustProfile = null
-
-            if (urlQueryParams.trustProfile) {
-                trustProfile = urlQueryParams.trustProfile
-            }
-
             items.forEach((item) => {
-                let showWarning = true
                 let hint = null
-                let trustProfile = null
 
                 if (item.hasOwnProperty('hint')) {
                     let browserLanguage = window.navigator.language
@@ -188,22 +169,11 @@ $(document).ready(function() {
                     }
                 }
 
-                if (item.hasOwnProperty('strict')) {
-                    if (item.strict) {
-                        hint = null
-                    }
-                }
-
-                if (item.hasOwnProperty('trust_profile')) {
-                    trustProfile = item.trust_profile
-                }
-
                 let html = ejs.render(searchHTML, {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
                     trust_profile: trustProfile,
-                    show_warning: showWarning,
                     hint: hint
                 })
 
@@ -230,15 +200,13 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            let showWarning = true
+            let browserLanguage = window.navigator.language
+            browserLanguage = (browserLanguage.split('-'))[0]
+            let hasHint = false;
 
             items.forEach((item) => {
                 let hint = null
-
                 if (item.hasOwnProperty('hint')) {
-                    let browserLanguage = window.navigator.language
-                    browserLanguage = (browserLanguage.split('-'))[0]
-
                     if (item['hint'].hasOwnProperty(browserLanguage)) {
                         hint = item['hint'][browserLanguage]
                     } else if (item['hint'].hasOwnProperty('en'))  {
@@ -247,14 +215,7 @@ $(document).ready(function() {
                         hint = 'This institution may not provide access.'
                     }
                 }
-
-                if (item.hasOwnProperty('strict')) {
-                    if (item.strict) {
-                        hint = null
-                    }
-                } else {
-                    hint = true
-                }
+                if (hint) hasHint = true;
 
                 let html = ejs.render(savedHTML, {
                     title: item.title,
@@ -269,12 +230,13 @@ $(document).ready(function() {
                 $("#ds-saved-choices").append(html);
             })
 
-            let warningItem = items.find((item) => !item.strict)
-
-            if (warningItem) {
-                let registrationAuthority = warningItem.registrationAuthority
+            if (hasHint) {
+                let org = spEntity.title;
+                if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
+                    org = spEntity.title_langs[browserLanguage];
+                }
                 let html = ejs.render(filterWarningHTML, {
-                    registrationAuthority: registrationAuthority,
+                    organization: org,
                 })
 
                 $("#filter-warning").append(html);

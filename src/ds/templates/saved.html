@@ -8,8 +8,7 @@
             <div class="institution-mask">
                 <img class="institution-icon" alt="<%= name_tag %>" src="<%= entity_icon %>" />
             </div>
-            <% } %>
-            <% if (entity_icon_url) { %>
+            <% } else if (entity_icon_url) { %>
             <div class="institution-mask">
                 <img class="institution-icon" alt="<%= name_tag %>" src="<%= entity_icon_url.url %>" />
             </div>
