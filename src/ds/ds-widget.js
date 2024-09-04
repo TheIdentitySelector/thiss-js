@@ -1,4 +1,4 @@
-import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {DiscoveryService, json_mdq_get_sp, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
 
 jQuery(function ($) {
@@ -37,7 +37,10 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.search)) {
                 obj.options.search_url = obj.options.search;
                 obj.options.search = function (text, callback) {
-                    obj.ac.forEach(ab => ab.abort())
+:BufferNext
+                  :BufferNext
+                  :BufferNext
+                  obj.ac.forEach(ab => ab.abort())
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
 
@@ -78,6 +81,20 @@ jQuery(function ($) {
         _setOption: function (key, value) {
             this.options[key] = value;
             this._update();
+        },
+
+        sp: function() {
+            let obj = this;
+            let params = parse_qs(window.location.search.substr(1).split('&'));
+            let entity_id = params.entityID;
+            if (entity_id) {
+                return obj._ds.mdq_sp(entity_id).then(entity => {
+                    return entity ? entity : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
+                });
+            } else {
+                console.log("Missing entityID parameter in discovery request");
+                return {'title': 'Unknown'}
+            }
         },
 
         _after: function (count) {
