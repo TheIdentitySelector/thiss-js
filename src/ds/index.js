@@ -62,6 +62,7 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
+    console.log(`GETTING SP ENTITY ${entityID} AT ${mdq_url}`);
     const spEntity = json_mdq_get_sp(entityID, mdq_url)
 
     console.log(`SP ENTITY ${JSON.stringify(spEntity)}`);
@@ -280,7 +281,7 @@ $(document).ready(function() {
             return Promise.all(items.map(item => {
                 if (item.last_refresh + item_ttl < now) {
                     console.log("refresh ...")
-                    return json_mdq_get(encodeURIComponent(item.entity.id), o.mdq).then(entity => {
+                    return json_mdq_get(encodeURIComponent(item.entity.id), null, null, o.mdq).then(entity => {
                         console.log("... found entity on refresh")
                         item.entity = entity;
                         item.modified = true;
@@ -291,7 +292,7 @@ $(document).ready(function() {
                 } else {
                     return Promise.resolve(item)
                 }
-            })).then(items => items.filter(item => item.entity != undefined))
+            })).then(items => items.filter(item => item.entity !== undefined))
         },
         after: function(count,elt) {
             $("#searching").addClass('d-none');
