@@ -226,7 +226,7 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
-                const spEntity = this.sp();
+                const spEntity = this.sp_entity;
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];

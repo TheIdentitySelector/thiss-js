@@ -73,6 +73,7 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.persist)) {
                 obj.options.persist = function() { return true; }
             }
+            obj.sp();
             obj._update();
         },
 
