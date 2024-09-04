@@ -15,8 +15,6 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
-import { json_mdq_get_sp } from "@theidentityselector/thiss-ds/src/discovery.js";
-
 import searchHTML from './templates/search.html'
 import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
@@ -39,7 +37,7 @@ import 'ejs/ejs.min';
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
 import {PersistenceService} from "@theidentityselector/thiss-ds/src/persist.js";
 import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {json_mdq_get} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
@@ -63,8 +61,6 @@ $(document).ready(function() {
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
-
-    const spEntity = json_mdq_get_sp(entityID, mdq_url)
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -231,6 +227,8 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
+                const spEntity = json_mdq_get_sp(entityID, mdq_url)
+
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
