@@ -226,8 +226,13 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
-                console.log(`THIS ${JSON.stringify(this)}`);
-                const spEntity = this.sp_entity;
+
+                console.log(`GETTING SP ENTITY ${entityID} AT ${mdq_url}`);
+                const spEntity = json_mdq_get_sp(entityID, mdq_url).then(entity => {
+                    return entity ? entity : Promise.resolve({'entity_id': entityID, 'title': entityID});
+                });
+
+                console.log(`SP ENTITY ${JSON.stringify(spEntity)}`);
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
