@@ -148,17 +148,18 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
+            let browserLanguage = window.navigator.language
+            browserLanguage = (browserLanguage.split('-'))[0]
+    
             let htmlItemList = []
 
             const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             items.forEach((item) => {
                 let hint = null
+                console.log(`IDP ENTITY: ${JSON.stringify(item)}`);
 
                 if (!strict && 'hint' in item) {
-                    let browserLanguage = window.navigator.language
-                    browserLanguage = (browserLanguage.split('-'))[0]
-
                     if (browserLanguage in item['hint']) {
                         hint = item['hint'][browserLanguage]
                     } else if (item['hint'].hasOwnProperty('en'))  {
@@ -211,7 +212,6 @@ $(document).ready(function() {
             }
             entityPromise.then(entity => {
                 spEntity = entity;
-                console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
                 const strict = spEntity.tinfo.profiles[trustProfile].strict;
                 
                 let hasNonHinted = false;
