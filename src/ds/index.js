@@ -150,7 +150,7 @@ $(document).ready(function() {
             }
             let htmlItemList = []
 
-            if (!spEntity) spEntity = json_mdq_get_sp(entityID, mdq_url);
+            if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
 
             items.forEach((item) => {
                 let hint = null
@@ -200,7 +200,7 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            if (!spEntity) spEntity = json_mdq_get_sp(entityID, mdq_url);
+            if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
 
             let browserLanguage = window.navigator.language
             browserLanguage = (browserLanguage.split('-'))[0]
