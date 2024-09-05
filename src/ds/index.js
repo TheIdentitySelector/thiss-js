@@ -203,8 +203,8 @@ $(document).ready(function() {
 
             items.forEach((item) => {
                 let hint = null
-                if (item.hasOwnProperty('hint')) {
-                    if (item['hint'].hasOwnProperty(browserLanguage)) {
+                if (spEntity.strict === false && 'hint' in item) {
+                    if (browserLanguage in item['hint']) {
                         hint = item['hint'][browserLanguage]
                     } else if (item['hint'].hasOwnProperty('en'))  {
                         hint = item['hint']['en']
@@ -228,7 +228,7 @@ $(document).ready(function() {
                 $("#ds-saved-choices").append(html);
             })
 
-            if (!spEntity.strict && hasNonHinted) {
+            if (spEntity.strict === false && hasNonHinted) {
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
