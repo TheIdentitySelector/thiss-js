@@ -62,7 +62,7 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
-    let spEntity = json_mdq_get_sp(entityID, mdq_url);
+    let spEntity = {};
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -150,8 +150,6 @@ $(document).ready(function() {
             }
             let htmlItemList = []
 
-            if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
-            console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
             const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             items.forEach((item) => {
@@ -201,53 +199,62 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-            if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
-            console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
-            const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             let browserLanguage = window.navigator.language
             browserLanguage = (browserLanguage.split('-'))[0]
-            
-            let hasNonHinted = false;
 
-            items.forEach((item) => {
-                let hint = null
-                if (strict === false && 'hint' in item) {
-                    if (browserLanguage in item['hint']) {
-                        hint = item['hint'][browserLanguage]
-                    } else if (item['hint'].hasOwnProperty('en'))  {
-                        hint = item['hint']['en']
-                    } else {
-                        hint = 'This institution provides preferred access.'
-                    }
-                }
-                if (!hint) hasNonHinted = true;
-
-                let html = ejs.render(savedHTML, {
-                    title: item.title,
-                    domain: item.domain,
-                    entity_id: item.entity_id,
-                    entity_icon: item.entity_icon,
-                    name_tag: item.name_tag,
-                    strict: strict,
-                    hint: hint,
-                    entity_icon_url: item.entity_icon_url
-                })
-
-                $("#ds-saved-choices").append(html);
-            })
-
-            if (strict === false && hasNonHinted) {
-                let org = spEntity.title;
-                if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
-                    org = spEntity.title_langs[browserLanguage];
-                }
-                let html = ejs.render(filterWarningHTML, {
-                    organization: org,
-                })
-
-                $("#filter-warning").append(html);
+            let entityPromise = null;
+            if ($.isEmptyObject(spEntity)) {
+                entityPromise = json_mdq_get_sp(entityID, mdq_url);
+            } else {
+                entityPromise = Promise.resolve(spEntity);
             }
+            entityPromise.then(entity => {
+                spEntity = entity;
+                console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
+                const strict = spEntity.tinfo.profiles[trustProfile].strict;
+                
+                let hasNonHinted = false;
+
+                items.forEach((item) => {
+                    let hint = null
+                    if (strict === false && 'hint' in item) {
+                        if (browserLanguage in item['hint']) {
+                            hint = item['hint'][browserLanguage]
+                        } else if (item['hint'].hasOwnProperty('en'))  {
+                            hint = item['hint']['en']
+                        } else {
+                            hint = 'This institution provides preferred access.'
+                        }
+                    }
+                    if (!hint) hasNonHinted = true;
+
+                    let html = ejs.render(savedHTML, {
+                        title: item.title,
+                        domain: item.domain,
+                        entity_id: item.entity_id,
+                        entity_icon: item.entity_icon,
+                        name_tag: item.name_tag,
+                        strict: strict,
+                        hint: hint,
+                        entity_icon_url: item.entity_icon_url
+                    })
+
+                    $("#ds-saved-choices").append(html);
+                })
+
+                if (strict === false && hasNonHinted) {
+                    let org = spEntity.title;
+                    if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
+                        org = spEntity.title_langs[browserLanguage];
+                    }
+                    let html = ejs.render(filterWarningHTML, {
+                        organization: org,
+                    })
+
+                    $("#filter-warning").append(html);
+                }
+            });
         },
         too_many_results: function(bts, count) {
             $("#searching").addClass('d-none');
