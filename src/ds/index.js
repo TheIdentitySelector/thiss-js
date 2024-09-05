@@ -153,11 +153,11 @@ $(document).ready(function() {
             items.forEach((item) => {
                 let hint = null
 
-                if (item.hasOwnProperty('hint')) {
+                if ('hint' in item) {
                     let browserLanguage = window.navigator.language
                     browserLanguage = (browserLanguage.split('-'))[0]
 
-                    if (item['hint'].hasOwnProperty(browserLanguage)) {
+                    if (browserLanguage in item['hint']) {
                         hint = item['hint'][browserLanguage]
                     } else if (item['hint'].hasOwnProperty('en'))  {
                         hint = item['hint']['en']
@@ -199,7 +199,7 @@ $(document).ready(function() {
             }
             let browserLanguage = window.navigator.language
             browserLanguage = (browserLanguage.split('-'))[0]
-            let hasHint = false;
+            let hasNonHinted = false;
 
             items.forEach((item) => {
                 let hint = null
@@ -212,7 +212,7 @@ $(document).ready(function() {
                         hint = 'This institution provides preferred access.'
                     }
                 }
-                if (hint) hasHint = true;
+                if (!hint) hasNonHinted = true;
 
                 let html = ejs.render(savedHTML, {
                     title: item.title,
@@ -228,7 +228,7 @@ $(document).ready(function() {
                 $("#ds-saved-choices").append(html);
             })
 
-            if (hasHint) {
+            if (!spEntity.strict && hasNonHinted) {
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
