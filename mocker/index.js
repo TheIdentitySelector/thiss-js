@@ -92,7 +92,8 @@ function lookup_with_profile(id, entityID, trustProfileName) {
             // if the profile is not strict, set the hint if the entity was not selected by the profile,
             // and return the entity.
         } else {
-            if (!seen) {
+            if (seen) {
+                entity = {...entity};
                 entity.hint = trustProfile.display_name;
             }
             return entity;

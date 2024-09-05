@@ -62,6 +62,8 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
+    const spEntity = json_mdq_get_sp(entityID, mdq_url);
+
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
@@ -133,7 +135,7 @@ $(document).ready(function() {
     });
 
     $("#dsclient").discovery_client({
-        mdq: process.env.MDQ_URL,
+        mdq: mdq_url,
         persistence: process.env.PERSISTENCE_URL,
         search: process.env.SEARCH_URL,
         entityID: entityID,
@@ -146,7 +148,6 @@ $(document).ready(function() {
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
-
             let htmlItemList = []
 
             items.forEach((item) => {
@@ -161,7 +162,7 @@ $(document).ready(function() {
                     } else if (item['hint'].hasOwnProperty('en'))  {
                         hint = item['hint']['en']
                     } else {
-                        hint = 'This institution may not provide access.'
+                        hint = 'This institution provides preferred access.'
                     }
                 }
 
@@ -169,6 +170,7 @@ $(document).ready(function() {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
+                    strict: spEntity.strict,
                     hint: hint
                 })
 
@@ -207,7 +209,7 @@ $(document).ready(function() {
                     } else if (item['hint'].hasOwnProperty('en'))  {
                         hint = item['hint']['en']
                     } else {
-                        hint = 'This institution may not provide access.'
+                        hint = 'This institution provides preferred access.'
                     }
                 }
                 if (hint) hasHint = true;
@@ -218,6 +220,7 @@ $(document).ready(function() {
                     entity_id: item.entity_id,
                     entity_icon: item.entity_icon,
                     name_tag: item.name_tag,
+                    strict: spEntity.strict,
                     hint: hint,
                     entity_icon_url: item.entity_icon_url
                 })
@@ -226,11 +229,6 @@ $(document).ready(function() {
             })
 
             if (hasHint) {
-
-                console.log(`GETTING SP ENTITY ${entityID} AT ${mdq_url}`);
-                const spEntity = json_mdq_get_sp(entityID, mdq_url);
-
-                console.log(`SP ENTITY ${JSON.stringify(spEntity)}`);
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
