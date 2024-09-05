@@ -151,12 +151,12 @@ $(document).ready(function() {
             let htmlItemList = []
 
             if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
+            console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
             const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             items.forEach((item) => {
                 let hint = null
 
-                console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
                 if (!strict && 'hint' in item) {
                     let browserLanguage = window.navigator.language
                     browserLanguage = (browserLanguage.split('-'))[0]
@@ -202,6 +202,7 @@ $(document).ready(function() {
                 clearTimeout(timer); timer = null;
             }
             if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
+            console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
             const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             let browserLanguage = window.navigator.language
