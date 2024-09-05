@@ -153,6 +153,7 @@ $(document).ready(function() {
             items.forEach((item) => {
                 let hint = null
 
+                console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
                 if (!spEntity.strict && 'hint' in item) {
                     let browserLanguage = window.navigator.language
                     browserLanguage = (browserLanguage.split('-'))[0]
