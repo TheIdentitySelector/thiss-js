@@ -174,6 +174,7 @@ $(document).ready(function() {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
+                    strict: strict,
                     hint: hint,
                 })
 
@@ -208,7 +209,7 @@ $(document).ready(function() {
             if ($.isEmptyObject(spEntity)) {
                 entityPromise = json_mdq_get_sp(entityID, mdq_url);
             } else {
-                entityPromise = Promise.resolve(spEntity);
+                entityPromise = new Promise((resolve) => resolve(spEntity));
             }
             entityPromise.then(entity => {
                 spEntity = entity;
