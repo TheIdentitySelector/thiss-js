@@ -4,16 +4,13 @@
             <div class="text-truncate label primary"><%= title %></div>
             <div class="text-truncate label-url secondary"><%= domain %></div>
         </div>
-        <% if(!strict){ %>
             <% if(!hint){ %>
             <div class="col-3 pr-0">
                 <i class="fa fa-exclamation-triangle mt-2 mr-2 list-item-warning"></i>
             </div>
             <% } %>
-        <% } %>
         <i class="arrow fa fa-angle-right"></i>
     </a>
-    <% if(!strict){ %>
         <% if(hint){ %>
         <div class="row list-item-legend">
             <div class="col px-0 mt-3">
@@ -27,5 +24,4 @@
             </div>
         </div>
         <% } %>
-    <% } %>
 </li>
