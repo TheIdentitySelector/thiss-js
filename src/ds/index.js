@@ -13,6 +13,7 @@ import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
+import {faCheckCircle} from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 
 import searchHTML from './templates/search.html'
@@ -25,7 +26,7 @@ config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
 
-library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes, faExclamationTriangle);
+library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle);
 dom.watch();
 
 import * as $ from 'jquery';
@@ -174,7 +175,7 @@ $(document).ready(function() {
                     domain: item.domain,
                     entity_id: item.entity_id,
                     strict: strict,
-                    hint: hint
+                    hint: hint,
                 })
 
                 htmlItemList.push(html)
