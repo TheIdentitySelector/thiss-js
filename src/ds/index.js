@@ -153,7 +153,7 @@ $(document).ready(function() {
             items.forEach((item) => {
                 let hint = null
 
-                if ('hint' in item) {
+                if (!spEntity.strict && 'hint' in item) {
                     let browserLanguage = window.navigator.language
                     browserLanguage = (browserLanguage.split('-'))[0]
 
