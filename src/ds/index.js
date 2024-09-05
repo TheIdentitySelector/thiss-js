@@ -151,12 +151,13 @@ $(document).ready(function() {
             let htmlItemList = []
 
             if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
+            const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             items.forEach((item) => {
                 let hint = null
 
                 console.log(`SP ENTITY: ${JSON.stringify(spEntity)}`);
-                if (!spEntity.strict && 'hint' in item) {
+                if (!strict && 'hint' in item) {
                     let browserLanguage = window.navigator.language
                     browserLanguage = (browserLanguage.split('-'))[0]
 
@@ -173,7 +174,7 @@ $(document).ready(function() {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
-                    strict: spEntity.strict,
+                    strict: strict,
                     hint: hint
                 })
 
@@ -201,6 +202,7 @@ $(document).ready(function() {
                 clearTimeout(timer); timer = null;
             }
             if ($.isEmptyObject(spEntity)) spEntity = json_mdq_get_sp(entityID, mdq_url);
+            const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             let browserLanguage = window.navigator.language
             browserLanguage = (browserLanguage.split('-'))[0]
@@ -209,7 +211,7 @@ $(document).ready(function() {
 
             items.forEach((item) => {
                 let hint = null
-                if (spEntity.strict === false && 'hint' in item) {
+                if (strict === false && 'hint' in item) {
                     if (browserLanguage in item['hint']) {
                         hint = item['hint'][browserLanguage]
                     } else if (item['hint'].hasOwnProperty('en'))  {
@@ -226,7 +228,7 @@ $(document).ready(function() {
                     entity_id: item.entity_id,
                     entity_icon: item.entity_icon,
                     name_tag: item.name_tag,
-                    strict: spEntity.strict,
+                    strict: strict,
                     hint: hint,
                     entity_icon_url: item.entity_icon_url
                 })
@@ -234,7 +236,7 @@ $(document).ready(function() {
                 $("#ds-saved-choices").append(html);
             })
 
-            if (spEntity.strict === false && hasNonHinted) {
+            if (strict === false && hasNonHinted) {
                 let org = spEntity.title;
                 if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                     org = spEntity.title_langs[browserLanguage];
