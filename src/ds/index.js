@@ -291,19 +291,15 @@ $(document).ready(function() {
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
-                if (item.last_refresh + item_ttl < now) {
-                    console.log("refresh ...")
-                    return json_mdq_get(encodeURIComponent(item.entity.id), trustProfile, entityID, o.mdq).then(entity => {
-                        console.log("... found entity on refresh")
-                        item.entity = entity;
-                        item.modified = true;
-                        item.last_refresh = now;
-                        item.last_use = now;
-                        return item;
-                    })
-                } else {
-                    return Promise.resolve(item)
-                }
+                console.log("refresh ...")
+                return json_mdq_get(encodeURIComponent(item.entity.id), trustProfile, entityID, o.mdq).then(entity => {
+                    console.log("... found entity on refresh")
+                    item.entity = entity;
+                    item.modified = true;
+                    item.last_refresh = now;
+                    item.last_use = now;
+                    return item;
+                })
             })).then(items => items.filter(item => item.entity !== undefined))
         },
         after: function(count,elt) {
