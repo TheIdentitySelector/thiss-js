@@ -59,6 +59,7 @@ module.exports = {
         ds: ['./src/ds/index.js'],
         ps: ['./src/ps/index.js'],
         thiss: ['./src/component.js'],
+        result: ['./src/result/index.js'],
     },
     plugins: [
         new webpack.PrefetchPlugin(path.join(__dirname, "node_modules"),"./zoid/index.js"),
