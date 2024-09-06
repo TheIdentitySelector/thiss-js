@@ -157,7 +157,7 @@ $(document).ready(function() {
             const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
             items.forEach((item) => {
-                let hint = flase;
+                let hint = false;
                 console.log(`IDP ENTITY: ${JSON.stringify(item)}`);
 
                 if (!strict && 'hint' in item) {
