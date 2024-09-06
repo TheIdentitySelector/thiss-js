@@ -219,29 +219,31 @@ $(document).ready(function() {
                 
                 let hasNonHinted = false;
 
+                const templ = ejs.compile(savedHTML);
                 items.forEach((item) => {
-                    let hint = null
+                    let hint = false;
                     if (strict === false && 'hint' in item) {
                         if (browserLanguage in item['hint']) {
-                            hint = item['hint'][browserLanguage]
+                            hint = item['hint'][browserLanguage];
                         } else if (item['hint'].hasOwnProperty('en'))  {
-                            hint = item['hint']['en']
+                            hint = item['hint']['en'];
                         } else {
-                            hint = 'This institution provides preferred access.'
+                            hint = 'This institution provides preferred access.';
                         }
                     }
                     if (!hint) hasNonHinted = true;
 
-                    let html = ejs.render(savedHTML, {
+                    const context = {
                         title: item.title,
                         domain: item.domain,
                         entity_id: item.entity_id,
                         entity_icon: item.entity_icon,
                         name_tag: item.name_tag,
-                        strict: strict,
+                        strictProfile: strict,
                         hint: hint,
                         entity_icon_url: item.entity_icon_url
-                    })
+                    };
+                    const html = templ(context);
 
                     $("#ds-saved-choices").append(html);
                 })
