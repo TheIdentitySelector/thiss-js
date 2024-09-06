@@ -1,3 +1,28 @@
 <li class="col list-item pb-0" tabindex="0">
-  ho ho
+    <a class="row institution identityprovider" data-href="<%= entity_id %>">
+        <div class="col-9 pl-0">
+            <div class="text-truncate label primary"><%= title %></div>
+            <div class="text-truncate label-url secondary"><%= domain %></div>
+        </div>
+            <% if(!strict && !hint){ %>
+            <div class="col-3 pr-0">
+                <i class="fa fa-exclamation-triangle mt-2 mr-2 list-item-warning"></i>
+            </div>
+            <% } %>
+        <i class="arrow fa fa-angle-right"></i>
+    </a>
+    <% if(!strict && hint){ %>
+    <div class="row list-item-legend">
+        <div class="col px-0 mt-3">
+          <p class="px-2 py-2 mt-0 mb-0"><i class="fa fa-check-circle mr-1"></i> <%= hint %> <a href="https://seamlessaccess.org/" target="_blank">Learn more</a></p>
+        </div>
+    </div>
+    <% } %>
+    <% if(!strict && !hint){ %>
+    <div class="row list-item-legend">
+        <div class="col px-0 mt-3 institution-warning">
+            <p class="px-2 py-2 mt-0 mb-0"><i class="fa fa-exclamation-triangle mr-1"></i> This institute may not provide access. <a href="https://seamlessaccess.org/" target="_blank">Learn more</a></p>
+        </div>
+    </div>
+    <% } %>
 </li>
