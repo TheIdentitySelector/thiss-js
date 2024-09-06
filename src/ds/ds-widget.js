@@ -43,7 +43,7 @@ jQuery(function ($) {
 
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => {
-                            return data.filter(o => o.hidden != "true")
+                            return data.filter(o => o.hidden !== "true")
                         })
                         .then(data => {
                             let first_ab = obj.ac.shift()

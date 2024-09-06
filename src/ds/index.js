@@ -207,13 +207,7 @@ $(document).ready(function() {
             let browserLanguage = window.navigator.language;
             browserLanguage = (browserLanguage.split('-'))[0];
 
-            let entityPromise = null;
-            if ($.isEmptyObject(spEntity)) {
-                entityPromise = json_mdq_get_sp(entityID, mdq_url);
-            } else {
-                entityPromise = Promise.resolve(spEntity);
-            }
-            entityPromise.then(entity => {
+            json_mdq_get_sp(entityID, mdq_url).then(entity => {
                 spEntity = entity;
                 const strict = spEntity.tinfo.profiles[trustProfile].strict;
                 
