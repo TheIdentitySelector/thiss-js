@@ -114,6 +114,12 @@ module.exports = {
             inject: true,
             template: 'src/ps/index.ejs'
         }),
+        new HtmlWebpackPlugin({
+            filename: 'result/index.html',
+            chunks: ['result'],
+            inject: true,
+            template: 'src/result/index.ejs'
+        }),
         new MiniCssExtractPlugin({
             filename: "[name].css"
         })
