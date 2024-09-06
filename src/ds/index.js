@@ -156,6 +156,7 @@ $(document).ready(function() {
 
             const strict = spEntity.tinfo.profiles[trustProfile].strict;
 
+            const templ = ejs.compile(searchHTML);
             items.forEach((item) => {
                 let hint = false;
                 console.log(`IDP ENTITY: ${JSON.stringify(item)}`);
@@ -177,7 +178,7 @@ $(document).ready(function() {
                     hint: hint,
                 };
                 console.log(`CONTEXT: ${JSON.stringify(context)}`);
-                let html = ejs.render(searchHTML, context);
+                const html = templ(context);
 
                 htmlItemList.push(html)
             })
