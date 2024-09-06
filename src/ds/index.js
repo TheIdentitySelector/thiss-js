@@ -211,7 +211,7 @@ $(document).ready(function() {
             if ($.isEmptyObject(spEntity)) {
                 entityPromise = json_mdq_get_sp(entityID, mdq_url);
             } else {
-                entityPromise = new Promise((resolve) => {resolve(spEntity)});
+                entityPromise = Promise.resolve(spEntity);
             }
             entityPromise.then(entity => {
                 spEntity = entity;
