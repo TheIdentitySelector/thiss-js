@@ -169,14 +169,15 @@ $(document).ready(function() {
                         hint = 'This institution provides preferred access.'
                     }
                 }
-
-                let html = ejs.render(searchHTML, {
+                const context = {
                     title: item.title,
                     domain: item.domain,
                     entity_id: item.entity_id,
                     strict: strict,
                     hint: hint,
-                })
+                };
+                console.log(`CONTEXT: ${JSON.stringify(context)}`);
+                let html = ejs.render(searchHTML, context);
 
                 htmlItemList.push(html)
             })
