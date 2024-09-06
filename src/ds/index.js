@@ -154,34 +154,37 @@ $(document).ready(function() {
     
             let htmlItemList = []
 
-            const strict = spEntity.tinfo.profiles[trustProfile].strict;
-
             const templ = ejs.compile(searchHTML);
-            items.forEach((item) => {
-                let hint = false;
-                console.log(`IDP ENTITY: ${JSON.stringify(item)}`);
 
-                if (!strict && 'hint' in item) {
-                    if (browserLanguage in item['hint']) {
-                        hint = item['hint'][browserLanguage]
-                    } else if (item['hint'].hasOwnProperty('en'))  {
-                        hint = item['hint']['en']
-                    } else {
-                        hint = 'This institution provides preferred access.'
+            json_mdq_get_sp(entityID, mdq_url).then(entity => {
+                spEntity = entity;
+                const strict = spEntity.tinfo.profiles[trustProfile].strict;
+                items.forEach((item) => {
+                    let hint = false;
+                    console.log(`IDP ENTITY: ${JSON.stringify(item)}`);
+
+                    if (!strict && 'hint' in item) {
+                        if (browserLanguage in item['hint']) {
+                            hint = item['hint'][browserLanguage]
+                        } else if (item['hint'].hasOwnProperty('en'))  {
+                            hint = item['hint']['en']
+                        } else {
+                            hint = 'This institution provides preferred access.'
+                        }
                     }
-                }
-                const context = {
-                    title: item.title,
-                    domain: item.domain,
-                    entity_id: item.entity_id,
-                    strictProfile: strict,
-                    hint: hint,
-                };
-                console.log(`CONTEXT: ${JSON.stringify(context)}`);
-                const html = templ(context);
+                    const context = {
+                        title: item.title,
+                        domain: item.domain,
+                        entity_id: item.entity_id,
+                        strictProfile: strict,
+                        hint: hint,
+                    };
+                    console.log(`CONTEXT: ${JSON.stringify(context)}`);
+                    const html = templ(context);
 
-                htmlItemList.push(html)
-            })
+                    htmlItemList.push(html)
+                })
+            });
 
             if (items) {
                 if (items.length > 0) {
