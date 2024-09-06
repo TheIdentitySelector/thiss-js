@@ -184,21 +184,21 @@ $(document).ready(function() {
 
                     htmlItemList.push(html)
                 })
-            });
 
-            if (items) {
-                if (items.length > 0) {
-                    if (items[0].hasOwnProperty('counter')) {
-                        if (items[0].counter > 1) {
-                            $("#ds-search-list").append(htmlItemList);
+                if (items) {
+                    if (items.length > 0) {
+                        if (items[0].hasOwnProperty('counter')) {
+                            if (items[0].counter > 1) {
+                                $("#ds-search-list").append(htmlItemList);
+                            } else {
+                                $("#ds-search-list").html(htmlItemList);
+                            }
                         } else {
                             $("#ds-search-list").html(htmlItemList);
                         }
-                    } else {
-                        $("#ds-search-list").html(htmlItemList);
                     }
                 }
-            }
+            });
         },
         render_saved_choice: function(items) {
             $("#searching").addClass('d-none');
