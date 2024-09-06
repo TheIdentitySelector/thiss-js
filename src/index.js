@@ -35,21 +35,21 @@ window.onload = function() {
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
-        entityID: 'https://test-edusign.ed-integrations.com/shibboleth',
+        entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         trustProfile: 'customer2',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login5');
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
-        entityID: 'https://test-edusign.ed-integrations.com/shibboleth',
+        entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         trustProfile: 'customer3',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login6');
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
-        entityID: 'https://test-edusign.ed-integrations.com/shibboleth',
+        entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         trustProfile: 'customer4',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login7');
