@@ -204,8 +204,8 @@ $(document).ready(function() {
                 clearTimeout(timer); timer = null;
             }
 
-            let browserLanguage = window.navigator.language
-            browserLanguage = (browserLanguage.split('-'))[0]
+            let browserLanguage = window.navigator.language;
+            browserLanguage = (browserLanguage.split('-'))[0];
 
             let entityPromise = null;
             if ($.isEmptyObject(spEntity)) {
