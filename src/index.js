@@ -8,7 +8,8 @@ window.onload = function() {
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
         entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
-        trustProfile: 'global1'
+        trustProfile: 'global1',
+        discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login1');
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
