@@ -35,7 +35,7 @@ function prerenderTemplate(opts) {
         discovery_request = login_initiator_url;
 
     if (entity_id)
-        discovery_request =  `${login_initiator_url}&entityID=${entity_id}`
+        discovery_request =  `${login_initiator_url}&entityID=${encodeURIComponent(entity_id)}`
 
     if (entity_id && trust_profile)
         discovery_request =  `${discovery_request}&trustProfile=${trust_profile}`
