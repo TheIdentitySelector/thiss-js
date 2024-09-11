@@ -25,22 +25,21 @@ function _set_default_props(opts) {
 
 function prerenderTemplate(opts) {
 
-    let login_initiator_url = opts.props.loginInitiatorURL || opts.props.loginHandlerURL;
+    const login_initiator_url = opts.props.loginInitiatorURL || opts.props.loginHandlerURL;
     let discovery_request = opts.props.discoveryRequest;
 
-    let entity_id = opts.props.entityID || null
-    let trust_profile = opts.props.trustProfile || null
+    const entity_id = opts.props.entityID || null
+    const trust_profile = opts.props.trustProfile || null
 
     if (!discovery_request)
         discovery_request = login_initiator_url;
 
+    if (entity_id)
+        discovery_request =  `${login_initiator_url}&entityID=${entity_id}`
+
     if (entity_id && trust_profile)
-        discovery_request =  `${login_initiator_url}&entityID=${entity_id}&trustProfile=${trust_profile}`
+        discovery_request =  `${discovery_request}&trustProfile=${trust_profile}`
 
-    console.log('3 entityID= ', entity_id)
-    console.log('4 trustProfile= ', trust_profile)
-
-    console.log('discovery_request: ', discovery_request)
     if (typeof discovery_request !== 'function') {
         let discovery_request_url = discovery_request;
         discovery_request = function () {
