@@ -8,7 +8,7 @@ window.onload = function() {
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
         discoveryResponse: `${process.env.BASE_URL}result`
-    }).render('#login1');
+    }).render('#login0');
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
