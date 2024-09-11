@@ -36,8 +36,11 @@ if (window.xprops.entityID)
 if (window.xprops.trustProfile)
     trustProfile = window.xprops.trustProfile;
 
+if (entityID)
+    discovery_request =  `${discovery_request}&entityID=${encodeURIComponent(entityID)}`
+
 if (entityID && trustProfile)
-    discovery_request =  `${login_initiator_url}&entityID=${entityID}&trustProfile=${trustProfile}`
+    discovery_request =  `${discovery_request}&trustProfile=${trustProfile}`
 
 if (typeof discovery_request !== 'function') {
     let discovery_request_url = discovery_request;
