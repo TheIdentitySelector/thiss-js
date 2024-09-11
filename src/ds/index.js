@@ -63,8 +63,6 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
-    let spEntity = {};
-
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
@@ -156,12 +154,13 @@ $(document).ready(function() {
 
             const templ = ejs.compile(searchHTML);
 
-            json_mdq_get_sp(entityID, mdq_url).then(entity => {
-                spEntity = entity;
-                const strict = spEntity.tinfo.profiles[trustProfile].strict;
+            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+                let strict = true;
+                if (trustProfile && 'tinfo' in spEntity)
+                    strict = spEntity.tinfo.profiles[trustProfile].strict;
+
                 items.forEach((item) => {
                     let hint = false;
-                    console.log(`IDP ENTITY: ${JSON.stringify(item)}`);
 
                     if (!strict && 'hint' in item) {
                         if (browserLanguage in item['hint']) {
@@ -210,9 +209,10 @@ $(document).ready(function() {
             let browserLanguage = window.navigator.language;
             browserLanguage = (browserLanguage.split('-'))[0];
 
-            json_mdq_get_sp(entityID, mdq_url).then(entity => {
-                spEntity = entity;
-                const strict = spEntity.tinfo.profiles[trustProfile].strict;
+            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+                let strict = true;
+                if (trustProfile && 'tinfo' in spEntity)
+                    strict = spEntity.tinfo.profiles[trustProfile].strict;
                 
                 let hasNonHinted = false;
 
