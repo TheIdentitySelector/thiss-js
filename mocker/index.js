@@ -180,7 +180,7 @@ function trustInfoFilter(preresult, entityID, trustProfile) {
                     const newIdp = {...idp};
                     newIdp.trust_profile = trustProfile
 
-                    if (newIdp.hint === undefined && (!selected.includes(newIdp.entityID))) {
+                    if (newIdp.hint === undefined && (selected.includes(newIdp.entityID))) {
                         newIdp.hint = profile.display_name;
                     }
 
