@@ -163,13 +163,7 @@ $(document).ready(function() {
                     let hint = false;
 
                     if (!strict && 'hint' in item) {
-                        if (browserLanguage in item['hint']) {
-                            hint = item['hint'][browserLanguage]
-                        } else if (item['hint'].hasOwnProperty('en'))  {
-                            hint = item['hint']['en']
-                        } else {
-                            hint = 'This institution provides preferred access.'
-                        }
+                        hint = true;
                     }
                     const context = {
                         title: item.title,
@@ -220,13 +214,7 @@ $(document).ready(function() {
                 items.forEach((item) => {
                     let hint = false;
                     if (strict === false && 'hint' in item) {
-                        if (browserLanguage in item['hint']) {
-                            hint = item['hint'][browserLanguage];
-                        } else if (item['hint'].hasOwnProperty('en'))  {
-                            hint = item['hint']['en'];
-                        } else {
-                            hint = 'This institution provides preferred access.';
-                        }
+                        hint = true;
                     }
                     if (!hint) hasNonHinted = true;
 
