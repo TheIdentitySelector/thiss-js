@@ -80,6 +80,68 @@
           "handler": "https://www.example.org/provider"
         }
       },
+      "incommon-wayfinder": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://md.incommon.org/InCommon/InCommon-metadata.xml",
+            "match": "md_source",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Provider Access",
+          "sv": "loggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/provider"
+        }
+      },
+      "swamid-edugain": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "https://mds.edugain.org/edugain-v2.xml",
+            "match": "md_source",
+            "include": true
+          },
+          {
+            "select": "https://mds.swamid.se/md/swamid-registered.xml",
+            "match": "md_source",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Provider Access",
+          "sv": "loggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/provider"
+        }
+      },
+      "swamid": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "https://mds.swamid.se/md/swamid-registered.xml",
+            "match": "md_source",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Provider Access",
+          "sv": "loggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/provider"
+        }
+      },
       "other": {
         "strict": false,
         "entity": [
@@ -133,6 +195,63 @@
         "fallback_handler": {
           "profile": "href",
           "handler": "https://www.example.org/about1"
+        }
+      },
+      "customer2": {
+        "strict": false,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer3": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": false
+          }
+        ],
+        "display_name": {
+          "en": "Customer 3 Access",
+          "sv": "Kundinloggning 3"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer4": {
+        "strict": false,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://www.swamid.se/",
+            "match": "registrationAuthority",
+            "include": false
+          }
+        ],
+        "display_name": {
+          "en": "Degraded security",
+          "sv": "Degraded security sv"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
         }
       }
     }
@@ -234,88 +353,6 @@
     }
   },
   {
-    "entityID": "https://test-edusign.ed-integrations.com/shibboleth",
-    "extra_md": {},
-    "profiles": {
-      "customer": {
-        "strict": true,
-        "entity": [],
-        "entities": [
-          {
-            "select": "http://www.swamid.se/",
-            "match": "registrationAuthority",
-            "include": true
-          }
-        ],
-        "display_name": {
-          "en": "Customer Access",
-          "sv": "Kundinloggning"
-        },
-        "fallback_handler": {
-          "profile": "href",
-          "handler": "https://www.example.org/about"
-        }
-      },
-      "customer2": {
-        "strict": false,
-        "entity": [],
-        "entities": [
-          {
-            "select": "http://www.swamid.se/",
-            "match": "registrationAuthority",
-            "include": true
-          }
-        ],
-        "display_name": {
-          "en": "Degraded security",
-          "sv": "Degraded security sv"
-        },
-        "fallback_handler": {
-          "profile": "href",
-          "handler": "https://www.example.org/about"
-        }
-      },
-      "customer3": {
-        "strict": true,
-        "entity": [],
-        "entities": [
-          {
-            "select": "http://www.swamid.se/",
-            "match": "registrationAuthority",
-            "include": false
-          }
-        ],
-        "display_name": {
-          "en": "Customer 3 Access",
-          "sv": "Kundinloggning 3"
-        },
-        "fallback_handler": {
-          "profile": "href",
-          "handler": "https://www.example.org/about"
-        }
-      },
-      "customer4": {
-        "strict": false,
-        "entity": [],
-        "entities": [
-          {
-            "select": "http://www.swamid.se/",
-            "match": "registrationAuthority",
-            "include": false
-          }
-        ],
-        "display_name": {
-          "en": "Degraded security",
-          "sv": "Degraded security sv"
-        },
-        "fallback_handler": {
-          "profile": "href",
-          "handler": "https://www.example.org/about"
-        }
-      }
-    }
-  },
-  {
     "entityID": "https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp",
     "extra_md": {},
     "profiles": {
@@ -331,6 +368,30 @@
           {
             "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
             "match": "entity_category",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer Access",
+          "sv": "Kundinloggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
+      "customer1": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "http://refeds.org/category/research-and-scholarship",
+            "match": "entity_category_support",
+            "include": true
+          },
+          {
+            "select": "http://www.geant.net/uri/dataprotection-code-of-conduct/v1",
+            "match": "entity_category_support",
             "include": true
           }
         ],
