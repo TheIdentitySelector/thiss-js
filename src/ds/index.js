@@ -323,9 +323,9 @@ $(document).ready(function() {
                 }
             });
         }
-        if (goodResult) {
+        if (goodReturn) {
             $(".sp_title").append(" - good");
-        } else if (goodResult === false) {
+        } else if (goodReturn === false) {
             $(".sp_title").append(" - bad");
         } else {
             $(".sp_title").append(" - unknown");
