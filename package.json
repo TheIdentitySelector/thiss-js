@@ -81,7 +81,7 @@
     "lodash": "^4.17.21",
     "mocha": "^10.7.3",
     "path-browserify": "^1.0.1",
-    "post-robot": "^8.0.32",
+    "post-robot": "==8.0.32",
     "proxy-agent": "^6.4.0",
     "sass": "1.77.8",
     "stream-browserify": "^3.0.0"
