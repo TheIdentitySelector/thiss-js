@@ -304,5 +304,31 @@ $(document).ready(function() {
                 $("#search").addClass("d-none");
             }
         }
-    }).discovery_client("sp").then(entity => $(".sp_title").text(entity.title))
+    }).discovery_client("sp").then(entity => {
+        $(".sp_title").text(entity.title);
+
+        let goodReturn = null;
+
+        if (entity.discovery_responses) {
+            goodReturn = false;
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let returnUrl = null;
+            if (urlParams.has('return'))
+                returnUrl = urlParams.get('return')
+
+            entity.discovery_responses.forEach(dr => {
+                if (returnUrl.startsWith(dr)) {
+                    goodReturn = true;
+                }
+            });
+        }
+        if (goodResult) {
+            $(".sp_title").append(" - good");
+        } else if (goodResult === false) {
+            $(".sp_title").append(" - bad");
+        } else {
+            $(".sp_title").append(" - unknown");
+        }
+    })
 });
