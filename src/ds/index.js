@@ -11,6 +11,7 @@ import { dom, library, config } from '@fortawesome/fontawesome-svg-core';
 import {faPlusSquare} from '@fortawesome/free-solid-svg-icons/faPlusSquare';
 import {faPen} from '@fortawesome/free-solid-svg-icons/faPen';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
+import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faCheckCircle} from '@fortawesome/free-solid-svg-icons/faCheckCircle';
@@ -26,7 +27,7 @@ config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
 
-library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle);
+library.add(faPlusSquare, faPen, faSearch, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle, faMagnifyingGlass);
 dom.watch();
 
 import * as $ from 'jquery';
