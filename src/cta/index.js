@@ -5,7 +5,7 @@ import 'core-js/actual';
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {DiscoveryService, ds_response_url, json_mdq_get} from "@theidentityselector/thiss-ds/src/discovery.js";
 
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'
@@ -157,12 +157,13 @@ if (!ds.ps.expire) {
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
         if (items && items.length > 0) { // or things have gone very wrong...
-            let item = items[items.length-1];
-            document.getElementById('title').innerText = item.entity.title;
-            entity_id = item.entity.entity_id || item.entity.entityID;
-            document.getElementById('headline').innerText = localization.translateString('cta-button-header');
-            document.getElementById('headline').className = "ra21-button-text-secondary";
-            dsbutton.hidden = false;
+            for (const item of items.reverse()) {
+                document.getElementById('title').innerText = item.entity.title;
+                entity_id = item.entity.entity_id || item.entity.entityID;
+                document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                document.getElementById('headline').className = "ra21-button-text-secondary";
+                dsbutton.hidden = false;
+            }
         } else {
             document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
         }
