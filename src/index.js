@@ -115,4 +115,11 @@ window.onload = function() {
         trustProfile: 'customer',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login12');
+    DiscoveryComponent({
+        loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
+        backgroundColor: '#e9ecef',
+        entityID: 'http://fs.liu.se/adfs/services/trust',
+        trustProfile: 'other',
+        discoveryResponse: `${process.env.BASE_URL}result`
+    }).render('#login13');
 };
