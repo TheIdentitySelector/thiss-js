@@ -158,16 +158,23 @@ if (!ds.ps.expire) {
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
         const item_promises = items.reverse().map(item => json_mdq_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
-        Promise.any(item_promises).then(item => {
-            document.getElementById('title').innerText = item.title;
-            entity_id = item.entity_id || item.entityID;
-            document.getElementById('headline').innerText = localization.translateString('cta-button-header');
-            document.getElementById('headline').className = "ra21-button-text-secondary";
-            dsbutton.hidden = false;
-        }).catch(e => {
-            console.log(`Error fetching entities: ${e}`);
-            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-        });
+        Promise.allSettled(item_promises).then(results => {
+            let found = false;
+            results.forEach(result => {
+                if (!found && result.status === 'fulfilled') {
+                    found = true;
+                    const item = result.value;
+                    document.getElementById('title').innerText = item.title;
+                    entity_id = item.entity_id || item.entityID;
+                    document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                    document.getElementById('headline').className = "ra21-button-text-secondary";
+                    dsbutton.hidden = false;
+                }
+            });
+            if (!found) {
+                document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+            }
+        })
     }).then(() => ds.ps.expire()).catch(ex => {
           document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
     });
