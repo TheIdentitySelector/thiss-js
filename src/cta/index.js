@@ -157,10 +157,8 @@ if (!ds.ps.expire) {
 
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
-        console.log(`ITEMS PERSISTED: ${JSON.stringify(items)}`);
         const item_promises = items.reverse().map(item => json_mdq_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
         Promise.any(item_promises).then(item => {
-            console.log(`PROCESSING ITEM: ${JSON.stringify(item)}`);
             document.getElementById('title').innerText = item.title;
             entity_id = item.entity_id || item.entityID;
             document.getElementById('headline').innerText = localization.translateString('cta-button-header');
