@@ -5,7 +5,7 @@ import 'core-js/actual';
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url, json_mdq_get} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {DiscoveryService, ds_response_url, json_mdq_pre_get} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -157,7 +157,7 @@ if (!ds.ps.expire) {
 
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
-        const item_promises = items.reverse().map(item => json_mdq_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+        const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
         Promise.allSettled(item_promises).then(results => {
             let found = false;
             results.forEach(result => {
