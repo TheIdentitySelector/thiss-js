@@ -158,7 +158,7 @@ if (!ds.ps.expire) {
 Promise.all(start).then(function() {
     ds.ps.entities(context).then(result => result.data).then(function(items) {
         console.log(`ITEMS PERSISTED: ${JSON.stringify(items)}`);
-        const item_promises = items.reverse().map(item => json_mdq_get(`{sha1}${hex_sha1(encodeURIComponent(item.entityID))}`, trustProfile, entityID, mdq));
+        const item_promises = items.reverse().map(item => json_mdq_get(`{sha1}${hex_sha1(item.entityID)}`, trustProfile, entityID, mdq));
         Promise.any(item_promises).then(item => {
             console.log(`PROCESSING ITEM: ${JSON.stringify(item)}`);
             document.getElementById('title').innerText = item.entity.title;
