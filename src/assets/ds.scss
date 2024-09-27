@@ -74,7 +74,15 @@ a {
 
 .btn-blue {
   background-color: var(--primary-blue);
-  color: var(--text-grey);
+  color: var(--white-two);
+
+  :hover {
+    background-color: var(--secondary-blue);
+  }
+
+  :active {
+    background-color: var(--pastel-blue);
+  }
 }
 
 h1, h2, h3, legend {
@@ -696,6 +704,7 @@ i.list-item-warning {
   border-radius: 3px;
   border: 1px solid rgb(133, 99, 29);
   background: #fff2d5;
+  min-height: auto !important;
 
   #discovery-response-warning-body {
     display: flex;
