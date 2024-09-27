@@ -656,3 +656,22 @@ i.list-item-warning {
   padding: 0 0 0 0.75rem;
   color: var(--primary-blue)
 }
+
+.horizontal-header {
+  display: flex;
+  flex-direction: row;
+
+  .horizontal-header-item {
+    flex: none;
+  }
+}
+
+.warning-header {
+  border: 1px solid rgb(133, 99, 29);
+  background: rgb(245, 245, 245);
+  border-radius: 5px;
+}
+
+.warning-fa-item {
+  border: 1px solid rgb(133, 99, 29);
+}
