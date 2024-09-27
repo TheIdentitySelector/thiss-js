@@ -675,9 +675,10 @@ i.list-item-warning {
   border: 1px solid rgb(133, 99, 29);
   background: #fff2d5;
 
-  a {
+  a#warning-discovery-response-link {
+    font-weight: 500;
     color: var(--text-grey);
-    text-decoretion: underline;
+    text-decoration: underline;
   }
 }
 
