@@ -693,21 +693,24 @@ i.list-item-warning {
 }
 
 #discovery-response-warning {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   border-radius: 3px;
   border: 1px solid rgb(133, 99, 29);
   background: #fff2d5;
 
-  .discovery-response-warning-item {
-    .discovery-response-warning-title {
-      font-weight: 700;
-      margin-left: 1rem;
-    }
-  }
+  .discovery-response-warning-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-  .discovery-response-warning-text {
-    margin-left: 2rem;
+    .discovery-response-warning-item {
+      .discovery-response-warning-title {
+        font-weight: 700;
+        margin-left: 1rem;
+      }
+    }
+
+    .discovery-response-warning-text {
+      margin-left: 2rem;
+    }
   }
 }
