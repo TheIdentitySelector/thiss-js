@@ -76,13 +76,13 @@ a {
   background-color: var(--primary-blue);
   color: var(--white-two);
 
-  :hover {
+  &:hover {
     background-color: var(--secondary-blue);
-    border: 2px solid var(--primary-blue);
   }
 
-  :active {
-    background-color: var(--pastel-blue);
+  &:active {
+    background-color: var(--primary-blue);
+    border: 2px solid var(--secondary-blue);
   }
 }
 
