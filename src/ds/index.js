@@ -134,23 +134,14 @@ $(document).ready(function() {
 
     $("#discovery-response-warning-header-link").on('click',function(event) {
         event.preventDefault();
-        $("#dsclient").children().addClass('d-none');
+        $("#dsclient").addClass('d-none');
         $("#discovery-response-warning").removeClass("d-none");
     });
 
     $("#warning-done-button").on('click',function(event) {
         event.preventDefault();
+        $("#dsclient").removeClass('d-none');
         $("#discovery-response-warning").addClass("d-none");
-        $("#done_button").toggleClass("d-none").toggleClass("display-block");
-        $("#choosetools").toggleClass("d-none");
-        $(".warning-banner").toggleClass("d-none");
-        $("#savedchoices").removeClass('edit').addClass('choose');
-        $("#choose > span.edit").toggleClass("d-none");
-        $("#choose > span.choose").toggleClass("d-none");
-        $(".institution-text").removeClass("item-fade");
-        $(".institution-icon").removeClass("item-fade");
-        $(".institution-select").toggleClass("d-none");
-        $(".institution-remove").toggleClass("d-none");
     });
 
     $("#dsclient").discovery_client({
