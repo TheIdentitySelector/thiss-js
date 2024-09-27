@@ -660,6 +660,7 @@ i.list-item-warning {
 .horizontal-header {
   display: flex;
   flex-direction: row;
+  align-items: baseline;
 
   .horizontal-header-item {
     flex: none;
@@ -667,6 +668,7 @@ i.list-item-warning {
 }
 
 .warning-header {
+  font-size: 15px;
   padding: 5px;
   border-radius: 3px;
   margin-left: 3rem;
@@ -676,4 +678,5 @@ i.list-item-warning {
 
 .warning-fa-item {
   color: rgb(133, 99, 29);
+  margin-right: 2rem;
 }
