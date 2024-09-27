@@ -134,7 +134,7 @@ $(document).ready(function() {
 
     $("#discovery-response-warning-header-link").on('click',function(event) {
         event.preventDefault();
-        $("#dsclient").children().forEach(child => child.addClass('d-none'));
+        $("#dsclient").children().each(child => child.addClass('d-none'));
         $("#discovery-response-warning").removeClass("d-none");
     });
 
