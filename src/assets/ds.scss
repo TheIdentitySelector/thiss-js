@@ -686,3 +686,13 @@ i.list-item-warning {
   margin-right: .6rem;
   margin-left: .3rem;
 }
+
+#discovery-response-warning {
+  border-radius: 3px;
+  border: 1px solid rgb(133, 99, 29);
+  background: #fff2d5;
+
+  #discovery-response-warning-text {
+    margin-left: 2rem;
+  }
+}
