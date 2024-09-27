@@ -317,6 +317,7 @@ $(document).ready(function() {
         }
     }).discovery_client("sp").then(entity => {
         $(".sp_title").text(entity.title);
+        $("#discovery-response-warning-site").text(entity.title);
 
         let goodReturn = null;
 
