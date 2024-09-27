@@ -668,8 +668,8 @@ i.list-item-warning {
 }
 
 .warning-header {
-  font-size: 15px;
-  padding: 5px;
+  font-size: 13px;
+  padding: 4px;
   border-radius: 3px;
   margin-left: 3rem;
   border: 1px solid rgb(133, 99, 29);
@@ -678,5 +678,6 @@ i.list-item-warning {
 
 .warning-fa-item {
   color: rgb(133, 99, 29);
-  margin-right: 2rem;
+  margin-right: 1.5rem;
+  margin-left: .5rem;
 }
