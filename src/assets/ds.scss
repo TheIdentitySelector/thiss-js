@@ -674,6 +674,11 @@ i.list-item-warning {
   margin-left: 3rem;
   border: 1px solid rgb(133, 99, 29);
   background: #fff2d5;
+
+  a {
+    color: var(--text-grey);
+    text-decoretion: underline;
+  }
 }
 
 .warning-fa-item {
