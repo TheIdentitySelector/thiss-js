@@ -668,7 +668,6 @@ i.list-item-warning {
 }
 
 .warning-header {
-  font-size: 13px;
   padding: 4px;
   border-radius: 3px;
   margin-left: 3rem;
@@ -676,7 +675,7 @@ i.list-item-warning {
   background: #fff2d5;
 
   a#warning-discovery-response-link {
-    font-weight: 500;
+    font-size: 13px;
     color: var(--text-grey);
     text-decoration: underline;
   }
