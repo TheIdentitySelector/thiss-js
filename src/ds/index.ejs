@@ -13,9 +13,9 @@
 			<img alt="RA 21 Logo" id="ra-21-logo" class="header-ra21-logo" src="../assets/sa-black.svg"/><span class="light" data-i18n="ds-header">Access to</span>
 			<span class="sp_title account-pill"></span>
 		</h2>
-		<h2 class="warning-header horizontal-header-item" id="warning-discovery-response">
+		<h2 class="warning-header horizontal-header-item">
       <i class="fa fa-exclamation-triangle warning-fa-item"></i>
-      <a id="warning-discovery-response-link" href="#">
+      <a id="discovery-response-warning-header-link" href="#">
         Unable to verify returning website
       </a>
 		</h2>
@@ -47,6 +47,32 @@
 					   aria-expanded="false"><i class="fa fa-pen"></i> <span data-i18n="ds-choose-edit">Edit</span></a>
 				</div>
 				<a id="done_button" role="button" class="d-none center btn btn-block btn-light" href="#" data-i18n="ds-choose-done">Done</a>
+			</div>
+
+			<!-- discovery response warning -->
+			<div class="d-none" id="discovery-response-warning">
+        <div class="" id="discovery-response-warning-title">
+          <span>
+            <i class="fa fa-exclamation-triangle"></i>
+            Unable to verify returning site
+          </span>
+        </div>
+        <div class="" id="discovery-response-warning-text">
+          <p>
+            We are unable to verify if you will be sent back to <span id="discovery-response-warning-site"></span>
+          </p>
+          <p>
+            You may not return to the site you started this access path on, in this case verify upon completion of your institution access if you arrived at your desired content.
+          </p>
+          <p>
+            <a href="">
+              Why are we unable to verify?
+            </a>
+          </p>
+        </div>
+        <div class="" id="discovery-response-warning-button">
+				  <a id="warning-done-button" role="button" class="d-none center btn btn-block btn-light" href="#" data-i18n="ds-warning-continue">Continue</a>
+        </div>
 			</div>
 
 			<!-- search -->

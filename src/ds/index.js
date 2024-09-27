@@ -51,7 +51,6 @@ const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities";
 $(document).ready(function() {
     let timer = null;
 
-
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     let entityID = null
@@ -121,6 +120,27 @@ $(document).ready(function() {
 
     $("#done_button").on('click',function(event) {
         event.preventDefault();
+        $("#done_button").toggleClass("d-none").toggleClass("display-block");
+        $("#choosetools").toggleClass("d-none");
+        $(".warning-banner").toggleClass("d-none");
+        $("#savedchoices").removeClass('edit').addClass('choose');
+        $("#choose > span.edit").toggleClass("d-none");
+        $("#choose > span.choose").toggleClass("d-none");
+        $(".institution-text").removeClass("item-fade");
+        $(".institution-icon").removeClass("item-fade");
+        $(".institution-select").toggleClass("d-none");
+        $(".institution-remove").toggleClass("d-none");
+    });
+
+    $("#discovery-response-warning-header-link").on('click',function(event) {
+        event.preventDefault();
+        $("#dsclient").children.forEach(child => child.addClass('d-none'));
+        $("#discovery-response-warning").removeClass("d-none");
+    });
+
+    $("#warning-done-button").on('click',function(event) {
+        event.preventDefault();
+        $("#discovery-response-warning").addClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#choosetools").toggleClass("d-none");
         $(".warning-banner").toggleClass("d-none");
