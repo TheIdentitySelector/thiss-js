@@ -667,12 +667,13 @@ i.list-item-warning {
 }
 
 .warning-header {
-  margin-left: 4rem;
+  padding: 5px;
+  border-radius: 3px;
+  margin-left: 3rem;
   border: 1px solid rgb(133, 99, 29);
   background: #fff2d5;
-  border-radius: 5px;
 }
 
 .warning-fa-item {
-  border: 1px solid rgb(133, 99, 29);
+  color: rgb(133, 99, 29);
 }
