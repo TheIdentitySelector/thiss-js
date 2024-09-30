@@ -249,8 +249,14 @@ $(document).ready(function() {
                     if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
                         org = spEntity.title_langs[browserLanguage];
                     }
+                    const no_access = localization.translateString('filter-warning-no-access');
+                    const choose_alternative = localization.translateString('filter-warning-choose-aternative');
+                    const other_access = localization.translateString('filter-warning-other-options');
                     let html = ejs.render(filterWarningHTML, {
                         organization: org,
+                        filter_warning_no_access: no_access,
+                        choose_alternative: choose_alternative,
+                        other_access: other_access,
                     })
 
                     $("#filter-warning").append(html);

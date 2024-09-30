@@ -1,5 +1,8 @@
 import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
+import Localization from '../localization.js'
+
+const localization = new Localization(window.xprops.locale);
 
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
@@ -102,6 +105,7 @@ jQuery(function ($) {
                 let counter = 0;
                 $(obj.options.input_field_selector).focus();
                 search_result_element.btsListFilter(obj.options.input_field_selector, {
+                    localization: localization,
                     resetOnBlur: false,
                     casesensitive: false,
                     maxResults: 10,

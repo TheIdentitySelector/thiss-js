@@ -24,7 +24,8 @@
 			cancelEl$,
 			items$ = searchlist$,
 			callData,
-			callReq;	//last callData execution
+			callReq,
+      localization = opts.localization;	//last callData execution
 
 		function tmpl(str, data) {
 			return str.replace(/\{ *([\w_]+) *\}/g, function (str, key) {
@@ -56,14 +57,16 @@
 				return tmpl(opts.sourceTmpl, data);
 			},
 			emptyNode: function(data) {
-				return '<a class="list-group-item well" href="#"><span>No Results</span></a>';
+        const no_results = localization.translateString('list-filter-no-results');
+				return `<a class="list-group-item well" href="#"><span>${no_results}</span></a>`;
 			},
 			cancelNode: function() {
 				return '<span class="btn glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>';
 			},
 			maxResults: -1,
 			maxResultsNode: function(data) {
-				return '<span class="list-groiup-item well">Too many results - keep typing to refine search</span>';
+        const too_many = localization.translateString('list-filter-too-many-results');
+				return `<span class="list-groiup-item well">${too_many}</span>`;
 			},
 			sourceNodes: undefined,
 			loadingClass: 'bts-loading-list',
@@ -144,7 +147,6 @@
 
 				if(val!=='' && val.length >= opts.minLength)
 				{
-          console.log(`EVENT there is value ${val}`);
           searchlist$.html('');
 					contains.show();
 					containsNot.hide();
@@ -199,7 +201,6 @@
 				}
 				else
 				{
-          console.log(`EVENT there is NO value, searchList: ${searchlist$.attr('id')}`);
 					contains.show();
 					containsNot.show();
 					cancelEl$.hide();

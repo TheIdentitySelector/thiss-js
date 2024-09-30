@@ -6,12 +6,12 @@
         <div class="col-11">
             <div class="row">
                 <div class="col">
-                    <p class="primary"><strong><%= organization %></strong> indicated your chosen institution may not have access to this service.</p>
+                  <p class="primary"><strong><%= organization %></strong> <%= filter_warning_no_access %></p>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <p>Choose an alternative institute or try <a href="#">other access options</a>.</p>
+                  <p><%= choose_alternative %> <a href="#"><%= other_access %></a>.</p>
                 </div>
             </div>
         </div>
