@@ -1,88 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	   <title class="sp_title"></title>
-	</head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <title class="sp_title"></title>
+  </head>
 
 <body class="site">
 
-	<header class="horizontal-header">
-		<h2 class="accessHeader account horizontal-header-item">
-			<img alt="RA 21 Logo" id="ra-21-logo" class="header-ra21-logo" src="../assets/sa-black.svg"/><span class="light" data-i18n="ds-header">Access to</span>
-			<span class="sp_title account-pill"></span>
-		</h2>
-		<h2 class="warning-header horizontal-header-item">
+  <header class="horizontal-header">
+    <h2 class="accessHeader account horizontal-header-item">
+      <img alt="RA 21 Logo" id="ra-21-logo" class="header-ra21-logo" src="../assets/sa-black.svg"/><span class="light" data-i18n="ds-header">Access to</span>
+      <span class="sp_title account-pill"></span>
+    </h2>
+    <h2 class="warning-header horizontal-header-item">
       <i class="fa fa-exclamation-triangle warning-fa-item"></i>
       <a id="discovery-response-warning-header-link" href="#" data-i18n="ds-unable-to-verify-return">
         Unable to verify returning website
       </a>
-		</h2>
-	</header>
-	<main class="content">
-		<div class="container" id="dsclient">
-			<!-- choose -->
-			<div class="d-none" id="choose">
-				<span class="choose">
-					<h1 data-i18n="ds-choose-heading">Choose Your Institution</h1>
-					<h2 data-i18n="ds-choose-subheading">Recent institutions</h2>
-				</span>
-				<span class="edit d-none">
-					<h1 data-i18n="ds-edit-heading">Edit institutions</h1>
-					<h2 data-i18n="ds-edit-subheading">If you no longer want an institution to be remembered on this device, remove it from the list below.</h2>
-				</span>
-				<div class="results choose" id="savedchoices">
-					<div id="filter-warning"></div>
-					<ul id="ds-saved-choices"></ul>
-				</div>
-				<div id="choosetools" class="link-bar">
-					<a id="add_button" href="#"
-					   class="align-left"
-					   role="button"
-					   aria-expanded="false"><i class="fa fa-plus-square"></i> <span data-i18n="ds-choose-add-another">Add another institution</span></a>
-					<a id="edit_button" href="#"
-					   class="align-right"
-					   role="button"
-					   aria-expanded="false"><i class="fa fa-pen"></i> <span data-i18n="ds-choose-edit">Edit</span></a>
-				</div>
-				<a id="done_button" role="button" class="d-none center btn btn-block btn-light" href="#" data-i18n="ds-choose-done">Done</a>
-			</div>
+    </h2>
+  </header>
+  <main class="content">
+    <div class="container" id="dsclient">
+      <!-- choose -->
+      <div class="d-none" id="choose">
+        <span class="choose">
+          <h1 data-i18n="ds-choose-heading">Choose Your Institution</h1>
+          <h2 data-i18n="ds-choose-subheading">Recent institutions</h2>
+        </span>
+        <span class="edit d-none">
+          <h1 data-i18n="ds-edit-heading">Edit institutions</h1>
+          <h2 data-i18n="ds-edit-subheading">If you no longer want an institution to be remembered on this device, remove it from the list below.</h2>
+        </span>
+        <div class="results choose" id="savedchoices">
+          <div id="filter-warning"></div>
+          <ul id="ds-saved-choices"></ul>
+        </div>
+        <div id="choosetools" class="link-bar">
+          <a id="add_button" href="#"
+             class="align-left"
+             role="button"
+             aria-expanded="false"><i class="fa fa-plus-square"></i> <span data-i18n="ds-choose-add-another">Add another institution</span></a>
+          <a id="edit_button" href="#"
+             class="align-right"
+             role="button"
+             aria-expanded="false"><i class="fa fa-pen"></i> <span data-i18n="ds-choose-edit">Edit</span></a>
+        </div>
+        <a id="done_button" role="button" class="d-none center btn btn-block btn-light" href="#" data-i18n="ds-choose-done">Done</a>
+      </div>
 
-			<!-- search -->
-			<div class="d-none d-block" id="search">
-				<h1 data-i18n="ds-search-heading">Find Your Institution</h1>
-				<h2 data-i18n="ds-search-subheading">Your university, organization or company</h2>
-				<form>
-					<div class="form-content">
-						<div class="search">
-							<i class="fa-solid fa-magnifying-glass"></i>
-							<input tabindex="0" type="text" autocomplete="off" id="searchinput" placeholder="" aria-label="Find your institution, university, organization or company edit text" aria-describedby="Find your institution, university, organization or company edit text" autofocus>
-						</div>
-						<legend data-i18n="ds-search-example">Examples: Science Institute, Lee@uni.edu, UCLA</legend>
-						<div id="notice-and-consent-actions">
-							<%- include('templates/notice_and_consent_actions.ejs') %>
-						</div>
-						<div id="learn-more-banner" class="alert alert-secondary d-none">
-							<%- include('templates/learn_more_banner.ejs') %>
-						</div>
-						<div class="d-none" id="searching" role="region" aria-live="assertive">
-							<h3 data-i18n="ds-search-placeholder">Searching for institutions...</h3>
-							<div class="loader">
+      <!-- search -->
+      <div class="d-none d-block" id="search">
+        <h1 data-i18n="ds-search-heading">Find Your Institution</h1>
+        <h2 data-i18n="ds-search-subheading">Your university, organization or company</h2>
+        <form>
+          <div class="form-content">
+            <div class="search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input tabindex="0" type="text" autocomplete="off" id="searchinput" placeholder="" aria-label="Find your institution, university, organization or company edit text" aria-describedby="Find your institution, university, organization or company edit text" autofocus>
+            </div>
+            <legend data-i18n="ds-search-example">Examples: Science Institute, Lee@uni.edu, UCLA</legend>
+            <div id="notice-and-consent-actions">
+              <%- include('templates/notice_and_consent_actions.ejs') %>
+            </div>
+            <div id="learn-more-banner" class="alert alert-secondary d-none">
+              <%- include('templates/learn_more_banner.ejs') %>
+            </div>
+            <div class="d-none" id="searching" role="region" aria-live="assertive">
+              <h3 data-i18n="ds-search-placeholder">Searching for institutions...</h3>
+              <div class="loader">
 
-							</div>
-						</div>
-					</div>
-				</form>
-				<div class="results search-list" id="resultwidget">
-					<ul id="ds-search-list"></ul>
-				</div>
-			</div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="results search-list" id="resultwidget">
+          <ul id="ds-search-list"></ul>
+        </div>
+      </div>
 
-      	</div>
+        </div>
 
-			<!-- discovery response warning -->
-			<div class="container d-none" id="discovery-response-warning">
+      <!-- discovery response warning -->
+      <div class="container d-none" id="discovery-response-warning">
         <div class="" id="discovery-response-warning-body">
           <p class="discovery-response-warning-item">
             <i class="fa fa-exclamation-triangle"></i>
@@ -105,25 +105,25 @@
             <a id="warning-done-button" role="button" class="center btn btn-block btn-blue display-block" href="#" data-i18n="ds-warning-continue">Continue</a>
           </div>
         </div>
-			</div>
-	</main>
+      </div>
+  </main>
 
-	<footer>
-		<div class="footer-credential">
-			<p>
-				<span class="footer-pill">
-					<img alt="Seamless Logo" id="seamlessaccess_footer_logo" class="footer-ra21-logo" src="../assets/SeamlessFooterLogo.svg">
-				</span>
-				<a href="https://seamlessaccess.org/about/" data-i18n="ds-footer-about-us">About Us</a>
-				<select name="locale-selector" id="locale-selector" class="ms-4">
-					<option value="en">English</option>
-					<option value="es">Español</option>
-					<option value="sv">Svenska</option>
-					<option value="de">Deustch</option>
-				</select>
-			</p>
-		</div>
-	</footer>
+  <footer>
+    <div class="footer-credential">
+      <p>
+        <span class="footer-pill">
+          <img alt="Seamless Logo" id="seamlessaccess_footer_logo" class="footer-ra21-logo" src="../assets/SeamlessFooterLogo.svg">
+        </span>
+        <a href="https://seamlessaccess.org/about/" data-i18n="ds-footer-about-us">About Us</a>
+        <select name="locale-selector" id="locale-selector" class="ms-4">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="sv">Svenska</option>
+          <option value="de">Deustch</option>
+        </select>
+      </p>
+    </div>
+  </footer>
 
 </body>
 
