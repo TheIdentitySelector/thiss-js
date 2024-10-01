@@ -2,7 +2,7 @@ import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/
 import 'core-js/actual';
 import Localization from '../localization.js'
 
-const localization = new Localization(window.xprops.locale);
+const localization = new Localization();
 
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
