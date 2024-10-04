@@ -250,7 +250,7 @@ $(document).ready(function() {
                         org = spEntity.title_langs[browserLanguage];
                     }
                     const no_access = localization.translateString('filter-warning-no-access');
-                    const choose_alternative = localization.translateString('filter-warning-choose-aternative');
+                    const choose_alternative = localization.translateString('filter-warning-choose-alternative');
                     const other_access = localization.translateString('filter-warning-other-options');
                     let html = ejs.render(filterWarningHTML, {
                         organization: org,
