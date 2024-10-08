@@ -125,13 +125,16 @@ let entity_id = null;
 
 button.addEventListener('click', function(event) {
     event.preventDefault();
-    if (entity_id !== null) { // return the discovery response
-        ds.do_saml_discovery_response(entity_id).then(item => {
-           discovery_response(item.entity);
-        });
-    } else { // off to DS
-        discovery_request();
-    }
+    const doDS = () => {
+        if (entity_id !== null) { // return the discovery response
+            ds.do_saml_discovery_response(entity_id).then(item => {
+               discovery_response(item.entity);
+            });
+        } else { // off to DS
+            discovery_request();
+        }
+    };
+    ds.storageAccessHandler(doDS);
 });
 
 button.addEventListener('keypress', function (event) {
