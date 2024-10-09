@@ -336,7 +336,7 @@ $(document).ready(function() {
                 returnUrl = urlParams.get('return')
 
             entity.discovery_responses.forEach(dr => {
-                if (returnUrl.startsWith(dr)) {
+                if (returnUrl !== null && returnUrl.startsWith(dr)) {
                     goodReturn = true;
                 }
             });
