@@ -123,6 +123,25 @@
           "handler": "https://www.example.org/provider"
         }
       },
+      "incommon-regauth": {
+        "strict": true,
+        "entity": [],
+        "entities": [
+          {
+            "select": "https://incommon.org",
+            "match": "registrationAuthority",
+            "include": true
+          }
+        ],
+        "display_name": {
+          "en": "Customer Access",
+          "sv": "Kundinloggning"
+        },
+        "fallback_handler": {
+          "profile": "href",
+          "handler": "https://www.example.org/about"
+        }
+      },
       "swamid": {
         "strict": true,
         "entity": [],
