@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 MAINTAINER Leif Johansson <leifj@sunet.se>
 RUN apt-get update -q && apt-get install -yy nginx openssl nginx-extras gettext-base
 COPY dist /dist

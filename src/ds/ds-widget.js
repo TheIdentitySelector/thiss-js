@@ -1,4 +1,8 @@
-import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds";
+import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
+import 'core-js/actual';
+import Localization from '../localization.js'
+
+const localization = new Localization();
 
 jQuery(function ($) {
     $.widget("thiss.discovery_client", {
@@ -7,6 +11,8 @@ jQuery(function ($) {
             persistence: undefined,
             search: undefined,
             mdq: undefined,
+            entityID: null,
+            trustProfile: null,
             context: undefined,
             before: undefined,
             after: undefined,
@@ -34,11 +40,14 @@ jQuery(function ($) {
             if (!$.isFunction(obj.options.search)) {
                 obj.options.search_url = obj.options.search;
                 obj.options.search = function (text, callback) {
-                    obj.ac.forEach(ab => ab.abort())
+                  obj.ac.forEach(ab => ab.abort())
                     let this_ab = new AbortController();
                     obj.ac.push(this_ab);
-                    json_mdq_search(text, obj.options.search_url, {signal: this_ab.signal})
-                        .then(data => data.filter(o => o.hidden != "true"))
+
+                    json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
+                        .then(data => {
+                            return data.filter(o => o.hidden !== "true")
+                        })
                         .then(data => {
                             let first_ab = obj.ac.shift()
                             if (!this_ab.signal.aborted) {
@@ -79,7 +88,7 @@ jQuery(function ($) {
             let params = parse_qs(window.location.search.substr(1).split('&'));
             let entity_id = params.entityID;
             if (entity_id) {
-                return obj._ds.mdq(entity_id).then(entity => {
+                return obj._ds.mdq_sp(entity_id).then(entity => {
                     return entity ? entity : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
                 });
             } else {
@@ -96,6 +105,7 @@ jQuery(function ($) {
                 let counter = 0;
                 $(obj.options.input_field_selector).focus();
                 search_result_element.btsListFilter(obj.options.input_field_selector, {
+                    localization: localization,
                     resetOnBlur: false,
                     casesensitive: false,
                     maxResults: 10,
@@ -106,38 +116,59 @@ jQuery(function ($) {
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
                     sourceNodes: function(opts, val, results, render) {
-                        if (results.length == 0 || !results) {
+                        const MAX_RESULTS = 25
+
+                        if (!results || results.length === 0) {
                             render(obj.options.no_results(val))
                         } else if (opts.maxResults > 0 && results.length > opts.maxResults) {
                             render(obj.options.too_many_results(this, results.length))
                         } else {
-                            const getResults = function() {
-                                const numberDisplayed = $(obj.options.search_result_selector + " > *").length
+                            let numberDisplayed = 0
 
+                            const getResults = function() {
                                 if (numberDisplayed === 0) {
-                                    return results.slice(0, 24)
+                                    if (results.length < MAX_RESULTS) {
+                                        numberDisplayed = results.length
+                                    } else {
+                                        numberDisplayed = MAX_RESULTS
+                                    }
+
+                                    return results.slice(0, MAX_RESULTS - 1)
                                 } else {
-                                    return results.slice(numberDisplayed, numberDisplayed + 25)
+                                    if (results.length >= MAX_RESULTS) {
+                                        const updatedResults = results.slice(numberDisplayed, numberDisplayed + MAX_RESULTS)
+                                        numberDisplayed += updatedResults.length
+                                        return updatedResults
+                                    }
                                 }
                             }
 
-                            const displayResults = function() {
+                            const displayResults = function(newResults) {
                                 const resultsSubset = getResults()
+                                let updatedResultsSubset = []
+
+                                if (newResults) {
+                                    counter = 0;
+                                }
 
                                 for (let i in resultsSubset) {
                                     let data = resultsSubset[i]
                                     counter += 1;
                                     data.counter = counter;
                                     data.saved = false;
-                                    render(obj.options.render_search_result(data))
+                                    updatedResultsSubset.push(data);
                                 }
+
+                                render(obj.options.render_search_result(resultsSubset))
                             }
 
-                            displayResults();
+                            displayResults(true);
 
                             window.onscroll = function(ev) {
-                                if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
-                                    displayResults();
+                                if (results.length >= MAX_RESULTS) {
+                                    if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
+                                        displayResults(false);
+                                    }
                                 }
                             };
                         }
@@ -151,7 +182,8 @@ jQuery(function ($) {
 
         _update: function () {
             let obj = this;
-            obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence, obj.options.context);
+            obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence,
+                obj.options.context, obj.options.entityID, obj.options.trustProfile);
             obj._count = 0;
             let top_element = obj.element;
 
@@ -169,6 +201,8 @@ jQuery(function ($) {
 
             $('body').on('click', obj.options.entity_selector, function (e) {
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
+
+                console.log('entity_id XX: ', entity_id)
                 return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 
@@ -188,8 +222,7 @@ jQuery(function ($) {
                 let entity_element = $(this).closest(obj.options.entity_selector);
                 obj._count = entity_element.siblings().length + 1;
                 let entity_id = entity_element.attr('data-href');
-                console.log("removing "+entity_id);
-                console.log(entity_element);
+
                 if (entity_id) {
                     obj._ds.remove(entity_id).then(function () {
                         entity_element.remove();
@@ -207,23 +240,21 @@ jQuery(function ($) {
             });
 
             obj._ds.with_items(function (items) {
-                let saved_choices_element = $(obj.options.saved_choices_selector);
                 return obj.options.before(items).then(items => {
                     let count = 0;
+                    let entities = []
                     if (items && items.length > 0) {
                         items.forEach(function (item) {
                             let entity = item.entity;
                             entity.saved = true;
-
-                            let entity_element = obj.options.render_saved_choice(entity);
-                            saved_choices_element.prepend(entity_element);
+                            entities.push(entity)
                             count++;
                         });
                     }
+                    obj.options.render_saved_choice(entities);
                     return count;
                 }).then(count => {
                     obj._after(count);
-                    console.log(items);
                     return items; // needed later by persistence
                 });
             });

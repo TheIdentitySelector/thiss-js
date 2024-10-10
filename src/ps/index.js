@@ -1,4 +1,6 @@
 const postRobot = require("post-robot");
+import 'core-js/actual';
+
 let whitelist = [];
 let expire_enabled = false;
 if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
@@ -87,12 +89,7 @@ function _ctx(context) {
 }
 
 function is_valid(item, ts) {
-    console.log(item !== undefined)
-    console.log(item.last_refresh !== undefined)
     const a = item.last_refresh + max_cache_time  + item_ttl
-    console.log(a)
-    console.log(ts)
-    console.log(ts - a)
     return item !== undefined && item.last_refresh !== undefined && item.last_refresh + max_cache_time  + item_ttl > ts;
 }
 
@@ -132,7 +129,6 @@ function gc(storage) {
     storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => get_entity(storage, k))
         .forEach(item => {
-            console.log(item)
             if (!is_valid(item, now)) {
                 console.log("... removing")
                 storage.remove(item.entity.entity_id.hexEncode())
@@ -159,8 +155,6 @@ function check_access(event) {
 function set_entity(storage, entity) {
     let item;
     let now = _timestamp();
-    console.log("setting...")
-    console.log(entity)
     if (entity.entity != undefined) { // we were given the full metadata interface
         item = entity;
         entity = item.entity;
@@ -210,12 +204,15 @@ postRobot.on('entities', {window: window.parent}, function(event) {
     if (count === undefined) {
         count = 3;
     }
+
     let now = _timestamp();
-    return storage.keys().filter(k => k !== undefined && k !== '_name')
+    const stored_institutions = storage.keys().filter(k => k !== undefined && k !== '_name')
         .map(k => clean_item(get_entity(storage, k)))
         .sort(function(a,b) {
             return a.last_use - b.last_use;
         }).slice(-count);
+
+    return stored_institutions
 });
 
 postRobot.on('entity', {window: window.parent}, function(event) {

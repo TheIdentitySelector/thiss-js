@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<head>
+    <title>The Identity Selector</title>
+    <style>
+        .login {
+            height: 85px;
+            width: 380px;
+        }
+    </style>
+</head>
+
+<body>
+    <main role="main">
+        <h1 class="display-3">Thiss.io Login</h1>
+        <p>This page is for testing the Discovery Service for thiss.io. Each button below corresponds to a different trust profile. A trust profile is a mechanism that an SP can use to constrain the results that the DS can serve the end users. The full list of available entities can be seen <a href="https://md-dev.thiss.io/entities">here</a> (when browsing it it, be sure to, if using firefox, click on "JSON", and if using chrome, click on "Pretty print", to get a human readable list). The list of trust profiles that can be used to restrict results (including all profiles used in the buttons below) can be found <a href="https://md-dev.thiss.io/tinfo">here</a>.</p>
+        <div class="jumbotron">
+            <div class="container">
+                <p>No profile</p>
+                <div class="login" id="login0"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with inCommon as metadata source</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: incommon-wayfinder</li>
+                </ul>
+                <div class="login" id="login05"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with both SWAMID and eduGAIN as metadata source</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: swamid-edugain</li>
+                </ul>
+                <div class="login" id="login06"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with SWAMID as metadata source</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: swamid</li>
+                </ul>
+                <div class="login" id="login07"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with inCommon as registration authority</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: incommon-regauth</li>
+                </ul>
+                <div class="login" id="login08"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with SWAMID as registration authority</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: global1</li>
+                </ul>
+                <div class="login" id="login1"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that just selects 2 IdPs, the one of "Université de Picardie" and the one for "USF"</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: provider</li>
+                </ul>
+                <div class="login" id="login2"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>NON Strict profile that just selects the "eduID Sweden" IdP</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: other</li>
+                </ul>
+                <div class="login" id="login3"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects the IdP "Universidad Laica Eloy Alfaro de Manabí - uleam" (from the extra metadata provided by the profile) and in addition all IdPs with SWAMID as registration authority</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: customer</li>
+                </ul>
+                <div class="login" id="login4"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>NON Strict profile that selects all IdPs with SWAMID as registration authority</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: customer2</li>
+                </ul>
+                <div class="login" id="login5"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with registration authority other than SWAMID</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: customer3</li>
+                </ul>
+                <div class="login" id="login6"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>NON Strict profile that selects all IdPs with registration authority other than SWAMID</p>
+                <ul>
+                  <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
+                  <li>trustProfile: customer4</li>
+                </ul>
+                <div class="login" id="login7"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with entity category of "http://refeds.org/category/research-and-scholarship" or "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"</p>
+                <ul>
+                  <li>entityID: https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp</li>
+                  <li>trustProfile: customer</li>
+                </ul>
+                <div class="login" id="login8"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>NON Strict profile that selects all IdPs with entity category of "http://refeds.org/category/research-and-scholarship" or "http://www.geant.net/uri/dataprotection-code-of-conduct/v1"</p>
+                <ul>
+                  <li>entityID: https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp</li>
+                  <li>trustProfile: customer2</li>
+                </ul>
+                <div class="login" id="login9"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs that do not have the entity category "http://refeds.org/category/research-and-scholarship"</p>
+                <ul>
+                  <li>entityID: https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp</li>
+                  <li>trustProfile: customer3</li>
+                </ul>
+                <div class="login" id="login10"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>NON Strict profile that selects all IdPs that do not have the entity category "http://refeds.org/category/research-and-scholarship"</p>
+                <ul>
+                  <li>entityID: https://box-idp.nordu.net/simplesaml/module.php/saml/sp/metadata.php/default-sp</li>
+                  <li>trustProfile: customer4</li>
+                </ul>
+                <div class="login" id="login11"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>Strict profile that selects all IdPs with SWAMID as registration authority excluding "eduID Sweden"</p>
+                <ul>
+                  <li>entityID: https://csucoast.infoready4.com/shibboleth</li>
+                  <li>trustProfile: customer</li>
+                </ul>
+                <div class="login" id="login12"></div>
+            </div>
+            <hr />
+            <div class="container">
+                <p>NON strict profile that selects the 29mayis.edu.tr IdP</p>
+                <ul>
+                  <li>entityID: http://fs.liu.se/adfs/services/trust</li>
+                  <li>trustProfile: other</li>
+                </ul>
+                <div class="login" id="login13"></div>
+            </div>
+            <hr />
+        </div>
+
+        <div class="container">
+            To use in your web application include the following code:
+            <pre><code>
+&lt;script src="<%= process.env.BASE_URL %>thiss.js"/&gt;
+&lt;div id="login"&gt;&nbsp;&lt;/div&gt;
+&lt;script&gt;
+    window.onload = function() {
+       thiss.DiscoveryComponent({
+           loginInitiatorURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
+           entityID: 'https://localhost/shibboleth',
+           trustProfile: 'example-profile'
+       }).render('#login');
+    };
+&lt;/script&gt;
+            </code></pre>
+        </div>
+    </main>
+</body>

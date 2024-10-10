@@ -62,7 +62,7 @@ cover:
 	@npm run cover
 
 setup:
-	@npm install
+	@npm ci
 
 docker: standalone_in_docker docker_build
 
