@@ -102,3 +102,9 @@ Version 1.6.7
 -------------
 
 * nginx.conf fix
+
+Version 2.0.0
+-------------
+
+* Using trust profiles to filter results
+* Using DiscoveryResponse in SP md to warn users of unknown return url
