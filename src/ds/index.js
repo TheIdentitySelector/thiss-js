@@ -140,7 +140,7 @@ $(document).ready(function() {
         let back;
         if ($(visibleChild).attr("id") === "choose") {
             back = localization.translateString('filter-warning-back-to-choose');
-        } else if (visibleChild.attr("id") === "search") {
+        } else if ($(visibleChild).attr("id") === "search") {
             back = localization.translateString('filter-warning-no-search');
         }
         $("#warning-done-button").text(back);
