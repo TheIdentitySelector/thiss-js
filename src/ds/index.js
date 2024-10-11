@@ -138,7 +138,7 @@ $(document).ready(function() {
         $("#dsclient").addClass('d-none');
         $("#discovery-response-warning").removeClass("d-none");
         let back;
-        if (visibleChild.attr("id") === "choose") {
+        if ($(visibleChild).attr("id") === "choose") {
             back = localization.translateString('filter-warning-back-to-choose');
         } else if (visibleChild.attr("id") === "search") {
             back = localization.translateString('filter-warning-no-search');
