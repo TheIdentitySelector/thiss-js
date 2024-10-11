@@ -727,7 +727,13 @@ i.list-item-warning {
   }
 }
 
-.institution-remove-cross-wrapper {
-  height: 60px;
-  width: 40px;
+.institution-remove {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .institution-remove-cross-wrapper {
+    height: 60px;
+    width: 40px;
+  }
 }
