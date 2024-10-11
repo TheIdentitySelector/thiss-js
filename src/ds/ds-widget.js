@@ -217,7 +217,7 @@ jQuery(function ($) {
                 e.preventDefault();
             });
 
-            $('body').on('click', '.remove', function (e) {
+            $('body').on('click', '.institution-remove-cross-wrapper', function (e) {
                 e.stopPropagation();
                 let entity_element = $(this).closest(obj.options.entity_selector);
                 obj._count = entity_element.siblings().length + 1;
