@@ -228,7 +228,6 @@ jQuery(function ($) {
                         entity_element.remove();
                     }).then(function() {
                         obj._count -= 1;
-                        obj._after(obj._count)
                     });
                 }
             });
