@@ -36,6 +36,8 @@
   "filter-warning-no-access": "indicated your chosen institution may not have access to this service.",
   "filter-warning-choose-alternative": "Choose an alternative institute or try",
   "filter-warning-other-options": "other access options",
+  "filter-warning-back-to-choose": "Go back to Edit institutions",
+  "filter-warning-back-to-search": "Go back to Search",
   "ds-unable-to-verify-return": "Unable to verify returning website",
   "ds-search-unable-to-verify": "Unable to verify returning site",
   "ds-search-unable-to-verify-long": "We are unable to verify if you will be sent back to",

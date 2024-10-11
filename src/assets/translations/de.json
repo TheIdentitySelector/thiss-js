@@ -36,6 +36,8 @@
   "filter-warning-no-access": "",
   "filter-warning-choose-alternative": "",
   "filter-warning-other-options": "",
+  "filter-warning-back-to-choose": "",
+  "filter-warning-back-to-search": "",
   "ds-unable-to-verify-return": "",
   "ds-search-unable-to-verify": "",
   "ds-search-unable-to-verify-long": "",
