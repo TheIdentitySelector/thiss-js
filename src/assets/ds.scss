@@ -78,11 +78,13 @@ a {
 
   &:hover {
     background-color: var(--secondary-blue);
+    color: var(--white-two);
   }
 
   &:active {
     background-color: var(--primary-blue);
     border: 2px solid var(--secondary-blue);
+    color: var(--white-two);
   }
 }
 
