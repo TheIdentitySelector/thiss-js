@@ -217,9 +217,10 @@ jQuery(function ($) {
                 e.preventDefault();
             });
 
-            $('body').on('click', '.remove', function (e) {
+            $('body').on('click', '.institution-remove-cross-wrapper', function (e) {
                 e.stopPropagation();
-                let entity_element = $(this).closest(obj.options.entity_selector);
+                const entity_element = $(this).closest(obj.options.entity_selector);
+                const listItem = $(this).closest('li.list-item');
                 obj._count = entity_element.siblings().length + 1;
                 let entity_id = entity_element.attr('data-href');
 
@@ -228,7 +229,7 @@ jQuery(function ($) {
                         entity_element.remove();
                     }).then(function() {
                         obj._count -= 1;
-                        obj._after(obj._count)
+                        listItem.remove();
                     });
                 }
             });

@@ -108,3 +108,8 @@ Version 2.0.0
 
 * Using trust profiles to filter results
 * Using DiscoveryResponse in SP md to warn users of unknown return url
+
+Version 2.0.1
+-------------
+
+* Accessibility and style fixes

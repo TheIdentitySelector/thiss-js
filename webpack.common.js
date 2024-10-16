@@ -125,7 +125,7 @@ module.exports = {
         })
     ],
     output: {
-        filename: '[name].js',
+        filename: '[name]_[contenthash].js',
         chunkFilename: "[name]_[contenthash].js",
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/",

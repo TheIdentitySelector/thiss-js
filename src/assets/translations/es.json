@@ -36,6 +36,8 @@
   "filter-warning-no-access": "indica que la institución seleccionada puede no proveer acceso.",
   "filter-warning-choose-alternative": "Elije una institución alternativa o intenta",
   "filter-warning-other-options": "otras opciones de acceso",
+  "filter-warning-back-to-choose": "Volver a editar instituciones",
+  "filter-warning-back-to-search": "Volver a la búsqueda",
   "ds-unable-to-verify-return": "Incapaz de verificar el sitio web de retorno",
   "ds-search-unable-to-verify": "Incapaz de verificar el sitio de retorno",
   "ds-search-unable-to-verify-long": "Somos incapaces de verificar que serás enviado a",

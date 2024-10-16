@@ -134,8 +134,16 @@ $(document).ready(function() {
 
     $("#discovery-response-warning-header-link").on('click',function(event) {
         event.preventDefault();
+        const visibleChild = $("#dsclient").children().not(".d-none")[0];
         $("#dsclient").addClass('d-none');
         $("#discovery-response-warning").removeClass("d-none");
+        let back;
+        if ($(visibleChild).attr("id") === "choose") {
+            back = localization.translateString('filter-warning-back-to-choose');
+        } else if ($(visibleChild).attr("id") === "search") {
+            back = localization.translateString('filter-warning-no-search');
+        }
+        $("#warning-done-button").text(back);
     });
 
     $("#warning-done-button").on('click',function(event) {
