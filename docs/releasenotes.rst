@@ -113,3 +113,8 @@ Version 2.0.1
 -------------
 
 * Accessibility and style fixes
+
+Version 2.0.2
+-------------
+
+* Bugfixes

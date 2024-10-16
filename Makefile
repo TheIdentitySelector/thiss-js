@@ -1,4 +1,4 @@
-VERSION:=2.0.1
+VERSION:=2.0.2
 PWD:=$(shell pwd)
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
