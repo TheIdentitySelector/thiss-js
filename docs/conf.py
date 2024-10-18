@@ -24,9 +24,9 @@ copyright = u'2019, Swedish University Network (SUNET)'
 author = u'Leif Johansson'
 
 # The short X.Y version
-version = u'1.0'
+version = u'2.0'
 # The full version, including alpha/beta/rc tags
-release = u'1.6.4'
+release = u'2.0.2'
 js_source_path = '../src'
 
 # -- General configuration ---------------------------------------------------

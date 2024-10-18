@@ -1,7 +1,7 @@
 builders:
   - script
 triggers:
-  cron: "@weekly"
+  cron: "@hourly"
 slack:
   room: "devops-builds"
 clean_workspace: true

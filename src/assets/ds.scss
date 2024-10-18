@@ -78,11 +78,13 @@ a {
 
   &:hover {
     background-color: var(--secondary-blue);
+    color: var(--white-two);
   }
 
   &:active {
     background-color: var(--primary-blue);
     border: 2px solid var(--secondary-blue);
+    color: var(--white-two);
   }
 }
 
@@ -724,5 +726,16 @@ i.list-item-warning {
     .discovery-response-warning-text {
       margin-left: 2rem;
     }
+  }
+}
+
+.institution-remove {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  .institution-remove-cross-wrapper {
+    height: 60px;
+    width: 40px;
   }
 }
