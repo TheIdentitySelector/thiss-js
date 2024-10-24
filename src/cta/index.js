@@ -124,17 +124,13 @@ dsbutton.hidden = true;
 let entity_id = null;
 
 button.addEventListener('click', function(event) {
-    event.preventDefault();
-    const doDS = () => {
-        if (entity_id !== null) { // return the discovery response
-            ds.do_saml_discovery_response(entity_id).then(item => {
-               discovery_response(item.entity);
-            });
-        } else { // off to DS
-            discovery_request();
-        }
-    };
-    ds.storageAccessHandler(doDS);
+    if (entity_id !== null) { // return the discovery response
+        ds.do_saml_discovery_response(entity_id).then(item => {
+           discovery_response(item.entity);
+        });
+    } else { // off to DS
+        discovery_request();
+    }
 });
 
 button.addEventListener('keypress', function (event) {
