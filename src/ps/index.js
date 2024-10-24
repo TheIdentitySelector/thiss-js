@@ -243,3 +243,5 @@ postRobot.on('remove', {window: window.parent}, function(event) {
         storage.remove(entity_id.hexEncode());
     }
 });
+
+postRobot.send(window.parent, 'init');

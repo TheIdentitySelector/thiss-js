@@ -1,6 +1,7 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
 import 'core-js/actual';
+const postRobot = require("post-robot");
 
 library.add(faPen);
 dom.watch();
@@ -162,29 +163,31 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-await timeout(5000);
 
-Promise.all(start).then(function() {
-    ds.ps.entities(context).then(result => result.data).then(function(items) {
-        const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
-        Promise.allSettled(item_promises).then(results => {
-            let found = false;
-            results.forEach(result => {
-                if (!found && result.status === 'fulfilled') {
-                    found = true;
-                    const item = result.value;
-                    document.getElementById('title').innerText = item.title;
-                    entity_id = item.entity_id || item.entityID;
-                    document.getElementById('headline').innerText = localization.translateString('cta-button-header');
-                    document.getElementById('headline').className = "ra21-button-text-secondary";
-                    dsbutton.hidden = false;
+postRobot.on('init', {window: ds.ps.dst}, function(event) {
+
+    Promise.all(start).then(function() {
+        ds.ps.entities(context).then(result => result.data).then(function(items) {
+            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+            Promise.allSettled(item_promises).then(results => {
+                let found = false;
+                results.forEach(result => {
+                    if (!found && result.status === 'fulfilled') {
+                        found = true;
+                        const item = result.value;
+                        document.getElementById('title').innerText = item.title;
+                        entity_id = item.entity_id || item.entityID;
+                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                        document.getElementById('headline').className = "ra21-button-text-secondary";
+                        dsbutton.hidden = false;
+                    }
+                });
+                if (!found) {
+                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
                 }
-            });
-            if (!found) {
-                document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-            }
-        })
-    }).then(() => ds.ps.expire()).catch(ex => {
-        document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+            })
+        }).then(() => ds.ps.expire()).catch(ex => {
+            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+        });
     });
 });
