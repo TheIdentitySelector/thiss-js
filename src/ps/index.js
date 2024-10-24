@@ -1,6 +1,8 @@
 const postRobot = require("post-robot");
 import 'core-js/actual';
 
+import getStorages from "../storage/index.js";
+
 let whitelist = [];
 let expire_enabled = false;
 if (process.env.WHITELIST && process.env.WHITELIST.length > 0) {
@@ -11,7 +13,7 @@ if (process.env.EXPIRE_ENABLED) {
     expire_enabled = (v === 'true') || (v === 'on') || (v === '1')
 }
 
-const Storages = require('@theidentityselector/js-storage');
+const Storages = await getStorages();
 
 const max_cache_time = 30  * 1000;
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
