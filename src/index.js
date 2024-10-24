@@ -1,15 +1,29 @@
 import {DiscoveryComponent} from "./component"; /* webpackPrefetch: true */
+import {StdDiscoveryComponent} from "./ds-std/index"; /* webpackPrefetch: true */
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/index.scss';
 import './assets/sa-black.svg'
 
 window.onload = function() {
-    DiscoveryComponent({
+    StdDiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
         entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login0');
+    DiscoveryComponent({
+        loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
+        backgroundColor: '#e9ecef',
+        entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
+        discoveryResponse: `${process.env.BASE_URL}result`
+    }).render('#login01');
+    StdDiscoveryComponent({
+        loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
+        backgroundColor: '#e9ecef',
+        entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
+        trustProfile: 'incommon-wayfinder',
+        discoveryResponse: `${process.env.BASE_URL}result`
+    }).render('#login04');
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
