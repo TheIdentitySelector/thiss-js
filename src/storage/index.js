@@ -27,7 +27,6 @@ async function getStorageHandle() {
   if (await document.hasStorageAccess()) {
     console.log('access has already been granted');
     const handle = await document.requestStorageAccess({all: true});
-        console.log(`requestStorageAccess return ${handle.localStorage.getItem(handle.localStorage.key(0))}`);
     return handle || window;
   }
 
