@@ -62,8 +62,82 @@ if (typeof discovery_response !== 'function') {
     };
 }
 
+async function hasSAPerm() {
+  // Check if Storage Access API is supported
+  if (!document.hasStorageAccess) {
+    // Storage Access API is not supported so best we can do is
+    // hope it's an older browser that doesn't block 3P cookies.
+    return true;
+  }
+  // Check if access has already been granted
+  if (await document.hasStorageAccess()) {
+    return true;
+  }
+  // Check the storage-access permission
+  // Wrap this in a try/catch for browsers that support the
+  // Storage Access API but not this permission check
+  // (e.g. Safari and older versions of Firefox).
+  let permission;
+  try {
+    permission = await navigator.permissions.query(
+      {name: 'storage-access'}
+    );
+  } catch (error) {
+    // storage-access permission not supported. Assume no cookie access.
+    return false;
+  }
+
+    if (permission) {
+    if (permission.state === 'granted') {
+      // Permission has previously been granted so can just call
+      // requestStorageAccess() without a user interaction and
+      // it will resolve automatically.
+        return true;
+    } else if (permission.state === 'prompt') {
+      // Need to call requestStorageAccess() after a user interaction
+      // (potentially with a prompt). Can't do anything further here,
+      // so handle this in the click handler.
+      return false;
+    } else if (permission.state === 'denied') {
+      // Currently not used. See:
+      // https://github.com/privacycg/storage-access/issues/149
+      return false;
+    }
+  }
+  // By default return false, though should really be caught by one of above.
+  return false;
+}
+
+const recoverPersisted = (start, context) => {
+    Promise.all(start).then(function() {
+        ds.ps.entities(context).then(result => result.data).then(function(items) {
+            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+            Promise.allSettled(item_promises).then(results => {
+                let found = false;
+                results.forEach(result => {
+                    if (!found && result.status === 'fulfilled') {
+                        found = true;
+                        const item = result.value;
+                        document.getElementById('title').innerText = item.title;
+                        entity_id = item.entity_id || item.entityID;
+                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                        document.getElementById('headline').className = "ra21-button-text-secondary";
+                        dsbutton.hidden = false;
+                    }
+                });
+                if (!found) {
+                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+                }
+            })
+        }).then(() => ds.ps.expire()).catch(ex => {
+            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+        });
+    });
+}
+
 let button = document.getElementById('idpbutton');
 let dsbutton = document.getElementById('dsbutton');
+let rembutton = document.getElementById('rememberme-checkbox');
 let main = document.getElementById('main');
 
 main.style.background = urlParams.get("backgroundColor");
@@ -124,6 +198,9 @@ if (urlParams.get("pinned")) {
     start.push(ds.pin(urlParams.get("pinned")));
 }
 
+if (await hasSAPerm())
+    rembutton.hidden = true;
+
 dsbutton.hidden = true;
 let entity_id = null;
 
@@ -133,10 +210,14 @@ button.addEventListener('click', function(event) {
            discovery_response(item.entity);
         });
     } else { // off to DS
-      console.log(`Entrring into SAA handler`);
         ds.storageAccessHandler(discovery_request);
         //discovery_request();
     }
+});
+
+rembutton.addEventListener('click', function(event) {
+    ds.storageAccessHandler(() => {});
+    recoverPersisted(start, context);
 });
 
 button.addEventListener('keypress', function (event) {
@@ -163,31 +244,6 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 postRobot.on('init', {window: ds.ps.dst}, function(event) {
-
-    Promise.all(start).then(function() {
-        ds.ps.entities(context).then(result => result.data).then(function(items) {
-            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
-            Promise.allSettled(item_promises).then(results => {
-                let found = false;
-                results.forEach(result => {
-                    if (!found && result.status === 'fulfilled') {
-                        found = true;
-                        const item = result.value;
-                        document.getElementById('title').innerText = item.title;
-                        entity_id = item.entity_id || item.entityID;
-                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
-                        document.getElementById('headline').className = "ra21-button-text-secondary";
-                        dsbutton.hidden = false;
-                    }
-                });
-                if (!found) {
-                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-                }
-            })
-        }).then(() => ds.ps.expire()).catch(ex => {
-            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-        });
-    });
+    recoverPersisted(start, context);
 });
