@@ -118,3 +118,8 @@ Version 2.0.2
 -------------
 
 * Bugfixes
+
+Version 2.1.1
+-------------
+
+* Using the Storage Access API in standard mode
