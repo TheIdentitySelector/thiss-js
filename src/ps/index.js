@@ -13,7 +13,7 @@ if (process.env.EXPIRE_ENABLED) {
     expire_enabled = (v === 'true') || (v === 'on') || (v === '1')
 }
 
-const Storages = await getStorages();
+let Storages = await getStorages();
 
 const max_cache_time = 30  * 1000;
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -199,7 +199,8 @@ postRobot.on('expire', {window: window.parent}, function(event) {
     }
 });
 
-postRobot.on('entities', {window: window.parent}, function(event) {
+postRobot.on('entities', {window: window.parent}, async function(event) {
+    Storages = await getStorages();
     check_access(event);
     let storage = _ctx(event.data.context);
     let count = event.data.count;
