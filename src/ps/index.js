@@ -1,6 +1,7 @@
 const postRobot = require("post-robot");
 import 'core-js/actual';
 
+import {storageAccessHandler} from "@theidentityselector/thiss-ds/src/discovery.js";
 import getStorages from "../storage/index.js";
 
 let whitelist = [];
@@ -171,6 +172,12 @@ function set_entity(storage, entity) {
     item = clean_item(item);
     return storage.set(id, item)
 }
+
+const advCheckbox = document.getElementById('ps-checkbox-adv');
+
+advCheckbox.addEventListener('click', (event) => {
+    storageAccessHandler(() => postRobot.send(window.parent, 'init'));
+});
 
 postRobot.on('persist', {window: window.parent}, function(event) {
     check_access(event);

@@ -6,7 +6,7 @@ const postRobot = require("post-robot");
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url, json_mdq_pre_get} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {DiscoveryService, ds_response_url, json_mdq_pre_get, storageAccessHandler} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -137,7 +137,6 @@ const recoverPersisted = (start, context) => {
 
 let button = document.getElementById('idpbutton');
 let dsbutton = document.getElementById('dsbutton');
-let rembutton = document.getElementById('rememberme-checkbox');
 let main = document.getElementById('main');
 
 main.style.background = urlParams.get("backgroundColor");
@@ -198,9 +197,6 @@ if (urlParams.get("pinned")) {
     start.push(ds.pin(urlParams.get("pinned")));
 }
 
-if (await hasSAPerm())
-    rembutton.hidden = true;
-
 dsbutton.hidden = true;
 let entity_id = null;
 
@@ -210,14 +206,9 @@ button.addEventListener('click', function(event) {
            discovery_response(item.entity);
         });
     } else { // off to DS
-        ds.storageAccessHandler(discovery_request);
+        storageAccessHandler(discovery_request);
         //discovery_request();
     }
-});
-
-rembutton.addEventListener('click', function(event) {
-    ds.storageAccessHandler(() => {});
-    recoverPersisted(start, context);
 });
 
 button.addEventListener('keypress', function (event) {
