@@ -6,7 +6,8 @@ const postRobot = require("post-robot");
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url, json_mdq_pre_get, storageAccessHandler} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {DiscoveryService, ds_response_url, json_mdq_pre_get} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {requestingStorageAccess} from "../saa.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -60,52 +61,6 @@ if (typeof discovery_response !== 'function') {
         let params = {'return': discovery_response_url};
         return window.top.location.href = ds_response_url(entity, params);
     };
-}
-
-async function hasSAPerm() {
-  // Check if Storage Access API is supported
-  if (!document.hasStorageAccess) {
-    // Storage Access API is not supported so best we can do is
-    // hope it's an older browser that doesn't block 3P cookies.
-    return true;
-  }
-  // Check if access has already been granted
-  if (await document.hasStorageAccess()) {
-    return true;
-  }
-  // Check the storage-access permission
-  // Wrap this in a try/catch for browsers that support the
-  // Storage Access API but not this permission check
-  // (e.g. Safari and older versions of Firefox).
-  let permission;
-  try {
-    permission = await navigator.permissions.query(
-      {name: 'storage-access'}
-    );
-  } catch (error) {
-    // storage-access permission not supported. Assume no cookie access.
-    return false;
-  }
-
-    if (permission) {
-    if (permission.state === 'granted') {
-      // Permission has previously been granted so can just call
-      // requestStorageAccess() without a user interaction and
-      // it will resolve automatically.
-        return true;
-    } else if (permission.state === 'prompt') {
-      // Need to call requestStorageAccess() after a user interaction
-      // (potentially with a prompt). Can't do anything further here,
-      // so handle this in the click handler.
-      return false;
-    } else if (permission.state === 'denied') {
-      // Currently not used. See:
-      // https://github.com/privacycg/storage-access/issues/149
-      return false;
-    }
-  }
-  // By default return false, though should really be caught by one of above.
-  return false;
 }
 
 const recoverPersisted = (start, context) => {
@@ -206,7 +161,7 @@ button.addEventListener('click', function(event) {
            discovery_response(item.entity);
         });
     } else { // off to DS
-        storageAccessHandler(discovery_request);
+        requestingStorageAccess(discovery_request);
         //discovery_request();
     }
 });
