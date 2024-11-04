@@ -6,7 +6,8 @@ const postRobot = require("post-robot");
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url, json_mdq_pre_get} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {requestingStorageAccess} from "../saa.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -60,6 +61,33 @@ if (typeof discovery_response !== 'function') {
         let params = {'return': discovery_response_url};
         return window.top.location.href = ds_response_url(entity, params);
     };
+}
+
+const recoverPersisted = (start, context) => {
+    Promise.all(start).then(function() {
+        ds.ps.entities(context).then(result => result.data).then(function(items) {
+            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+            Promise.allSettled(item_promises).then(results => {
+                let found = false;
+                results.forEach(result => {
+                    if (!found && result.status === 'fulfilled') {
+                        found = true;
+                        const item = result.value;
+                        document.getElementById('title').innerText = item.title;
+                        entity_id = item.entity_id || item.entityID;
+                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                        document.getElementById('headline').className = "ra21-button-text-secondary";
+                        dsbutton.hidden = false;
+                    }
+                });
+                if (!found) {
+                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+                }
+            })
+        }).then(() => ds.ps.expire()).catch(ex => {
+            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+        });
+    });
 }
 
 let button = document.getElementById('idpbutton');
@@ -117,7 +145,7 @@ if (urlParams.get("MDQ")) {
     mdq = urlParams.get("MDQ");
 }
 
-let ds = new DiscoveryService(mdq, persistence, context, entityID, trustProfile);
+let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
 
 let start = [];
 if (urlParams.get("pinned")) {
@@ -133,8 +161,7 @@ button.addEventListener('click', function(event) {
            discovery_response(item.entity);
         });
     } else { // off to DS
-      console.log(`Entrring into SAA handler`);
-        ds.storageAccessHandler(discovery_request);
+        requestingStorageAccess(discovery_request);
         //discovery_request();
     }
 });
@@ -163,31 +190,6 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 postRobot.on('init', {window: ds.ps.dst}, function(event) {
-
-    Promise.all(start).then(function() {
-        ds.ps.entities(context).then(result => result.data).then(function(items) {
-            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
-            Promise.allSettled(item_promises).then(results => {
-                let found = false;
-                results.forEach(result => {
-                    if (!found && result.status === 'fulfilled') {
-                        found = true;
-                        const item = result.value;
-                        document.getElementById('title').innerText = item.title;
-                        entity_id = item.entity_id || item.entityID;
-                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
-                        document.getElementById('headline').className = "ra21-button-text-secondary";
-                        dsbutton.hidden = false;
-                    }
-                });
-                if (!found) {
-                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-                }
-            })
-        }).then(() => ds.ps.expire()).catch(ex => {
-            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-        });
-    });
+    recoverPersisted(start, context);
 });

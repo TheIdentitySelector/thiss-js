@@ -1,6 +1,7 @@
 const postRobot = require("post-robot");
 import 'core-js/actual';
 
+import {requestingStorageAccess, hasSAPerm} from "../saa.js";
 import getStorages from "../storage/index.js";
 
 let whitelist = [];
@@ -13,7 +14,10 @@ if (process.env.EXPIRE_ENABLED) {
     expire_enabled = (v === 'true') || (v === 'on') || (v === '1')
 }
 
-const Storages = await getStorages();
+let Storages = await getStorages();
+let globalStorages = await getStorages(true);
+const storagePerm = await hasSAPerm();
+let doPersist = false;
 
 const max_cache_time = 30  * 1000;
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -85,6 +89,16 @@ function _ctx(context) {
         context = process.env.DEFAULT_CONTEXT
     }
     let ns = Storages.initNamespaceStorage(context);
+    let storage = ns.localStorage;
+    storage.set('_name', context);
+    return storage;
+}
+
+function _ctx_global(context) {
+    if (!context) {
+        context = process.env.DEFAULT_CONTEXT
+    }
+    let ns = globalStorages.initNamespaceStorage(context);
     let storage = ns.localStorage;
     storage.set('_name', context);
     return storage;
@@ -172,7 +186,40 @@ function set_entity(storage, entity) {
     return storage.set(id, item)
 }
 
+const advCheckbox = document.getElementById('ps-checkbox-adv');
+
+if (advCheckbox) {
+    advCheckbox.addEventListener('click', async (event) => {
+
+        const global_storage = _ctx_global();
+        let stored_institutions = global_storage.keys().filter(k => k !== undefined && k !== '_name')
+            .map(k => clean_item(get_entity(global_storage, k)));
+
+        requestingStorageAccess(async () => {
+            Storages = await getStorages();
+            const storage = _ctx();
+
+            stored_institutions.forEach(ins => {
+                set_entity(storage, ins);
+            });
+            postRobot.send(window.parent, 'init')
+            postRobot.send(window.parent, 'start')
+        });
+        doPersist = advCheckbox.checked;
+    });
+    if (storagePerm) {
+        advCheckbox.checked = true;
+        doPersist = true;
+    } else {
+        advCheckbox.checked = false;
+        doPersist = false;
+    }
+}
+
 postRobot.on('persist', {window: window.parent}, function(event) {
+    if (!doPersist) {
+        return
+    }
     check_access(event);
     let entities = event.data.entities;
     let storage = _ctx(event.data.context);
@@ -185,10 +232,15 @@ postRobot.on('persist', {window: window.parent}, function(event) {
 });
 
 postRobot.on('update', {window: window.parent}, function(event) {
+    if (!doPersist) {
+        return
+    }
     check_access(event);
     let entity = event.data.entity;
     let storage = _ctx(event.data.context);
-    return set_entity(storage, entity);
+    const ret = set_entity(storage, entity);
+    postRobot.send(window.parent, 'start');
+    return ret;
 });
 
 postRobot.on('expire', {window: window.parent}, function(event) {
@@ -196,20 +248,36 @@ postRobot.on('expire', {window: window.parent}, function(event) {
         check_access(event);
         let storage = _ctx(event.data.context);
         gc(storage);
+        let global_storage = _ctx_global(event.data.context);
+        gc(global_storage);
     }
 });
 
-postRobot.on('entities', {window: window.parent}, function(event) {
+postRobot.on('entities', {window: window.parent}, async function(event) {
+    Storages = await getStorages();
     check_access(event);
     let storage = _ctx(event.data.context);
+    let global_storage = _ctx_global(event.data.context);
     let count = event.data.count;
     if (count === undefined) {
         count = 3;
     }
 
     let now = _timestamp();
-    const stored_institutions = storage.keys().filter(k => k !== undefined && k !== '_name')
-        .map(k => clean_item(get_entity(storage, k)))
+    let stored_institutions = storage.keys().filter(k => k !== undefined && k !== '_name')
+        .map(k => clean_item(get_entity(storage, k)));
+    
+    let global_stored_institutions = global_storage.keys().filter(k => k !== undefined && k !== '_name')
+        .map(k => clean_item(get_entity(global_storage, k)));
+
+    const dedup_institutions = stored_institutions.map(ins => ins.entityID);
+    global_stored_institutions.forEach(ins => {
+        if (!dedup_institutions.includes(ins.entityID)) {
+            stored_institutions.push(ins);
+        }
+    });
+    
+    stored_institutions = stored_institutions
         .sort(function(a,b) {
             return a.last_use - b.last_use;
         }).slice(-count);
@@ -220,6 +288,7 @@ postRobot.on('entities', {window: window.parent}, function(event) {
 postRobot.on('entity', {window: window.parent}, function(event) {
     check_access(event);
     let storage = _ctx(event.data.context);
+    let global_storage = _ctx_global(event.data.context);
     let entity_id = event.data.entity_id;
     if (!entity_id) {
         throw new Error("Unable to find entity_id in request")
@@ -231,16 +300,24 @@ postRobot.on('entity', {window: window.parent}, function(event) {
         item.last_use = now;
         storage.set(id, clean_item(item));
     }
-    return item;
+    let item_global = get_entity(global_storage, id);
+    if (item_global) {
+        let now = _timestamp();
+        item.last_use = now;
+        global_storage.set(id, clean_item(item));
+    }
+    return item || item_global;
 });
 
 postRobot.on('remove', {window: window.parent}, function(event) {
     check_access(event);
     let storage = _ctx(event.data.context);
+    let global_storage = _ctx_global(event.data.context);
     let entity_id = event.data.entity_id;
     if (entity_id === undefined) {
     } else {
         storage.remove(entity_id.hexEncode());
+        global_storage.remove(entity_id.hexEncode());
     }
 });
 

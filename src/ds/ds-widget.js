@@ -1,4 +1,4 @@
-import {DiscoveryService, json_mdq_search, parse_qs} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_search, parse_qs, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
 import Localization from '../localization.js'
 
@@ -183,7 +183,7 @@ jQuery(function ($) {
         _update: function () {
             let obj = this;
             obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence,
-                obj.options.context, obj.options.entityID, obj.options.trustProfile);
+                obj.options.context, {entityID: obj.options.entityID, trustProfile: obj.options.trustProfile});
             obj._count = 0;
             let top_element = obj.element;
 

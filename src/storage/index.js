@@ -13,74 +13,17 @@
  */
 
 import Cookies from "js-cookie";
+import {getStorageHandle, hasSAPerm} from "../saa.js";
 
-async function getStorageHandle() {
-  // Check if Storage Access API is supported
-  if (!document.requestStorageAccess) {
-    // Storage Access API is not supported so best we can do is
-    // hope it's an older browser that doesn't block 3P cookies.
-    console.log('API not supported');
-    return window;
-  }
+async function getStorages (global = false) {
 
-  // Check if access has already been granted
-  if (await document.hasStorageAccess()) {
-    console.log('access has already been granted');
-    const handle = await document.requestStorageAccess({all: true});
-    return handle || window;
-  }
-
-  // Check the storage-access permission
-  // Wrap this in a try/catch for browsers that support the
-  // Storage Access API but not this permission check
-  // (e.g. Safari and older versions of Firefox).
-  let permission;
-  try {
-    permission = await navigator.permissions.query(
-      {name: 'storage-access'}
-    );
-  } catch (error) {
-    // storage-access permission not supported. Assume no cookie access.
-    console.log('storage-access permission not supported');
-    return window;
-  }
-
-    if (permission) {
-    if (permission.state === 'granted') {
-      // Permission has previously been granted so can just call
-      // requestStorageAccess() without a user interaction and
-      // it will resolve automatically.
-      console.log('storage-access permission is granted');
-      try {
-        const handle = await document.requestStorageAccess({all: true});
-        console.log(`requestStorageAccess return ${handle.localStorage.getItem(handle.localStorage.key(0))}`);
-        return handle || window;
-      } catch (error) {
-        // This shouldn't really fail if access is granted, but return false
-        // if it does.
-        console.log(`error calling requestStorageAccess: ${error}`);
-        return window;
-      }
-    } else if (permission.state === 'prompt') {
-      // Need to call requestStorageAccess() after a user interaction
-      // (potentially with a prompt). Can't do anything further here,
-      // so handle this in the click handler.
-      console.log('storage-access permission is prompt');
-      return window;
-    } else if (permission.state === 'denied') {
-      // Currently not used. See:
-      // https://github.com/privacycg/storage-access/issues/149
-      console.log('storage-access permission is denied');
-      return window;
+    let handle;
+    if (global) {
+      handle = window;
+    } else {
+      handle = await getStorageHandle();
     }
-  }
-  // By default return false, though should really be caught by one of above.
-  return window;
-}
-
-async function getStorages () {
-
-    const handle = await getStorageHandle();
+    const storagePerm = await hasSAPerm();
 
     // Variables used by utilities functions (like isPlainObject...)
     var class2type = {};
@@ -408,6 +351,9 @@ async function getStorages () {
 
     // Test if storage is natively available on browser
     function _testStorage(name) {
+        if (storagePerm && handle.navigator) {
+            return false;
+        }
         var foo = 'jsapi';
         try {
             if (!handle[name]) {
@@ -586,7 +532,7 @@ async function getStorages () {
             _path: null,
             _domain: null,
             setItem: function (n, v) {
-                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain});
+                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain, partitioned: !storagePerm});
             },
             getItem: function (n) {
                 return Cookies.get(this._prefix + n);

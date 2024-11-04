@@ -11,6 +11,8 @@ module.exports = merge(common, {
     devServer: {
         client: {
             logging: 'verbose',
+            webSocketURL: 'ws://127.0.0.1:9000/ws',
+            overlay: false,
         },
        allowedHosts: 'all',
        static: { directory: path.join(__dirname,'dist'), },
