@@ -13,11 +13,17 @@
  */
 
 import Cookies from "js-cookie";
-import {getStorageHandle} from "../saa.js";
+import {getStorageHandle, hasSAPerm} from "../saa.js";
 
-async function getStorages () {
+async function getStorages (global = false) {
 
-    const handle = await getStorageHandle();
+    let handle;
+    if (global) {
+      handle = window;
+    } else {
+      handle = await getStorageHandle();
+    }
+    const storagePerm = await hasSAPerm();
 
     // Variables used by utilities functions (like isPlainObject...)
     var class2type = {};
@@ -345,7 +351,7 @@ async function getStorages () {
 
     // Test if storage is natively available on browser
     function _testStorage(name) {
-        if (handle.navigator) {
+        if (storagePerm && handle.navigator) {
             return false;
         }
         var foo = 'jsapi';
@@ -526,7 +532,7 @@ async function getStorages () {
             _path: null,
             _domain: null,
             setItem: function (n, v) {
-                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain});
+                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain, partitioned: !storagePerm});
             },
             getItem: function (n) {
                 return Cookies.get(this._prefix + n);

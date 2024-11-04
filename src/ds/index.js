@@ -36,8 +36,6 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {PersistenceService} from "@theidentityselector/thiss-ds/src/persist.js";
-import {DiscoveryService, parse_qs, json_mdq_search} from "@theidentityselector/thiss-ds/src/discovery.js";
 import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");

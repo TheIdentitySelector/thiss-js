@@ -5,7 +5,7 @@ import 'core-js/actual';
 library.add(faPen);
 dom.watch();
 
-import {DiscoveryService, ds_response_url, json_mdq_pre_get} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -113,7 +113,7 @@ if (window.xprops.MDQ) {
     mdq = window.xprops.MDQ;
 }
 
-let ds = new DiscoveryService(mdq, persistence, context, entityID, trustProfile);
+let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
 
 let start = [];
 if (window.xprops.pinned) {
