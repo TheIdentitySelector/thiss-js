@@ -128,3 +128,8 @@ Version 2.1.2
 -------------
 
 * Using the Storage Access API in advanced mode
+
+Version 2.1.3
+-------------
+
+* Fix storage problem when localStorage is not available and we fall back to using cookies
