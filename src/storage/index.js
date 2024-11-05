@@ -419,6 +419,9 @@ async function getStorages (global = false) {
     var storage_available = _testStorage('localStorage');
     var cookies_available = typeof Cookies !== 'undefined';
 
+    apis.storage_available = storage_available;
+    apis.cookies_available = cookies_available;
+
     // Namespace object
     var storage = {
         _type: '',

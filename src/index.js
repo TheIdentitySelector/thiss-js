@@ -32,7 +32,8 @@ window.onload = function() {
       "entity_id":"https://shibidp.cit.cornell.edu/idp/shibboleth",
       "entityID":"https://shibidp.cit.cornell.edu/idp/shibboleth",
       "strictProfile":true,
-      "hint":false
+      "hint":false,
+      "id": "{sha1}95fbb224d65c28db71176a3b8e58c38281675884"
     };
     const button = window.document.getElementById("adv-set-entity");
     button.addEventListener("click", (e) => {
@@ -60,13 +61,14 @@ window.onload = function() {
         trustProfile: 'incommon-wayfinder',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login05');
-    DiscoveryComponent({
+    DiscoveryComponent.render({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
         entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         trustProfile: 'swamid-edugain',
         discoveryResponse: `${process.env.BASE_URL}result`
-    }).render('#login06');
+    },
+    '#login06');
     DiscoveryComponent({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
