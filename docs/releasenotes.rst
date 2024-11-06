@@ -133,3 +133,8 @@ Version 2.1.3
 -------------
 
 * Fix storage problem when localStorage is not available and we fall back to using cookies
+
+Version 2.1.4
+-------------
+
+* Fix problem with docker
