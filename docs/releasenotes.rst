@@ -138,3 +138,8 @@ Version 2.1.4
 -------------
 
 * Fix problem with docker
+
+Version 2.1.5
+-------------
+
+* Bugfixes and cleanup
