@@ -31,6 +31,9 @@ class _DiscoveryComponent {
         frame.style['width'] = '350px';
         frame.style['border'] = '0px';
         frame.style['background-color'] = 'transparent';
+        frame.setAttribute('title', 'SeamlessAccess Button')
+        frame.setAttribute('aria-label', 'SeamlessAccess Button')
+        frame.setAttribute('role', 'presentation')
         frame.id = "ps_"+randID();
         const elem = window.document.body.querySelector(selector);
         elem.appendChild(frame);
