@@ -8,7 +8,7 @@ function randID() {
      return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
 
-const baseUrl = process.env.BASE_URL;
+const url = process.env.COMPONENT_URL;
 
 /**
  * A DiscoveryComponent class representing the business logic of a SAML disocvery service.
@@ -35,7 +35,7 @@ class _DiscoveryComponent {
         const elem = window.document.body.querySelector(selector);
         elem.appendChild(frame);
         const params = new URLSearchParams(this.props).toString();
-        frame.src = `${baseUrl}cta-std/?${params}`;
+        frame.src = `${baseUrl}?${params}`;
         return frame;
     }
 }

@@ -1,11 +1,13 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
 import 'core-js/actual';
+const postRobot = require("post-robot");
 
 library.add(faPen);
 dom.watch();
 
 import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {requestingStorageAccess} from "../saa.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -15,15 +17,18 @@ import '../assets/cta.scss'
 import '../assets/sa-icon.svg';
 import saWhite from '../assets/sa-white.svg';
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
-let context;
+let context = "thiss.io";
 let entityID = null;
 let trustProfile = null;
 let defaultText = "Your Institution";
-let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
-let discovery_request = window.xprops.discoveryRequest;
-let discovery_response = window.xprops.discoveryResponse;
+let login_initiator_url = urlParams.get("loginInitiatorURL") || urlParams.get("loginHandlerURL");
+let discovery_request = urlParams.get("discoveryRequest");
+let discovery_response = urlParams.get("discoveryResponse");
 
 if (!discovery_request)
     discovery_request = login_initiator_url;
@@ -31,11 +36,11 @@ if (!discovery_request)
 if (!discovery_response)
     discovery_response = login_initiator_url;
 
-if (window.xprops.entityID)
-    entityID = window.xprops.entityID;
+if (urlParams.get("entityID"))
+    entityID = urlParams.get("entityID");
 
-if (window.xprops.trustProfile)
-    trustProfile = window.xprops.trustProfile;
+if (urlParams.get("trustProfile"))
+    trustProfile = urlParams.get("trustProfile");
 
 if (entityID)
     discovery_request =  `${discovery_request}&entityID=${encodeURIComponent(entityID)}`
@@ -58,23 +63,50 @@ if (typeof discovery_response !== 'function') {
     };
 }
 
+const recoverPersisted = (start, context) => {
+    Promise.all(start).then(function() {
+        ds.ps.entities(context).then(result => result.data).then(function(items) {
+            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+            Promise.allSettled(item_promises).then(results => {
+                let found = false;
+                results.forEach(result => {
+                    if (!found && result.status === 'fulfilled') {
+                        found = true;
+                        const item = result.value;
+                        document.getElementById('title').innerText = item.title;
+                        entity_id = item.entity_id || item.entityID;
+                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                        document.getElementById('headline').className = "ra21-button-text-secondary";
+                        dsbutton.hidden = false;
+                    }
+                });
+                if (!found) {
+                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+                }
+            })
+        }).then(() => ds.ps.expire()).catch(ex => {
+            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+        });
+    });
+}
+
 let button = document.getElementById('idpbutton');
 let dsbutton = document.getElementById('dsbutton');
 let main = document.getElementById('main');
 
-main.style.background = window.xprops.backgroundColor;
-button.style.background = window.xprops.color;
-button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
-dsbutton.style.color = window.xprops.color;
+main.style.background = urlParams.get("backgroundColor");
+button.style.background = urlParams.get("color");
+button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
+dsbutton.style.color = urlParams.get("color");
 
 let ctaFocus = false
 
 const setCtaFocus = () => {
-    button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + window.xprops.color;
+    button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + urlParams.get("color");
 }
 
 const clearCtaFocus = () => {
-    button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+    button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
 }
 
 button.addEventListener('focus', (event) => {
@@ -99,25 +131,25 @@ button.addEventListener('mouseout', (event) => {
     }
 });
 
-const localization = new Localization(window.xprops.locale);
+const localization = new Localization(urlParams.get("locale"));
 
-if (window.xprops.persistenceURL) {
-    persistence = window.xprops.persistenceURL;
+if (urlParams.get("persistenceURL")) {
+    persistence = urlParams.get("persistenceURL");
 }
 
-if (window.xprops.context) {
-    context = window.xprops.context;
+if (urlParams.get("context")) {
+    context = urlParams.get("context");
 }
 
-if (window.xprops.MDQ) {
-    mdq = window.xprops.MDQ;
+if (urlParams.get("MDQ")) {
+    mdq = urlParams.get("MDQ");
 }
 
 let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
 
 let start = [];
-if (window.xprops.pinned) {
-    start.push(ds.pin(window.xprops.pinned));
+if (urlParams.get("pinned")) {
+    start.push(ds.pin(urlParams.get("pinned")));
 }
 
 dsbutton.hidden = true;
@@ -129,7 +161,8 @@ button.addEventListener('click', function(event) {
            discovery_response(item.entity);
         });
     } else { // off to DS
-        discovery_request();
+        requestingStorageAccess(discovery_request);
+        //discovery_request();
     }
 });
 
@@ -153,28 +186,10 @@ dsbutton.addEventListener('keypress', function (event) {
 if (!ds.ps.expire) {
     ds.ps.expire = function() {}
 }
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-Promise.all(start).then(function() {
-    ds.ps.entities(context).then(result => result.data).then(function(items) {
-        const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
-        Promise.allSettled(item_promises).then(results => {
-            let found = false;
-            results.forEach(result => {
-                if (!found && result.status === 'fulfilled') {
-                    found = true;
-                    const item = result.value;
-                    document.getElementById('title').innerText = item.title;
-                    entity_id = item.entity_id || item.entityID;
-                    document.getElementById('headline').innerText = localization.translateString('cta-button-header');
-                    document.getElementById('headline').className = "ra21-button-text-secondary";
-                    dsbutton.hidden = false;
-                }
-            });
-            if (!found) {
-                document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-            }
-        })
-    }).then(() => ds.ps.expire()).catch(ex => {
-          document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
-    });
+postRobot.on('init', {window: ds.ps.dst}, function(event) {
+    recoverPersisted(start, context);
 });
