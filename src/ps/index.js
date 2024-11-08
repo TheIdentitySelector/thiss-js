@@ -280,8 +280,9 @@ async function reduceCookieStorage(context) {
 }
 
 const advCheckbox = document.getElementById('ps-checkbox-adv');
+const checkboxVisible = advCheckbox.checkVisibility();
 
-if (advCheckbox) {
+if (checkboxVisible) {
     advCheckbox.addEventListener('click', async (event) => {
 
         const global_storage = _ctx_global();
@@ -313,7 +314,7 @@ if (advCheckbox) {
 }
 
 postRobot.on('persist', {window: window.parent}, function(event) {
-    if (!doPersist) {
+    if (checkboxVisible && !doPersist) {
         return
     }
     check_access(event);
@@ -328,7 +329,7 @@ postRobot.on('persist', {window: window.parent}, function(event) {
 });
 
 postRobot.on('update', {window: window.parent}, async function(event) {
-    if (!doPersist) {
+    if (checkboxVisible && !doPersist) {
         return
     }
     check_access(event);
