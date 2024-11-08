@@ -38,7 +38,7 @@ class _DiscoveryComponent {
         const elem = window.document.body.querySelector(selector);
         elem.appendChild(frame);
         const params = new URLSearchParams(this.props).toString();
-        frame.src = `${baseUrl}?${params}`;
+        frame.src = `${url}?${params}`;
         return frame;
     }
 }
