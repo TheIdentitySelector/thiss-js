@@ -29,6 +29,8 @@ class _DiscoveryComponent {
         let frame = window.document.createElement('iframe');
         frame.style['height'] = '85px';
         frame.style['width'] = '350px';
+        frame.style['border'] = '0px';
+        frame.style['background-color'] = 'transparent';
         frame.id = "ps_"+randID();
         const elem = window.document.body.querySelector(selector);
         elem.appendChild(frame);

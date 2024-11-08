@@ -242,7 +242,6 @@ async function get_entities(context) {
     const global_stored_institutions = [];
     for (let k of keys) {
         let item = await get_entity(global_storage, k);
-      console.log("3333333333333333333333333333333333333333333333333333", item);
         global_stored_institutions.push(clean_item(item));
     }
     const dedup_institutions = stored_institutions.map(ins => ins.entity.entityID);

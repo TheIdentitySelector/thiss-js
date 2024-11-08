@@ -53,6 +53,9 @@ jQuery(function ($) {
                             if (!this_ab.signal.aborted) {
                                 callback(data)
                             }
+                        })
+                        .catch(err => {
+                            console.log("EEEEEEEEEEERRRRRRRRRRRRRRORRRRRRRRR", err);
                         });
                 }
             }

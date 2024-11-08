@@ -53,12 +53,14 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null
     let trustProfile = null
+    let trustProfileExists = false
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
+        trustProfileExists = true
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -158,12 +160,8 @@ $(document).ready(function() {
         trustProfile: trustProfile,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
-        render_search_result: function(items) {
-            $("#searching").addClass('d-none');
+        _render_search_result: function(items, strict, spEntity) {
 
-            if (timer) {
-                clearTimeout(timer); timer = null;
-            }
             let browserLanguage = window.navigator.language
             browserLanguage = (browserLanguage.split('-'))[0]
     
@@ -171,105 +169,139 @@ $(document).ready(function() {
 
             const templ = ejs.compile(searchHTML);
 
-            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
-                let strict = true;
-                if (trustProfile && 'tinfo' in spEntity)
-                    strict = spEntity.tinfo.profiles[trustProfile].strict;
+            items.forEach((item) => {
+                let hint = false;
 
-                items.forEach((item) => {
-                    let hint = false;
+                if (!strict && 'hint' in item) {
+                    hint = true;
+                }
+                const context = {
+                    title: item.title,
+                    domain: item.domain,
+                    entity_id: item.entity_id,
+                    strictProfile: strict,
+                    hint: hint,
+                };
+                const html = templ(context);
 
-                    if (!strict && 'hint' in item) {
-                        hint = true;
-                    }
-                    const context = {
-                        title: item.title,
-                        domain: item.domain,
-                        entity_id: item.entity_id,
-                        strictProfile: strict,
-                        hint: hint,
-                    };
-                    console.log(`CONTEXT: ${JSON.stringify(context)}`);
-                    const html = templ(context);
+                htmlItemList.push(html)
+            })
 
-                    htmlItemList.push(html)
-                })
-
-                if (items) {
-                    if (items.length > 0) {
-                        if (items[0].hasOwnProperty('counter')) {
-                            if (items[0].counter > 1) {
-                                $("#ds-search-list").append(htmlItemList);
-                            } else {
-                                $("#ds-search-list").html(htmlItemList);
-                            }
+            if (items) {
+                if (items.length > 0) {
+                    if (items[0].hasOwnProperty('counter')) {
+                        if (items[0].counter > 1) {
+                            $("#ds-search-list").append(htmlItemList);
                         } else {
                             $("#ds-search-list").html(htmlItemList);
                         }
+                    } else {
+                        $("#ds-search-list").html(htmlItemList);
                     }
                 }
-            });
+            }
         },
-        render_saved_choice: function(items) {
+        render_search_result: function(items) {
+            if (trustProfile && !trustProfileExists)
+                return this.no_results();
+
+            const self = this;
             $("#searching").addClass('d-none');
 
             if (timer) {
                 clearTimeout(timer); timer = null;
             }
 
+            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+                let strict = true;
+                if (trustProfile && 'tinfo' in spEntity && 
+                          'profiles' in spEntity.tinfo &&
+                           trustProfile in spEntity.tinfo.profiles)
+                    strict = spEntity.tinfo.profiles[trustProfile].strict;
+
+                self._render_search_result(items, strict, spEntity);
+            }).catch(err => {
+                self._render_search_result(items, true, null);
+            });
+        },
+        _render_saved_choice: function(items, strict, spEntity) {
+
             let browserLanguage = window.navigator.language;
             browserLanguage = (browserLanguage.split('-'))[0];
 
-            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
-                let strict = true;
-                if (trustProfile && 'tinfo' in spEntity)
-                    strict = spEntity.tinfo.profiles[trustProfile].strict;
-                
-                let hasNonHinted = false;
+            let hasNonHinted = false;
 
-                const templ = ejs.compile(savedHTML);
-                items.forEach((item) => {
-                    let hint = false;
-                    if (strict === false && 'hint' in item) {
-                        hint = true;
-                    }
-                    if (!hint) hasNonHinted = true;
+            const templ = ejs.compile(savedHTML);
+            items.forEach((item) => {
+                let hint = false;
+                if (strict === false && 'hint' in item) {
+                    hint = true;
+                }
+                if (!hint) hasNonHinted = true;
 
-                    const context = {
-                        title: item.title,
-                        domain: item.domain,
-                        entity_id: item.entity_id,
-                        entity_icon: item.entity_icon,
-                        name_tag: item.name_tag,
-                        strictProfile: strict,
-                        hint: hint,
-                        entity_icon_url: item.entity_icon_url
-                    };
-                    const html = templ(context);
+                const context = {
+                    title: item.title,
+                    domain: item.domain,
+                    entity_id: item.entity_id,
+                    entity_icon: item.entity_icon,
+                    name_tag: item.name_tag,
+                    strictProfile: strict,
+                    hint: hint,
+                    entity_icon_url: item.entity_icon_url
+                };
+                const html = templ(context);
 
-                    $("#ds-saved-choices").append(html);
+                $("#ds-saved-choices").append(html);
+            })
+
+            if (strict === false && hasNonHinted) {
+                let org = spEntity.title;
+                if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
+                    org = spEntity.title_langs[browserLanguage];
+                }
+                const no_access = localization.translateString('filter-warning-no-access');
+                const choose_alternative = localization.translateString('filter-warning-choose-alternative');
+                const other_access = localization.translateString('filter-warning-other-options');
+                let html = ejs.render(filterWarningHTML, {
+                    organization: org,
+                    filter_warning_no_access: no_access,
+                    choose_alternative: choose_alternative,
+                    other_access: other_access,
                 })
 
-                if (strict === false && hasNonHinted) {
-                    let org = spEntity.title;
-                    if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
-                        org = spEntity.title_langs[browserLanguage];
-                    }
-                    const no_access = localization.translateString('filter-warning-no-access');
-                    const choose_alternative = localization.translateString('filter-warning-choose-alternative');
-                    const other_access = localization.translateString('filter-warning-other-options');
-                    let html = ejs.render(filterWarningHTML, {
-                        organization: org,
-                        filter_warning_no_access: no_access,
-                        choose_alternative: choose_alternative,
-                        other_access: other_access,
-                    })
+                $("#filter-warning").append(html);
+            }
+        },
+        render_saved_choice: function(items) {
+            const self = this;
+            $("#searching").addClass('d-none');
 
-                    $("#filter-warning").append(html);
+            if (timer) {
+                clearTimeout(timer); timer = null;
+            }
+
+            trustProfileExists = false;
+            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+                let strict = true;
+                if (trustProfile && 'tinfo' in spEntity && 
+                          'profiles' in spEntity.tinfo &&
+                           trustProfile in spEntity.tinfo.profiles) {
+                    strict = spEntity.tinfo.profiles[trustProfile].strict;
+                    trustProfileExists = true;
+                } else {
+                    if (trustProfile)
+                        trustProfileExists = false;
                 }
+                
+                self._render_saved_choice(items, strict, spEntity);
+            }).catch(err => {
+                self._render_saved_choice(items, true, null);
             });
         },
         too_many_results: function(bts, count) {
+            if (trustProfile && !trustProfileExists)
+                return this.no_results();
+
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
 
@@ -313,8 +345,11 @@ $(document).ready(function() {
                     item.last_refresh = now;
                     item.last_use = now;
                     return item;
+                }).catch(err => {
+                    console.log("... did not find entity on refresh")
                 })
-            })).then(items => items.filter(item => item.entity !== undefined))
+            })).then(items => items.filter(item => item && item.entity !== undefined))
+               .catch(err => []);
         },
         after: function(count,elt) {
             $("#searching").addClass('d-none');
