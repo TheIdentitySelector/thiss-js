@@ -49,6 +49,14 @@ p, a {
 a {
   /* Zep */
   color: var(--primary-blue);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    text-decoration: underline;
+  }
 }
 
 .btn {
@@ -414,6 +422,11 @@ ul li a:hover {
 
       .primary {
         color: var(--primary-blue);
+        text-decoration: underline;
+      }
+
+      .secondary {
+        text-decoration: underline;
       }
     }
 
