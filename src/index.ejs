@@ -6,34 +6,40 @@
             height: 85px;
             width: 380px;
         }
+        #checkbox-sa-holder {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
     </style>
 </head>
 
 <body>
     <main role="main">
         <h1 class="display-3">Thiss.io Login</h1>
-        <p>This page is for testing the Discovery Service for thiss.io. Each button below corresponds to a different trust profile. A trust profile is a mechanism that an SP can use to constrain the results that the DS can serve the end users. The full list of available entities can be seen <a href="https://md-dev.thiss.io/entities">here</a> (when browsing it it, be sure to, if using firefox, click on "JSON", and if using chrome, click on "Pretty print", to get a human readable list). The list of trust profiles that can be used to restrict results (including all profiles used in the buttons below) can be found <a href="https://md-dev.thiss.io/tinfo">here</a>.</p>
+        <p>This page is for testing the Discovery Service for thiss.io. <!--Each button below corresponds to a different trust profile. A trust profile is a mechanism that an SP can use to constrain the results that the DS can serve the end users. The full list of available entities can be seen <a href="https://md-dev.thiss.io/entities">here</a> (when browsing it it, be sure to, if using firefox, click on "JSON", and if using chrome, click on "Pretty print", to get a human readable list). The list of trust profiles that can be used to restrict results (including all profiles used in the buttons below) can be found <a href="https://md-dev.thiss.io/tinfo">here</a>-->.</p>
         <div class="jumbotron">
             <div class="container">
                 <p>Advanced integration</p>
-                <div class="checkbox-sa" id="checkbox-sa-1"><span> Remember me</span></div>
+                <div id="checkbox-sa-holder"><span class="checkbox-sa" id="checkbox-sa-1"></span><span> &nbsp; Remember me</span></div>
                 <div id="out-adv-1"></div>
                 <button id="adv-set-entity">Set entity Cornell Uni</button>
             </div>
             <hr />
             <div class="container">
-                <p>No profile - Using Storage Access API</p>
+                <p>No profile</p>
                 <div class="login" id="login0"></div>
             </div>
             <hr />
             <div class="container">
-                <p>Strict profile that selects all IdPs with inCommon as metadata source</p>
+                <p>Strict profile that selects all IdPs with inCommon as metadata source (does not exist at this point)</p>
                 <ul>
                   <li>entityID: https://cpauth.icos-cp.eu/saml/cpauth</li>
                   <li>trustProfile: incommon-wayfinder</li>
                 </ul>
                 <div class="login" id="login05"></div>
             </div>
+          <!--
             <hr />
             <div class="container">
                 <p>Strict profile that selects all IdPs with both SWAMID and eduGAIN as metadata source</p>
@@ -179,6 +185,7 @@
                 <div class="login" id="login13"></div>
             </div>
             <hr />
+          -->
         </div>
 
         <div class="container">

@@ -54,13 +54,15 @@ window.onload = function() {
         entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login0');
-    DiscoveryComponent({
+    DiscoveryComponent.render({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
         entityID: 'https://cpauth.icos-cp.eu/saml/cpauth',
         trustProfile: 'incommon-wayfinder',
         discoveryResponse: `${process.env.BASE_URL}result`
-    }).render('#login05');
+    },
+    '#login05');
+  /*
     DiscoveryComponent.render({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
@@ -174,4 +176,5 @@ window.onload = function() {
         trustProfile: 'other',
         discoveryResponse: `${process.env.BASE_URL}result`
     }).render('#login13');
-};
+  */
+}; 
