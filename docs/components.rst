@@ -53,8 +53,27 @@ The login button component accepts the following configuration parameters in the
       pinned: #<string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
       backgroundColor: # <string> (default '#FFFFFF') the background color of the iframe where the button is rendered
       color: # <string> (default '#0079ff') the color of the button
+
+      entityID: When using a trust profile to limit the MDQ results, this is the entityID of the SP publishing the profile.
+      trustProfile: When using a trust profile to limit the MDQ results, this is the name of the profile.
     }
 
+The discovery component can also be rendered via a static `render` method, that takes the same options as the DiscoveryComponent constructor,
+plus the selector in which to render the button:
+
+.. code-block:: js
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent.render({
+               // other parameters - cf above
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/Login?target=https://sp.example.com/loginhandler',
+           },
+           '#login');
+        };
+    </script>
 
 The login button is rendered in an iframe with a fixed size.
 
