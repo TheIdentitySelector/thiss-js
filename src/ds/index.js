@@ -366,10 +366,9 @@ $(document).ready(function() {
         $(".sp_title").text(entity.title);
         $("#discovery-response-warning-site").text(entity.title);
 
-        let goodReturn = null;
+        let goodReturn = false;
 
         if (entity.discovery_responses) {
-            goodReturn = false;
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             let returnUrl = null;
@@ -382,7 +381,7 @@ $(document).ready(function() {
                 }
             });
         }
-        if (goodReturn === null) {
+        if (goodReturn === false) {
             $("#warning-discovery-response").removeClass("d-none");
         }
     })
