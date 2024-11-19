@@ -55,5 +55,6 @@
   "ds-result-chosen-to-login": "",
   "ds-result-back-to-start": "",
   "ds-button-access-through": "Inloggning via din organisation",
-  "ds-button-add-or-change": "Lägg till eller ändra organisation"
+  "ds-button-add-or-change": "Lägg till eller ändra organisation",
+  "ds-warning-continue": ""
 }

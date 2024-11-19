@@ -55,5 +55,6 @@
   "ds-result-chosen-to-login": "You have chosen to log in with ",
   "ds-result-back-to-start": "Back to start",
   "ds-button-access-through": "Access through your institution",
-  "ds-button-add-or-change": "Add or Change Institution"
+  "ds-button-add-or-change": "Add or Change Institution",
+  "ds-warning-continue": "Continue"
 }

@@ -53,5 +53,6 @@
   "ds-result-chosen-to-login": "Ön az alábbi bejelentkezési módot választotta: ",
   "ds-result-back-to-start": "Vissza az elejére",
   "ds-button-access-through": "Belépés intézményi azonosítóval",
-  "ds-button-add-or-change": "Intézmény hozzáadása vagy módosítása"
+  "ds-button-add-or-change": "Intézmény hozzáadása vagy módosítása",
+  "ds-warning-continue": ""
 }
