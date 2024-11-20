@@ -30,7 +30,10 @@ class _DiscoveryComponent {
         frame.style['height'] = '85px';
         frame.style['width'] = '350px';
         frame.style['border'] = '0px';
-        frame.style['background-color'] = 'transparent';
+        frame.style['background-color'] = this.props.backgroundColor || 'transparent';
+        if (this.props.color) {
+            frame.style['color'] = this.props.color;
+        }
         frame.setAttribute('title', 'SeamlessAccess Button')
         frame.setAttribute('aria-label', 'SeamlessAccess Button')
         frame.setAttribute('role', 'presentation')
