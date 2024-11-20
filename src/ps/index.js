@@ -280,7 +280,10 @@ async function reduceCookieStorage(context) {
 }
 
 const advCheckbox = document.getElementById('ps-checkbox-adv');
-const checkboxVisible = advCheckbox.checkVisibility();
+let checkboxVisible = false;
+if (advCheckbox.checkVisibility) {
+    checkboxVisible = advCheckbox.checkVisibility();
+}
 
 if (checkboxVisible) {
     advCheckbox.addEventListener('click', async (event) => {

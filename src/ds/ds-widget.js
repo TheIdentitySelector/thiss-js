@@ -55,7 +55,7 @@ jQuery(function ($) {
                             }
                         })
                         .catch(err => {
-                            console.log("EEEEEEEEEEERRRRRRRRRRRRRRORRRRRRRRR", err);
+                            console.log("ERROR creating widget:", err);
                         });
                 }
             }
