@@ -29,6 +29,7 @@ let defaultText = "Your Institution";
 let login_initiator_url = urlParams.get("loginInitiatorURL") || urlParams.get("loginHandlerURL");
 let discovery_request = urlParams.get("discoveryRequest");
 let discovery_response = urlParams.get("discoveryResponse");
+let entity_id = null;
 
 if (!discovery_request)
     discovery_request = login_initiator_url;
@@ -77,7 +78,7 @@ const recoverPersisted = (start, context) => {
                         entity_id = item.entity_id || item.entityID;
                         document.getElementById('headline').innerText = localization.translateString('cta-button-header');
                         document.getElementById('headline').className = "ra21-button-text-secondary";
-                        dsbutton.hidden = false;
+                        document.getElementById('dsbutton').hidden = false;
                     }
                 });
                 if (!found) {
@@ -89,47 +90,6 @@ const recoverPersisted = (start, context) => {
         });
     });
 }
-
-let button = document.getElementById('idpbutton');
-let dsbutton = document.getElementById('dsbutton');
-let main = document.getElementById('main');
-
-main.style.background = urlParams.get("backgroundColor");
-button.style.background = urlParams.get("color");
-button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
-dsbutton.style.color = urlParams.get("color");
-
-let ctaFocus = false
-
-const setCtaFocus = () => {
-    button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + urlParams.get("color");
-}
-
-const clearCtaFocus = () => {
-    button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
-}
-
-button.addEventListener('focus', (event) => {
-    ctaFocus = true
-    setCtaFocus()
-});
-
-button.addEventListener('blur', (event) => {
-    ctaFocus = false
-    clearCtaFocus()
-});
-
-button.addEventListener('mouseover', (event) => {
-    if (!ctaFocus) {
-        setCtaFocus()
-    }
-});
-
-button.addEventListener('mouseout', (event) => {
-    if (!ctaFocus) {
-        clearCtaFocus()
-    }
-});
 
 const localization = new Localization(urlParams.get("locale"));
 
@@ -152,44 +112,91 @@ if (urlParams.get("pinned")) {
     start.push(ds.pin(urlParams.get("pinned")));
 }
 
-dsbutton.hidden = true;
-let entity_id = null;
-
-button.addEventListener('click', function(event) {
-    if (entity_id !== null) { // return the discovery response
-        ds.do_saml_discovery_response(entity_id).then(item => {
-           discovery_response(item.entity);
-        });
-    } else { // off to DS
-        requestingStorageAccess(discovery_request);
-        //discovery_request();
-    }
-});
-
-button.addEventListener('keypress', function (event) {
-    if (e.key === 'Enter') {
-        button.click()
-    }
-});
-
-dsbutton.addEventListener('click', function(event) {
-    event.preventDefault();
-    discovery_request();
-});
-
-dsbutton.addEventListener('keypress', function (event) {
-    if (e.key === 'Enter') {
-        dsbutton.click()
-    }
-});
-
-if (!ds.ps.expire) {
-    ds.ps.expire = function() {}
-}
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 postRobot.on('init', {window: ds.ps.dst}, function(event) {
     recoverPersisted(start, context);
 });
+
+function initializeUI() {
+
+    let button = document.getElementById('idpbutton');
+    let dsbutton = document.getElementById('dsbutton');
+    let main = document.getElementById('main');
+
+    let ctaFocus = false
+
+    const setCtaFocus = () => {
+        button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + urlParams.get("color");
+    }
+
+    const clearCtaFocus = () => {
+        button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
+    }
+
+    main.style.background = urlParams.get("backgroundColor");
+    button.style.background = urlParams.get("color");
+    button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
+    dsbutton.style.color = urlParams.get("color");
+
+    button.addEventListener('focus', (event) => {
+        ctaFocus = true
+        setCtaFocus()
+    });
+
+    button.addEventListener('blur', (event) => {
+        ctaFocus = false
+        clearCtaFocus()
+    });
+
+    button.addEventListener('mouseover', (event) => {
+        if (!ctaFocus) {
+            setCtaFocus()
+        }
+    });
+
+    button.addEventListener('mouseout', (event) => {
+        if (!ctaFocus) {
+            clearCtaFocus()
+        }
+    });
+
+    dsbutton.hidden = true;
+
+    button.addEventListener('click', function(event) {
+        if (entity_id !== null) { // return the discovery response
+            ds.do_saml_discovery_response(entity_id).then(item => {
+               discovery_response(item.entity);
+            });
+        } else { // off to DS
+            requestingStorageAccess(discovery_request);
+            //discovery_request();
+        }
+    });
+
+    button.addEventListener('keypress', function (event) {
+        if (e.key === 'Enter') {
+            button.click()
+        }
+    });
+
+    dsbutton.addEventListener('click', function(event) {
+        event.preventDefault();
+        discovery_request();
+    });
+
+    dsbutton.addEventListener('keypress', function (event) {
+        if (e.key === 'Enter') {
+            dsbutton.click()
+        }
+    });
+
+    if (!ds.ps.expire) {
+        ds.ps.expire = function() {}
+    }
+}
+if (document.readyState === "loading") {
+  // Loading hasn't finished yet
+  document.addEventListener("DOMContentLoaded", initializeUI);
+} else {
+  // `DOMContentLoaded` has already fired
+  initializeUI();
+}
