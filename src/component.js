@@ -3,24 +3,26 @@
   *
   * @returns {string} a random string
   */
+const zoid = require('zoid/dist/zoid.frame');
 
 function randID() {
      return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
 
-const url = process.env.COMPONENT_URL;
+//const url = process.env.COMPONENT_URL;
 
 /**
  * A DiscoveryComponent class representing the business logic of a SAML disocvery service.
  *
- */
 class _DiscoveryComponent {
+ */
 
     /**
      * The constructor takes 1 parameter:
      *
      * @param {props} [object] properties for the DS
      */
+/**
     constructor(props) {
         this.props = props;
     }
@@ -49,6 +51,44 @@ class _DiscoveryComponent {
 export function DiscoveryComponent (props) {
     return new _DiscoveryComponent(props);
 }
+*/
+
+export const DiscoveryComponent = zoid.create({
+
+    // The html tag used to render my component
+    tag: 'thiss-cta',
+
+    url: process.env.COMPONENT_URL,
+
+    defaultEnv: 'thiss',
+
+    // default dimensions for the component
+    dimensions: {
+    	width: '350px',
+    	height: '85px'
+    },
+
+    // defines the log level in the JavaScript console
+    defaultLogLevel: process.env.LOGLEVEL,
+
+    // defines if the container should be resized
+    autoResize: {
+        width: false,
+        height: false
+    },
+
+    contexts: {
+        iframe: true,
+        popup: false
+    },
+
+    backgroundColor: '#FFFFFF',
+    color: '#0079ff',
+    locale: null,
+
+    //containerTemplate: containerTemplate,
+    //prerenderTemplate: prerenderTemplate
+});
 
 DiscoveryComponent.render = function(props, selector) {
   return DiscoveryComponent(props).render(selector);
