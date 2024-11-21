@@ -35,12 +35,12 @@ module.exports = merge(common, {
    plugins: [
        new BundleAnalyzerPlugin(),
        new webpack.EnvironmentPlugin({
-           BASE_URL: 'https://test.sa.net/',
-           COMPONENT_URL: 'https://test.sa.net/cta/',
-           MDQ_URL: 'https://md-dev.thiss.io/entities/',
-           PERSISTENCE_URL: 'https://test.sa.net/ps/',
-           SEARCH_URL: 'https://md-dev.thiss.io/entities/',
-           STORAGE_DOMAIN: 'test.sa.net',
+           BASE_URL: 'http://localhost:9000/',
+           COMPONENT_URL: 'http://localhost:9000/cta/',
+           MDQ_URL: '/entities/',
+           PERSISTENCE_URL: 'http://localhost:9000/ps/',
+           SEARCH_URL: '/entities/',
+           STORAGE_DOMAIN: 'localhost:9000',
            LOGLEVEL: 'warn',
            DEFAULT_CONTEXT: 'thiss.io'
   })]
