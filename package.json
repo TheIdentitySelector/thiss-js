@@ -64,6 +64,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@krakenjs/belter": "^2.6.0",
+    "@krakenjs/zoid": "^10.3.3",
     "@popperjs/core": "^2.11.8",
     "@snyk/protect": "^1.1292.4",
     "@theidentityselector/js-storage": "^1.0.4",
@@ -84,8 +86,7 @@
     "post-robot": "==8.0.32",
     "proxy-agent": "^6.4.0",
     "sass": "1.77.8",
-    "stream-browserify": "^3.0.0",
-    "@krakenjs/zoid": "^10.3.3"
+    "stream-browserify": "^3.0.0"
   },
   "snyk": true
 }

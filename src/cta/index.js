@@ -26,9 +26,12 @@ let context = "thiss.io";
 let entityID = null;
 let trustProfile = null;
 let defaultText = "Your Institution";
-let login_initiator_url = urlParams.get("loginInitiatorURL") || urlParams.get("loginHandlerURL");
-let discovery_request = urlParams.get("discoveryRequest");
-let discovery_response = urlParams.get("discoveryResponse");
+let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
+let discovery_request = window.xprops.discoveryRequest;
+let discovery_response = window.xprops.discoveryResponse;
+//let login_initiator_url = urlParams.get("loginInitiatorURL") || urlParams.get("loginHandlerURL");
+//let discovery_request = urlParams.get("discoveryRequest");
+//let discovery_response = urlParams.get("discoveryResponse");
 let entity_id = null;
 
 if (!discovery_request)
@@ -37,11 +40,11 @@ if (!discovery_request)
 if (!discovery_response)
     discovery_response = login_initiator_url;
 
-if (urlParams.get("entityID"))
-    entityID = urlParams.get("entityID");
+if (window.xprops.entityID)
+    entityID = window.xprops.entityID;
 
-if (urlParams.get("trustProfile"))
-    trustProfile = urlParams.get("trustProfile");
+if (window.xprops.trustProfile)
+    trustProfile = window.xprops.trustProfile;
 
 if (entityID)
     discovery_request =  `${discovery_request}&entityID=${encodeURIComponent(entityID)}`
@@ -91,6 +94,20 @@ const recoverPersisted = (start, context) => {
     });
 }
 
+const localization = new Localization(window.xprops.locale);
+
+if (window.xprops.persistenceURL) {
+    persistence = window.xprops.persistenceURL;
+}
+
+if (window.xprops.context) {
+    context = window.xprops.context;
+}
+
+if (window.xprops.MDQ) {
+    mdq = window.xprops.MDQ;
+}
+/*
 const localization = new Localization(urlParams.get("locale"));
 
 if (urlParams.get("persistenceURL")) {
@@ -104,12 +121,17 @@ if (urlParams.get("context")) {
 if (urlParams.get("MDQ")) {
     mdq = urlParams.get("MDQ");
 }
-
+*/
 let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
-
+/*
 let start = [];
 if (urlParams.get("pinned")) {
     start.push(ds.pin(urlParams.get("pinned")));
+}
+*/
+let start = [];
+if (window.xprops.pinned) {
+    start.push(ds.pin(window.xprops.pinned));
 }
 
 postRobot.on('init', {window: ds.ps.dst}, function(event) {
@@ -122,8 +144,8 @@ function initializeUI() {
     let dsbutton = document.getElementById('dsbutton');
     let main = document.getElementById('main');
 
+/*
     let ctaFocus = false
-
     const setCtaFocus = () => {
         button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + urlParams.get("color");
     }
@@ -136,6 +158,23 @@ function initializeUI() {
     button.style.background = urlParams.get("color");
     button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
     dsbutton.style.color = urlParams.get("color");
+*/
+
+    main.style.background = window.xprops.backgroundColor;
+    button.style.background = window.xprops.color;
+    button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+    dsbutton.style.color = window.xprops.color;
+
+    let ctaFocus = false
+
+    const setCtaFocus = () => {
+        button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + window.xprops.color;
+    }
+
+    const clearCtaFocus = () => {
+        button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
+    }
+
 
     button.addEventListener('focus', (event) => {
         ctaFocus = true
