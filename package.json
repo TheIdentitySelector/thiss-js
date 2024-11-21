@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
@@ -67,7 +67,7 @@
     "@popperjs/core": "^2.11.8",
     "@snyk/protect": "^1.1292.4",
     "@theidentityselector/js-storage": "^1.0.4",
-    "@theidentityselector/thiss-ds": "^2.1.4",
+    "@theidentityselector/thiss-ds": "^2.1.6",
     "banana-i18n": "^2.3.3",
     "belter": "^1.0.190",
     "bootstrap-scss": "^5.3.3",

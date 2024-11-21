@@ -143,3 +143,10 @@ Version 2.1.5
 -------------
 
 * Bugfixes and cleanup
+
+Version 2.1.6
+-------------
+
+* Fixing problems in iOS browsers
+* Fix problem with the discovery response warning
+* Cleanup
