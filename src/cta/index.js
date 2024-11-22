@@ -7,7 +7,7 @@ library.add(faPen);
 dom.watch();
 
 import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {requestingStorageAccess} from "../saa.js";
+import {requestingStorageAccess} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
@@ -29,9 +29,6 @@ let defaultText = "Your Institution";
 let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
 let discovery_request = window.xprops.discoveryRequest;
 let discovery_response = window.xprops.discoveryResponse;
-//let login_initiator_url = urlParams.get("loginInitiatorURL") || urlParams.get("loginHandlerURL");
-//let discovery_request = urlParams.get("discoveryRequest");
-//let discovery_response = urlParams.get("discoveryResponse");
 let entity_id = null;
 
 if (!discovery_request)
@@ -107,28 +104,8 @@ if (window.xprops.context) {
 if (window.xprops.MDQ) {
     mdq = window.xprops.MDQ;
 }
-/*
-const localization = new Localization(urlParams.get("locale"));
-
-if (urlParams.get("persistenceURL")) {
-    persistence = urlParams.get("persistenceURL");
-}
-
-if (urlParams.get("context")) {
-    context = urlParams.get("context");
-}
-
-if (urlParams.get("MDQ")) {
-    mdq = urlParams.get("MDQ");
-}
-*/
 let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
-/*
-let start = [];
-if (urlParams.get("pinned")) {
-    start.push(ds.pin(urlParams.get("pinned")));
-}
-*/
+
 let start = [];
 if (window.xprops.pinned) {
     start.push(ds.pin(window.xprops.pinned));
@@ -143,22 +120,6 @@ function initializeUI() {
     let button = document.getElementById('idpbutton');
     let dsbutton = document.getElementById('dsbutton');
     let main = document.getElementById('main');
-
-/*
-    let ctaFocus = false
-    const setCtaFocus = () => {
-        button.style.boxShadow = "0 0 0 1px, 0 0 0 4px " + urlParams.get("color");
-    }
-
-    const clearCtaFocus = () => {
-        button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
-    }
-
-    main.style.background = urlParams.get("backgroundColor");
-    button.style.background = urlParams.get("color");
-    button.style.boxShadow = "0 0 0 5px " + urlParams.get("color");
-    dsbutton.style.color = urlParams.get("color");
-*/
 
     main.style.background = window.xprops.backgroundColor;
     button.style.background = window.xprops.color;
@@ -219,7 +180,7 @@ function initializeUI() {
 
     dsbutton.addEventListener('click', function(event) {
         event.preventDefault();
-        discovery_request();
+        requestingStorageAccess(discovery_request);
     });
 
     dsbutton.addEventListener('keypress', function (event) {

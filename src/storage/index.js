@@ -13,12 +13,23 @@
  */
 
 import Cookies from "js-cookie";
-import {getStorageHandle, hasSAPerm} from "../saa.js";
 
-async function getStorages (global = false) {
+String.prototype.hexEncode = function(){
+    let hex, i;
+
+    let result = "";
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4);
+    }
+
+    return result
+};
+
+async function getStorages (local = false) {
 
     let handle;
-    if (global) {
+    if (local) {
       handle = window;
     } else {
       handle = await getStorageHandle();
@@ -535,7 +546,7 @@ async function getStorages (global = false) {
             _path: null,
             _domain: null,
             setItem: function (n, v) {
-                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain, partitioned: !storagePerm});
+                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain, sameSite: "None", secure: true, partitioned: !storagePerm});
             },
             getItem: function (n) {
                 return Cookies.get(this._prefix + n);
@@ -657,6 +668,315 @@ async function getStorages (global = false) {
     };
 
     return apis;
+}
+
+function _timestamp() {
+   return Date.now();
+}
+
+export function clean_item(item) {
+    if (item.entity) {
+    let entity = item.entity;
+        if (entity.entityID && !entity.entity_id) {
+            entity.entity_id = entity.entityID;
+        }
+        if (entity.icon && !entity.entity_icon) {
+            entity.entity_icon = entity.icon;
+        }
+        if (entity.domains) {
+            let domains = entity.domains.split(';') || [];
+            entity.domain = domains[0];
+        }
+        if (entity.last_refresh && !entity.last_use) {
+            entity.last_use = entity.last_refresh;
+        }
+        if (!entity.title) {
+            entity.title = entity.entity_id;
+        }
+    }
+    return item;
+}
+
+const mdq_url = process.env.MDQ_URL;
+
+async function mdq_get(id) {
+    let url = mdq_url + id + ".json"
+
+    let opts = {method: 'GET', headers: {'Accept':'application/json'}};
+    const resp = await fetch(url, opts);
+    if (resp.status == 404) {
+        return undefined;
+    }
+    let data;
+    let contentType = resp.headers.get("content-type");
+    if(contentType && contentType.includes("application/json")) {
+        data = resp.json();
+    }
+    if (Array.isArray(data) && data.length > 0) {
+        data = data[0];
+    }
+    return data;
+}
+
+export async function get_entity(storage, id) {
+    if (storage.isSet(id)) {
+        const item = storage.get(id);
+        if (item) {
+            const refreshed = await mdq_get(item.entity.id);
+            item.entity = refreshed;
+        }
+        return item;
+    } else {
+        return undefined;
+    }
+}
+
+export function set_entity(storage, entity) {
+    let item;
+    let now = _timestamp();
+    if (entity.entity != undefined) { // we were given the full metadata interface
+        item = entity;
+        entity = item.entity;
+    } else { // legacy interface
+        item = {"last_refresh": now, "last_use": now, "entity": entity};
+    }
+
+    if (entity.entityID && !entity.entity_id) {
+        entity.entity_id = entity.entityID;
+    }
+    item.entity = {
+        entity_id: entity.entity_id,
+        entityID: entity.entity_id,
+        id: entity.id
+    };
+    let id = entity.entity_id.hexEncode();
+    item = clean_item(item);
+    return storage.set(id, item)
+}
+
+let Storages = await getStorages();
+let globalStorages = await getStorages(true);
+
+export function ctx(context) {
+    if (!context) {
+        context = process.env.DEFAULT_CONTEXT
+    }
+    let ns = Storages.initNamespaceStorage(context);
+    let storage = ns.localStorage;
+    storage.set('_name', context);
+    return storage;
+}
+
+export function ctx_local(context) {
+    if (!context) {
+        context = process.env.DEFAULT_CONTEXT
+    }
+    let ns = globalStorages.initNamespaceStorage(context);
+    let storage = ns.localStorage;
+    storage.set('_name', context);
+    return storage;
+}
+
+export async function set_global_entities(entities, context) {
+    Storages = await getStorages();
+    context = context || process.env.DEFAULT_CONTEXT;
+    if (entities) {
+        let storage = ctx(context);
+        entities.forEach(entity => {
+            set_entity(storage, entity);
+        });
+    }
+}
+export async function get_local_institutions(context) {
+    context = context || process.env.DEFAULT_CONTEXT;
+    let local_storage = ctx_local(context);
+
+    let keys = local_storage.keys().filter(k => k !== undefined && k !== '_name');
+    const local_stored_institutions = [];
+    for (let k of keys) {
+        let item = await get_entity(local_storage, k);
+        local_stored_institutions.push(clean_item(item));
+    }
+    return local_stored_institutions;
+}
+/**
+ * Check for Storage Access permission and request it if absent and possible
+ *
+ * @param {entity_id} [string] the entityID of the SAML identity provider to be
+ *     removed
+ */
+export const requestingStorageAccess = (callback) => {
+  if (document.hasStorageAccess) {
+    // Check whether access has been granted using the Storage Access API.
+    // Note on page load this will always be false initially so we could be
+    // skipped in this example, but including for completeness for when this
+    // is not so obvious.
+    document.hasStorageAccess()
+        .then(hasAccess => {
+          if (!hasAccess) {
+              get_local_institutions().then(entities => {
+                  document.requestStorageAccess()
+                      .then(storage => {
+                          set_global_entities(entities).then(() => {
+                              callback();
+                          }).catch(err => {
+                              callback();
+                          });
+                      })
+                      .catch(err => { callback(); });
+              }).catch(err => {
+                  document.requestStorageAccess()
+                      .then(storage => {
+                          callback();
+                      })
+                      .catch(err => { callback(); });
+              });
+          } else {
+            navigator.permissions.query({name : 'storage-access'})
+                .then(permission => {
+                  if (permission) {
+                    if (permission.state === 'granted') {
+                      document.requestStorageAccess()
+                          .then(storage => { callback(); })
+                          .catch(err => { callback(); });
+                    } else if (permission.state === 'prompt') {
+                        get_local_institutions().then(entities => {
+                            document.requestStorageAccess()
+                                .then(storage => {
+                                    set_global_entities(entities).then(() => {
+                                        callback();
+                                    }).catch(err => {
+                                        callback();
+                                    });
+                                })
+                                .catch(err => { callback(); });
+                        }).catch(err => {
+                            document.requestStorageAccess()
+                                .then(storage => { callback(); })
+                                .catch(err => { callback(); });
+                        });
+                    } else if (permission.state === 'denied') {
+                      callback();
+                    }
+                  } else {
+                    callback();
+                  }
+                })
+                .catch(err => {
+                  document.requestStorageAccess()
+                      .then(storage => { callback(); })
+                      .catch(err => { callback(); });
+                });
+          }
+        })
+        .catch(err => { callback(); });
+  } else {
+    callback();
+  }
+}
+
+export async function getStorageHandle() {
+  // Check if Storage Access API is supported
+  if (!document.requestStorageAccess) {
+    // Storage Access API is not supported so best we can do is
+    // hope it's an older browser that doesn't block 3P cookies.
+    console.log('API not supported');
+    return window;
+  }
+
+  // Check if access has already been granted
+  if (await document.hasStorageAccess()) {
+    console.log('access has already been granted');
+    const handle = await document.requestStorageAccess({all: true});
+    return handle || window;
+  }
+
+  // Check the storage-access permission
+  // Wrap this in a try/catch for browsers that support the
+  // Storage Access API but not this permission check
+  // (e.g. Safari and older versions of Firefox).
+  let permission;
+  try {
+    permission = await navigator.permissions.query(
+      {name: 'storage-access'}
+    );
+  } catch (error) {
+    // storage-access permission not supported. Assume no cookie access.
+    return window;
+  }
+
+  if (permission) {
+    if (permission.state === 'granted') {
+      // Permission has previously been granted so can just call
+      // requestStorageAccess() without a user interaction and
+      // it will resolve automatically.
+      try {
+        const handle = await document.requestStorageAccess({all: true});
+        return handle || window;
+      } catch (error) {
+        // This shouldn't really fail if access is granted, but return false
+        // if it does.
+        return window;
+      }
+    } else if (permission.state === 'prompt') {
+      // Need to call requestStorageAccess() after a user interaction
+      // (potentially with a prompt). Can't do anything further here,
+      // so handle this in the click handler.
+      return window;
+    } else if (permission.state === 'denied') {
+      // Currently not used. See:
+      // https://github.com/privacycg/storage-access/issues/149
+      return window;
+    }
+  }
+  // By default return false, though should really be caught by one of above.
+  return window;
+}
+
+export async function hasSAPerm() {
+  // Check if Storage Access API is supported
+  if (!document.hasStorageAccess) {
+    // Storage Access API is not supported so best we can do is
+    // hope it's an older browser that doesn't block 3P cookies.
+    return true;
+  }
+  // Check if access has already been granted
+  if (await document.hasStorageAccess()) {
+    return true;
+  }
+  // Check the storage-access permission
+  // Wrap this in a try/catch for browsers that support the
+  // Storage Access API but not this permission check
+  // (e.g. Safari and older versions of Firefox).
+  let permission;
+  try {
+    permission = await navigator.permissions.query(
+      {name: 'storage-access'}
+    );
+  } catch (error) {
+    // storage-access permission not supported. Assume no cookie access.
+    return false;
+  }
+
+    if (permission) {
+    if (permission.state === 'granted') {
+      // Permission has previously been granted so can just call
+      // requestStorageAccess() without a user interaction and
+      // it will resolve automatically.
+        return true;
+    } else if (permission.state === 'prompt') {
+      // Need to call requestStorageAccess() after a user interaction
+      // (potentially with a prompt). Can't do anything further here,
+      // so handle this in the click handler.
+      return false;
+    } else if (permission.state === 'denied') {
+      // Currently not used. See:
+      // https://github.com/privacycg/storage-access/issues/149
+      return false;
+    }
+  }
+  // By default return false, though should really be caught by one of above.
+  return false;
 }
 
 export default getStorages;
