@@ -151,7 +151,7 @@ Version 2.1.6
 * Fix problem with the discovery response warning
 * Cleanup
 
-Version 2.1.7
+Version 2.1.8
 -------------
 
 * Fixing problem moving local entities to global in chrome
