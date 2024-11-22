@@ -150,3 +150,8 @@ Version 2.1.6
 * Fixing problems in iOS browsers
 * Fix problem with the discovery response warning
 * Cleanup
+
+Version 2.1.7
+-------------
+
+* Fixing problem moving local entities to global in chrome
