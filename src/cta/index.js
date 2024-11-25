@@ -22,7 +22,7 @@ const urlParams = new URLSearchParams(queryString);
 
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
-let context = "thiss.io";
+let context = process.env.DEFAULT_CONTEXT || "thiss.io";
 let entityID = null;
 let trustProfile = null;
 let defaultText = "Your Institution";
