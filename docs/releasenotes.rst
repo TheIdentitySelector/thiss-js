@@ -155,3 +155,9 @@ Version 2.1.8
 -------------
 
 * Fixing problem moving local entities to global in chrome
+
+Version 2.1.9
+-------------
+
+* Fix problem with code not available in the thiss.js bundle
+* Fix problem with hardcoded context
