@@ -9,6 +9,7 @@ window.onload = function() {
     const ds = new DiscoveryService(
       process.env.MDQ_URL,
       process.env.PERSISTENCE_URL,
+      process.env.DEFAULT_CONTEXT,
       {
         selector: "#checkbox-sa-1",
     });
