@@ -55,11 +55,24 @@ module.exports = {
     entry: {
         index: ['./src/index.js'],
         cta: ['./src/cta/index.js'],
-        'sa-button': ['./src/sa-button/index.js'],
+        //'sa-button': ['./src/sa-button/index.js'],
         ds: ['./src/ds/index.js'],
         ps: ['./src/ps/index.js'],
-        thiss: ['./src/component.js'],
         result: ['./src/result/index.js'],
+        thiss: ['./src/component.js'],
+    },
+    output: {
+        clean: true,
+        filename: '[name].js',
+        chunkFilename: "[name]_[contenthash].js",
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: "/",
+        library: {
+          name: '[name]',
+          type: 'umd',
+          umdNamedDefine: true
+        },
+        globalObject: 'this',
     },
     plugins: [
         new DotEnv({systemvars: true}),
@@ -123,16 +136,6 @@ module.exports = {
             filename: "[name].css"
         })
     ],
-    output: {
-        filename: '[name].js',
-        chunkFilename: "[name]_[contenthash].js",
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: "/",
-        libraryTarget: 'umd',
-        library: '[name]',
-        globalObject: 'this',
-        umdNamedDefine: true
-    },
     module: {
         rules: [
             {

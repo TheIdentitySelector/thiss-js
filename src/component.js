@@ -1,18 +1,16 @@
-/**
-  * Generate a 32 byte random identifier.
-  *
-  * @returns {string} a random string
-  */
 //import { create } from '@krakenjs/zoid'
 import * as zoid from '@krakenjs/zoid/dist/zoid.frame';
 import {toCSS, destroyElement} from '@krakenjs/belter/src';
 import raw_preload_template from './cta/preload.html'
 import 'ejs/ejs.min';
-import {requestingStorageAccess} from "./storage/index.js";
-import saWhite from './assets/sa-white.svg';
+//import {requestingStorageAccess} from "./storage/index.js";
 
-const preload_template = ejs.compile(raw_preload_template);
 
+/**
+  * Generate a 32 byte random identifier.
+  *
+  * @returns {string} a random string
+  */
 function randID() {
      return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(2, 10);
 }
@@ -48,13 +46,15 @@ function prerenderTemplate(opts) {
             window.top.location.href = discovery_request_url;
         };
     }
+    const preload_template = ejs.compile(raw_preload_template);
 
     _set_default_props(opts);
     const _t = opts.doc.createElement("html");
     _t.innerHTML = preload_template(opts.props);
     _t.addEventListener('click', function(event) {
         event.preventDefault();
-        requestingStorageAccess(discovery_request);
+        discovery_request();
+        //requestingStorageAccess(discovery_request);
     });
     return _t;
 }
