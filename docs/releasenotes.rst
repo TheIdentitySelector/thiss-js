@@ -161,3 +161,8 @@ Version 2.1.9
 
 * Fix problem with code not available in the thiss.js bundle
 * Fix problem with hardcoded context
+
+Version 2.1.10
+-------------
+
+* Missing context in demo page
