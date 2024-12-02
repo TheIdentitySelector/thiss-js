@@ -166,3 +166,8 @@ Version 2.1.10
 -------------
 
 * Missing context in demo page
+
+Version 2.1.11
+-------------
+
+* Some UI details
