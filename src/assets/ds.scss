@@ -448,8 +448,8 @@ ul li a:hover {
 }
 
 input, .identityprovider {
-  &:focus, &:focus, &:active,, &:focus-visible {
-    outline: var(--secondary-blue);
+  &:focus, &:active, &:focus-visible {
+    outline: solid var(--secondary-blue);
     border-color: var(--secondary-blue);
   }
 }
