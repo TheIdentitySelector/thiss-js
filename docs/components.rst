@@ -45,17 +45,12 @@ The login button component accepts the following configuration parameters in the
 
     {
       loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - acts as both discoveryRequest and discoveryResponse
-      discoveryRequest:  #<string|callable> a URL or callable that initiates a discovery flow
-      discoveryResponse: #<string|callable> a URL or callable that handles a discovery response
       persistenceURL: #<string> the URL of the persistence service
 
       MDQ: #<string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
       pinned: #<string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
       backgroundColor: # <string> (default '#FFFFFF') the background color of the iframe where the button is rendered
       color: # <string> (default '#0079ff') the color of the button
-
-      entityID: When using a trust profile to limit the MDQ results, this is the entityID of the SP publishing the profile.
-      trustProfile: When using a trust profile to limit the MDQ results, this is the name of the profile.
     }
 
 The discovery component can also be rendered via a static `render` method, that takes the same options as the DiscoveryComponent constructor,
@@ -91,6 +86,17 @@ A typicall Shibboleth configuration matching the above call to the login button 
 
 
 You typically provide a target parameter with the loginInitiatorURL which in Shibboleth has the effect of sending the user to a secondary URL after successful authentication. The target URL is typically used to create the user session in your application.
+
+.. code-block:: xml
+
+    <SessionInitiator type="Chaining" Location="/Login" id="ds" relayState="cookie">
+       <SessionInitiator type="SAML2" defaultACSIndex="1" acsByIndex="false" template="bindingTemplate.html"/>
+       <SessionInitiator type="Shib1" defaultACSIndex="5"/>
+       <SessionInitiator type="SAMLDS" URL="https://your.service/ds/?trustProfile=some-profile"/>
+    </SessionInitiator>
+
+To use a trust profile to pre-filter the results returned by the DS, you would add a `trustProfile` parameter to the URL of the discovery service configured into Shibboleth, so something like:
+
 
 If you are not using Shibboleth pls consult your SAML SP documentation for functional equivalents of the Shibboleth SessionInitiator concept.
 

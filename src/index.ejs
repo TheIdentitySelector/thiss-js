@@ -197,8 +197,23 @@
     window.onload = function() {
        thiss.DiscoveryComponent({
            loginInitiatorURL: 'https://localhost/Shibboleth.sso/Login?target=https://google.com',
-           entityID: 'https://localhost/shibboleth',
-           trustProfile: 'example-profile'
+       }).render('#login');
+    };
+&lt;/script&gt;
+            </code></pre>
+        </div>
+        <div class="container">
+          <p>To use a trust profile to pre-filter the results in the discovery service, if using shibboleth's session initiator, you would add a `trustProfile` query parameter to the DS URL configured into Shibboleth.
+            Alternatively, you can use the URL of the discovery service as `loginInitiatorURL`, and configure the `DiscoveryComponent` with `entityID` & `trustProfile` with code like:
+            <pre><code>
+&lt;script src="<%= process.env.BASE_URL %>thiss.js"/&gt;
+&lt;div id="login"&gt;&nbsp;&lt;/div&gt;
+&lt;script&gt;
+    window.onload = function() {
+       thiss.DiscoveryComponent({
+           loginInitiatorURL: 'https://use.thiss.io/ds/?return=https%3A//example.com/Shibboleth.sso/Login%3Ftarget%3D/sign',
+           entityID: 'https://example.com/shibboleth',
+           trustProfile: 'some-profile',
        }).render('#login');
     };
 &lt;/script&gt;
