@@ -87,6 +87,8 @@ A typicall Shibboleth configuration matching the above call to the login button 
 
 You typically provide a target parameter with the loginInitiatorURL which in Shibboleth has the effect of sending the user to a secondary URL after successful authentication. The target URL is typically used to create the user session in your application.
 
+To use a trust profile to pre-filter the results returned by the DS, you would add a `trustProfile` parameter to the URL of the discovery service configured into Shibboleth, so something like:
+
 .. code-block:: xml
 
     <SessionInitiator type="Chaining" Location="/Login" id="ds" relayState="cookie">
@@ -95,8 +97,22 @@ You typically provide a target parameter with the loginInitiatorURL which in Shi
        <SessionInitiator type="SAMLDS" URL="https://your.service/ds/?trustProfile=some-profile"/>
     </SessionInitiator>
 
-To use a trust profile to pre-filter the results returned by the DS, you would add a `trustProfile` parameter to the URL of the discovery service configured into Shibboleth, so something like:
+An alternative to use a trust profile would be to configure the discovery service as `loginInitiatorURL`, like this:
 
+.. code-block:: js
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent.render({
+               loginInitiatorURL: 'https://use.thiss.io/ds/?return=https%3A//example.com/Shibboleth.sso/Login%3Ftarget%3D/sign',
+               entityID: 'https://example.com/shibboleth',
+               trustProfile: 'some-profile',
+           },
+           '#login');
+        };
+    </script>
 
 If you are not using Shibboleth pls consult your SAML SP documentation for functional equivalents of the Shibboleth SessionInitiator concept.
 

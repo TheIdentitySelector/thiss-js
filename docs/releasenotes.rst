@@ -172,7 +172,7 @@ Version 2.1.11
 
 * Some UI details
 
-Version 2.1.12
+Version 2.1.13
 -------------
 
 * Documentation
