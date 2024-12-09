@@ -53,14 +53,12 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null
     let trustProfile = null
-    let trustProfileExists = false
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
-        trustProfileExists = true
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -202,9 +200,6 @@ $(document).ready(function() {
             }
         },
         render_search_result: function(items) {
-            if (trustProfile && !trustProfileExists)
-                return this.no_results();
-
             const self = this;
             $("#searching").addClass('d-none');
 
@@ -280,17 +275,12 @@ $(document).ready(function() {
                 clearTimeout(timer); timer = null;
             }
 
-            trustProfileExists = false;
             json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
                 let strict = true;
                 if (trustProfile && 'tinfo' in spEntity && 
                           'profiles' in spEntity.tinfo &&
                            trustProfile in spEntity.tinfo.profiles) {
                     strict = spEntity.tinfo.profiles[trustProfile].strict;
-                    trustProfileExists = true;
-                } else {
-                    if (trustProfile)
-                        trustProfileExists = false;
                 }
                 
                 self._render_saved_choice(items, strict, spEntity);
@@ -299,9 +289,6 @@ $(document).ready(function() {
             });
         },
         too_many_results: function(bts, count) {
-            if (trustProfile && !trustProfileExists)
-                return this.no_results();
-
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
 
