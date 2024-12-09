@@ -30,6 +30,9 @@ let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.login
 let discovery_request = window.xprops.discoveryRequest;
 let discovery_response = window.xprops.discoveryResponse;
 let entity_id = null;
+let trust_profile_in_param = false;
+let initiator_type = 'ds';
+let entity_id_with_profile;
 
 if (!discovery_request)
     discovery_request = login_initiator_url;
@@ -43,11 +46,35 @@ if (window.xprops.entityID)
 if (window.xprops.trustProfile)
     trustProfile = window.xprops.trustProfile;
 
-if (entityID)
-    discovery_request =  `${discovery_request}&entityID=${encodeURIComponent(entityID)}`
+if (entityID) {
+    const entityIDURL = new URL(entityID);
+    const params = entityIDURL.searchParams;
+    if (params.size > 0) {
+        entity_id_with_profile = entityID;
+        entityID = `${entityIDURL.origin}${entityIDURL.pathname}`;
+        if (params.has('trustProfile')) {
+            trustProfile = params.get('trustProfile');
+            trust_profile_in_param = true;
+            initiator_type = 'shib';
+        }
+    }
+}
 
-if (entityID && trustProfile)
-    discovery_request =  `${discovery_request}&trustProfile=${trustProfile}`
+// login initiator is shibboleth
+if (trust_profile_in_param) {
+    discovery_request =  `${discovery_request}&entityID=${entity_id_with_profile}`
+} else {
+    // login initiator is DS
+    if (entityID)
+        if (new URL(discovery_request).searchParams.size > 0) {
+            discovery_request =  `${discovery_request}&entityID=${encodeURIComponent(entityID)}`
+        } else {
+            discovery_request =  `${discovery_request}?entityID=${encodeURIComponent(entityID)}`
+        }
+
+    if (entityID && trustProfile)
+        discovery_request =  `${discovery_request}&trustProfile=${trustProfile}`
+}
 
 if (typeof discovery_request !== 'function') {
     let discovery_request_url = discovery_request;
@@ -59,8 +86,9 @@ if (typeof discovery_request !== 'function') {
 if (typeof discovery_response !== 'function') {
     let discovery_response_url = discovery_response;
     discovery_response = function (entity) {
-        let params = {'return': discovery_response_url};
-        return window.top.location.href = ds_response_url(entity, params);
+        const initiator_type = entity_id_with_profile ? 'shib' : 'sp';
+        let params = new URLSearchParams(`return=${discovery_response_url}&initiator_type=${initiator_type}`);
+        return window.top.location.href = ds_response_url(entity, params, initiator_type);
     };
 }
 

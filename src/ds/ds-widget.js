@@ -1,4 +1,4 @@
-import {json_mdq_search, parse_qs, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
 import Localization from '../localization.js'
 
@@ -13,6 +13,7 @@ jQuery(function ($) {
             mdq: undefined,
             entityID: null,
             trustProfile: null,
+            initiator_type: 'ds',
             context: undefined,
             before: undefined,
             after: undefined,
@@ -88,15 +89,15 @@ jQuery(function ($) {
 
         sp: function() {
             let obj = this;
-            let params = parse_qs(window.location.search.substr(1).split('&'));
-            let entity_id = params.entityID;
+            let params = new URLSearchParams(window.location.search);
+            let entity_id = params.get('entityID');
             if (entity_id) {
                 return obj._ds.mdq_sp(entity_id).then(entity => {
-                    return entity ? entity : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
+                    return entity ? Promise.resolve(entity) : Promise.resolve({'entity_id': entity_id, 'title': entity_id});
                 });
             } else {
                 console.log("Missing entityID parameter in discovery request");
-                return {'title': 'Unknown'}
+                return Promise.resolve({'title': 'Unknown'});
             }
         },
 
@@ -206,8 +207,7 @@ jQuery(function ($) {
                 e.preventDefault();
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
 
-                console.log('entity_id XX: ', entity_id)
-                return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
+                return obj._ds.saml_discovery_response(entity_id, obj.options.persist(), obj.options.initiator_type);
             });
 
             $('body').on('keyup', obj.options.entity_selector, function (e) {
