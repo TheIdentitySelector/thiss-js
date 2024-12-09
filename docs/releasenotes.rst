@@ -176,3 +176,8 @@ Version 2.1.13
 -------------
 
 * Documentation
+
+Version 2.1.15
+-------------
+
+* Special behaviour for shibboleth session initiator
