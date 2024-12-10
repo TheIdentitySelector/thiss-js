@@ -87,7 +87,7 @@ if (typeof discovery_response !== 'function') {
     let discovery_response_url = discovery_response;
     discovery_response = function (entity) {
         const initiator_type = entity_id_with_profile ? 'shib' : 'sp';
-        let params = new URLSearchParams(`return=${discovery_response_url}&initiator_type=${initiator_type}`);
+        let params = {return: discovery_response_url};
         return window.top.location.href = ds_response_url(entity, params, initiator_type);
     };
 }
