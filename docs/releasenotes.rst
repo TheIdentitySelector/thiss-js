@@ -181,3 +181,8 @@ Version 2.1.15
 -------------
 
 * Special behaviour for shibboleth session initiator
+
+Version 2.1.16
+--------------
+
+* Docs & API
