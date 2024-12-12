@@ -34,7 +34,7 @@ Version 1.3.0
 * Notice and consent information
 
 Version 1.3.1
-------------
+-------------
 
 * Configurable links and service name in privacy notice
 * Updated privacy notice text
@@ -163,22 +163,22 @@ Version 2.1.9
 * Fix problem with hardcoded context
 
 Version 2.1.10
--------------
+--------------
 
 * Missing context in demo page
 
 Version 2.1.11
--------------
+--------------
 
 * Some UI details
 
 Version 2.1.13
--------------
+--------------
 
 * Documentation
 
 Version 2.1.15
--------------
+--------------
 
 * Special behaviour for shibboleth session initiator
 

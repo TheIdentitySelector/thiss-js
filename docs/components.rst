@@ -44,8 +44,12 @@ The login button component accepts the following configuration parameters in the
 .. code-block:: js
 
     {
-      loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - acts as both discoveryRequest and discoveryResponse
+      loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse
+      discoveryRequest: #<string|callable> (Optional) a URL compatible with the Shibboleth login initiator protocol - if provided, loginInitiatorURL will only act as discoveryResponse
       persistenceURL: #<string> the URL of the persistence service
+
+      entityID: #<string> (Optional) The entityID of the SP.
+      trustProfile: #<string> (Optional) The name of a trust profile published by the SP.
 
       MDQ: #<string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
       pinned: #<string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
@@ -53,28 +57,11 @@ The login button component accepts the following configuration parameters in the
       color: # <string> (default '#0079ff') the color of the button
     }
 
-The discovery component can also be rendered via a static `render` method, that takes the same options as the DiscoveryComponent constructor,
-plus the selector in which to render the button:
-
-.. code-block:: js
-
-    <script src="https://your.service/thiss.js"/>
-    <div id="login"> </div>
-    <script>
-        window.onload = function() {
-           thiss.DiscoveryComponent.render({
-               // other parameters - cf above
-               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/Login?target=https://sp.example.com/loginhandler',
-           },
-           '#login');
-        };
-    </script>
-
 The login button is rendered in an iframe with a fixed size.
 
 When you initiate the button for use with the Shibboleth SP you typically only provide the loginInitiatorURL parameter (and possibly the color and backgroundColor parameters). The loginInitiatorURL should map to a Shibboleth SessionInitiator configuration which is configured for discovery. In theory you can use any SAML discovery service but the intent is of course to use the thiss-js discovery service.
 
-A typicall Shibboleth configuration matching the above call to the login button might look something like this:
+A typical Shibboleth configuration matching the above call to the login button might look something like this:
 
 .. code-block:: xml
 
@@ -87,17 +74,19 @@ A typicall Shibboleth configuration matching the above call to the login button 
 
 You typically provide a target parameter with the loginInitiatorURL which in Shibboleth has the effect of sending the user to a secondary URL after successful authentication. The target URL is typically used to create the user session in your application.
 
-To use a trust profile to pre-filter the results returned by the DS, you would add a `trustProfile` parameter to the URL of the discovery service configured into Shibboleth, so something like:
+Using a trust profile
+.....................
+
+To use a trust profile to pre-filter the results returned by the DS you have to add a `trustProfile` parameter to the URL of the discovery service configured into the SP software, so something like this for Shibboleth SP:
 
 .. code-block:: xml
 
-    <SessionInitiator type="Chaining" Location="/Login" id="ds" relayState="cookie">
-       <SessionInitiator type="SAML2" defaultACSIndex="1" acsByIndex="false" template="bindingTemplate.html"/>
-       <SessionInitiator type="Shib1" defaultACSIndex="5"/>
-       <SessionInitiator type="SAMLDS" URL="https://your.service/ds/?trustProfile=some-profile"/>
+    <SessionInitiator type="Chaining" Location="/DS/some-profile-name" id="some-profile-name">
+       <SessionInitiator type="SAML2" acsIndex="1" template="bindingTemplate.html"/>
+       <SessionInitiator type="SAMLDS" URL="https://your.discovery.service/ds/?trustProfile=some-profile-name"/>
     </SessionInitiator>
 
-An alternative to use a trust profile would be to configure the discovery service as `loginInitiatorURL`, like this:
+Then, you would construct the `DiscoveryComponent` as follows:
 
 .. code-block:: js
 
@@ -105,16 +94,13 @@ An alternative to use a trust profile would be to configure the discovery servic
     <div id="login"> </div>
     <script>
         window.onload = function() {
-           thiss.DiscoveryComponent.render({
-               loginInitiatorURL: 'https://use.thiss.io/ds/?return=https%3A//example.com/Shibboleth.sso/Login%3Ftarget%3D/sign',
-               entityID: 'https://example.com/shibboleth',
-               trustProfile: 'some-profile',
-           },
-           '#login');
+           thiss.DiscoveryComponent({
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/some-profile-name?target=https://sp.example.com/some-resource/
+               entityID: 'https://your.entity/ID',
+               trustProfile: 'some-profile-name'
+           }).render('#login');
         };
     </script>
-
-If you are not using Shibboleth pls consult your SAML SP documentation for functional equivalents of the Shibboleth SessionInitiator concept.
 
 Persistence Service
 -------------------
