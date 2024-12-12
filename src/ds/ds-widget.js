@@ -13,7 +13,6 @@ jQuery(function ($) {
             mdq: undefined,
             entityID: null,
             trustProfile: null,
-            initiator_type: 'ds',
             context: undefined,
             before: undefined,
             after: undefined,
@@ -207,7 +206,7 @@ jQuery(function ($) {
                 e.preventDefault();
                 let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
 
-                return obj._ds.saml_discovery_response(entity_id, obj.options.persist(), obj.options.initiator_type);
+                return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 
             $('body').on('keyup', obj.options.entity_selector, function (e) {

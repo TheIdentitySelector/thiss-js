@@ -36,8 +36,7 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-//import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {json_mdq_get, json_mdq_get_sp} from "../dsjs/discovery.js";
+import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
@@ -54,28 +53,12 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
-    let initiator_type = 'ds';
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
-
-
-    if (entityID) {
-        const entityIDURL = new URL(entityID);
-        const params = entityIDURL.searchParams;
-        if (params.size > 0) {
-            entity_id_with_profile = entityID;
-            entityID = `${entityIDURL.origin}${entityIDURL.pathname}`;
-            if (params.has('trustProfile')) {
-                trustProfile = params.get('trustProfile');
-                initiator_type = 'shib';
-            }
-        }
-    }
-
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -173,7 +156,6 @@ $(document).ready(function() {
         search: process.env.SEARCH_URL,
         entityID: entityID,
         trustProfile: trustProfile,
-        initiator_type: initiator_type,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         _render_search_result: function(items, strict, spEntity) {
