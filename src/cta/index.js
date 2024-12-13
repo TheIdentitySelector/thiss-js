@@ -47,7 +47,7 @@ if (discovery_request !== discovery_response && typeof discovery_request === 'st
     // assume discoveryRequest is the URL of an instance of our DS
     let search_string = `return=${encodeURIComponent(discovery_response)}`;
     if (entityID && trustProfile) {
-        let search_string = `${search_string}&entityID=${encodeURIComponent(entityID)}&trustProfile=${trustProfile}`;
+        search_string = `${search_string}&entityID=${encodeURIComponent(entityID)}&trustProfile=${trustProfile}`;
     }
     if (new URL(discovery_request).searchParams.size > 0) {
         discovery_request =  `${discovery_request}&${search_string}`
