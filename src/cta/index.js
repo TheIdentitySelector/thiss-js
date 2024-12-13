@@ -45,7 +45,7 @@ if (window.xprops.trustProfile)
 
 if (discovery_request !== discovery_response && typeof discovery_request === 'string' && entityID && trustProfile) {
     // assume discoveryRequest is the URL of an instance of our DS
-    const search_string = `entityID=${encodeURIComponent(entityID)}&trustProfile=${trustProfile}`;
+    const search_string = `entityID=${encodeURIComponent(entityID)}&trustProfile=${trustProfile}&return=${encodeURIComponent(discovery_response)}`;
     if (new URL(discovery_request).searchParams.size > 0) {
         discovery_request =  `${discovery_request}&${search_string}`
     } else {
