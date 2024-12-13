@@ -209,7 +209,7 @@ Version 2.1.22
 
 * Fix problem with return param in cta
 
-Version 2.1.25
+Version 2.1.26
 --------------
 
 * Docs
