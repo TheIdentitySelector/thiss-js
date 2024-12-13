@@ -208,3 +208,8 @@ Version 2.1.22
 --------------
 
 * Fix problem with return param in cta
+
+Version 2.1.23
+--------------
+
+* Docs
