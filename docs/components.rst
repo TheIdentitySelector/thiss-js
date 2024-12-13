@@ -75,6 +75,21 @@ A typical Shibboleth configuration matching the above call to the login button m
 
 You typically provide a target parameter with the loginInitiatorURL which in Shibboleth has the effect of sending the user to a secondary URL after successful authentication. The target URL is typically used to create the user session in your application.
 
+To configure the button with discoveryRequest & discoveryResponse, using the discovery service URL as discoveryRequest, you will need to add your entityID to the DS URL, like so:
+
+.. code-block:: js
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               discoveryRequest: 'https://your.service/ds/?entityID=https://your.entity/ID',
+               discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
+           }).render('#login');
+        };
+    </script>
+
 Using a trust profile
 .....................
 
