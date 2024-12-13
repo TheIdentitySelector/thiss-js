@@ -199,7 +199,7 @@ Version 2.1.18
 * Allow configuring std button with DS URL & trust profile
 * Docs
 
-Version 2.1.19
+Version 2.1.20
 --------------
 
 * Fix banana-i18n dependency
