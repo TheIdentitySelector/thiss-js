@@ -192,3 +192,9 @@ Version 2.1.17
 
 * Revert special behaviour for shibboleth session initiator
 * Docs
+
+Version 2.1.18
+--------------
+
+* Allow configuring std button with DS URL & trust profile
+* Docs
