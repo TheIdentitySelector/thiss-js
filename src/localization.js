@@ -5,8 +5,8 @@ const localeSelector = document.getElementById('locale-selector');
 
 export default class Localization extends I18n {
     constructor(locale) {
-        super(locale);
-        //this.locale = locale;
+        super();
+        this.locale = locale;
         this.file = null;
         this.selectAvailableLocale();
         this.selectNewLocale();
