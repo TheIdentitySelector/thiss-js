@@ -69,7 +69,7 @@
     "@popperjs/core": "^2.11.8",
     "@snyk/protect": "^1.1292.4",
     "@theidentityselector/thiss-ds": "^2.1.17",
-    "banana-i18n": "^2.3.3",
+    "banana-i18n": "^2.4.0",
     "belter": "^1.0.190",
     "bootstrap-scss": "^5.3.3",
     "chai": "^5.1.1",

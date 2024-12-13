@@ -1,4 +1,4 @@
-const I18n = require('banana-i18n/dist/banana-i18n.js');
+const I18n = require('banana-i18n');
 const I18N_DATA_ATTRIBUTE = '[data-i18n]';
 const DEFAULT_LOCALE = 'en';
 const localeSelector = document.getElementById('locale-selector');
