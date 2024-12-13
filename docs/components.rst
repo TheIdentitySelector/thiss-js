@@ -45,7 +45,8 @@ The login button component accepts the following configuration parameters in the
 
     {
       loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse
-      discoveryRequest: #<string|callable> (Optional) a URL compatible with the Shibboleth login initiator protocol - if provided, loginInitiatorURL will only act as discoveryResponse
+      discoveryRequest:  #<string|callable> a URL or callable that initiates a discovery flow
+      discoveryResponse: #<string|callable> a URL or callable that handles a discovery response
       persistenceURL: #<string> the URL of the persistence service
 
       entityID: #<string> (Optional) The entityID of the SP.
@@ -77,7 +78,7 @@ You typically provide a target parameter with the loginInitiatorURL which in Shi
 Using a trust profile
 .....................
 
-To use a trust profile to pre-filter the results returned by the DS you have to add a `trustProfile` parameter to the URL of the discovery service configured into the SP software, so something like this for Shibboleth SP:
+To use a trust profile to pre-filter the results returned by the DS you have to add an `entityID` and `trustProfile` parameter to the URL of the discovery service configured into the SP software, so something like this for Shibboleth SP:
 
 .. code-block:: xml
 
@@ -95,7 +96,24 @@ Then, you would construct the `DiscoveryComponent` as follows:
     <script>
         window.onload = function() {
            thiss.DiscoveryComponent({
-               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/some-profile-name?target=https://sp.example.com/some-resource/
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/some-profile-name?target=/some-resource/',
+               entityID: 'https://your.entity/ID',
+               trustProfile: 'some-profile-name'
+           }).render('#login');
+        };
+    </script>
+
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to use a trust profile setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handles the discovery response.
+
+.. code-block:: js
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               discoveryRequest: 'https://your.service/ds/',
+               discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
                entityID: 'https://your.entity/ID',
                trustProfile: 'some-profile-name'
            }).render('#login');
