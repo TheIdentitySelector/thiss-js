@@ -35,11 +35,28 @@ function prerenderTemplate(opts) {
 
     let login_initiator_url = opts.props.loginInitiatorURL || opts.props.loginHandlerURL;
     let discovery_request = opts.props.discoveryRequest;
+    let discovery_response = opts.props.discoveryResponse;
+    let entityID = opts.props.entityID;
+    let trustProfile = opts.props.trustProfile;
 
     if (!discovery_request)
         discovery_request = login_initiator_url;
 
+    if (!discovery_response)
+        discovery_response = login_initiator_url;
 
+    if (discovery_request !== discovery_response && typeof discovery_request === 'string') {
+        // assume discoveryRequest is the URL of an instance of our DS
+        let search_string = `return=${encodeURIComponent(discovery_response)}`;
+        if (entityID && trustProfile) {
+            search_string = `${search_string}&entityID=${encodeURIComponent(entityID)}&trustProfile=${trustProfile}`;
+        }
+        if (new URL(discovery_request).searchParams.size > 0) {
+            discovery_request =  `${discovery_request}&${search_string}`
+        } else {
+            discovery_request =  `${discovery_request}?${search_string}`
+        }
+    }
     if (typeof discovery_request !== 'function') {
         let discovery_request_url = discovery_request;
         discovery_request = function () {
@@ -51,7 +68,10 @@ function prerenderTemplate(opts) {
     _set_default_props(opts);
     const _t = opts.doc.createElement("html");
     _t.innerHTML = preload_template(opts.props);
-    _t.addEventListener('click', function(event) {
+    let elem = _t.querySelector('#fallbacklink');
+    if (elem === null)
+        elem = _t;
+    elem.addEventListener('click', function(event) {
         event.preventDefault();
         discovery_request();
         //requestingStorageAccess(discovery_request);
