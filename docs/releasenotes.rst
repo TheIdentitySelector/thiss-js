@@ -213,3 +213,8 @@ Version 2.1.26
 --------------
 
 * Docs
+
+Version 2.1.27
+--------------
+
+* Fix bug in pre-loaded standard button
