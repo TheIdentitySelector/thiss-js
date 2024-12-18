@@ -55,7 +55,6 @@ module.exports = {
     entry: {
         index: ['./src/index.js'],
         cta: ['./src/cta/index.js'],
-        //'sa-button': ['./src/sa-button/index.js'],
         ds: ['./src/ds/index.js'],
         ps: ['./src/ps/index.js'],
         result: ['./src/result/index.js'],
@@ -107,12 +106,6 @@ module.exports = {
             chunks: ['cta'],
             inject: true,
             template: 'src/cta/index.ejs'
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'sa-button/index.html',
-            chunks: ['sa-button'],
-            inject: true,
-            template: 'src/sa-button/index.ejs'
         }),
         new HtmlWebpackPlugin({
             filename: 'ds/index.html',
