@@ -76,12 +76,18 @@ const recoverPersisted = (start, context) => {
         ds.ps.entities(context).then(result => result.data).then(function(items) {
             const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
             Promise.allSettled(item_promises).then(results => {
+                let lang = window.navigator.language;
+                lang = (lang.split('-'))[0];
                 let found = false;
                 results.forEach(result => {
                     if (!found && result.status === 'fulfilled') {
                         found = true;
                         const item = result.value;
-                        document.getElementById('title').innerText = item.title;
+                        let title = item.title;
+                        if ('title_langs' in item && lang in item.title_langs) {
+                            title = item.title_langs[lang];
+                        }
+                        document.getElementById('title').innerText = title;
                         entity_id = item.entity_id || item.entityID;
                         document.getElementById('headline').innerText = localization.translateString('cta-button-header');
                         document.getElementById('headline').className = "ra21-button-text-secondary";

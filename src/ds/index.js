@@ -159,22 +159,31 @@ $(document).ready(function() {
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         _render_search_result: function(items, strict, spEntity) {
-
-            let browserLanguage = window.navigator.language
-            browserLanguage = (browserLanguage.split('-'))[0]
     
+            let lang = localization.locale;
+            lang = (lang.split('-'))[0];
             let htmlItemList = []
 
             const templ = ejs.compile(searchHTML);
 
             items.forEach((item) => {
+
+                localization.updateDynamic(item);
+
                 let hint = false;
 
                 if (!strict && 'hint' in item) {
                     hint = true;
                 }
+                const title_i18n = item.entityID;
+                let title = item.title;
+
+                if ('title_langs' in item && lang in item.title_langs) {
+                    title = item.title_langs[lang];
+                }
                 const context = {
-                    title: item.title,
+                    title: title,
+                    title_i18n: title_i18n,
                     domain: item.domain,
                     entity_id: item.entity_id,
                     strictProfile: strict,
@@ -221,21 +230,31 @@ $(document).ready(function() {
         },
         _render_saved_choice: function(items, strict, spEntity) {
 
-            let browserLanguage = window.navigator.language;
-            browserLanguage = (browserLanguage.split('-'))[0];
+            let lang = localization.locale;
+            lang = (lang.split('-'))[0];
 
             let hasNonHinted = false;
 
             const templ = ejs.compile(savedHTML);
             items.forEach((item) => {
+
+                localization.updateDynamic(item);
+
                 let hint = false;
                 if (strict === false && 'hint' in item) {
                     hint = true;
                 }
                 if (!hint) hasNonHinted = true;
 
+                const title_i18n = item.entityID;
+                let title = item.title;
+                if ('title_langs' in item && lang in item.title_langs) {
+                    title = item.title_langs[lang];
+                }
+
                 const context = {
-                    title: item.title,
+                    title: title,
+                    title_i18n: title_i18n,
                     domain: item.domain,
                     entity_id: item.entity_id,
                     entity_icon: item.entity_icon,
@@ -251,8 +270,8 @@ $(document).ready(function() {
 
             if (strict === false && hasNonHinted) {
                 let org = spEntity.title;
-                if (spEntity.title_langs && spEntity.title_langs[browserLanguage]) {
-                    org = spEntity.title_langs[browserLanguage];
+                if (spEntity.title_langs && spEntity.title_langs[lang]) {
+                    org = spEntity.title_langs[lang];
                 }
                 const no_access = localization.translateString('filter-warning-no-access');
                 const choose_alternative = localization.translateString('filter-warning-choose-alternative');

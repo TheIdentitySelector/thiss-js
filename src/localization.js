@@ -10,6 +10,19 @@ export default class Localization extends I18n {
         this.file = null;
         this.selectAvailableLocale();
         this.selectNewLocale();
+        this.dynamic = {};
+    }
+
+    updateDynamic (item) {
+        if ('title_langs' in item && !!item.title_langs && item.title_langs.constructor === Object) {
+            const langs = Object.keys(item.title_langs);
+            for (const lang of langs) {
+                if (!(lang in this.dynamic)) {
+                    this.dynamic[lang] = {}
+                }
+                this.dynamic[lang][item.entityID] = item.title_langs[lang];
+            }
+        }
     }
 
     selectAvailableLocale (defaultLocale) {
@@ -62,6 +75,11 @@ export default class Localization extends I18n {
                     return response.json()
                 })
                 .then((messages) => {
+                    if (locale in this.dynamic) {
+                        for (const key of Object.keys(this.dynamic[locale])) {
+                            messages[key] = this.dynamic[locale][key];
+                        }
+                    }
                     this.file = messages
                     this.setLocale(locale);
                     this.load(messages, locale);
