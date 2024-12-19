@@ -218,3 +218,9 @@ Version 2.1.27
 --------------
 
 * Fix bug in pre-loaded standard button
+
+Version 2.1.28
+--------------
+
+* Docs
+* Localization of entities in search results, rememberd choice, CTA button
