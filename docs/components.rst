@@ -23,7 +23,7 @@ If your SP supports SAML discovery *or something similar* you can deploy the log
 
 The login button component is instantiated like this:
 
-.. code-block:: js
+.. code-block:: html
 
     <script src="https://your.service/thiss.js"/>
     <div id="login"> </div>
@@ -41,22 +41,18 @@ This example assumes the client uses the shibboleth SP but all SPs provides a me
 
 The login button component accepts the following configuration parameters in the call to DiscoveryComponent
 
-.. code-block:: js
+* loginInitiatorURL: <string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse
+* discoveryRequest:  <string|callable> a URL or callable that initiates a discovery flow
+* discoveryResponse: <string|callable> a URL or callable that handles a discovery response
+* persistenceURL: <string> the URL of the persistence service
 
-    {
-      loginInitiatorURL: #<string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse
-      discoveryRequest:  #<string|callable> a URL or callable that initiates a discovery flow
-      discoveryResponse: #<string|callable> a URL or callable that handles a discovery response
-      persistenceURL: #<string> the URL of the persistence service
+* entityID: <string> The entityID of the SP
+* trustProfile: <string> The name of a trust profile published by the SP
 
-      entityID: #<string> (Optional) The entityID of the SP.
-      trustProfile: #<string> (Optional) The name of a trust profile published by the SP.
-
-      MDQ: #<string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
-      pinned: #<string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
-      backgroundColor: # <string> (default '#FFFFFF') the background color of the iframe where the button is rendered
-      color: # <string> (default '#0079ff') the color of the button
-    }
+* MDQ: <string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
+* pinned: <string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
+* backgroundColor: <string> (default '#FFFFFF') the background color of the iframe where the button is rendered
+* color: <string> (default '#0079ff') the color of the button
 
 The login button is rendered in an iframe with a fixed size.
 
@@ -77,7 +73,7 @@ You typically provide a target parameter with the loginInitiatorURL which in Shi
 
 To configure the button with discoveryRequest & discoveryResponse, using the discovery service URL as discoveryRequest, you will need to add your entityID to the DS URL, like so:
 
-.. code-block:: js
+.. code-block:: html
 
     <script src="https://your.service/thiss.js"/>
     <div id="login"> </div>
@@ -104,7 +100,7 @@ To use a trust profile to pre-filter the results returned by the DS you have to 
 
 Then, you would construct the `DiscoveryComponent` as follows:
 
-.. code-block:: js
+.. code-block:: html
 
     <script src="https://your.service/thiss.js"/>
     <div id="login"> </div>
@@ -120,7 +116,7 @@ Then, you would construct the `DiscoveryComponent` as follows:
 
 Alternatively, without needing to use shibboleth or modify its configuration, it is possible to use a trust profile setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handles the discovery response.
 
-.. code-block:: js
+.. code-block:: html
 
     <script src="https://your.service/thiss.js"/>
     <div id="login"> </div>
