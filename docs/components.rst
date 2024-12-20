@@ -89,7 +89,7 @@ To configure the button with discoveryRequest & discoveryResponse, using the dis
 Using a trust profile
 .....................
 
-To use a trust profile to pre-filter the results returned by the DS you have to add an `entityID` and `trustProfile` parameter to the URL of the discovery service configured into the SP software, so something like this for Shibboleth SP:
+To use a trust profile to pre-filter the results returned by the DS you have to add a `trustProfile` parameter to the URL of the discovery service configured into the SP software, so something like this for Shibboleth SP:
 
 .. code-block:: xml
 
