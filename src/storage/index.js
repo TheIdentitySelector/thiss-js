@@ -880,7 +880,7 @@ export async function getStorageHandle() {
   if (!document.requestStorageAccess) {
     // Storage Access API is not supported so best we can do is
     // hope it's an older browser that doesn't block 3P cookies.
-    console.log('API not supported');
+    console.log('API not supported, returning window');
     return window;
   }
 
@@ -888,7 +888,13 @@ export async function getStorageHandle() {
   if (await document.hasStorageAccess()) {
     console.log('access has already been granted');
     const handle = await document.requestStorageAccess({all: true});
-    return handle || window;
+    if (handle) {
+      console.log("There is access and the handle, returning handle");
+      return handle;
+    } else {
+      console.log("There is access but no handle, returning window");
+      return window;
+    }
   }
 
   // Check the storage-access permission
@@ -902,6 +908,7 @@ export async function getStorageHandle() {
     );
   } catch (error) {
     // storage-access permission not supported. Assume no cookie access.
+      console.log("There is no permission, returning window");
     return window;
   }
 
@@ -912,24 +919,34 @@ export async function getStorageHandle() {
       // it will resolve automatically.
       try {
         const handle = await document.requestStorageAccess({all: true});
-        return handle || window;
+        if (handle) {
+          console.log("There is permission and the handle, returning handle");
+          return handle;
+        } else {
+          console.log("There is permission but no handle, returning window");
+          return window;
+        }
       } catch (error) {
         // This shouldn't really fail if access is granted, but return false
         // if it does.
+          console.log("There is error in permission, returning window");
         return window;
       }
     } else if (permission.state === 'prompt') {
       // Need to call requestStorageAccess() after a user interaction
       // (potentially with a prompt). Can't do anything further here,
       // so handle this in the click handler.
+          console.log("Permission state is prompt, returning window");
       return window;
     } else if (permission.state === 'denied') {
       // Currently not used. See:
       // https://github.com/privacycg/storage-access/issues/149
+          console.log("Permission state is denied, returning window");
       return window;
     }
   }
   // By default return false, though should really be caught by one of above.
+  console.log("Default, returning window");
   return window;
 }
 

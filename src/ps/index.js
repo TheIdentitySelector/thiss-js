@@ -18,6 +18,7 @@ let Storages = await getStorages();
 let globalStorages = await getStorages(true);
 const storagePerm = await hasSAPerm();
 let doPersist = false;
+let checkboxVisible = false;
 
 const max_cache_time = 30  * 1000;
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -178,42 +179,45 @@ async function reduceCookieStorage(context) {
     }
 }
 
-const advCheckbox = document.getElementById('ps-checkbox-adv');
-let checkboxVisible = false;
-if (advCheckbox.checkVisibility) {
-    checkboxVisible = advCheckbox.checkVisibility();
-}
+async function initCheckbox() {
+    const advCheckbox = document.getElementById('ps-checkbox-adv');
+    if (advCheckbox.checkVisibility) {
+        checkboxVisible = advCheckbox.checkVisibility();
+    }
 
-if (checkboxVisible) {
-    advCheckbox.addEventListener('click', async (event) => {
+    if (checkboxVisible) {
+        advCheckbox.addEventListener('click', async (event) => {
 
-        const local_storage = ctx_local();
-        const keys = local_storage.keys().filter(k => k !== undefined && k !== '_name');
-        const stored_institutions = [];
-        for (let k of keys) {
-            let item = await get_entity(local_storage, k);
-            stored_institutions.push(clean_item(item));
-        }
-        requestingStorageAccess(async () => {
-            Storages = await getStorages();
-            const storage = ctx();
+            const local_storage = ctx_local();
+            const keys = local_storage.keys().filter(k => k !== undefined && k !== '_name');
+            const stored_institutions = [];
+            for (let k of keys) {
+                let item = await get_entity(local_storage, k);
+                stored_institutions.push(clean_item(item));
+            }
+            requestingStorageAccess(async () => {
+                Storages = await getStorages();
+                const storage = ctx();
 
-            stored_institutions.forEach(ins => {
-                set_entity(storage, ins);
+                stored_institutions.forEach(ins => {
+                    set_entity(storage, ins);
+                });
+                postRobot.send(window.parent, 'init')
+                postRobot.send(window.parent, 'start')
             });
-            postRobot.send(window.parent, 'init')
-            postRobot.send(window.parent, 'start')
+            doPersist = advCheckbox.checked;
         });
-        doPersist = advCheckbox.checked;
-    });
-    if (storagePerm) {
-        advCheckbox.checked = true;
-        doPersist = true;
-    } else {
-        advCheckbox.checked = false;
-        doPersist = false;
+        if (storagePerm) {
+            advCheckbox.checked = true;
+            doPersist = true;
+        } else {
+            advCheckbox.checked = false;
+            doPersist = false;
+        }
     }
 }
+
+await initCheckbox();
 
 postRobot.on('persist', {window: window.parent}, function(event) {
     if (checkboxVisible && !doPersist) {
