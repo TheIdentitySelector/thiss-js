@@ -6,6 +6,34 @@ import './assets/index.scss';
 import './assets/sa-black.svg'
 
 window.onload = function() {
+    const updateUI = (data, id) => {
+        const elem = window.document.getElementById(id);
+        elem.innerHTML = "";
+        data.forEach(function (entity) {
+            let p = window.document.createElement('p');
+            p.append(entity.entity.entityID);
+            elem.appendChild(p);
+        });
+    };
+    const entity = {
+        "title":"Cornell University",
+        "domain":"cornell.edu",
+        "entity_id":"https://shibidp.cit.cornell.edu/idp/shibboleth",
+        "entityID":"https://shibidp.cit.cornell.edu/idp/shibboleth",
+        "strictProfile":true,
+        "hint":false,
+        "id": "{sha1}95fbb224d65c28db71176a3b8e58c38281675884"
+    };
+    const entity2 = {
+        "title": "Clark Family Library - Washington & Jefferson College",
+        "entity_id": "https://idp.washjeff.edu/openathens",
+        "entityID": "https://idp.washjeff.edu/openathens",
+        "domain": "washjeff.edu",
+        "strictProfile":true,
+        "hint":false,
+        "id": "{sha1}d48472114d54cb19a9cf78335cdb2692c0a81899"
+    }
+    // ########################################################################################### //
     const ds = new DiscoveryService(
       process.env.MDQ_URL,
       process.env.PERSISTENCE_URL,
@@ -15,27 +43,9 @@ window.onload = function() {
     });
     ds.ps.entities(ds.context).then(function(result) {
         if (result && result.data) {
-            updateUI(result.data);
+            updateUI(result.data, "out-adv-1");
         }
     });
-    const updateUI = (data) => {
-        const elem = window.document.getElementById("out-adv-1");
-        elem.innerHTML = "";
-        data.forEach(function (entity) {
-            let p = window.document.createElement('p');
-            p.append(entity.entity.entityID);
-            elem.appendChild(p);
-        });
-    };
-    const entity = {
-      "title":"Cornell University",
-      "domain":"cornell.edu",
-      "entity_id":"https://shibidp.cit.cornell.edu/idp/shibboleth",
-      "entityID":"https://shibidp.cit.cornell.edu/idp/shibboleth",
-      "strictProfile":true,
-      "hint":false,
-      "id": "{sha1}95fbb224d65c28db71176a3b8e58c38281675884"
-    };
     const button = window.document.getElementById("adv-set-entity");
     button.addEventListener("click", (e) => {
         ds.ps.update(ds.context, entity);
@@ -44,10 +54,43 @@ window.onload = function() {
     postRobot.on('start', {window: ds.ps.dst}, function(event) {
         ds.ps.entities(ds.context).then(function(result) {
             if (result && result.data) {
-                updateUI(result.data);
+                updateUI(result.data, "out-adv-1");
             }
         });
     });
+    // ########################################################################################### //
+    const ds2 = new DiscoveryService(
+      process.env.MDQ_URL,
+      process.env.PERSISTENCE_URL,
+      process.env.DEFAULT_CONTEXT);
+
+    ds2.ps.entities(ds.context).then(function(result) {
+        if (result && result.data) {
+            updateUI(result.data, "out-adv-2");
+        }
+    });
+    const button2 = window.document.getElementById("adv-set-checkbox");
+    button2.addEventListener("click", (e) => {
+        const elem = window.document.createElement('div');
+        elem.id = "checkbox-sa-holder-2";
+        elem.style['height'] = '40px';
+        elem.style['width'] = '40px';
+        const div = window.document.getElementById("checkbox-sa-preholder");
+        div.appendChild(elem);
+        ds2.ps.show_checkbox("#checkbox-sa-holder-2");
+        postRobot.on('start', {window: ds2.ps.dst}, function(event) {
+            ds2.ps.entities(ds.context).then(function(result) {
+                if (result && result.data) {
+                    updateUI(result.data, "out-adv-2");
+                }
+            });
+        });
+    });
+    const button3 = window.document.getElementById("adv-set-entity2");
+    button3.addEventListener("click", (e) => {
+        ds2.ps.update(ds.context, entity2);
+    });
+
     // ########################################################################################### //
     DiscoveryComponent({
         discoveryRequest: process.env.BASE_URL+`ds/?entityID=https://dev.edusign.sunet.se/shibboleth`,
