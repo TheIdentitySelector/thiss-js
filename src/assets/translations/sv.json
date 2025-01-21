@@ -1,9 +1,9 @@
 {
   "@metadata": {
     "authors": [
-      "Fredrik Domeij"
+      "Fredrik Domeij, Zacharias Törnblom"
     ],
-    "last-updated": "2021-11-18",
+    "last-updated": "2025-01-17",
     "locale": "sv"
   },
   "cta-button-placeholder": "Inloggning via din organisation",
@@ -31,16 +31,16 @@
   "ds-too-many-result-matches": "träffar",
   "ds-too-many-result-keep-typing": "fortsätt skriva för att begränsa sökresultatet",
 
-  "list-filter-no-results": "",
-  "list-filter-too-many-results": "",
-  "filter-warning-no-access": "",
-  "filter-warning-choose-alternative": "",
-  "filter-warning-other-options": "",
-  "filter-warning-back-to-choose": "",
-  "filter-warning-back-to-search": "",
-  "ds-unable-to-verify-return": "",
-  "ds-search-unable-to-verify": "",
-  "ds-search-unable-to-verify-long": "",
+  "list-filter-no-results": "Inga resultat",
+  "list-filter-too-many-results": "fortsätt skriva för att begränsa sökresultatet",
+  "filter-warning-no-access": "har indikerat att en inloggning med din organisation inte kommer ge dig tillgång till tjänsten.",
+  "filter-warning-choose-alternative": "Välj en alternativ organisation eller använd",
+  "filter-warning-other-options": "andra inloggningsmetoder",
+  "filter-warning-back-to-choose": "Gå tillbaka och till Ändra organisationer",
+  "filter-warning-back-to-search": "Gå tillbaka till Sök organisation",
+  "ds-unable-to-verify-return": "Vi lyckades inte verifiera sidan du återvänder till",
+  "ds-search-unable-to-verify": "Vi lyckades inte verifiera sidan du återvänder till",
+  "ds-search-unable-to-verify-long": "Vi kan inte ",
   "ds-search-unable-to-verify-longer": "",
   "ds-search-why-unable-to-verify": "",
   "ds-no-results-no-matching": "",
