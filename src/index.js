@@ -51,7 +51,7 @@ window.onload = function() {
         ds.ps.update(ds.context, entity);
     });
 
-    postRobot.on('start', {window: ds.ps.dst}, function(event) {
+    postRobot.on('storage-access-granted', {window: ds.ps.dst}, function(event) {
         ds.ps.entities(ds.context).then(function(result) {
             if (result && result.data) {
                 updateUI(result.data, "out-adv-1");
@@ -64,7 +64,7 @@ window.onload = function() {
       process.env.PERSISTENCE_URL,
       process.env.DEFAULT_CONTEXT);
 
-    ds2.ps.entities(ds.context).then(function(result) {
+    ds2.ps.entities(ds2.context).then(function(result) {
         if (result && result.data) {
             updateUI(result.data, "out-adv-2");
         }
@@ -78,8 +78,8 @@ window.onload = function() {
         const div = window.document.getElementById("checkbox-sa-preholder");
         div.appendChild(elem);
         ds2.ps.show_checkbox("#checkbox-sa-holder-2");
-        postRobot.on('start', {window: ds2.ps.dst}, function(event) {
-            ds2.ps.entities(ds.context).then(function(result) {
+        postRobot.on('storage-access-granted', {window: ds2.ps.dst}, function(event) {
+            ds2.ps.entities(ds2.context).then(function(result) {
                 if (result && result.data) {
                     updateUI(result.data, "out-adv-2");
                 }
@@ -88,7 +88,7 @@ window.onload = function() {
     });
     const button3 = window.document.getElementById("adv-set-entity2");
     button3.addEventListener("click", (e) => {
-        ds2.ps.update(ds.context, entity2);
+        ds2.ps.update(ds2.context, entity2);
     });
 
     // ########################################################################################### //

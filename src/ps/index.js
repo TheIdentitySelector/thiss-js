@@ -179,11 +179,26 @@ async function reduceCookieStorage(context) {
     }
 }
 
+function isCheckboxVisible(advCheckbox) {
+    if (advCheckbox) {
+        if (advCheckbox.checkVisibility) {
+            const visible = advCheckbox.checkVisibility();
+            if (!visible)
+                return false;
+        }
+        if (window.outerHeight === 0 || window.outerWidth === 0) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        return false;
+    }
+}
+
 async function initCheckbox() {
     const advCheckbox = document.getElementById('ps-checkbox-adv');
-    if (advCheckbox.checkVisibility) {
-        checkboxVisible = advCheckbox.checkVisibility();
-    }
+    checkboxVisible = isCheckboxVisible(advCheckbox);
 
     if (checkboxVisible) {
         advCheckbox.addEventListener('click', async (event) => {
@@ -202,8 +217,7 @@ async function initCheckbox() {
                 stored_institutions.forEach(ins => {
                     set_entity(storage, ins);
                 });
-                postRobot.send(window.parent, 'init')
-                postRobot.send(window.parent, 'start')
+                postRobot.send(window.parent, 'storage-access-granted')
             });
             doPersist = advCheckbox.checked;
         });
@@ -217,7 +231,9 @@ async function initCheckbox() {
     }
 }
 
-await initCheckbox();
+postRobot.on('init-checkbox', {window: window.parent}, async function(event) {
+    await initCheckbox();
+});
 
 postRobot.on('persist', {window: window.parent}, function(event) {
     if (checkboxVisible && !doPersist) {
@@ -235,6 +251,7 @@ postRobot.on('persist', {window: window.parent}, function(event) {
 });
 
 postRobot.on('update', {window: window.parent}, async function(event) {
+        console.log(`TTTRYing to update, cbvis: ${checkboxVisible}, dP: ${doPersist}`);
     if (checkboxVisible && !doPersist) {
         return
     }
@@ -243,7 +260,6 @@ postRobot.on('update', {window: window.parent}, async function(event) {
     let entity = event.data.entity;
     let storage = ctx(event.data.context);
     const ret = set_entity(storage, entity);
-    postRobot.send(window.parent, 'start');
     return ret;
 });
 
@@ -298,4 +314,9 @@ postRobot.on('remove', {window: window.parent}, function(event) {
     remove_entity(event.data.context, event.data.entity_id);
 });
 
-postRobot.send(window.parent, 'init');
+try {
+    await initCheckbox();
+    postRobot.send(window.parent, 'initialized');
+} catch (err) {
+    console.log(`Problem initializing client: ${err}`);
+}

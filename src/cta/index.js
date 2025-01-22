@@ -124,7 +124,7 @@ if (window.xprops.pinned) {
     start.push(ds.pin(window.xprops.pinned));
 }
 
-postRobot.on('init', {window: ds.ps.dst}, function(event) {
+postRobot.on('initialized', {window: ds.ps.dst}, function(event) {
     recoverPersisted(start, context);
 });
 
