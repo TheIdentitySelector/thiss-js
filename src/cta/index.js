@@ -120,6 +120,10 @@ if (window.xprops.MDQ) {
 }
 let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
 
+postRobot.on('initialized', {window: ds.ps.dst}, function(event) {
+    recoverPersisted(start, context);
+});
+
 let start = [];
 if (window.xprops.pinned) {
     start.push(ds.pin(window.xprops.pinned));
@@ -202,8 +206,6 @@ function initializeUI() {
     if (!ds.ps.expire) {
         ds.ps.expire = function() {}
     }
-
-    recoverPersisted(start, context);
 }
 if (document.readyState === "loading") {
     // Loading hasn't finished yet

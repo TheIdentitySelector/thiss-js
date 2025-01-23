@@ -317,6 +317,7 @@ postRobot.on('remove', {window: window.parent}, function(event) {
 
 try {
     await initCheckbox();
+    postRobot.send(window.parent, 'initialized');
 } catch (err) {
     console.log(`Problem initializing client: ${err}`);
 }
