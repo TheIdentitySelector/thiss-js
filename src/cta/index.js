@@ -72,6 +72,7 @@ if (typeof discovery_response !== 'function') {
 }
 
 const recoverPersisted = (start, context) => {
+  console.log(`RECOVERING PERSISTED, start: ${JSON.stringify(start)}`);
     Promise.all(start).then(function() {
         ds.ps.entities(context).then(result => result.data).then(function(items) {
             const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
@@ -124,11 +125,8 @@ if (window.xprops.pinned) {
     start.push(ds.pin(window.xprops.pinned));
 }
 
-postRobot.on('initialized', {window: ds.ps.dst}, function(event) {
-    recoverPersisted(start, context);
-});
-
 function initializeUI() {
+  console.log(`Initializing UI`);
 
     let button = document.getElementById('idpbutton');
     let dsbutton = document.getElementById('dsbutton');
@@ -181,7 +179,6 @@ function initializeUI() {
             });
         } else { // off to DS
             requestingStorageAccess(discovery_request);
-            //discovery_request();
         }
     });
 
@@ -205,11 +202,13 @@ function initializeUI() {
     if (!ds.ps.expire) {
         ds.ps.expire = function() {}
     }
+
+    recoverPersisted(start, context);
 }
 if (document.readyState === "loading") {
-  // Loading hasn't finished yet
-  document.addEventListener("DOMContentLoaded", initializeUI);
+    // Loading hasn't finished yet
+    document.addEventListener("DOMContentLoaded", initializeUI);
 } else {
-  // `DOMContentLoaded` has already fired
-  initializeUI();
+    // `DOMContentLoaded` has already fired
+    initializeUI();
 }

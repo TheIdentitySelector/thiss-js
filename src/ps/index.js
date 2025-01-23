@@ -19,6 +19,7 @@ let globalStorages = await getStorages(true);
 const storagePerm = await hasSAPerm();
 let doPersist = false;
 let checkboxVisible = false;
+let checkboxInitialized = false;
 
 const max_cache_time = 30  * 1000;
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -200,7 +201,8 @@ async function initCheckbox() {
     const advCheckbox = document.getElementById('ps-checkbox-adv');
     checkboxVisible = isCheckboxVisible(advCheckbox);
 
-    if (checkboxVisible) {
+    if (checkboxVisible && !checkboxInitialized) {
+        checkboxInitialized = true;
         advCheckbox.addEventListener('click', async (event) => {
 
             const local_storage = ctx_local();
@@ -251,7 +253,6 @@ postRobot.on('persist', {window: window.parent}, function(event) {
 });
 
 postRobot.on('update', {window: window.parent}, async function(event) {
-        console.log(`TTTRYing to update, cbvis: ${checkboxVisible}, dP: ${doPersist}`);
     if (checkboxVisible && !doPersist) {
         return
     }
@@ -316,7 +317,6 @@ postRobot.on('remove', {window: window.parent}, function(event) {
 
 try {
     await initCheckbox();
-    postRobot.send(window.parent, 'initialized');
 } catch (err) {
     console.log(`Problem initializing client: ${err}`);
 }
