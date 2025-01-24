@@ -224,3 +224,9 @@ Version 2.1.28
 
 * Docs
 * Localization of entities in search results, rememberd choice, CTA button
+
+Version 2.1.30
+--------------
+
+* Backwards compatibility with ps 1.0.19
+* Bugfixes
