@@ -823,7 +823,7 @@ export const requestingStorageAccess = (callback) => {
                               callback();
                           });
                       })
-                      .catch(err => { callback(); });
+                      .catch(err => { console.log(`Error requesting storage access: ${err}`); callback(); });
               }).catch(err => {
                   document.requestStorageAccess()
                       .then(storage => {
