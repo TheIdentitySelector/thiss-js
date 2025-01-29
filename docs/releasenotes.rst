@@ -236,3 +236,8 @@ Version 2.1.31
 
 * Do not refresh entities from MDQ in persistence service
 * Bugfixes
+
+Version 2.1.32
+--------------
+
+* Bugfixes
