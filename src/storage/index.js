@@ -697,38 +697,14 @@ export function clean_item(item) {
     return item;
 }
 
-const mdq_url = process.env.MDQ_URL;
-
-async function mdq_get(id) {
-    let url = mdq_url + id + ".json"
-
-    let opts = {method: 'GET', headers: {'Accept':'application/json'}};
-    const resp = await fetch(url, opts);
-    if (resp.status == 404) {
-        return undefined;
-    }
-    let data;
-    let contentType = resp.headers.get("content-type");
-    if(contentType && contentType.includes("application/json")) {
-        data = resp.json();
-    }
-    if (Array.isArray(data) && data.length > 0) {
-        data = data[0];
-    }
-    return data;
-}
-
 export async function get_entity(storage, id) {
     if (storage.isSet(id)) {
         const item = storage.get(id);
         if (item) {
-            const refreshed = await mdq_get(item.entity.id);
-            item.entity = refreshed;
+            return item;
         }
-        return item;
-    } else {
-        return undefined;
     }
+    return undefined;
 }
 
 export function set_entity(storage, entity) {
@@ -744,11 +720,6 @@ export function set_entity(storage, entity) {
     if (entity.entityID && !entity.entity_id) {
         entity.entity_id = entity.entityID;
     }
-    item.entity = {
-        entity_id: entity.entity_id,
-        entityID: entity.entity_id,
-        id: entity.id
-    };
     let id = entity.entity_id.hexEncode();
     item = clean_item(item);
     return storage.set(id, item)
