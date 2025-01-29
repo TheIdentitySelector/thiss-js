@@ -230,3 +230,9 @@ Version 2.1.30
 
 * Backwards compatibility with ps 1.0.19
 * Bugfixes
+
+Version 2.1.31
+--------------
+
+* Do not refresh entities from MDQ in persistence service
+* Bugfixes
