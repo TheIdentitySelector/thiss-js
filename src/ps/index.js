@@ -204,7 +204,6 @@ async function initCheckbox() {
     if (checkboxVisible && !checkboxInitialized) {
         checkboxInitialized = true;
         advCheckbox.addEventListener('click', async (event) => {
-            event.preventDefault();
 
             const local_storage = ctx_local();
             const keys = local_storage.keys().filter(k => k !== undefined && k !== '_name');
@@ -221,12 +220,12 @@ async function initCheckbox() {
                     set_entity(storage, ins);
                 });
                 postRobot.send(window.parent, 'storage-access-granted')
-                      .then(event => {console.log(`storage-access-granted message handled from ${event.origin} ${event.source}`)})
+                      .then(event => {console.log(`storage-access-granted message handled`)})
                       .catch(err => {console.log(`storage-access-granted message not handled: ${err}`)});
             });
             doPersist = advCheckbox.checked;
             postRobot.send(window.parent, 'sa-checkbox-clicked', {checked: doPersist})
-                  .then(event => {console.log(`sa-checkbox-clicked message handled from ${event.origin} ${event.source}`)})
+                  .then(event => {console.log(`sa-checkbox-clicked message handled`)})
                   .catch(err => {console.log(`sa-checkbox-clicked message not handled: ${err}`)});
         });
         if (storagePerm) {
@@ -324,7 +323,7 @@ postRobot.on('remove', {window: window.parent}, function(event) {
 try {
     await initCheckbox();
     postRobot.send(window.parent, 'initialized')
-           .then(event => {console.log(`intialized event handled from ${event.origin} to ${event.source}`)})
+           .then(event => {console.log(`intialized event handled`)})
            .catch(err => {console.log(`No intialized handler: ${err}`)});
 } catch (err) {
     console.log(`Problem initializing client: ${err}`);
