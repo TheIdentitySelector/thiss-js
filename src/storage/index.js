@@ -539,9 +539,8 @@ async function getStorages (local = false) {
     // Use js-cookie for compatibility with old browsers and give access to cookieStorage
     if (cookies_available) {
         // sessionStorage is valid for one window/tab. To simulate that with cookie, we set a name for the window and use it for the name of the cookie
-        if (!handle.name) {
-            handle.name = Math.floor(Math.random() * 100000000);
-        }
+        console.log(`HANDLE NAME: ${handle.name}`);
+        const handleName = Math.floor(Math.random() * 100000000);
         var cookie_storage = {
             _cookie: true,
             _prefix: '',
@@ -600,7 +599,7 @@ async function getStorages (local = false) {
                 _prefix: cookie_local_prefix,
                 _expires: 365 * 10
             });
-            handle.sessionCookieStorage = _extend({}, cookie_storage, {_prefix: cookie_session_prefix + handle.name + '_'});
+            handle.sessionCookieStorage = _extend({}, cookie_storage, {_prefix: cookie_session_prefix + handleName + '_'});
         }
         handle.cookieStorage = _extend({}, cookie_storage);
         // cookieStorage API
