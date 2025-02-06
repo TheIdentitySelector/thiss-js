@@ -331,6 +331,9 @@ async function getStorages (local = false) {
         if (!name || typeof name != "string") {
             throw new Error('First parameter must be a string');
         }
+        if (name.includes("zoid__thiss_cta")) {
+            throw new Error(`CREATE NAMESPACE WITH NAME: ${name}`);
+        }
         if (storage_available) {
             if (!handle.localStorage.getItem(name)) {
                 handle.localStorage.setItem(name, '{}');
