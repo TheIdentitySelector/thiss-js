@@ -251,3 +251,8 @@ Version 2.1.35
 --------------
 
 * Cleanup and bugfixes
+
+Version 2.1.36
+--------------
+
+* Update demo code
