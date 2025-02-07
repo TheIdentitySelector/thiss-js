@@ -123,7 +123,6 @@
     }
 
     inputEl$.on(opts.eventKey, debouncer(function(e) {
-      console.log(`EVENT KEY ${e.keyCode}`);
       var keyCode = e.keyCode
 
       if (keyCode !== 9) {

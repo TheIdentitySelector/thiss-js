@@ -58,6 +58,10 @@ window.onload = function() {
             }
         });
     });
+
+    postRobot.on('sa-checkbox-clicked', {window: ds.ps.dst}, function(event) {
+        console.log(`EVENT: ${event.data.checked}`);
+    });
     // ########################################################################################### //
     const ds2 = new DiscoveryService(
       process.env.MDQ_URL,

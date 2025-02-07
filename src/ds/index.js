@@ -343,19 +343,19 @@ $(document).ready(function() {
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
-                console.log("refresh ...")
                 return json_mdq_get(encodeURIComponent(item.entity.id), trustProfile, entityID, o.mdq).then(entity => {
-                    console.log("... found entity on refresh")
                     item.entity = entity;
                     item.modified = true;
                     item.last_refresh = now;
                     item.last_use = now;
                     return item;
                 }).catch(err => {
-                    console.log("... did not find entity on refresh")
+                    console.log(`Error refreshing entity: ${err}`)
                 })
             })).then(items => items.filter(item => item && item.entity !== undefined))
-               .catch(err => []);
+               .catch(err => {
+                    console.log(`Error filtering entities: ${err}`)
+               });
         },
         after: function(count,elt) {
             $("#searching").addClass('d-none');

@@ -99,7 +99,8 @@ module.exports = {
             filename: 'index.html',
             chunks: ['index'],
             inject: true,
-            template: 'src/index.ejs'
+            template: 'src/index.ejs',
+            favicon: "./src/assets/sa-black.svg"
         }),
         new HtmlWebpackPlugin({
             filename: 'cta/index.html',

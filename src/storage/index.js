@@ -539,7 +539,6 @@ async function getStorages (local = false) {
     // Use js-cookie for compatibility with old browsers and give access to cookieStorage
     if (cookies_available) {
         // sessionStorage is valid for one window/tab. To simulate that with cookie, we set a name for the window and use it for the name of the cookie
-        console.log(`HANDLE NAME: ${handle.name}`);
         const handleName = Math.floor(Math.random() * 100000000);
         var cookie_storage = {
             _cookie: true,
@@ -775,16 +774,12 @@ export async function get_local_institutions(context) {
 /**
  * Check for Storage Access permission and request it if absent and possible
  *
- * @param {entity_id} [string] the entityID of the SAML identity provider to be
- *     removed
+ * @param {callback} [function] A function to be called after requesting
+ *     storage access permission.
  */
 export const requestingStorageAccess = (callback) => {
   if (document.hasStorageAccess) {
-    // Check whether access has been granted using the Storage Access API.
-    // Note on page load this will always be false initially so we could be
-    // skipped in this example, but including for completeness for when this
-    // is not so obvious.
-    document.hasStorageAccess()
+      document.hasStorageAccess()
         .then(hasAccess => {
           if (!hasAccess) {
               get_local_institutions().then(entities => {
@@ -796,13 +791,17 @@ export const requestingStorageAccess = (callback) => {
                               callback();
                           });
                       })
-                      .catch(err => { console.log(`Error requesting storage access: ${err}`); callback(); });
+                      .catch(err => {
+                          callback();
+                      });
               }).catch(err => {
                   document.requestStorageAccess()
                       .then(storage => {
                           callback();
                       })
-                      .catch(err => { callback(); });
+                      .catch(err => {
+                          callback();
+                      });
               });
           } else {
             navigator.permissions.query({name : 'storage-access'})
@@ -810,8 +809,12 @@ export const requestingStorageAccess = (callback) => {
                   if (permission) {
                     if (permission.state === 'granted') {
                       document.requestStorageAccess()
-                          .then(storage => { callback(); })
-                          .catch(err => { callback(); });
+                          .then(storage => {
+                              callback();
+                          })
+                          .catch(err => {
+                              callback();
+                          });
                     } else if (permission.state === 'prompt') {
                         get_local_institutions().then(entities => {
                             document.requestStorageAccess()
@@ -825,8 +828,12 @@ export const requestingStorageAccess = (callback) => {
                                 .catch(err => { callback(); });
                         }).catch(err => {
                             document.requestStorageAccess()
-                                .then(storage => { callback(); })
-                                .catch(err => { callback(); });
+                                .then(storage => {
+                                    callback();
+                                })
+                                .catch(err => {
+                                    callback();
+                                });
                         });
                     } else if (permission.state === 'denied') {
                       callback();
@@ -837,12 +844,18 @@ export const requestingStorageAccess = (callback) => {
                 })
                 .catch(err => {
                   document.requestStorageAccess()
-                      .then(storage => { callback(); })
-                      .catch(err => { callback(); });
+                      .then(storage => {
+                          callback();
+                      })
+                      .catch(err => {
+                          callback();
+                      });
                 });
           }
         })
-        .catch(err => { callback(); });
+        .catch(err => {
+            callback();
+        });
   } else {
     callback();
   }
@@ -853,19 +866,15 @@ export async function getStorageHandle() {
   if (!document.requestStorageAccess) {
     // Storage Access API is not supported so best we can do is
     // hope it's an older browser that doesn't block 3P cookies.
-    console.log('API not supported, returning window');
     return window;
   }
 
   // Check if access has already been granted
   if (await document.hasStorageAccess()) {
-    console.log('access has already been granted');
     const handle = await document.requestStorageAccess({all: true});
     if (handle) {
-      console.log("There is access and the handle, returning handle");
       return handle;
     } else {
-      console.log("There is access but no handle, returning window");
       return window;
     }
   }
@@ -881,7 +890,6 @@ export async function getStorageHandle() {
     );
   } catch (error) {
     // storage-access permission not supported. Assume no cookie access.
-      console.log("There is no permission, returning window");
     return window;
   }
 
@@ -893,33 +901,27 @@ export async function getStorageHandle() {
       try {
         const handle = await document.requestStorageAccess({all: true});
         if (handle) {
-          console.log("There is permission and the handle, returning handle");
           return handle;
         } else {
-          console.log("There is permission but no handle, returning window");
           return window;
         }
       } catch (error) {
         // This shouldn't really fail if access is granted, but return false
         // if it does.
-          console.log("There is error in permission, returning window");
         return window;
       }
     } else if (permission.state === 'prompt') {
       // Need to call requestStorageAccess() after a user interaction
       // (potentially with a prompt). Can't do anything further here,
       // so handle this in the click handler.
-          console.log("Permission state is prompt, returning window");
       return window;
     } else if (permission.state === 'denied') {
       // Currently not used. See:
       // https://github.com/privacycg/storage-access/issues/149
-          console.log("Permission state is denied, returning window");
       return window;
     }
   }
   // By default return false, though should really be caught by one of above.
-  console.log("Default, returning window");
   return window;
 }
 
