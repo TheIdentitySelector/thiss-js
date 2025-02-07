@@ -246,3 +246,8 @@ Version 2.1.34
 --------------
 
 * Avoid huge cookie names
+
+Version 2.1.35
+--------------
+
+* Cleanup and bugfixes
