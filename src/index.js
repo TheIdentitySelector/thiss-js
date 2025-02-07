@@ -90,9 +90,17 @@ window.onload = function() {
             });
         });
     });
-    const button3 = window.document.getElementById("adv-set-entity2");
+    const button3 = window.document.getElementById("adv-unset-checkbox");
     button3.addEventListener("click", (e) => {
+        ds2.ps.hide_checkbox("#checkbox-sa-holder-2");
+    });
+    const button4 = window.document.getElementById("adv-set-entity2");
+    button4.addEventListener("click", (e) => {
         ds2.ps.update(ds2.context, entity2);
+    });
+    const button5 = window.document.getElementById("adv-unset-entity2");
+    button5.addEventListener("click", (e) => {
+        ds2.ps.remove(ds2.context, entity2.entity_id);
     });
 
     // ########################################################################################### //
