@@ -13,6 +13,10 @@
  */
 
 import Cookies from "js-cookie";
+import { detect } from "detect-browser";
+
+
+const COMPLIANT = ["chrome", "chromium"];
 
 String.prototype.hexEncode = function(){
     let hex, i;
@@ -365,6 +369,10 @@ async function getStorages (local = false) {
 
     // Test if storage is natively available on browser
     function _testStorage(name) {
+        const browser = detect();
+        if (!browser || !COMPLIANT.includes(browser.name)) {
+          return true;
+        }
         if (storagePerm && handle.navigator) {
             return false;
         }
@@ -778,36 +786,27 @@ export async function get_local_institutions(context) {
  *     storage access permission.
  */
 export const requestingStorageAccess = (callback) => {
-  if (document.hasStorageAccess) {
-      document.hasStorageAccess()
-        .then(hasAccess => {
-          if (!hasAccess) {
-              get_local_institutions().then(entities => {
-                  document.requestStorageAccess()
-                      .then(storage => {
-                          set_global_entities(entities).then(() => {
-                              callback();
-                          }).catch(err => {
+  const browser = detect();
+  if (!browser || !COMPLIANT.includes(browser.name)) {
+      callback();
+  } else {
+      if (document.hasStorageAccess) {
+          document.hasStorageAccess()
+            .then(hasAccess => {
+              if (!hasAccess) {
+                  get_local_institutions().then(entities => {
+                      document.requestStorageAccess()
+                          .then(storage => {
+                              set_global_entities(entities).then(() => {
+                                  callback();
+                              }).catch(err => {
+                                  callback();
+                              });
+                          })
+                          .catch(err => {
                               callback();
                           });
-                      })
-                      .catch(err => {
-                          callback();
-                      });
-              }).catch(err => {
-                  document.requestStorageAccess()
-                      .then(storage => {
-                          callback();
-                      })
-                      .catch(err => {
-                          callback();
-                      });
-              });
-          } else {
-            navigator.permissions.query({name : 'storage-access'})
-                .then(permission => {
-                  if (permission) {
-                    if (permission.state === 'granted') {
+                  }).catch(err => {
                       document.requestStorageAccess()
                           .then(storage => {
                               callback();
@@ -815,53 +814,71 @@ export const requestingStorageAccess = (callback) => {
                           .catch(err => {
                               callback();
                           });
-                    } else if (permission.state === 'prompt') {
-                        get_local_institutions().then(entities => {
-                            document.requestStorageAccess()
-                                .then(storage => {
-                                    set_global_entities(entities).then(() => {
+                  });
+              } else {
+                navigator.permissions.query({name : 'storage-access'})
+                    .then(permission => {
+                      if (permission) {
+                        if (permission.state === 'granted') {
+                          document.requestStorageAccess()
+                              .then(storage => {
+                                  callback();
+                              })
+                              .catch(err => {
+                                  callback();
+                              });
+                        } else if (permission.state === 'prompt') {
+                            get_local_institutions().then(entities => {
+                                document.requestStorageAccess()
+                                    .then(storage => {
+                                        set_global_entities(entities).then(() => {
+                                            callback();
+                                        }).catch(err => {
+                                            callback();
+                                        });
+                                    })
+                                    .catch(err => { callback(); });
+                            }).catch(err => {
+                                document.requestStorageAccess()
+                                    .then(storage => {
                                         callback();
-                                    }).catch(err => {
+                                    })
+                                    .catch(err => {
                                         callback();
                                     });
-                                })
-                                .catch(err => { callback(); });
-                        }).catch(err => {
-                            document.requestStorageAccess()
-                                .then(storage => {
-                                    callback();
-                                })
-                                .catch(err => {
-                                    callback();
-                                });
-                        });
-                    } else if (permission.state === 'denied') {
-                      callback();
-                    }
-                  } else {
-                    callback();
-                  }
-                })
-                .catch(err => {
-                  document.requestStorageAccess()
-                      .then(storage => {
+                            });
+                        } else if (permission.state === 'denied') {
                           callback();
-                      })
-                      .catch(err => {
-                          callback();
-                      });
-                });
-          }
-        })
-        .catch(err => {
-            callback();
-        });
-  } else {
-    callback();
+                        }
+                      } else {
+                        callback();
+                      }
+                    })
+                    .catch(err => {
+                      document.requestStorageAccess()
+                          .then(storage => {
+                              callback();
+                          })
+                          .catch(err => {
+                              callback();
+                          });
+                    });
+              }
+            })
+            .catch(err => {
+                callback();
+            });
+      } else {
+        callback();
+      }
   }
 }
 
 export async function getStorageHandle() {
+  const browser = detect();
+  if (!browser || !COMPLIANT.includes(browser.name)) {
+    return window;
+  }
   // Check if Storage Access API is supported
   if (!document.requestStorageAccess) {
     // Storage Access API is not supported so best we can do is
