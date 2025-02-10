@@ -256,3 +256,8 @@ Version 2.1.36
 --------------
 
 * Update demo code
+
+Version 2.1.37
+--------------
+
+* Only use SAA with compliant browsers
