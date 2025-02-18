@@ -159,22 +159,9 @@ async function get_entities(context) {
 function remove_entity(context, entity_id) {
     let storage = ctx(context);
     let local_storage = ctx_local(context);
-    if (entity_id === undefined) {
-    } else {
+    if (entity_id !== undefined) {
         storage.remove(entity_id.hexEncode());
         local_storage.remove(entity_id.hexEncode());
-    }
-}
-
-async function reduceCookieStorage(context) {
-    const entities = await get_entities(context);
-    if ((!Storages.storage_available) && Storages.cookies_available) {
-        entities.forEach((entity, idx) => {
-            let max_idx = entities.length - 1;
-            if (idx < max_idx - 1) {
-                remove_entity(context, entities[idx].entity.entity_id);
-            }
-        });
     }
 }
 
@@ -258,7 +245,6 @@ postRobot.on('update', {window: window.parent}, async function(event) {
         return
     }
     check_access(event);
-    await reduceCookieStorage(event.data.context);
     let entity = event.data.entity;
     let storage = ctx(event.data.context);
     const ret = set_entity(storage, entity);

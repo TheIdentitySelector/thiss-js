@@ -439,7 +439,7 @@ async function getStorages (local = false) {
     // Check if storages are natively available on browser and check is js-cookie is present
     //var storage_available = false;
     var storage_available = _testStorage('localStorage');
-    var cookies_available = typeof Cookies !== 'undefined';
+    var cookies_available = false;
 
     apis.storage_available = storage_available;
     apis.cookies_available = cookies_available;
