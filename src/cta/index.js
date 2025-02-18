@@ -31,6 +31,8 @@ let discovery_request = window.xprops.discoveryRequest;
 let discovery_response = window.xprops.discoveryResponse;
 let entity_id = null;
 
+const localization = new Localization(window.xprops.locale);
+
 if (!discovery_request)
     discovery_request = login_initiator_url;
 
@@ -42,6 +44,22 @@ if (window.xprops.entityID)
 
 if (window.xprops.trustProfile)
     trustProfile = window.xprops.trustProfile;
+
+if (window.xprops.persistenceURL)
+    persistence = window.xprops.persistenceURL;
+
+if (window.xprops.context)
+    context = window.xprops.context;
+
+if (window.xprops.MDQ)
+    mdq = window.xprops.MDQ;
+
+const psHost = new URL(persistence).hostname;
+const curHost = window.location.hostname;
+
+let useSAA = true;
+if (psHost !== curHost)
+    useSAA = false;
 
 if (discovery_request !== discovery_response && typeof discovery_request === 'string') {
     // assume discoveryRequest is the URL of an instance of our DS
@@ -104,19 +122,6 @@ const recoverPersisted = (start, context) => {
     });
 }
 
-const localization = new Localization(window.xprops.locale);
-
-if (window.xprops.persistenceURL) {
-    persistence = window.xprops.persistenceURL;
-}
-
-if (window.xprops.context) {
-    context = window.xprops.context;
-}
-
-if (window.xprops.MDQ) {
-    mdq = window.xprops.MDQ;
-}
 let ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
 
 postRobot.on('initialized', {window: ds.ps.dst}, function(event) {
@@ -180,7 +185,11 @@ function initializeUI() {
                discovery_response(item.entity);
             });
         } else { // off to DS
-            requestingStorageAccess(discovery_request);
+            if (useSAA) {
+                requestingStorageAccess(discovery_request);
+            } else {
+                discovery_request();
+            }
         }
     });
 
@@ -192,7 +201,11 @@ function initializeUI() {
 
     dsbutton.addEventListener('click', function(event) {
         event.preventDefault();
-        requestingStorageAccess(discovery_request);
+        if (useSAA) {
+            requestingStorageAccess(discovery_request);
+        } else {
+            discovery_request();
+        }
     });
 
     dsbutton.addEventListener('keypress', function (event) {
