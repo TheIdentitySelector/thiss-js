@@ -16,7 +16,15 @@ import Cookies from "js-cookie";
 import { detect } from "detect-browser";
 
 
-const COMPLIANT = ["chrome", "chromium"];
+let COMPLIANT = ["chrome", "chromium"];
+
+if (process.env.SAA_COMPLIANT_BROWSERS !== undefined) {
+    try {
+        COMPLIANT = JSON.parse(process.env.SAA_COMPLIANT_BROWSERS);
+    } catch (err) {
+        console.log(`Problem with configured browsers: ${process.env.SAA_COMPLIANT_BROWSERS}`);
+    }
+}
 
 String.prototype.hexEncode = function(){
     let hex, i;
