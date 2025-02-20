@@ -306,7 +306,11 @@ try {
     await initCheckbox();
     postRobot.send(window.parent, 'initialized')
            .catch(err => {
-               console.log(`No intialized handler: ${err}`)
+               console.log(`No intialized handler`)
+           });
+    postRobot.send(window.parent, 'initialized-entity')
+           .catch(err => {
+               console.log(`No intialized-entity handler`)
            });
 } catch (err) {
     console.log(`Problem initializing client: ${err}`);
