@@ -50,7 +50,6 @@ The login button component accepts the following configuration parameters in the
 * trustProfile: <string> The name of a trust profile published by the SP.
 
 * MDQ: <string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
-* pinned: <string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
 * backgroundColor: <string> (default '#FFFFFF') the background color of the iframe where the button is rendered.
 * color: <string> (default '#0079ff') the color of the button.
 
