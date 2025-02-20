@@ -268,3 +268,8 @@ Version 2.1.38
 * Make list of compliant SAA browsers configurable
 * Fully disable using cookies for storage
 * Do not use SAA when PS in different host than CTA button
+
+Version 2.1.39
+--------------
+
+* Forget current version of pinning
