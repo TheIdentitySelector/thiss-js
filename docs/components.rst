@@ -39,20 +39,20 @@ The login button component is instantiated like this:
 
 This example assumes the client uses the shibboleth SP but all SPs provides a mechanism to initiate a login flow. This is typically triggered by sending the user to a URL that triggers the SAML authentication request.
 
-The login button component accepts the following configuration parameters in the call to DiscoveryComponent
+The login button component accepts the following configuration parameters in the call to DiscoveryComponent.
 
-* loginInitiatorURL: <string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse
-* discoveryRequest:  <string|callable> a URL or callable that initiates a discovery flow
-* discoveryResponse: <string|callable> a URL or callable that handles a discovery response
-* persistenceURL: <string> the URL of the persistence service
+* loginInitiatorURL: <string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse.
+* discoveryRequest:  <string|callable> a URL or callable that initiates a discovery flow.
+* discoveryResponse: <string|callable> a URL or callable that handles a discovery response.
+* persistenceURL: <string> the URL of the persistence service. Note that when the hostname in this URL is different from that in the URL for the source of the thiss-js code, using the Storage Access API will be disabled.
 
-* entityID: <string> The entityID of the SP
-* trustProfile: <string> The name of a trust profile published by the SP
+* entityID: <string> The entityID of the SP.
+* trustProfile: <string> The name of a trust profile published by the SP.
 
 * MDQ: <string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
 * pinned: <string> the entityID of a pinned IdP. This has the effect of overriding the default choice in the button and persisting it.
-* backgroundColor: <string> (default '#FFFFFF') the background color of the iframe where the button is rendered
-* color: <string> (default '#0079ff') the color of the button
+* backgroundColor: <string> (default '#FFFFFF') the background color of the iframe where the button is rendered.
+* color: <string> (default '#0079ff') the color of the button.
 
 The login button is rendered in an iframe with a fixed size.
 
