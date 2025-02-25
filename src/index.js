@@ -51,7 +51,7 @@ window.onload = function() {
         ds.ps.update(ds.context, entity);
     });
 
-    postRobot.on('storage-access-granted', {window: ds.ps.dst}, function(event) {
+    postRobot.on('sa-checkbox-clicked', {window: ds.ps.dst}, function(event) {
         ds.ps.entities(ds.context).then(function(result) {
             if (result && result.data) {
                 updateUI(result.data, "out-adv-1");
@@ -82,7 +82,7 @@ window.onload = function() {
         const div = window.document.getElementById("checkbox-sa-preholder");
         div.appendChild(elem);
         ds2.ps.show_checkbox("#checkbox-sa-holder-2");
-        postRobot.on('storage-access-granted', {window: ds2.ps.dst}, function(event) {
+        postRobot.on('sa-checkbox-clicked', {window: ds2.ps.dst}, function(event) {
             ds2.ps.entities(ds2.context).then(function(result) {
                 if (result && result.data) {
                     updateUI(result.data, "out-adv-2");

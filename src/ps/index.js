@@ -204,8 +204,6 @@ async function initCheckbox() {
                 stored_institutions.forEach(ins => {
                     set_entity(storage, ins);
                 });
-                postRobot.send(window.parent, 'storage-access-granted')
-                      .catch(err => {console.log(`storage-access-granted message not handled: ${err}`)});
             });
             doPersist = advCheckbox.checked;
             postRobot.send(window.parent, 'sa-checkbox-clicked', {checked: doPersist})
