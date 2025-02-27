@@ -273,3 +273,8 @@ Version 2.1.39
 --------------
 
 * Forget current version of pinning
+
+Version 2.1.40
+--------------
+
+* Remove storage-access-granted event
