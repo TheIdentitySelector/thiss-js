@@ -93,6 +93,10 @@ module.exports = {
                     from: "./src/assets/fonts",
                     to: "./fonts",
                 },
+                {
+                    from: "./src/assets/*.svg",
+                    to: "./[name].svg",
+                },
             ],
         }),
         new HtmlWebpackPlugin({
