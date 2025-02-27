@@ -46,7 +46,7 @@
 
     opts = $.extend({
       delay: 300,
-      minLength: 1,
+      minLength: 3,
       initial: true,
       casesensitive: false,
       eventKey: 'keyup',

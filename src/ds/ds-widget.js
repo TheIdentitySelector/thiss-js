@@ -112,6 +112,7 @@ jQuery(function ($) {
                     resetOnBlur: false,
                     casesensitive: false,
                     maxResults: 10,
+                    minLength: process.env.MIN_SEARCH_LENGTH || 4,
                     itemEl: obj.options.entity_selector,
                     getValue: function(that) {
                         let v = that.val();
