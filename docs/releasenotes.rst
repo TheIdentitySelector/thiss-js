@@ -278,3 +278,9 @@ Version 2.1.40
 --------------
 
 * Remove storage-access-granted event
+
+Version 2.1.41
+--------------
+
+* Restore missing svg's
+* Make configurable the min string length that is sent to the MDQ by the search
