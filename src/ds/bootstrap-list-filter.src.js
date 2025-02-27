@@ -66,7 +66,7 @@
       maxResults: -1,
       maxResultsNode: function(data) {
         const too_many = localization.translateString('list-filter-too-many-results');
-        return `<span class="list-groiup-item well">${too_many}</span>`;
+        return `<span class="list-group-item well">${too_many}</span>`;
       },
       sourceNodes: undefined,
       loadingClass: 'bts-loading-list',
