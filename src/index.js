@@ -52,14 +52,6 @@ window.onload = function() {
     });
 
     postRobot.on('sa-checkbox-clicked', {window: ds.ps.dst}, function(event) {
-        ds.ps.entities(ds.context).then(function(result) {
-            if (result && result.data) {
-                updateUI(result.data, "out-adv-1");
-            }
-        });
-    });
-
-    postRobot.on('sa-checkbox-clicked', {window: ds.ps.dst}, function(event) {
         console.log(`EVENT: ${event.data.checked}`);
     });
     // ########################################################################################### //
