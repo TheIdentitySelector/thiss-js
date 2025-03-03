@@ -1,6 +1,6 @@
 //import { create } from '@krakenjs/zoid'
-import * as zoid from '@krakenjs/zoid/dist/zoid.frame';
-import {toCSS, destroyElement} from '@krakenjs/belter/src';
+import * as zoid from 'zoid/dist/zoid.frame';
+import {toCSS, destroyElement} from 'belter/src';
 import raw_preload_template from './cta/preload.html'
 import 'ejs/ejs.min';
 //import {requestingStorageAccess} from "./storage/index.js";
