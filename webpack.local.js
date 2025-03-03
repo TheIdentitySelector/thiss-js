@@ -23,7 +23,8 @@ module.exports = merge(common, {
        STORAGE_DOMAIN: 'localhost:9000',
        LOGLEVEL: 'warn',
        DEFAULT_CONTEXT: 'thiss.io',
-           NODE_ENV: 'development',
-           DEBUG: true,
+       NODE_ENV: 'development',
+       DEBUG: true,
+       MIN_SEARCH_LENGTH: 3
   })]
 });

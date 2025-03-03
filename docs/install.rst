@@ -28,6 +28,7 @@ The thiss-js button component is partially configured by the caller that can pas
 * STORAGE_DOMAIN: the ORIGIN used for the storage/persistence layer
 * DEFAULT_CONTEXT: the context where storage objects are persisted
 * LOGLEVEL: controls logging to the browser console
+* MIN_SEARCH_LENGTH: Controls the minimum number of characters that must be entered into the DS search input to start an MDQ search
 
 *Configuration related to access control*
 

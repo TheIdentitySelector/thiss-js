@@ -14,7 +14,8 @@ module.exports = merge(common, {
       STORAGE_DOMAIN: "${STORAGE_DOMAIN}",
       LOGLEVEL: 'error',
       DEFAULT_CONTEXT: "${DEFAULT_CONTEXT}",
-      WHITELIST: "${WHITELIST}"
+      WHITELIST: "${WHITELIST}",
+      MIN_SEARCH_LENGTH: "${MIN_SEARCH_LENGTH}"
     })
   ]
 });

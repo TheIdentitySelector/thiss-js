@@ -22,6 +22,7 @@ module.exports = merge(common, {
        SEARCH_URL: 'https://md.thiss.io/entities/',
        STORAGE_DOMAIN: 'localhost:9000',
        LOGLEVEL: 'warn',
-       DEFAULT_CONTEXT: 'thiss.io'
+       DEFAULT_CONTEXT: 'thiss.io',
+       MIN_SEARCH_LENGTH: 3
   })]
 });
