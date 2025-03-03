@@ -110,17 +110,17 @@ const recoverPersisted = (start, context) => {
                         }
                         document.getElementById('title').innerText = title;
                         entity_id = item.entity_id || item.entityID;
-                        document.getElementById('headline').innerText = localization.translateString('cta-button-header');
+                        localization.translateStringP('cta-button-header').then(translated => {document.getElementById('headline').innerText = translated});
                         document.getElementById('headline').className = "ra21-button-text-secondary";
                         document.getElementById('dsbutton').hidden = false;
                     }
                 });
                 if (!found) {
-                    document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+                    localization.translateStringP('cta-button-placeholder').then(translated => {document.getElementById('title').innerText = translated});
                 }
             })
         }).then(() => ds.ps.expire()).catch(ex => {
-            document.getElementById('title').innerText = localization.translateString('cta-button-placeholder');
+            localization.translateStringP('cta-button-placeholder').then(translated => {document.getElementById('title').innerText = translated});
         });
     });
 }

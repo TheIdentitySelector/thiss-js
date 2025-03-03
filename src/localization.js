@@ -121,5 +121,30 @@ export default class Localization extends I18n {
             return translated
         }
     }
+
+    async translateStringP (string) {
+        let translated = '';
+        if (this.file !== null && this.file) {
+            translated = this.translateString(string);
+        } else {
+            let tids = [];
+            for (let n of new Array(30).keys().toArray().reverse()) {
+                const secs = (n + 1) * 1000;
+                await new Promise(resolve => {
+                    const tid = setTimeout(() => {
+                        const tids_left = [...tids];
+                        if (this.file !== null && this.file) {
+                            console.log(`CLEARING OUT ${JSON.stringify(tids_left)}`);
+                            tids_left.forEach(t => clearTimeout(t));
+                            translated = this.translateString(string);
+                            resolve();
+                        }
+                    }, secs);
+                    tids.push(tid);
+                });
+            }
+        }
+        return translated;
+    }
 }
 
