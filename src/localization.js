@@ -128,16 +128,16 @@ export default class Localization extends I18n {
             translated = this.translateString(string);
         } else {
             let resolved = false;
-            for (let n of new Array(30).keys().toArray().reverse()) {
+            for (let n of new Array(60).keys()) {
                 if (!resolved) {
-                    const secs = 1000;
+                    const secs = 500;
                     await new Promise(resolve => {
-                        const tid = setTimeout(() => {
+                        setTimeout(() => {
                             if (this.file !== null && this.file) {
                                 translated = this.translateString(string);
-                                resolve();
                                 resolved = true;
                             }
+                            resolve();
                         }, secs);
                     });
                 } else {
