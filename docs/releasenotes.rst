@@ -284,7 +284,7 @@ Version 2.1.41
 
 * Restore missing svg's
 
-Version 2.1.44
+Version 2.1.45
 --------------
 
 * Make configurable the min string length that is sent to the MDQ by the search
