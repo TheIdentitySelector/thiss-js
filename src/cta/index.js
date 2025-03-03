@@ -64,8 +64,11 @@ if (psHost !== curHost)
 if (discovery_request !== discovery_response && typeof discovery_request === 'string') {
     // assume discoveryRequest is the URL of an instance of our DS
     let search_string = `return=${encodeURIComponent(discovery_response)}`;
+    if (entityID) {
+        search_string = `${search_string}&entityID=${encodeURIComponent(entityID)}`;
+    }
     if (entityID && trustProfile) {
-        search_string = `${search_string}&entityID=${encodeURIComponent(entityID)}&trustProfile=${trustProfile}`;
+        search_string = `${search_string}&trustProfile=${trustProfile}`;
     }
     if (new URL(discovery_request).searchParams.size > 0) {
         discovery_request =  `${discovery_request}&${search_string}`
