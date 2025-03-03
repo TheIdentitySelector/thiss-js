@@ -23,6 +23,6 @@ module.exports = merge(common, {
        STORAGE_DOMAIN: 'localhost:9000',
        LOGLEVEL: 'warn',
        DEFAULT_CONTEXT: 'thiss.io',
-       MIN_SEARCH_LENGTH: 3
+       MIN_SEARCH_LENGTH: '3'
   })]
 });

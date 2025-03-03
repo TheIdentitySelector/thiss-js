@@ -25,6 +25,6 @@ module.exports = merge(common, {
        DEFAULT_CONTEXT: 'thiss.io',
        NODE_ENV: 'development',
        DEBUG: true,
-       MIN_SEARCH_LENGTH: 3
+       MIN_SEARCH_LENGTH: '3'
   })]
 });
