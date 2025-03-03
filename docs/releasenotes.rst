@@ -284,9 +284,11 @@ Version 2.1.41
 
 * Restore missing svg's
 
-Version 2.1.43
+Version 2.1.44
 --------------
 
 * Make configurable the min string length that is sent to the MDQ by the search
 * Downgrade zoid and belter for backwards compatibility
 * Send entityID as param to DS when there is no trustProfile
+* Wait in the standard button for translations file to be loaded
+
