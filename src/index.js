@@ -94,22 +94,21 @@ window.onload = function() {
     button5.addEventListener("click", (e) => {
         ds2.ps.remove(ds2.context, entity2.entity_id);
     });
-
+**/
     // ########################################################################################### //
-    DiscoveryComponent({
-        discoveryRequest: process.env.BASE_URL+`ds/?entityID=https://dev.edusign.sunet.se/shibboleth`,
-        discoveryResponse: `${process.env.BASE_URL}result`,
+    DiscoveryComponent.render({
+      loginHandlerURL: process.env.BASE_URL+`ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}&return=${encodeURIComponent("https://demo.beta.seamlessaccess.org/Shibboleth.sso/Login")}`,
+        discoveryResponse: process.env.BASE_URL,
         backgroundColor: '#e9ecef',
-    }).render('#login0');
+    }, '#login0');
+  /*
     DiscoveryComponent.render({
         loginHandlerURL: process.env.BASE_URL+`ds/`,
-        discoveryResponse: `${process.env.BASE_URL}result`,
         entityID: 'https://dev.edusign.sunet.se/shibboleth',
         trustProfile: 'nonstrict-mdsource-entitycategory',
         backgroundColor: '#e9ecef',
     },
     '#login05');
-  /*
     DiscoveryComponent.render({
         loginHandlerURL: process.env.BASE_URL+`ds/?target=https://google.com&return=${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
