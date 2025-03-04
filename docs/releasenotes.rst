@@ -292,3 +292,8 @@ Version 2.1.46
 * Send entityID as param to DS when there is no trustProfile
 * Wait in the standard button for translations file to be loaded
 
+Version 2.1.48
+--------------
+
+* Fix demo
+
