@@ -6,6 +6,7 @@ import './assets/index.scss';
 import './assets/sa-black.svg'
 
 window.onload = function() {
+  /*
     const updateUI = (data, id) => {
         const elem = window.document.getElementById(id);
         elem.innerHTML = "";
