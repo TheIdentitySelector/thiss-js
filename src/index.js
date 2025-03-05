@@ -99,7 +99,7 @@ window.onload = function() {
     // ########################################################################################### //
     DiscoveryComponent.render({
       loginHandlerURL: process.env.BASE_URL+`ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}&return=${encodeURIComponent("https://demo.beta.seamlessaccess.org/Shibboleth.sso/Login")}`,
-        discoveryResponse: process.env.BASE_URL,
+        discoveryResponse: `${process.env.BASE_URL}result`,
         backgroundColor: '#e9ecef',
     }, '#login0');
   /*
