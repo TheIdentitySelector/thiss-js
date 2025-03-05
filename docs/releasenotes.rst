@@ -297,8 +297,8 @@ Version 2.1.48
 
 * Fix demo
 
-Version 2.1.49
+Version 2.1.50
 --------------
 
 * Swedish translation
-
+* Fix demo
