@@ -297,3 +297,8 @@ Version 2.1.48
 
 * Fix demo
 
+Version 2.1.49
+--------------
+
+* Swedish translation
+
