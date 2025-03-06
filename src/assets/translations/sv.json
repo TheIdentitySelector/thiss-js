@@ -41,7 +41,7 @@
   "ds-unable-to-verify-return": "Vi lyckades inte verifiera sidan du återvänder till",
   "ds-search-unable-to-verify": "Vi lyckades inte verifiera sidan du återvänder till",
   "ds-search-unable-to-verify-long": "Vi lyckades inte verifiera att du kommer återvända till",
-  "ds-search-unable-to-verify-longer": "Vi rekommenderar att du, efter du loggat in, kontrollerar att du kommit till den tjänst du hade för avsikt att få åtkomst till."
+  "ds-search-unable-to-verify-longer": "Vi rekommenderar att du, efter du loggat in, kontrollerar att du kommit till den tjänst du hade för avsikt att få åtkomst till.",
   "ds-search-why-unable-to-verify": "Vad betyder det att vi inte lyckas verifiera sidan?",
   "ds-no-results-no-matching": "Din sökning gav inga sökresultat.",
   "ds-no-results-try-entering": "Skriv in namnet på ditt lärosäte, en förkortning eller din epostadress hos din organisation",
