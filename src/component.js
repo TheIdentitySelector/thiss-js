@@ -1,9 +1,8 @@
 //import { create } from '@krakenjs/zoid'
 import * as zoid from 'zoid/dist/zoid.frame';
 import {toCSS, destroyElement} from 'belter/src';
-import raw_preload_template from './cta/preload.html'
-import 'ejs/ejs.min';
-//import {requestingStorageAccess} from "./storage/index.js";
+
+import preload_template from "!!ejs-loader?variable=props!./cta/preload.html";
 
 
 /**
@@ -66,11 +65,11 @@ function prerenderTemplate(opts) {
             window.top.location.href = discovery_request_url;
         };
     }
-    const preload_template = ejs.compile(raw_preload_template);
 
     _set_default_props(opts);
     const _t = opts.doc.createElement("html");
-    _t.innerHTML = preload_template(opts.props);
+    const props = opts.props;
+    _t.innerHTML = preload_template(props);
     let elem = _t.querySelector('#fallbacklink');
     if (elem === null)
         elem = _t;
