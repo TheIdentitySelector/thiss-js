@@ -17,6 +17,8 @@ function make_manifest(buffer) {
 
 
 module.exports = {
+    node: false,
+    target: 'web',
     resolve: {
         alias: {
             'node_modules': path.join(__dirname, 'node_modules'),
@@ -167,7 +169,7 @@ module.exports = {
             },
             {
                 test: /\.html$/i,
-                use: ['html-loader'],
+                use: ['raw-loader'],
             },
             {
                 exclude: path.resolve(__dirname, "src/assets/fonts/"),
