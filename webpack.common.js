@@ -118,7 +118,8 @@ module.exports = {
             filename: 'ds/index.html',
             chunks: ['ds'],
             inject: true,
-            template: 'src/ds/index.ejs'
+            template: 'src/ds/index.ejs',
+            favicon: "./src/assets/sa-black.svg"
         }),
         new HtmlWebpackPlugin({
             filename: 'ps/index.html',
@@ -130,7 +131,8 @@ module.exports = {
             filename: 'result/index.html',
             chunks: ['result'],
             inject: true,
-            template: 'src/result/index.ejs'
+            template: 'src/result/index.ejs',
+            favicon: "./src/assets/sa-black.svg"
         }),
         new MiniCssExtractPlugin({
             filename: "[name].css"
