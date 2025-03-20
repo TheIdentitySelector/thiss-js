@@ -300,6 +300,12 @@ postRobot.on('remove', {window: window.parent}, function(event) {
     remove_entity(event.data.context, event.data.entity_id);
 });
 
+postRobot.on('has_storage_access', {window: window.parent}, async function(event) {
+    check_access(event);
+    const hasPerm = await hasSAPerm();
+    return hasPerm;
+});
+
 try {
     await initCheckbox();
     postRobot.send(window.parent, 'initialized')
