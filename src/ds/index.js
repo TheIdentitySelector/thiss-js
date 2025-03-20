@@ -371,7 +371,7 @@ $(document).ready(function() {
         $(".sp_title").text(entity.title);
         $("#discovery-response-warning-site").text(entity.title);
 
-        let goodReturn = false;
+        let goodReturn = true;  //TODO: change to false to reactivate the warning
 
         if (entity.discovery_responses) {
             const queryString = window.location.search;
