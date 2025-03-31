@@ -302,3 +302,8 @@ Version 2.1.51
 
 * Swedish translation
 * Fix demo
+
+Version 2.1.53
+--------------
+
+* Cache settings applied to all resources
