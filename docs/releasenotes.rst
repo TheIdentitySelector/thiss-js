@@ -307,3 +307,12 @@ Version 2.1.53
 --------------
 
 * Cache settings applied to all resources
+
+Version 2.1.54
+--------------
+
+* Fix CSP bug where the CSP header requires unsafe-eval
+* API method for advanced users to ask the persistence service whether there is storage access
+* Recover the favicon which got lost at some point
+* Removal of DiscoveryResponse warning for maintainence
+
