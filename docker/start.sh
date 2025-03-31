@@ -56,12 +56,12 @@ cat>>/etc/nginx/nginx.conf<<EOF
       location / {
          try_files \$uri \$uri/index.html \$uri/ =404 @mdq;
          absolute_redirect off;
+         add_header 'Cache-Control' '${CACHE_CONTROL}';
          location ~*  \.(jpg|jpeg|png|gif|svg|ico|html|css|js|eot|ttf|woff|woff2)$ {
             sendfile on;
             tcp_nopush on;
             tcp_nodelay on;
             keepalive_timeout 65;
-            add_header 'Cache-Control' '${CACHE_CONTROL}';
          }
       }
 

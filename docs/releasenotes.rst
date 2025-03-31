@@ -303,7 +303,12 @@ Version 2.1.51
 * Swedish translation
 * Fix demo
 
-Version 2.1.52
+Version 2.1.53
+--------------
+
+* Cache settings applied to all resources
+
+Version 2.1.54
 --------------
 
 * Fix CSP bug where the CSP header requires unsafe-eval
