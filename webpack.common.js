@@ -63,7 +63,6 @@ module.exports = {
         thiss: ['./src/component.js'],
     },
     output: {
-        clean: true,
         filename: (pathData) => {
             return pathData.chunk.name === 'thiss' ? '[name].js' : '[name]_[contenthash].js';
         },
