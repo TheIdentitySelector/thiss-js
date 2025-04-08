@@ -34,7 +34,7 @@ module.exports = {
     optimization: {
         splitChunks: {
           chunks (chunk) {
-              return chunk.name != 'thiss';
+              return chunk.name !== 'thiss';
           },
           minSize: 30000,
           minChunks: 1,
@@ -64,8 +64,10 @@ module.exports = {
     },
     output: {
         clean: true,
-        filename: '[name].js',
-        chunkFilename: "[name]_[contenthash].js",
+        filename: (pathData) => {
+            return pathData.chunk.name === 'thiss' ? '[name].js' : '[name]_[contenthash].js';
+        },
+        chunkFilename: "[name].js",
         path: path.resolve(__dirname, 'dist'),
         publicPath: "/",
         library: {
@@ -135,7 +137,7 @@ module.exports = {
             favicon: "./src/assets/sa-black.svg"
         }),
         new MiniCssExtractPlugin({
-            filename: "[name].css"
+            filename: "[name]_[contenthash].css"
         })
     ],
     module: {
