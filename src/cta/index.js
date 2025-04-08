@@ -1,9 +1,11 @@
 import { dom, library } from '@fortawesome/fontawesome-svg-core';
-import { faPen } from '@fortawesome/free-solid-svg-icons/faPen';
+import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
+import { faExternalLink } from '@fortawesome/free-solid-svg-icons/faExternalLink';
 import 'core-js/actual';
 const postRobot = require("post-robot");
 
-library.add(faPen);
+library.add(faPlus);
+library.add(faExternalLink);
 dom.watch();
 
 import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
@@ -57,9 +59,12 @@ if (window.xprops.MDQ)
 const psHost = new URL(persistence).hostname;
 const curHost = window.location.hostname;
 
+let hasSAAccess = await hasSAPerm();
 let useSAA = true;
-if (psHost !== curHost)
+if (psHost !== curHost) {
     useSAA = false;
+    hasSAAccess = false;
+}
 
 if (discovery_request !== discovery_response && typeof discovery_request === 'string') {
     // assume discoveryRequest is the URL of an instance of our DS
@@ -113,6 +118,7 @@ const recoverPersisted = (start, context) => {
                         localization.translateStringP('cta-button-header').then(translated => {document.getElementById('headline').innerText = translated});
                         document.getElementById('headline').className = "ra21-button-text-secondary";
                         document.getElementById('dsbutton').hidden = false;
+                        document.getElementById('saabutton').hidden = true;
                     }
                 });
                 if (!found) {
@@ -132,14 +138,12 @@ postRobot.on('initialized', {window: ds.ps.dst}, function(event) {
 });
 
 let start = [];
-if (window.xprops.pinned) {
-    start.push(ds.pin(window.xprops.pinned));
-}
 
 function initializeUI() {
 
     let button = document.getElementById('idpbutton');
     let dsbutton = document.getElementById('dsbutton');
+    let saabutton = document.getElementById('saabutton');
     let main = document.getElementById('main');
 
     main.style.background = window.xprops.backgroundColor;
@@ -181,6 +185,10 @@ function initializeUI() {
     });
 
     dsbutton.hidden = true;
+    saabutton.hidden = true;
+    if (useSAA && !hasSAAccess) {
+        saabutton.hidden = false;
+    }
 
     button.addEventListener('click', function(event) {
         if (entity_id !== null) { // return the discovery response
@@ -188,11 +196,7 @@ function initializeUI() {
                discovery_response(item.entity);
             });
         } else { // off to DS
-            if (useSAA) {
-                requestingStorageAccess(discovery_request);
-            } else {
-                discovery_request();
-            }
+            discovery_request();
         }
     });
 
@@ -204,16 +208,26 @@ function initializeUI() {
 
     dsbutton.addEventListener('click', function(event) {
         event.preventDefault();
-        if (useSAA) {
-            requestingStorageAccess(discovery_request);
-        } else {
-            discovery_request();
-        }
+        discovery_request();
     });
 
     dsbutton.addEventListener('keypress', function (event) {
         if (e.key === 'Enter') {
             dsbutton.click()
+        }
+    });
+
+    saabutton.addEventListener('click', function(event) {
+        event.preventDefault();
+        requestingStorageAccess(() => {
+            ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
+            recoverPersisted([], context);
+        });
+    });
+
+    saabutton.addEventListener('keypress', function (event) {
+        if (e.key === 'Enter') {
+            saabutton.click()
         }
     });
 
