@@ -84,7 +84,15 @@ if (discovery_request !== discovery_response && typeof discovery_request === 'st
 
 if (typeof discovery_request !== 'function') {
     let discovery_request_url = discovery_request;
-    discovery_request = function () {
+    discovery_request = function (params) {
+        const search_string = new URLSearchParams(params).toString();
+        if (search_string) {
+            if (new URL(discovery_request_url).searchParams.size > 0) {
+                discovery_request_url =  `${discovery_request_url}&${search_string}`
+            } else {
+                discovery_request_url =  `${discovery_request_url}?${search_string}`
+    }
+        }
         window.top.location.href = discovery_request_url;
     };
 }
@@ -219,10 +227,15 @@ function initializeUI() {
 
     saabutton.addEventListener('click', function(event) {
         event.preventDefault();
-        requestingStorageAccess(() => {
-            ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
-            recoverPersisted([], context);
-        });
+        requestingStorageAccess(
+            () => {
+                ds = new DiscoveryService(mdq, persistence, context, {entityID: entityID, trustProfile: trustProfile});
+                recoverPersisted([], context);
+            },
+            () => {
+                discovery_request({spURL: encodeURIComponent(window.location.href)});
+            }
+        );
     });
 
     saabutton.addEventListener('keypress', function (event) {

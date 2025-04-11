@@ -793,7 +793,10 @@ export async function get_local_institutions(context) {
  * @param {callback} [function] A function to be called after requesting
  *     storage access permission.
  */
-export const requestingStorageAccess = (callback) => {
+export const requestingStorageAccess = (callback, errCallback) => {
+  if (errCallback === undefined) {
+      errCallback = callback;
+  }
   const browser = detect();
   if (!browser || !COMPLIANT.includes(browser.name)) {
       callback();
@@ -808,11 +811,11 @@ export const requestingStorageAccess = (callback) => {
                               set_global_entities(entities).then(() => {
                                   callback();
                               }).catch(err => {
-                                  callback();
+                                  errCallback();
                               });
                           })
                           .catch(err => {
-                              callback();
+                              errCallback();
                           });
                   }).catch(err => {
                       document.requestStorageAccess()
@@ -820,7 +823,7 @@ export const requestingStorageAccess = (callback) => {
                               callback();
                           })
                           .catch(err => {
-                              callback();
+                              errCallback();
                           });
                   });
               } else {
@@ -842,21 +845,21 @@ export const requestingStorageAccess = (callback) => {
                                         set_global_entities(entities).then(() => {
                                             callback();
                                         }).catch(err => {
-                                            callback();
+                                            errCallback();
                                         });
                                     })
-                                    .catch(err => { callback(); });
+                                    .catch(err => { errCallback(); });
                             }).catch(err => {
                                 document.requestStorageAccess()
                                     .then(storage => {
                                         callback();
                                     })
                                     .catch(err => {
-                                        callback();
+                                        errCallback();
                                     });
                             });
                         } else if (permission.state === 'denied') {
-                          callback();
+                          errCallback();
                         }
                       } else {
                         callback();
@@ -868,7 +871,7 @@ export const requestingStorageAccess = (callback) => {
                               callback();
                           })
                           .catch(err => {
-                              callback();
+                              errCallback();
                           });
                     });
               }

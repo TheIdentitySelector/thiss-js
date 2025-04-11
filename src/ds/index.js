@@ -53,12 +53,16 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
+    let spURL = null;
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
+
+    if (urlParams.has('spURL'))
+        spURL = urlParams.get('spURL')
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);

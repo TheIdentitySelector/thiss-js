@@ -78,34 +78,51 @@
           <ul id="ds-search-list"></ul>
         </div>
       </div>
+      <!-- /search -->
 
-        </div>
+      <!-- idp is set -->
+      <div class="d-none d-block" id="idp-is-set">
+        <h1 data-i18n="ds-idpset-heading">Yo have a preselected Institution</h1>
+        <h2 data-i18n="ds-idpset-subheading">Seamless Access has found an institution that you previously selected at a content provider.</h2>
+        <button class="ra21-button" type="button" id="back-to-sp">
+            <div class="ra21-button">
+                <div class="identityprovider d-flex justify-content-center align-items-center text-truncate ra21-button-text">
+                    <div class="text-truncate">
+                        <div class="ra21-button-text-primary text-truncate" id="title">Back to SP</div>
+                    </div>
+                </div>
+            </div>
+        </button>
+      </div>
+      <!-- /idp is set -->
+    </div>
 
-      <!-- discovery response warning -->
-      <div class="container d-none" id="discovery-response-warning">
-        <div class="" id="discovery-response-warning-body">
-          <p class="discovery-response-warning-item">
-            <i class="fa fa-exclamation-triangle"></i>
-            <span  class="discovery-response-warning-title" data-i18n="ds-search-unable-to-verify">
-              Unable to verify returning site
-            </span>
-          </p>
-          <p class="discovery-response-warning-item discovery-response-warning-text">
-          <span data-i18n="ds-search-unable-to-verify-long">We are unable to verify if you will be sent back to</span> <span id="discovery-response-warning-site"></span>
-          </p>
-          <p class="discovery-response-warning-item discovery-response-warning-text" data-i18n="ds-search-unable-to-verify-longer">
-            You may not return to the site you started this access path on, in this case verify upon completion of your institution access if you arrived at your desired content.
-          </p>
-          <p class="discovery-response-warning-item discovery-response-warning-text">
-            <a href="https://seamlessaccess.atlassian.net/wiki/x/B4C_Vw" target="_blank" data-i18n="ds-search-why-unable-to-verify">
-              Why are we unable to verify?
-            </a>
-          </p>
-          <div class="discovery-response-warning-item">
-            <a id="warning-done-button" role="button" class="center btn btn-block btn-blue display-block" href="#" data-i18n="ds-warning-continue">Continue</a>
-          </div>
+    <!-- discovery response warning -->
+    <div class="container d-none" id="discovery-response-warning">
+      <div class="" id="discovery-response-warning-body">
+        <p class="discovery-response-warning-item">
+          <i class="fa fa-exclamation-triangle"></i>
+          <span  class="discovery-response-warning-title" data-i18n="ds-search-unable-to-verify">
+            Unable to verify returning site
+          </span>
+        </p>
+        <p class="discovery-response-warning-item discovery-response-warning-text">
+        <span data-i18n="ds-search-unable-to-verify-long">We are unable to verify if you will be sent back to</span> <span id="discovery-response-warning-site"></span>
+        </p>
+        <p class="discovery-response-warning-item discovery-response-warning-text" data-i18n="ds-search-unable-to-verify-longer">
+          You may not return to the site you started this access path on, in this case verify upon completion of your institution access if you arrived at your desired content.
+        </p>
+        <p class="discovery-response-warning-item discovery-response-warning-text">
+          <a href="https://seamlessaccess.atlassian.net/wiki/x/B4C_Vw" target="_blank" data-i18n="ds-search-why-unable-to-verify">
+            Why are we unable to verify?
+          </a>
+        </p>
+        <div class="discovery-response-warning-item">
+          <a id="warning-done-button" role="button" class="center btn btn-block btn-blue display-block" href="#" data-i18n="ds-warning-continue">Continue</a>
         </div>
       </div>
+    </div>
+    <!-- /discovery response warning -->
   </main>
 
   <footer>
