@@ -36,7 +36,8 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_get, json_mdq_get_sp} from "../dsjs/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
@@ -53,7 +54,7 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
-    let spURL = null;
+    let firstSAVisit = false;
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
@@ -61,8 +62,8 @@ $(document).ready(function() {
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
 
-    if (urlParams.has('spURL'))
-        spURL = urlParams.get('spURL')
+    if (urlParams.has('fist-sa-visit'))
+        firstSAVisit = urlParams.get('fist-sa-visit')
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -153,6 +154,7 @@ $(document).ready(function() {
         search: process.env.SEARCH_URL,
         entityID: entityID,
         trustProfile: trustProfile,
+        firstSAVisit: firstSAVisit,
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         _render_search_result: function(items, strict, spEntity) {
@@ -361,8 +363,17 @@ $(document).ready(function() {
                });
         },
         after: function(count,elt) {
+            const self = this;
             $("#searching").addClass('d-none');
-            if (count == 0) {
+            if (self._backToSP(count)) {
+                $("#idp-is-set")
+                    .removeClass("d-none")
+                    .on('click', (event) => {
+                        event.preventDefault();
+                        window.history.back();
+                    });
+                $("#choose").addClass("d-none");
+            } else if (count === 0) {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");
                 $("#searchinput").focus();
@@ -370,6 +381,10 @@ $(document).ready(function() {
                 $("#choose").removeClass("d-none");
                 $("#search").addClass("d-none");
             }
+        },
+        _backToSP: function (count) {
+            let self = this;
+            return (self.firstSAVisit !== null && count > 0);
         }
     }).discovery_client("sp").then(entity => {
         $(".sp_title").text(entity.title);

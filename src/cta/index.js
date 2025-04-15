@@ -8,12 +8,14 @@ library.add(faPlus);
 library.add(faExternalLink);
 dom.watch();
 
-import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "../dsjs/discovery.js";
 import {requestingStorageAccess, hasSAPerm} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'
+import { isCompliant } from '../storage/browsers.js'
 
 import '../assets/cta.scss'
 import '../assets/sa-icon.svg';
@@ -58,12 +60,16 @@ if (window.xprops.MDQ)
 
 const psHost = new URL(persistence).hostname;
 const curHost = window.location.hostname;
+const compliant = isCompliant()
 
 let hasSAAccess = await hasSAPerm();
 let useSAA = true;
 if (psHost !== curHost) {
     useSAA = false;
     hasSAAccess = false;
+}
+if (!compliant) {
+    useSAA = false;
 }
 
 if (discovery_request !== discovery_response && typeof discovery_request === 'string') {
@@ -233,7 +239,7 @@ function initializeUI() {
                 recoverPersisted([], context);
             },
             () => {
-                discovery_request({spURL: encodeURIComponent(window.location.href)});
+                discovery_request({"first-sa-visit": true});
             }
         );
     });

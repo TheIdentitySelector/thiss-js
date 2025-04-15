@@ -1,4 +1,5 @@
-import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_search, DiscoveryService} from "../dsjs/discovery.js";
 import 'core-js/actual';
 import Localization from '../localization.js'
 
@@ -13,6 +14,7 @@ jQuery(function ($) {
             mdq: undefined,
             entityID: null,
             trustProfile: null,
+            firstSAVisit: null,
             context: undefined,
             before: undefined,
             after: undefined,
@@ -264,6 +266,11 @@ jQuery(function ($) {
                     return items; // needed later by persistence
                 });
             });
+        },
+
+        _backToSP: function (count) {
+            let obj = this;
+            return (obj.options.firstSAVisit !== null && count > 0);
         }
     })
 });

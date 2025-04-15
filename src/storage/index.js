@@ -13,18 +13,7 @@
  */
 
 import Cookies from "js-cookie";
-import { detect } from "detect-browser";
-
-
-let COMPLIANT = ["chrome", "chromium"];
-
-if (process.env.SAA_COMPLIANT_BROWSERS !== undefined) {
-    try {
-        COMPLIANT = JSON.parse(process.env.SAA_COMPLIANT_BROWSERS);
-    } catch (err) {
-        console.log(`Problem with configured browsers: ${process.env.SAA_COMPLIANT_BROWSERS}`);
-    }
-}
+import { isCompliant } from "./browsers.js";
 
 String.prototype.hexEncode = function(){
     let hex, i;
@@ -377,8 +366,8 @@ async function getStorages (local = false) {
 
     // Test if storage is natively available on browser
     function _testStorage(name) {
-        const browser = detect();
-        if (!browser || !COMPLIANT.includes(browser.name)) {
+        const compliant = isCompliant();
+        if (!compliant) {
           return true;
         }
         if (storagePerm && handle.navigator) {
@@ -797,8 +786,8 @@ export const requestingStorageAccess = (callback, errCallback) => {
   if (errCallback === undefined) {
       errCallback = callback;
   }
-  const browser = detect();
-  if (!browser || !COMPLIANT.includes(browser.name)) {
+  const compliant = isCompliant();
+  if (!compliant) {
       callback();
   } else {
       if (document.hasStorageAccess) {
@@ -886,8 +875,8 @@ export const requestingStorageAccess = (callback, errCallback) => {
 }
 
 export async function getStorageHandle() {
-  const browser = detect();
-  if (!browser || !COMPLIANT.includes(browser.name)) {
+  const compliant = isCompliant();
+  if (!compliant) {
     return window;
   }
   // Check if Storage Access API is supported
