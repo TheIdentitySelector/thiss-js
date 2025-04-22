@@ -316,3 +316,8 @@ Version 2.1.56
 * Recover the favicon which got lost at some point
 * Removal of DiscoveryResponse warning for maintainence
 * Serve assets and entrypoints from previous version
+
+Version 2.1.57
+--------------
+
+* Serve new entrypoints
