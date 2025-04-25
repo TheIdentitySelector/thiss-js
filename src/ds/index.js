@@ -21,6 +21,7 @@ import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
+import idpIsSet from './templates/idp_is_set.html'
 
 config.autoReplaceSvg = 'nest';
 
@@ -36,7 +37,8 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_get, json_mdq_get_sp} from "../dsjs/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
@@ -361,17 +363,11 @@ $(document).ready(function() {
                     console.log(`Error filtering entities: ${err}`)
                });
         },
-        after: function(count,elt) {
+        after: function(count, items) {
             const self = this;
             $("#searching").addClass('d-none');
             if (self._backToSP(count)) {
-                $("#idp-is-set")
-                    .removeClass("d-none")
-                    .on('click', (event) => {
-                        event.preventDefault();
-                        window.history.back();
-                    });
-                $("#choose").addClass("d-none");
+                self._setBackToSPPage(items);
             } else if (count === 0) {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");
@@ -384,6 +380,24 @@ $(document).ready(function() {
         _backToSP: function (count) {
             let self = this;
             return (self.firstSAVisit !== null && count > 0);
+        },
+        _setBackToSPPage: function (items) {
+            const entity = items[0].entity;
+            const entityTitle = entity.title;
+            const entityID = entity.entityID;
+            const html = ejs.render(idpIsSet, {
+                entity: entityTitle,
+                entityID: entityID,
+            })
+            $("#idp-is-set")
+                .append(html)
+                .removeClass("d-none");
+            $("#back-to-sp")
+                .on('click', (event) => {
+                    event.preventDefault();
+                    window.history.back();
+                });
+            $("#choose").addClass("d-none");
         }
     }).discovery_client("sp").then(entity => {
         $(".sp_title").text(entity.title);

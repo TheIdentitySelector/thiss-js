@@ -8,7 +8,8 @@ library.add(faPlus);
 library.add(faExternalLink);
 dom.watch();
 
-import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "../dsjs/discovery.js";
 import {requestingStorageAccess, hasSAPerm} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
@@ -111,10 +112,14 @@ if (typeof discovery_response !== 'function') {
 }
 
 const recoverPersisted = (start, context) => {
+  console.log(`recovering persisted`);
     Promise.all(start).then(function() {
+  console.log(`recovering ggggggger persisted`);
         ds.ps.entities(context).then(result => result.data).then(function(items) {
+  console.log(`recovering items ${items.length}`);
             const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
             Promise.allSettled(item_promises).then(results => {
+  console.log(`recovering items results ${results.length}`);
                 let lang = window.navigator.language;
                 lang = (lang.split('-'))[0];
                 let found = false;

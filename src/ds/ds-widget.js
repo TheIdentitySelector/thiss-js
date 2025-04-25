@@ -1,4 +1,5 @@
-import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_search, DiscoveryService} from "../dsjs/discovery.js";
 import 'core-js/actual';
 import Localization from '../localization.js'
 
@@ -101,8 +102,7 @@ jQuery(function ($) {
             }
         },
 
-        _after: function (count) {
-            let saved_choices_element = $(this.options.saved_choices_selector);
+        _after: function (count, items) {
             if (this.options.search) {
                 let obj = this;
                 let search_result_element = $(obj.options.search_result_selector);
@@ -182,7 +182,7 @@ jQuery(function ($) {
                     cancelNode: function () { console.log("cancel"); },
                 });
             }
-            this.options.after(count, saved_choices_element);
+            this.options.after(count, items);
         },
 
         _update: function () {
@@ -250,7 +250,7 @@ jQuery(function ($) {
                 return obj.options.before(items).then(items => {
                     let count = 0;
                     let entities = []
-                    if (items && items.length > 0) {
+                    if (items && items.length > 0 && self.firstSAVisit === null) {
                         items.forEach(function (item) {
                             let entity = item.entity;
                             entity.saved = true;
@@ -261,7 +261,7 @@ jQuery(function ($) {
                     obj.options.render_saved_choice(entities);
                     return count;
                 }).then(count => {
-                    obj._after(count);
+                    obj._after(count, items);
                     return items; // needed later by persistence
                 });
             });
