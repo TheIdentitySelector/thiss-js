@@ -14,6 +14,9 @@ endif
 ifndef DEFAULT_CONTEXT
 override DEFAULT_CONTEXT = thiss.io
 endif
+ifndef MIN_SEARCH_LENGTH
+override MIN_SEARCH_LENGTH = 3
+endif
 
 export PATH := node_modules/.bin:$(PATH)
 
