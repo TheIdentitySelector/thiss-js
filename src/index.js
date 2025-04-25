@@ -1,12 +1,12 @@
 const postRobot = require("post-robot");
 import {DiscoveryComponent} from "./component"; /* webpackPrefetch: true */
-//import {DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {DiscoveryService} from "./dsjs/discovery.js";
+import {DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/index.scss';
 import './assets/sa-black.svg'
 
 window.onload = function() {
+  /*
     const updateUI = (data, id) => {
         const elem = window.document.getElementById(id);
         elem.innerHTML = "";
@@ -95,12 +95,7 @@ window.onload = function() {
     button5.addEventListener("click", (e) => {
         ds2.ps.remove(ds2.context, entity2.entity_id);
     });
-    const button6 = window.document.getElementById("adv-check-access");
-    button6.addEventListener("click", (e) => {
-        ds2.ps.has_storage_access(ds2.context).then(result => {
-            console.log(`Has access: ${result.data}`);
-        });
-    });
+**/
     // ########################################################################################### //
     DiscoveryComponent.render({
       loginHandlerURL: process.env.BASE_URL+`ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}&return=${encodeURIComponent("https://demo.beta.seamlessaccess.org/Shibboleth.sso/Login")}`,

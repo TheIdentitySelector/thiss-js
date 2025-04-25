@@ -8,8 +8,7 @@ library.add(faPlus);
 library.add(faExternalLink);
 dom.watch();
 
-//import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "../dsjs/discovery.js";
+import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import {requestingStorageAccess, hasSAPerm} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 

@@ -1,5 +1,4 @@
-//import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {json_mdq_search, DiscoveryService} from "../dsjs/discovery.js";
+import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import 'core-js/actual';
 import Localization from '../localization.js'
 

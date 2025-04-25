@@ -36,8 +36,7 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-//import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {json_mdq_get, json_mdq_get_sp} from "../dsjs/discovery.js";
+import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
