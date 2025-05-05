@@ -34,3 +34,8 @@ https://github.com/TheIdentitySelector/thiss-js/compare/2.1.56...TheIdentitySele
 - Check everything looks correct
 - Deploy version new-2
 - Restore previous cache settings after 10 hours
+
+## Incompatibilities
+
+This strategy works when the old and the new version of the entrypoints (`/cta`, `/ps/`, `/ds`) are compatible functionally in any combination.
+If there are incompatibilities in this regard, we'd have to break the release into more steps, so that in each step there are no incompatibilities.
