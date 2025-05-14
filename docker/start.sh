@@ -54,6 +54,14 @@ export CACHE_CONTROL=${CACHE_CONTROL:-"public, max-age=36000, must-revalidate, s
 cat>>/etc/nginx/nginx.conf<<EOF
 
       location / {
+         # Support for HAProxy's Health checks which defaults to OPTIONS
+         # https://www.haproxy.com/documentation/haproxy-configuration-tutorials/reliability/health-checks/
+         if (\$request_method = OPTIONS ) {
+            add_header Content-Length 0;
+            add_header Content-Type text/plain;
+            return 200;
+         }
+
          try_files \$uri \$uri/index.html \$uri/ =404 @mdq;
          absolute_redirect off;
          add_header 'Cache-Control' '${CACHE_CONTROL}';
