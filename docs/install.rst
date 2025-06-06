@@ -41,6 +41,9 @@ The thiss-js button component is partially configured by the caller that can pas
 * SERVICE_NAME: the name of the service
 * SERVICE_URL: the information URL/landing page of the service
 
+* PUBLIC_PATH_PREFIX: To run the discovery service on a path other than /, you must build the app with an environment variable PUBLIC_PATH_PREFIX
+starting and ending in /. Then the prefix must be included in BASE_URL (and COMPONENT_URL and PERSISTENCE_URL if set).
+
 Deploy to CDN
 =============
 

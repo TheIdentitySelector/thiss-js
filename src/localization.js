@@ -3,6 +3,8 @@ const I18N_DATA_ATTRIBUTE = '[data-i18n]';
 const DEFAULT_LOCALE = 'en';
 const localeSelector = document.getElementById('locale-selector');
 
+const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
+
 export default class Localization extends I18n {
     constructor(locale) {
         super();
@@ -70,7 +72,7 @@ export default class Localization extends I18n {
 
     fetchLocaleFile (locale) {
         return new Promise((resolve, reject) => {
-            fetch(`/translations/${locale}.json`)
+            fetch(`${path_prefix}translations/${locale}.json`)
                 .then((response) => {
                     return response.json()
                 })
