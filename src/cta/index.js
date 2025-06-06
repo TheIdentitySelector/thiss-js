@@ -142,6 +142,10 @@ function initializeUI() {
     let dsbutton = document.getElementById('dsbutton');
     let main = document.getElementById('main');
 
+    if (window.xprops && window.xprops.locale !== null) {
+        document.documentElement.setAttribute('lang', window.xprops.locale);
+    }
+
     main.style.background = window.xprops.backgroundColor;
     button.style.background = window.xprops.color;
     button.style.boxShadow = "0 0 0 5px " + window.xprops.color;
