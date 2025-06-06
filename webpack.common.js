@@ -15,6 +15,7 @@ function make_manifest(buffer) {
    return manifest_JSON;
 }
 
+const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 
 module.exports = {
     node: false,
@@ -68,7 +69,7 @@ module.exports = {
         },
         chunkFilename: "[name].js",
         path: path.resolve(__dirname, 'dist'),
-        publicPath: "/",
+        publicPath: path_prefix,
         library: {
           name: '[name]',
           type: 'umd',
