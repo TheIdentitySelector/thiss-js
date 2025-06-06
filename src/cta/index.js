@@ -142,8 +142,8 @@ function initializeUI() {
     let dsbutton = document.getElementById('dsbutton');
     let main = document.getElementById('main');
 
-    if (window.xprops && window.xprops.locale !== null) {
-        document.documentElement.setAttribute('lang', window.xprops.locale);
+    if (localization && localization.locale) {
+        document.documentElement.setAttribute('lang', localization.locale);
     }
 
     main.style.background = window.xprops.backgroundColor;

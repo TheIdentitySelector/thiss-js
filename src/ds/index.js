@@ -73,6 +73,10 @@ $(document).ready(function() {
         learn_more_url: learn_more_url
     }));*/
 
+    if (localization && localization.locale) {
+        document.documentElement.setAttribute('lang', localization.locale);
+    }
+
     $('#learn-more-trigger, #learn-more-close').on('click', function() {
       $("#learn-more-banner").toggleClass("d-none");
     })
