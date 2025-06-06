@@ -99,6 +99,8 @@ export default class Localization extends I18n {
                             }
                         }
                     }
+                    document.documentElement.setAttribute('lang', locale);
+
 
                     resolve()
                 })
