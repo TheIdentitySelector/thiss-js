@@ -165,6 +165,15 @@ function remove_entity(context, entity_id) {
     }
 }
 
+async function remove_all_entities(context) {
+    const entities = await get_entities(context);
+    if (entities) {
+        entities.forEach(entity => {
+            remove_entity(context, entity.entity.entityID);
+        });
+    }
+}
+
 function isCheckboxVisible(advCheckbox) {
     if (advCheckbox) {
         if (advCheckbox.checkVisibility) {
@@ -298,6 +307,11 @@ postRobot.on('entity', {window: window.parent}, async function(event) {
 postRobot.on('remove', {window: window.parent}, function(event) {
     check_access(event);
     remove_entity(event.data.context, event.data.entity_id);
+});
+
+postRobot.on('clear', {window: window.parent}, async function(event) {
+    check_access(event);
+    await remove_all_entities(event.data.context);
 });
 
 postRobot.on('has_storage_access', {window: window.parent}, async function(event) {
