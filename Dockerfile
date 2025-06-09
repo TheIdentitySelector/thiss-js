@@ -1,10 +1,23 @@
 FROM debian:bookworm
 MAINTAINER Leif Johansson <leifj@sunet.se>
+
+# Create a non-root user for nginx
+RUN groupadd -r nginx && useradd -r -g nginx -s /bin/false -M nginx
+
 RUN apt-get update -q && apt-get install -yy nginx openssl nginx-extras gettext-base
+
 COPY dist /dist
 COPY dist2/. /dist/
 ADD docker/start.sh /
 RUN chmod a+rx /start.sh
+
+# Create necessary directories and set ownership
+RUN mkdir -p /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx && \
+    chown -R nginx:nginx /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx && \
+    chmod -R 755 /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx && \
+    chmod -R 644 /dist && \
+    find /dist -type d -exec chmod 755 {} \;
+
 ENV BASE_URL "http://localhost"
 ENV COMPONENT_URL "http://localhost/cta"
 ENV PERSISTENCE_URL "http://localhost/ps"
@@ -15,4 +28,8 @@ ENV STORAGE_DOMAIN "localhost"
 ENV LOGLEVEL "warn"
 ENV DEFAULT_CONTEXT "local"
 ENV MIN_SEARCH_LENGTH "3"
+
+# Switch to non-root user
+USER nginx
+
 ENTRYPOINT ["/start.sh"]
