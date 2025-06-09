@@ -239,34 +239,37 @@ $(document).ready(function() {
             const templ = ejs.compile(savedHTML);
             items.forEach((item) => {
 
-                localization.updateDynamic(item);
+                if (item.hidden !== true && item.hidden !== "true") {
 
-                let hint = false;
-                if (strict === false && 'hint' in item) {
-                    hint = true;
+                    localization.updateDynamic(item);
+
+                    let hint = false;
+                    if (strict === false && 'hint' in item) {
+                        hint = true;
+                    }
+                    if (!hint) hasNonHinted = true;
+
+                    const title_i18n = item.entityID;
+                    let title = item.title;
+                    if ('title_langs' in item && lang in item.title_langs) {
+                        title = item.title_langs[lang];
+                    }
+
+                    const context = {
+                        title: title,
+                        title_i18n: title_i18n,
+                        domain: item.domain,
+                        entity_id: item.entity_id,
+                        entity_icon: item.entity_icon,
+                        name_tag: item.name_tag,
+                        strictProfile: strict,
+                        hint: hint,
+                        entity_icon_url: item.entity_icon_url
+                    };
+                    const html = templ(context);
+
+                    $("#ds-saved-choices").append(html);
                 }
-                if (!hint) hasNonHinted = true;
-
-                const title_i18n = item.entityID;
-                let title = item.title;
-                if ('title_langs' in item && lang in item.title_langs) {
-                    title = item.title_langs[lang];
-                }
-
-                const context = {
-                    title: title,
-                    title_i18n: title_i18n,
-                    domain: item.domain,
-                    entity_id: item.entity_id,
-                    entity_icon: item.entity_icon,
-                    name_tag: item.name_tag,
-                    strictProfile: strict,
-                    hint: hint,
-                    entity_icon_url: item.entity_icon_url
-                };
-                const html = templ(context);
-
-                $("#ds-saved-choices").append(html);
             })
 
             if (strict === false && hasNonHinted) {

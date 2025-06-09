@@ -101,7 +101,7 @@ const recoverPersisted = (start, context) => {
                 lang = (lang.split('-'))[0];
                 let found = false;
                 results.forEach(result => {
-                    if (!found && result.status === 'fulfilled') {
+                    if (!found && result.status === 'fulfilled' && result.value.hidden !== true && result.value.hidden !== "true") {
                         found = true;
                         const item = result.value;
                         let title = item.title;
@@ -113,6 +113,8 @@ const recoverPersisted = (start, context) => {
                         localization.translateStringP('cta-button-header').then(translated => {document.getElementById('headline').innerText = translated});
                         document.getElementById('headline').className = "ra21-button-text-secondary";
                         document.getElementById('dsbutton').hidden = false;
+                    } else if (result.status === 'fulfilled' && (result.value.hidden === true || result.value.hidden === "true")) {
+                        ds.remove(result.value.entityID);
                     }
                 });
                 if (!found) {

@@ -46,7 +46,7 @@ jQuery(function ($) {
 
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => {
-                            return data.filter(o => o.hidden !== "true")
+                            return data.filter(o => o.hidden !== "true" && o.hidden !== true)
                         })
                         .then(data => {
                             let first_ab = obj.ac.shift()
@@ -251,10 +251,14 @@ jQuery(function ($) {
                     let entities = []
                     if (items && items.length > 0) {
                         items.forEach(function (item) {
-                            let entity = item.entity;
-                            entity.saved = true;
-                            entities.push(entity)
-                            count++;
+                            if (item.hidden !== true && item.hidden !== "true") {
+                                let entity = item.entity;
+                                entity.saved = true;
+                                entities.push(entity)
+                                count++;
+                            } else {
+                                obj._ds.remove(item.entity.entity_id);
+                            }
                         });
                     }
                     obj.options.render_saved_choice(entities);
