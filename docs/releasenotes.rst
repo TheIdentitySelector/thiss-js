@@ -321,3 +321,14 @@ Version 2.1.57
 --------------
 
 * Serve new entrypoints
+
+Version 2.1.58
+--------------
+
+* Updated documentation
+* Support for HAProxy's Health checks
+* Add lang attribute to button and discovery service pages
+* Add clear method to persistence service API
+* Allow running the discovery service on a path other than /
+* Pre expire of IdP:s when marked with `hide-from-discovery`
+* Run nginx as non-root user
