@@ -12,9 +12,9 @@ ADD docker/start.sh /
 RUN chmod a+rx /start.sh
 
 # Create necessary directories and set ownership
-RUN mkdir -p /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx && \
-    chown -R nginx:nginx /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx && \
-    chmod -R 755 /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx && \
+RUN mkdir -p /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx /tmp/nginx && \
+    chown -R nginx:nginx /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx /tmp/nginx && \
+    chmod -R 755 /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx /tmp/nginx && \
     chmod -R 644 /dist && \
     find /dist -type d -exec chmod 755 {} \;
 
