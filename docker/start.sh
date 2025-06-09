@@ -7,11 +7,20 @@ error_log /dev/stdout warn;
 
 load_module modules/ndk_http_module.so;
 
+user nginx;
+pid /run/nginx/nginx.pid;
+
 events {
     worker_connections 2048;
 }
 
 http {
+    client_body_temp_path /tmp/nginx/client_temp;
+    proxy_temp_path /tmp/nginx/proxy_temp;
+    fastcgi_temp_path /tmp/nginx/fastcgi_temp;
+    uwsgi_temp_path /tmp/nginx/uwsgi_temp;
+    scgi_temp_path /tmp/nginx/scgi_temp;
+
    server {
       include "mime.types";
       charset utf-8;
