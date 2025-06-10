@@ -322,7 +322,7 @@ Version 2.1.57
 
 * Serve new entrypoints
 
-Version 2.1.59
+Version 2.1.60
 --------------
 
 * Updated documentation
