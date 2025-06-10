@@ -29,7 +29,4 @@ ENV LOGLEVEL "warn"
 ENV DEFAULT_CONTEXT "local"
 ENV MIN_SEARCH_LENGTH "3"
 
-# Switch to non-root user
-USER nginx
-
 ENTRYPOINT ["/start.sh"]
