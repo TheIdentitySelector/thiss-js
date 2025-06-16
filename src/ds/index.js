@@ -396,5 +396,13 @@ $(document).ready(function() {
         if (goodReturn === false) {
             $("#warning-discovery-response").removeClass("d-none");
         }
+        if (entity.entity_icon_url !== undefined) {
+            $("#ra-21-logo-other").attr('src', entity.entity_icon_url.url);
+            $("#ra-21-logo-other").attr('width', entity.entity_icon_url.width);
+            $("#ra-21-logo-other").attr('height', entity.entity_icon_url.height);
+            $("#ra-21-logo-other").removeClass("d-none");
+            $("#header-logo-separator").removeClass("d-none");
+        } else {
+        }
     })
 });
