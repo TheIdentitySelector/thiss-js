@@ -14,6 +14,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  min-height: 100vh;
 }
 
 *, *::before, *::after {
@@ -160,7 +161,9 @@ h3, legend {
 }
 
 .content {
-  margin-bottom: 15%;
+  flex-grow: 1;
+  padding-top: 10rem;
+  padding-bottom: 5rem;
 }
 
 header {
@@ -174,8 +177,10 @@ header p {
 
 footer {
   max-height: 70px;
-  background-color: var(--footer-grey);
   padding: 20px;
+  background-color: lightgray;
+  border-image-width: 2rem 100% 0rem 0rem;
+  border-image-source: linear-gradient(to top, lightgray, #bbb);
 }
 
 .footer-credential {
@@ -703,10 +708,9 @@ i.list-item-warning {
   position: relative;
   width: 100%;
   height: 7rem;
-  margin-bottom: 9rem;
   background-color: lightgray;
   border-image-width: 0rem 100% 2rem 0rem;
-  border-image-source: linear-gradient(to bottom, lightgray, #ccc);
+  border-image-source: linear-gradient(to bottom, lightgray, #bbb);
 
   #sa-logos {
     flex-shrink: 0;
