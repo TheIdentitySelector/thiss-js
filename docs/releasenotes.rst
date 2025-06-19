@@ -332,3 +332,8 @@ Version 2.1.60
 * Allow running the discovery service on a path other than /
 * Pre expire of IdP:s when marked with `hide-from-discovery`
 * Run nginx as non-root user
+
+Version 2.1.61
+--------------
+
+* Branding in the discovery service
