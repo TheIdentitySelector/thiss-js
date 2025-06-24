@@ -25,6 +25,7 @@ module.exports = merge(common, {
        DEFAULT_CONTEXT: 'thiss.io',
        NODE_ENV: 'development',
        DEBUG: true,
-       MIN_SEARCH_LENGTH: '3'
+       MIN_SEARCH_LENGTH: '3',
+       SAA_COMPLIANT_BROWSERS: '["chrome", "chromium", "edge", "edge-chromium", "vivaldi"]'
   })]
 });
