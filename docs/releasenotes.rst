@@ -321,6 +321,10 @@ Version 2.1.57
 --------------
 
 * Serve new entrypoints
+
+Version 2.1.67
+--------------
+
 * Configure list of SAA compliant browsers
 
 Version 2.1.60
