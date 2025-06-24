@@ -15,4 +15,5 @@ ENV STORAGE_DOMAIN "localhost"
 ENV LOGLEVEL "warn"
 ENV DEFAULT_CONTEXT "local"
 ENV MIN_SEARCH_LENGTH "3"
+ENV SAA_COMPLIANT_BROWSERS '["chrome", "chromium", "edge", "edge-chromium", "vivaldi"]'
 ENTRYPOINT ["/start.sh"]

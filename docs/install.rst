@@ -29,6 +29,7 @@ The thiss-js button component is partially configured by the caller that can pas
 * DEFAULT_CONTEXT: the context where storage objects are persisted
 * LOGLEVEL: controls logging to the browser console
 * MIN_SEARCH_LENGTH: Controls the minimum number of characters that must be entered into the DS search input to start an MDQ search
+* SAA_COMPLIANT_BROWSERS: List of browsers that implement the Storage Access API with handler for localStorage
 
 *Configuration related to access control*
 
