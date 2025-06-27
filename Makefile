@@ -1,4 +1,4 @@
-VERSION:=2.1.68
+VERSION:=2.1.69
 ifndef OLD_VERSION
 override OLD_VERSION = 2.1.57
 endif
