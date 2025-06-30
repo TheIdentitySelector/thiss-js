@@ -338,7 +338,7 @@ Version 2.1.61
 
 * Branding in the discovery service
 
-Version 2.1.70
+Version 2.1.71
 --------------
 
 * Configure list of SAA compliant browsers
