@@ -1,7 +1,4 @@
 VERSION:=2.1.69
-ifndef OLD_VERSION
-override OLD_VERSION = 2.1.57
-endif
 PWD:=$(shell pwd)
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
@@ -45,8 +42,7 @@ publish:
 	@npm publish --access public
 
 build_in_docker: thiss_builder
-	docker run -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) thiss-builder:$(OLD_VERSION) webpack --config webpack.prod.js
-	docker run -ti -v $(PWD)/dist2:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) thiss-builder:$(VERSION) webpack --config webpack.prod.js
+	docker run -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) thiss-builder:$(VERSION) webpack --config webpack.prod.js
 	
 build: test snyk
 	env BASE_URL=$(BASE_URL) COMPONENT_URL=$(COMPONENT_URL) MDQ_URL=$(MDQ_URL) PERSISTENCE_URL=$(PERSISTENCE_URL) SEARCH_URL=$(SEARCH_URL) STORAGE_DOMAIN=$(STORAGE_DOMAIN) LOGLEVEL=$(LOGLEVEL) DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) WHITELIST=$(WHITELIST) MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH)  SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) webpack --config webpack.prod.js
@@ -81,7 +77,5 @@ docker_push_sunet:
 	docker push $(REGISTRY)/$(NAME):$(VERSION)
 
 thiss_builder:
-	git checkout $(OLD_VERSION)
-	docker build -t thiss-builder:$(OLD_VERSION) -f Dockerfile.build .
 	git checkout $(VERSION)
 	docker build -t thiss-builder:$(VERSION) -f Dockerfile.build .
