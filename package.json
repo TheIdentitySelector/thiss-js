@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "2.1.80",
+  "version": "2.1.81",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
@@ -26,8 +26,8 @@
     "@babel/preset-flow": "==7.25.9",
     "@babel/preset-react": "==7.26.3",
     "@babel/register": "==7.25.9",
-    "@fortawesome/fontawesome-free": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/fontawesome-free": "==6.7.2",
+    "@fortawesome/free-solid-svg-icons": "==6.7.2",
     "babel-loader": "==9.2.1",
     "bootstrap": "==5.3.5",
     "clean-webpack-plugin": "==4.0.0",
