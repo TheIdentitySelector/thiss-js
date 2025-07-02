@@ -1,6 +1,6 @@
-VERSION:=2.1.77
+VERSION:=2.1.79
 ifndef OLD_VERSION
-override OLD_VERSION = 2.1.76
+override OLD_VERSION = 2.1.78
 endif
 PWD:=$(shell pwd)
 NAME:=thiss-js
