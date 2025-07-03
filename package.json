@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "2.1.84",
+  "version": "2.1.86",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
@@ -773,7 +773,9 @@
     "hyperdyperid": "1.2.0",
     "thingies": "1.21.0",
     "connect-history-api-fallback": "2.0.0",
-    "@types/connect-history-api-fallback": "1.5.4"
+    "@types/connect-history-api-fallback": "1.5.4",
+    "banana-i18n": "2.3.3",
+    "zoid": "9.0.34"
   },
   "snyk": true
 }
