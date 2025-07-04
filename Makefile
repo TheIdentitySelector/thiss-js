@@ -1,4 +1,4 @@
-VERSION:=2.1.90
+VERSION:=2.1.91
 PWD:=$(shell pwd)
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se
@@ -42,7 +42,7 @@ publish:
 	@npm publish --access public
 
 build_in_docker: thiss_builder
-	docker run --rm -ti -v $(PWD)/dist:/processed -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) --entrypoint sh  thiss-builder:$(VERSION) -c "find /usr/src/app/webpacked-old-dist -type f -regex '.*\.\(js\|css\)' -exec sh -c 'envsubst < \"$1\" > \"/processed/$(basename \"$1\")\"' _ {} \;"
+	docker run --rm -ti -v $(PWD)/dist:/processed -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) --entrypoint sh  thiss-builder:$(VERSION) -c "find /usr/src/app/src/old-src -type f -regex '.*\.\(js\|css\)' -exec sh -c 'envsubst < \"$1\" > \"/processed/$(basename \"$1\")\"' _ {} \;"
 	docker run -ti -v $(PWD)/dist2:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) thiss-builder:$(VERSION) webpack --config webpack.prod.js
 	
 build: test snyk
