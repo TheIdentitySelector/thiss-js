@@ -1,4 +1,4 @@
-VERSION:=2.1.87
+VERSION:=2.1.89
 endif
 PWD:=$(shell pwd)
 NAME:=thiss-js
