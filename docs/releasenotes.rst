@@ -322,7 +322,7 @@ Version 2.1.57
 
 * Serve new entrypoints
 
-Version 2.1.79
+Version 2.1.94
 --------------
 
-* Configure list of SAA compliant browsers
+* Configure list of SAA compliant browsers, add edge
