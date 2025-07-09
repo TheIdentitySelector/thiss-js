@@ -37,6 +37,7 @@ beta:
 
 clean:
 	@rm -rf dist
+	@rm -rf dist2
 
 publish:
 	@npm publish --access public
