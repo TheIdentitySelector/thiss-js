@@ -15,6 +15,10 @@ if [[ "$NEW_VERSION" == 'true' ]]; then
   COMPONENT_URL="$(BASE_URL)cta/"
 fi
 
+# Clean or create output directory
+rm -rf "$OUT_DIR"
+mkdir -p "$OUT_DIR"
+
 # Find all files
 find "$SRC_DIR" -type f | while read -r src_file; do
   # Compute relative path
