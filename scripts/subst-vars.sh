@@ -10,14 +10,14 @@ OUT_DIR="$2"
 # Adapt vars
 
 if [[ "$NEW_VERSION" == 'true' ]]; then
-  BASE_URL="$(BASE_URL)v$(API_VERSION)/"
-  PERSISTENCE_URL="$(BASE_URL)ps/"
-  COMPONENT_URL="$(BASE_URL)cta/"
+  BASE_URL="${BASE_URL}v${API_VERSION}/"
+  PERSISTENCE_URL="${BASE_URL}ps/"
+  COMPONENT_URL="${BASE_URL}cta/"
 fi
 
 # Clean or create output directory
-rm -rf "$OUT_DIR"
-mkdir -p "$OUT_DIR"
+#rm -rf "$OUT_DIR"
+#mkdir -p "$OUT_DIR"
 
 # Find all files
 find "$SRC_DIR" -type f | while read -r src_file; do
