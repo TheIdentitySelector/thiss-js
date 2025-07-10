@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "2.1.99",
+  "version": "2.1.100",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
