@@ -7,7 +7,6 @@ RUN groupadd -r nginx && useradd -r -g nginx -s /bin/false -M nginx
 RUN apt-get update -q && apt-get install -yy nginx openssl nginx-extras gettext-base
 
 COPY dist /dist
-COPY dist2/. /dist/
 ADD docker/start.sh /
 RUN chmod a+rx /start.sh
 
