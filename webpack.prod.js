@@ -16,7 +16,7 @@ module.exports = merge(common, {
       DEFAULT_CONTEXT: "${DEFAULT_CONTEXT}",
       WHITELIST: "${WHITELIST}",
       MIN_SEARCH_LENGTH: "${MIN_SEARCH_LENGTH}",
-      SAA_COMPLIANT_BROWSERS: '["chrome", "chromium", "edge", "edge-chromium", "vivaldi"]'
+      SAA_COMPLIANT_BROWSERS: 'chrome, chromium, edge, edge-chromium, vivaldi'
     })
   ]
 });

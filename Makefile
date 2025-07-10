@@ -13,7 +13,7 @@ ifndef DEFAULT_CONTEXT
 override DEFAULT_CONTEXT = thiss.io
 endif
 ifndef SAA_COMPLIANT_BROWSERS
-override SAA_COMPLIANT_BROWSERS = '["chrome", "chromium", "edge", "edge-chromium", "vivaldi"]'
+override SAA_COMPLIANT_BROWSERS = 'chrome, chromium, edge, edge-chromium, vivaldi'
 endif
 
 export PATH := node_modules/.bin:$(PATH)
@@ -46,7 +46,7 @@ publish:
 	@npm publish --access public
 
 build_in_docker: thiss_builder
-	docker run --rm -ti -v $(PWD)/dist-more:/usr/src/app/dist -e BASE_URL='$$BASE_URL' -e COMPONENT_URL='$$COMPONENT_URL' -e MDQ_URL='$$MDQ_URL' -e PERSISTENCE_URL='$$PERSISTENCE_URL' -e SEARCH_URL='$$SEARCH_URL' -e STORAGE_DOMAIN='$$STORAGE_DOMAIN' -e LOGLEVEL='$$LOGLEVEL' -e DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' -e WHITELIST='$$WHITELIST' -e MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH' -e SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' -e API_VERSION='$$API_VERSION' thiss-builder:$(VERSION) webpack --config webpack.prod.js
+	docker run --rm -ti -v $(PWD)/dist-more:/usr/src/app/dist -e BASE_URL='$$BASE_URL' -e COMPONENT_URL='$$COMPONENT_URL' -e MDQ_URL='$$MDQ_URL' -e PERSISTENCE_URL='$$PERSISTENCE_URL' -e SEARCH_URL='$$SEARCH_URL' -e STORAGE_DOMAIN='$$STORAGE_DOMAIN' -e LOGLEVEL='$$LOGLEVEL' -e DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' -e WHITELIST='$$WHITELIST' -e MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH' -e SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' -e API_VERSION=$(API_VERSION) thiss-builder:$(VERSION) webpack --config webpack.prod.js
 	docker run --rm -ti -v $(PWD)/dist-pre:/preprocessed -v $(PWD)/dist:/processed -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) -e API_VERSION=$(API_VERSION) -e NEW_VERSION=false --entrypoint sh  thiss-builder:$(VERSION) -c "/subst-vars.sh /preprocessed /processed"
 	docker run --rm -ti -v $(PWD)/dist-more:/preprocessed -v $(PWD)/dist/v$(API_VERSION):/processed -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) -e API_VERSION=$(API_VERSION) -e NEW_VERSION=true --entrypoint sh  thiss-builder:$(VERSION) -c "/subst-vars.sh /preprocessed /processed"
 	@rm -rf dist-pre/v$(API_VERSION)

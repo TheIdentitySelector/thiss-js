@@ -24,6 +24,6 @@ module.exports = merge(common, {
        LOGLEVEL: 'warn',
        DEFAULT_CONTEXT: 'thiss.io',
        MIN_SEARCH_LENGTH: '3',
-       SAA_COMPLIANT_BROWSERS: '["chrome", "chromium", "edge", "edge-chromium", "vivaldi"]'
+       SAA_COMPLIANT_BROWSERS: 'chrome,chromium,edge,edge-chromium,vivaldi'
   })]
 });

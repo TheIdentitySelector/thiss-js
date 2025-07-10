@@ -26,6 +26,6 @@ module.exports = merge(common, {
        NODE_ENV: 'development',
        DEBUG: true,
        MIN_SEARCH_LENGTH: '3',
-       SAA_COMPLIANT_BROWSERS: '["chrome", "chromium", "edge", "edge-chromium", "vivaldi"]'
+       SAA_COMPLIANT_BROWSERS: 'chrome, chromium, edge, edge-chromium, vivaldi'
   })]
 });

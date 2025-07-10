@@ -20,12 +20,8 @@ let COMPLIANT = ["chrome", "chromium", "edge", "edge-chromium"];
 
 if (process.env.SAA_COMPLIANT_BROWSERS !== undefined) {
     try {
-        const more = JSON.parse(process.env.SAA_COMPLIANT_BROWSERS);
-        if (Array.isArray(more)) {
-            COMPLIANT = COMPLIANT.concat(more);
-        } else {
-            throw new Error(`SAA COMPLIANT is not an array: ${more}`);
-        }
+        const more = process.env.SAA_COMPLIANT_BROWSERS.split(',').map(s => s.trim());
+        COMPLIANT = COMPLIANT.concat(more);
     } catch (err) {
         console.log(`Problem with configured browsers: ${process.env.SAA_COMPLIANT_BROWSERS}`);
     }
