@@ -1,6 +1,12 @@
 FROM node:22
+RUN apt-get -y update && \
+    apt-get -y install gettext-base && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /usr/src/app
 COPY package*.json webpack* ./
+RUN npm install -g webpack webpack-cli
 RUN npm install
 COPY src ./src
 COPY scripts/subst-vars.sh /

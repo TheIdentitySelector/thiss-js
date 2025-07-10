@@ -37,6 +37,7 @@ beta:
 	@npm run beta
 
 clean:
+	@rm -rf dist
 	@rm -rf dist-pre/v$(API_VERSION)
 	@git checkout dist-pre/v$(API_VERSION)
 
@@ -44,14 +45,15 @@ publish:
 	@npm publish --access public
 
 build_in_docker: thiss_builder
-	docker run --rm -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL='$$BASE_URL' -e COMPONENT_URL='$$COMPONENT_URL' -e MDQ_URL='$$MDQ_URL' -e PERSISTENCE_URL='$$PERSISTENCE_URL' -e SEARCH_URL='$$SEARCH_URL' -e STORAGE_DOMAIN='$$STORAGE_DOMAIN' -e LOGLEVEL='$$LOGLEVEL' -e DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' -e WHITELIST='$$WHITELIST' -e MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH' -e SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' thiss-builder:$(VERSION) webpack --config webpack.prod.js
 	@rm -rf dist-pre/v$(API_VERSION)
-	docker run --rm -ti -v $(PWD)/dist-pre/v$(VERSION):/processed -v $(PWD)/dist:/preprocessed -e BASE_URL='$$BASE_URL' -e COMPONENT_URL='$$COMPONENT_URL' -e MDQ_URL='$$MDQ_URL' -e PERSISTENCE_URL='$$PERSISTENCE_URL' -e SEARCH_URL='$$SEARCH_URL' -e STORAGE_DOMAIN='$$STORAGE_DOMAIN' -e LOGLEVEL='$$LOGLEVEL' -e DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' -e WHITELIST='$$WHITELIST' -e MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH' -e SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' --entrypoint sh  thiss-builder:$(VERSION) -c "/subst-vars.sh /preprocessed /processed"
+	docker run --rm -ti -v $(PWD)/dist-pre/v$(API_VERSION):/usr/src/app/dist -e BASE_URL='$$BASE_URL' -e COMPONENT_URL='$$COMPONENT_URL' -e MDQ_URL='$$MDQ_URL' -e PERSISTENCE_URL='$$PERSISTENCE_URL' -e SEARCH_URL='$$SEARCH_URL' -e STORAGE_DOMAIN='$$STORAGE_DOMAIN' -e LOGLEVEL='$$LOGLEVEL' -e DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' -e WHITELIST='$$WHITELIST' -e MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH' -e SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' thiss-builder:$(VERSION) webpack --config webpack.prod.js
+	docker run --rm -ti -v $(PWD)/dist-pre:/preprocessed -v $(PWD)/dist:/processed -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) --entrypoint sh  thiss-builder:$(VERSION) -c "/subst-vars.sh /preprocessed /processed"
 	
 build: test snyk
 	env BASE_URL='$$BASE_URL' COMPONENT_URL='$$COMPONENT_URL' MDQ_URL='$$MDQ_URL' PERSISTENCE_URL='$$PERSISTENCE_URL' SEARCH_URL='$$SEARCH_URL' STORAGE_DOMAIN='$$STORAGE_DOMAIN' LOGLEVEL='$$LOGLEVEL' DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' WHITELIST='$$WHITELIST' MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH'  SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' webpack --config webpack.prod.js
 	@rm -rf dist-pre/v$(API_VERSION)
-	env BASE_URL='$$BASE_URL' COMPONENT_URL='$$COMPONENT_URL' MDQ_URL='$$MDQ_URL' PERSISTENCE_URL='$$PERSISTENCE_URL' SEARCH_URL='$$SEARCH_URL' STORAGE_DOMAIN='$$STORAGE_DOMAIN' LOGLEVEL='$$LOGLEVEL' DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' WHITELIST='$$WHITELIST' MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH'  SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' bash -c "./scripts/subst-vars.sh ./dist ./dist-pre/v$(API_VERSION)"
+	@mv dist dist-pre/v$(API_VERSION)
+	env BASE_URL=$(BASE_URL) COMPONENT_URL=$(COMPONENT_URL) MDQ_URL=$(MDQ_URL) PERSISTENCE_URL=$(PERSISTENCE_URL) SEARCH_URL=$(SEARCH_URL) STORAGE_DOMAIN=$(STORAGE_DOMAIN) LOGLEVEL=$(LOGLEVEL) DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) WHITELIST=$(WHITELIST) MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH)  SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) bash -c "./scripts/subst-vars.sh ./dist-pre ./dist"
 
 standalone: standalone_in_docker
 
@@ -83,7 +85,5 @@ docker_push_sunet:
 	docker push $(REGISTRY)/$(NAME):$(VERSION)
 
 thiss_builder:
-	git checkout $(OLD_VERSION)
-	docker build -t thiss-builder:$(OLD_VERSION) -f Dockerfile.build .
 	git checkout $(VERSION)
 	docker build -t thiss-builder:$(VERSION) -f Dockerfile.build .
