@@ -7,9 +7,13 @@ SRC_DIR="$1"
 # Output directory
 OUT_DIR="$2"
 
-# Clean or create output directory
-#rm -rf "$OUT_DIR"
-#mkdir -p "$OUT_DIR"
+# Adapt vars
+
+if [[ "$NEW_VERSION" == 'true' ]]; then
+  BASE_URL="$(BASE_URL)v$(API_VERSION)/"
+  PERSISTENCE_URL="$(BASE_URL)ps/"
+  COMPONENT_URL="$(BASE_URL)cta/"
+fi
 
 # Find all files
 find "$SRC_DIR" -type f | while read -r src_file; do
@@ -25,7 +29,7 @@ find "$SRC_DIR" -type f | while read -r src_file; do
   # Check file extension
   if [[ "$src_file" == *.js || "$src_file" == *.css || "$src_file" == *.html ]]; then
     # Process with envsubst
-    envsubst '$MDQ_URL,$PERSISTENCE_URL,$COMPONENT_URL,$WHITELIST,$DEFAULT_CONTEXT,$BASE_URL' < "$src_file" > "$out_file"
+    envsubst '$MDQ_URL,$PERSISTENCE_URL,$SEARCH_URL,$STORAGE_DOMAIN,$LOGLEVEL,$COMPONENT_URL,$WHITELIST,$DEFAULT_CONTEXT,$BASE_URL,$MIN_SEARCH_LENGTH,$SAA_COMPLIANT_BROWSERS' < "$src_file" > "$out_file"
     echo "Processed with envsubst: $rel_path"
   else
     # Copy as-is
