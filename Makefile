@@ -1,4 +1,5 @@
 VERSION:=2.1.111
+OLD_VERSION:=2.1.98
 API_VERSION:=2
 PWD:=$(shell pwd)
 NAME:=thiss-js
@@ -54,6 +55,12 @@ build: test snyk
 	env BASE_URL='$$BASE_URL' COMPONENT_URL='$$COMPONENT_URL' MDQ_URL='$$MDQ_URL' PERSISTENCE_URL='$$PERSISTENCE_URL' SEARCH_URL='$$SEARCH_URL' STORAGE_DOMAIN='$$STORAGE_DOMAIN' LOGLEVEL='$$LOGLEVEL' DEFAULT_CONTEXT='$$DEFAULT_CONTEXT' WHITELIST='$$WHITELIST' MIN_SEARCH_LENGTH='$$MIN_SEARCH_LENGTH'  SAA_COMPLIANT_BROWSERS='$$SAA_COMPLIANT_BROWSERS' API_VERSION=$(API_VERSION) PUBLIC_PATH_PREFIX=$(PUBLIC_PATH_PREFIX) webpack --config webpack.prod.js
 	@rm -rf dist-pre/v$(API_VERSION)
 	@mv dist dist-pre/v$(API_VERSION)
+
+prebuild: clean
+	@git checkout $(OLD_VERSION)
+	@cp dist-pre/v$(API_VERSION) /tmp/dist-pre
+	@git checkout $(VERSION)
+	@mv --force /tmp/dist-pre/* dist-pre/v$(API_VERSION)/
 
 standalone: standalone_in_docker
 
