@@ -87,7 +87,7 @@ find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r version
     done
 done
 
-mv "$DST_DIR/v1/*" "$DST_DIR/"
+mv "$DST_DIR/v1/"* "$DST_DIR/"
 rmdir "$DST_DIR/v1"
 
 echo "Directory structure replication completed successfully!"
