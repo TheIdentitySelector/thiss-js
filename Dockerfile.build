@@ -5,9 +5,6 @@ RUN apt-get -y update && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
-COPY package*.json webpack* ./
-RUN npm install -g webpack webpack-cli
-RUN npm install
 COPY src ./src
 COPY scripts/subst-vars.sh /
 RUN chmod 755 /subst-vars.sh

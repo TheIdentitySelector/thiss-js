@@ -17,10 +17,10 @@ RUN mkdir -p /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx /tmp/ngin
     chmod -R 644 /dist && \
     find /dist -type d -exec chmod 755 {} \;
 
-ENV BASE_URL "http://localhost"
-ENV COMPONENT_URL "http://localhost/cta"
-ENV PERSISTENCE_URL "http://localhost/ps"
-ENV MDQ_URL "http://localhost:8000/entities"
+ENV BASE_URL "http://localhost/"
+ENV COMPONENT_URL "http://localhost/cta/"
+ENV PERSISTENCE_URL "http://localhost/ps/"
+ENV MDQ_URL "http://localhost:8000/entities/"
 ENV SEARCH_URL "http://localhost:8000/api/search"
 ENV MDQ_HOSTPORT "localhost:8000"
 ENV STORAGE_DOMAIN "localhost"
