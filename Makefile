@@ -1,4 +1,4 @@
-VERSION:=2.1.106
+VERSION:=2.1.107
 API_VERSION:=2
 PWD:=$(shell pwd)
 NAME:=thiss-js
