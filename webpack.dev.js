@@ -32,6 +32,9 @@ module.exports = merge(common, {
            return mw;
        }
    },
+   output: {
+     publicPath: '/'
+   },
    plugins: [
        new BundleAnalyzerPlugin(),
        new webpack.EnvironmentPlugin({
