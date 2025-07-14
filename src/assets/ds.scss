@@ -54,7 +54,7 @@ a {
   /* Zep */
   color: var(--primary-blue);
 
-  &:hover {
+  &:hover, &:focus {
     text-decoration: underline;
   }
 
