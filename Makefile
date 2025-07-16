@@ -1,4 +1,4 @@
-VERSION:=2.1.111
+VERSION:=2.1.112
 PREV_VERSION:=2.1.98
 API_VERSION:=2
 PREV_API_VERSION:=1
@@ -43,15 +43,16 @@ beta:
 	@npm run beta
 
 clean:
-	@rm -rf dist
-	@rm -rf dist-pre/v$(API_VERSION)
-	@git checkout dist-pre/v$(API_VERSION)
+	@sudo rm -rf dist
+	@sudo rm -rf dist-pre/
+	@git checkout dist-pre/
 
 publish:
 	@npm publish --access public
 
 build_in_docker: thiss_builder
 	docker run -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) thiss-builder:$(VERSION) webpack --config webpack.prod.js
+	@mkdir -p dist-pre/v$(API_VERSION)/$(VERSION)
 	@cp -R dist dist-pre/v$(API_VERSION)/$(VERSION)
 	
 build: test snyk
@@ -88,5 +89,4 @@ docker_push_sunet:
 	docker push $(REGISTRY)/$(NAME):$(VERSION)
 
 thiss_builder:
-	git checkout $(VERSION)
 	docker build -t thiss-builder:$(VERSION) -f Dockerfile.build .

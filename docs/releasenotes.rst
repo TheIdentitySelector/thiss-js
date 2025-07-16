@@ -322,11 +322,6 @@ Version 2.1.57
 
 * Serve new entrypoints
 
-Version 2.1.67
---------------
-
-* Configure list of SAA compliant browsers
-
 Version 2.1.60
 --------------
 
@@ -342,3 +337,13 @@ Version 2.1.61
 --------------
 
 * Branding in the discovery service
+
+Version 2.1.67
+--------------
+
+* Configure list of SAA compliant browsers
+
+Version 2.1.112
+---------------
+
+* New release procedure
