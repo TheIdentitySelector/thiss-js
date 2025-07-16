@@ -89,13 +89,6 @@ cat>>/etc/nginx/nginx.conf<<EOF
 }
 EOF
 
-cd /dist
-for f in `find . -printf '%P\n'`; do
-   if [ "x$f" != "x" -a -f $f ]; then
-      d=`dirname $f`
-      mkdir -p /usr/share/nginx/html/$d
-      /subst-vars.sh $f /usr/share/nginx/html/$f
-   fi
-done
+bash /subst-vars.sh /dist /usr/share/nginx/html
 
 nginx -c /etc/nginx/nginx.conf
