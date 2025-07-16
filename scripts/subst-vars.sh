@@ -78,7 +78,12 @@ find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_ver
         find "$version_dir" -type f | while read -r src_file; do
             # Calculate relative path from api_version directory
             rel_path="${src_file#$version_dir/}"
-            dst_file="$dst_version_dir/$rel_path"
+
+            if [[ "$api_version" == 'v1' ]]; then
+                dst_file="$DST_DIR/$rel_path"
+            else
+                dst_file="$dst_version_dir/$rel_path"
+            fi
 
             # Create destination directory if needed
             dst_file_dir=$(dirname "$dst_file")
@@ -89,9 +94,6 @@ find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_ver
         done
     done
 done
-
-mv "$DST_DIR/v1/"* "$DST_DIR/"
-rmdir "$DST_DIR/v1"
 
 if [[ "$API_VERSION" == "$PREV_API_VERSION" && "$PRE_RELEASE" == 'true' ]]; then
     find "$SRC_DIR/v$API_VERSION/$OLD_VERSION" -type f | while read -r src_file; do
