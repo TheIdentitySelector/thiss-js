@@ -9,7 +9,7 @@ RUN apt-get update -q && apt-get install -yy nginx openssl nginx-extras gettext-
 COPY dist-pre /dist
 ADD docker/start.sh /
 RUN chmod a+rx /start.sh
-ADD scripts/subst-vars.sh.sh /
+ADD scripts/subst-vars.sh /
 RUN chmod a+rx /subst-vars.sh
 
 # Create necessary directories and set ownership
