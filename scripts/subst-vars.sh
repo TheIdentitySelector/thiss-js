@@ -77,7 +77,7 @@ find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_ver
         # Process all files and subdirectories recursively
         find "$version_dir" -type f | while read -r src_file; do
             # Calculate relative path from api_version directory
-            rel_path="${src_file#$api_version_dir/}"
+            rel_path="${src_file#$version_dir/}"
             dst_file="$dst_version_dir/$rel_path"
 
             # Create destination directory if needed
