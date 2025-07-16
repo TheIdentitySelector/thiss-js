@@ -6,9 +6,11 @@ RUN groupadd -r nginx && useradd -r -g nginx -s /bin/false -M nginx
 
 RUN apt-get update -q && apt-get install -yy nginx openssl nginx-extras gettext-base
 
-COPY dist /dist
+COPY dist-pre /dist
 ADD docker/start.sh /
 RUN chmod a+rx /start.sh
+ADD scripts/subst-vars.sh.sh /
+RUN chmod a+rx /subst-vars.sh
 
 # Create necessary directories and set ownership
 RUN mkdir -p /var/log/nginx /var/lib/nginx /var/cache/nginx /run/nginx /tmp/nginx && \

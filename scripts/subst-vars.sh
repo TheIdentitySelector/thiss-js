@@ -32,22 +32,22 @@ echo "Replicating directory structure from '$SRC_DIR' to '$DST_DIR'"
 process_file() {
     local src_file="$1"
     local dst_file="$2"
-    local version="$3"
-    
-    # Set version-specific variables
-    if [[ "$version" == 'v1' ]]; then
+    local api_version="$3"
+
+    # Set api_version-specific variables
+    if [[ "$api_version" == 'v1' ]]; then
       export BASE_URL="${ORIG_BASE_URL}"
     else
-      export BASE_URL="${ORIG_BASE_URL}${version}/"
+      export BASE_URL="${ORIG_BASE_URL}${api_version}/"
     fi
 
     export PERSISTENCE_URL="${BASE_URL}ps/"
     export COMPONENT_URL="${BASE_URL}cta/"
-    
+
     # Check file extension and process accordingly
     case "$src_file" in
         *.js|*.html|*.css)
-            echo "  Processing $src_file -> $dst_file (version: $version)"
+            echo "  Processing $src_file -> $dst_file (api_version: $api_version)"
             envsubst '$MDQ_URL,$PERSISTENCE_URL,$SEARCH_URL,$STORAGE_DOMAIN,$LOGLEVEL,$COMPONENT_URL,$WHITELIST,$DEFAULT_CONTEXT,$BASE_URL,$MIN_SEARCH_LENGTH,$SAA_COMPLIANT_BROWSERS' < "$src_file" > "$dst_file"
             ;;
         *)
@@ -57,37 +57,55 @@ process_file() {
     esac
 }
 
-# Find all version directories (v0, v1, v2, etc.)
-find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r version_dir; do
-    version=$(basename "$version_dir")
-    
-    # Skip if not matching version pattern
-    if [[ ! "$version" =~ ^v[0-9]+$ ]]; then
+# Find all api_version directories (v0, v1, v2, etc.)
+find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_version_dir; do
+    api_version=$(basename "$api_version_dir")
+
+    # Skip if not matching api_version pattern
+    if [[ ! "$api_version" =~ ^v[0-9]+$ ]]; then
         continue
     fi
-    
-    echo "Processing version directory: $version"
-    
-    # Create corresponding directory in destination
-    dst_version_dir="$DST_DIR/$version"
-    mkdir -p "$dst_version_dir"
-    
-    # Process all files and subdirectories recursively
-    find "$version_dir" -type f | while read -r src_file; do
-        # Calculate relative path from version directory
-        rel_path="${src_file#$version_dir/}"
-        dst_file="$dst_version_dir/$rel_path"
-        
-        # Create destination directory if needed
-        dst_file_dir=$(dirname "$dst_file")
-        mkdir -p "$dst_file_dir"
-        
-        # Process the file
-        process_file "$src_file" "$dst_file" "$version"
+
+    echo "Processing api_version directory: $api_version"
+
+    find "$api_version_dir" -maxdepth 1 -type d | sort -V | while read -r version_dir; do
+
+        # Create corresponding directory in destination
+        dst_version_dir="$DST_DIR/$api_version"
+        mkdir -p "$dst_version_dir"
+
+        # Process all files and subdirectories recursively
+        find "$version_dir" -type f | while read -r src_file; do
+            # Calculate relative path from api_version directory
+            rel_path="${src_file#$api_version_dir/}"
+            dst_file="$dst_version_dir/$rel_path"
+
+            # Create destination directory if needed
+            dst_file_dir=$(dirname "$dst_file")
+            mkdir -p "$dst_file_dir"
+
+            # Process the file
+            process_file "$src_file" "$dst_file" "$api_version"
+        done
     done
 done
 
 mv "$DST_DIR/v1/"* "$DST_DIR/"
 rmdir "$DST_DIR/v1"
+
+if [[ "$API_VERSION" == "$PREV_API_VERSION" && "$PRE_RELEASE" == 'true' ]]; then
+    find "$SRC_DIR/v$API_VERSION/$OLD_VERSION" -type f | while read -r src_file; do
+        # Calculate relative path from api_version directory
+        rel_path="${src_file#$api_version_dir/}"
+        dst_file="$DST_DIR/v$API_VERSION/$rel_path"
+
+        # Create destination directory if needed
+        dst_file_dir=$(dirname "$dst_file")
+        mkdir -p "$dst_file_dir"
+
+        # Process the file
+        process_file "$src_file" "$dst_file" "v$API_VERSION"
+    done
+fi
 
 echo "Directory structure replication completed successfully!"
