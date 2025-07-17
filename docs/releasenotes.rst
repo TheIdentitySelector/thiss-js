@@ -343,7 +343,7 @@ Version 2.1.67
 
 * Configure list of SAA compliant browsers
 
-Version 2.1.117
+Version 2.1.118
 ---------------
 
 * New release procedure

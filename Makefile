@@ -1,4 +1,4 @@
-VERSION:=2.1.117
+VERSION:=2.1.118
 PREV_VERSION:=2.1.98
 API_VERSION:=2
 PREV_API_VERSION:=1
@@ -86,7 +86,7 @@ setup:
 docker: docker_build
 
 docker_build:
-	docker build --no-cache=true -t $(NAME):$(VERSION) .
+	docker build --build-arg PRE_RELEASE=$(PRE_RELEASE) --build-arg PREV_API_VERSION=$(PREV_API_VERSION) --build-arg API_VERSION=$(API_VERSION) --build-arg PREV_VERSION=$(PREV_VERSION) --build-arg VERSION=$(VERSION) --no-cache=true -t $(NAME):$(VERSION) .
 
 docker_push_sunet:
 	docker tag $(NAME):$(VERSION) $(REGISTRY)/$(NAME):$(VERSION)
