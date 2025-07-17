@@ -58,7 +58,7 @@ process_file() {
 }
 
 # Find all api_version directories (v0, v1, v2, etc.)
-find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_version_dir; do
+find "$SRC_DIR" -mindepth 1 -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_version_dir; do
     api_version=$(basename "$api_version_dir")
 
     # Skip if not matching api_version pattern
@@ -66,9 +66,7 @@ find "$SRC_DIR" -maxdepth 1 -type d -name "v*" | sort -V | while read -r api_ver
         continue
     fi
 
-    echo "Processing api_version directory: $api_version"
-
-    find "$api_version_dir" -maxdepth 1 -type d | sort -V | while read -r version_dir; do
+    find "$api_version_dir" -mindepth 1 -maxdepth 1 -type d | sort -V | while read -r version_dir; do
 
         # Create corresponding directory in destination
         dst_version_dir="$DST_DIR/$api_version"
