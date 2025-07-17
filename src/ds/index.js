@@ -402,7 +402,17 @@ $(document).ready(function() {
             $("#ra-21-logo-other").attr('height', entity.entity_icon_url.height);
             $("#ra-21-logo-other").removeClass("d-none");
             $("#header-logo-separator").removeClass("d-none");
+        }
+
+        const widthLogos = $('#sa-logos').width();
+        const widthAccessTo = $('#sa-access-to').width();
+        const widthHeader = $('header').width();
+        const headerPaddingLeft = parseInt($('header').css('padding-left'));
+
+        if (widthHeader > ((2 * widthLogos) + widthAccessTo + headerPaddingLeft)) {
+            $('#header-empty-right').width(widthLogos + headerPaddingLeft);
         } else {
+            $('#header-empty-right').addClass("d-none");
         }
     })
 });
