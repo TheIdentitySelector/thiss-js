@@ -46,6 +46,21 @@ const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
 const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities";
 
 
+const adjustHeader = () => {
+    const widthLogos = $('#sa-logos').width();
+    const widthAccessTo = $('#sa-access-to').width();
+    const widthHeader = $('header').width();
+    const headerPaddingLeft = parseInt($('header').css('padding-left'));
+
+    if (widthHeader > ((2 * widthLogos) + widthAccessTo + headerPaddingLeft)) {
+        $('#header-empty-right').width(widthLogos + headerPaddingLeft);
+    } else {
+        $('#header-empty-right').addClass("d-none");
+        $('#sa-access-to').css('padding-right', `${headerPaddingLeft}px`);
+    }
+};
+
+
 $(document).ready(function() {
     let timer = null;
 
@@ -145,6 +160,10 @@ $(document).ready(function() {
         event.preventDefault();
         $("#dsclient").removeClass('d-none');
         $("#discovery-response-warning").addClass("d-none");
+    });
+
+    $(window).on('resize', function(event) {
+        adjustHeader();
     });
 
     $("#dsclient").discovery_client({
@@ -403,16 +422,6 @@ $(document).ready(function() {
             $("#ra-21-logo-other").removeClass("d-none");
             $("#header-logo-separator").removeClass("d-none");
         }
-
-        const widthLogos = $('#sa-logos').width();
-        const widthAccessTo = $('#sa-access-to').width();
-        const widthHeader = $('header').width();
-        const headerPaddingLeft = parseInt($('header').css('padding-left'));
-
-        if (widthHeader > ((2 * widthLogos) + widthAccessTo + headerPaddingLeft)) {
-            $('#header-empty-right').width(widthLogos + headerPaddingLeft);
-        } else {
-            $('#header-empty-right').addClass("d-none");
-        }
+        adjustHeader();
     })
 });
