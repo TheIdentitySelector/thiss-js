@@ -348,7 +348,7 @@ Version 2.1.119
 
 * New release procedure
 
-Version 2.1.20
+Version 2.1.21
 --------------
 
 * Center "access to" message in discovery service page
