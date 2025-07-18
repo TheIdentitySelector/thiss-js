@@ -176,11 +176,10 @@ header p {
 
 
 footer {
-  max-height: 70px;
-  padding: 20px;
-  background-color: lightgray;
-  border-image-width: 2rem 100% 0rem 0rem;
-  border-image-source: linear-gradient(to top, lightgray, #bbb);
+  height: 7rem;
+  padding: 35px;
+  font-size: 14px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 20px 20px -25px inset;
 }
 
 .footer-credential {
@@ -221,6 +220,8 @@ footer {
 }
 
 .account-pill {
+  padding: 5px 10px 5px 10px;
+  font-size: 14px;
   padding: 5px;
   border-radius: 3px;
   border: solid 1px rgba(68, 68, 68, 0.5);
@@ -713,9 +714,7 @@ i.list-item-warning {
   position: relative;
   width: 100%;
   height: 7rem;
-  background-color: lightgray;
-  border-image-width: 0rem 100% 2rem 0rem;
-  border-image-source: linear-gradient(to bottom, lightgray, #bbb);
+  box-shadow: rgb(0 0 0 / 9%) 0px -40px 20px -28px inset;
 
   #sa-logos {
     flex: none;
@@ -726,6 +725,11 @@ i.list-item-warning {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    #sa-access-to-title {
+      padding-bottom: 5px;
+      font-size: 15px;
+    }
   }
 
   #header-empty-right {
