@@ -21,6 +21,7 @@ import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
+import suggestedHeaderHTML from './templates/suggested_header.html'
 
 config.autoReplaceSvg = 'nest';
 
@@ -68,12 +69,19 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
+    let suggested = [1,2,3];
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
+
+    if (urlParams.has('suggested')) {
+        const b64Suggested = urlParams.get('suggested');
+        const csSuggested = atob(b64Suggested);
+        suggested = csSuggested.split(',').map(s => s.trim());
+    }
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -216,9 +224,11 @@ $(document).ready(function() {
                         if (items[0].counter > 1) {
                             $("#ds-search-list").append(htmlItemList);
                         } else {
+                            $("#ds-search-header").html('');
                             $("#ds-search-list").html(htmlItemList);
                         }
                     } else {
+                        $("#ds-search-header").html('');
                         $("#ds-search-list").html(htmlItemList);
                     }
                 }
@@ -335,6 +345,7 @@ $(document).ready(function() {
         too_many_results: function(bts, count) {
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
+            $("#ds-search-header").html('');
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -347,11 +358,12 @@ $(document).ready(function() {
                 showAnywayString: localization.translateString('ds-too-many-result-show')
             })
 
-            $("#ds-search-list").append(html);
+            $("#ds-search-header").append(html);
         },
         no_results: function() {
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
+            $("#ds-search-header").html('');
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -359,7 +371,7 @@ $(document).ready(function() {
 
             let html = ejs.render(noResultsHTML)
 
-            $("#ds-search-list").append(html);
+            $("#ds-search-header").append(html);
         },
         persist: function() {
             return $("#rememberThisChoice").is(':checked');
@@ -388,6 +400,14 @@ $(document).ready(function() {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");
                 $("#searchinput").focus();
+                if (suggested.length > 0) {
+                    $("#searching").addClass('d-none');
+                    document.getElementById('ds-search-list').innerHTML = ''
+                    let html = ejs.render(suggestedHeaderHTML, {
+                        suggestedString: localization.translateString('suggested-institutions-header')
+                    });
+                    $("#ds-search-header").html(html);
+                }
             } else {
                 $("#choose").removeClass("d-none");
                 $("#search").addClass("d-none");
