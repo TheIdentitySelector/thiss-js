@@ -367,7 +367,8 @@ ul li a:hover {
   li:first-child {
     border-top: 1px solid rgba(118, 118, 118, 0.2);
   }
-  div#too-many-results-notice {
+  div#too-many-results-notice,
+  div#suggested-institutions-notice {
     border-bottom: 1px solid rgba(118, 118, 118, 0.2);
     border-top: 1px solid rgba(118, 118, 118, 0.2);
   }
