@@ -22,6 +22,7 @@ import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
 import suggestedHeaderHTML from './templates/suggested_header.html'
+import suggestedHTML from './templates/suggested.html'
 
 config.autoReplaceSvg = 'nest';
 
@@ -37,15 +38,21 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+//import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq, json_mdq_get, json_mdq_get_sp} from "../dsjs/discovery.js";
+import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
 const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
-const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities";
+const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/";
 
+
+function _sha1_id(s) {
+    return "{sha1}"+hex_sha1(s);
+}
 
 const adjustHeader = () => {
     const widthLogos = $('#sa-logos').width();
@@ -69,7 +76,7 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
-    let suggested = [1,2,3];
+    let suggested = [];
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
@@ -401,12 +408,51 @@ $(document).ready(function() {
                 $("#choose").addClass("d-none");
                 $("#searchinput").focus();
                 if (suggested.length > 0) {
+                    const templ = ejs.compile(suggestedHTML);
+                    let lang = localization.locale;
+                    lang = (lang.split('-'))[0];
                     $("#searching").addClass('d-none');
                     document.getElementById('ds-search-list').innerHTML = ''
                     let html = ejs.render(suggestedHeaderHTML, {
                         suggestedString: localization.translateString('suggested-institutions-header')
                     });
                     $("#ds-search-header").html(html);
+                    suggested.forEach(eid => {
+                        const id = _sha1_id(eid);
+                        const url = mdq_url + id + ".json"
+
+                        json_mdq(url).then(function(item) {
+                            if (Array.isArray(item)) {
+                                item = item[0];
+                            }
+
+                            if (item.hidden !== true && item.hidden !== "true") {
+
+                                localization.updateDynamic(item);
+
+                                const title_i18n = item.entityID;
+                                let title = item.title;
+                                if ('title_langs' in item && lang in item.title_langs) {
+                                    title = item.title_langs[lang];
+                                }
+
+                                const context = {
+                                    title: title,
+                                    title_i18n: title_i18n,
+                                    domain: item.domain,
+                                    entity_id: item.entity_id,
+                                    entity_icon: item.entity_icon,
+                                    name_tag: item.name_tag,
+                                    entity_icon_url: item.entity_icon_url
+                                };
+                                const html = templ(context);
+
+                                $("#ds-search-list").append(html);
+                            }
+                        }).catch(function(error) {
+                            console.log("ERROR getting suggested entity:", error);
+                        });
+                    });
                 }
             } else {
                 $("#choose").removeClass("d-none");
