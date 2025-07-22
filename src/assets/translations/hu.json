@@ -55,5 +55,7 @@
   "ds-button-access-through": "Belépés intézményi azonosítóval",
   "ds-button-add-or-change": "Intézmény hozzáadása vagy módosítása",
   "ds-warning-continue": "",
-  "suggested-institutions-header": ""
+  "suggested-institutions-header": "",
+  "suggested-tooltip-title": "",
+  "suggested-tooltip-text": ""
 }

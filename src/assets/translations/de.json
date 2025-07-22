@@ -57,6 +57,8 @@
   "ds-button-access-through": "Zugriff über Ihre Institution",
   "ds-button-add-or-change": "Institution hinzufügen oder ändern",
   "ds-warning-continue": "",
-  "suggested-institutions-header": ""
+  "suggested-institutions-header": "",
+  "suggested-tooltip-title": "",
+  "suggested-tooltip-text": ""
 }
  

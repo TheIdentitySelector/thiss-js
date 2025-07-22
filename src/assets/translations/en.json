@@ -58,5 +58,7 @@
   "ds-button-access-through": "Access through your institution",
   "ds-button-add-or-change": "Add or Change Institution",
   "ds-warning-continue": "Continue",
-  "suggested-institutions-header": "Suggested institutions"
+  "suggested-institutions-header": "Suggested institutions",
+  "suggested-tooltip-title": "Intitutions suggested by $1",
+  "suggested-tooltip-text": "This suggested list has been provided by $1, based on their understanding of what's most applicable to you."
 }
