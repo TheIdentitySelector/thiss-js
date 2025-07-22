@@ -41,8 +41,7 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-//import {json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
-import {json_mdq, json_mdq_get, json_mdq_get_sp} from "../dsjs/discovery.js";
+import {json_mdq, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
