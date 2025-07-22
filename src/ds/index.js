@@ -79,7 +79,7 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
-    let suggested = [];
+    let suggested = ['https://login.idp.eduid.se/idp.xml', 'https://eduid.ch/idp/shibboleth', 'https://idp.uni-pannon.hu/simplesaml/saml2/idp/metadata.php'];
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
