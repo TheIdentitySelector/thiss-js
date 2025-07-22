@@ -1,9 +1,10 @@
 {
   "@metadata": {
     "authors": [
-      "Robert Haidari"
+      "Robert Haidari",
+      "Enrique Pérez"
     ],
-    "last-updated": "2021-06-01",
+    "last-updated": "2025-07-18",
     "locale": "en"
   },
   "cta-button-placeholder": "Access through your institution",
@@ -56,5 +57,8 @@
   "ds-result-back-to-start": "Back to start",
   "ds-button-access-through": "Access through your institution",
   "ds-button-add-or-change": "Add or Change Institution",
-  "ds-warning-continue": "Continue"
+  "ds-warning-continue": "Continue",
+  "suggested-institutions-header": "Suggested institutions",
+  "suggested-tooltip-title": "Intitutions suggested by $1",
+  "suggested-tooltip-text": "This suggested list has been provided by $1, based on their understanding of what's most applicable to you."
 }
