@@ -1,6 +1,7 @@
 import '../assets/nc.scss';
 import '../assets/nc.scss';
 import '../assets/ds.scss';
+import '../assets/tooltip.scss';
 import 'core-js/actual';
 import headerLogo from '../assets/sa-black.svg';
 import footerLogo from '../assets/SeamlessFooterLogo.svg';
@@ -15,6 +16,7 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faCheckCircle} from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons/faCircleInfo';
 
 import searchHTML from './templates/search.html'
 import savedHTML from './templates/saved.html'
@@ -23,12 +25,13 @@ import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
 import suggestedHeaderHTML from './templates/suggested_header.html'
 import suggestedHTML from './templates/suggested.html'
+import tooltipHTML from './templates/tooltip.html'
 
 config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
 
-library.add(faPlusSquare, faPen, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle, faMagnifyingGlass);
+library.add(faPlusSquare, faPen, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle, faMagnifyingGlass, faCircleInfo);
 dom.watch();
 
 import * as $ from 'jquery';
@@ -408,15 +411,22 @@ $(document).ready(function() {
                 $("#choose").addClass("d-none");
                 $("#searchinput").focus();
                 if (suggested.length > 0) {
-                    const templ = ejs.compile(suggestedHTML);
+                    const suggestedTempl = ejs.compile(suggestedHTML);
                     let lang = localization.locale;
                     lang = (lang.split('-'))[0];
                     $("#searching").addClass('d-none');
                     document.getElementById('ds-search-list').innerHTML = ''
-                    let html = ejs.render(suggestedHeaderHTML, {
+                    const headerHtml = ejs.render(suggestedHeaderHTML, {
                         suggestedString: localization.translateString('suggested-institutions-header')
                     });
-                    $("#ds-search-header").html(html);
+                    $("#ds-search-header").html(headerHtml);
+                    json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+                        const tooltipHtml = ejs.render(tooltipHTML, {
+                            tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
+                            tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
+                        });
+                        $("#suggested-tooltip-container").append(tooltipHtml);
+                    });
                     suggested.forEach(eid => {
                         const id = _sha1_id(eid);
                         const url = mdq_url + id + ".json"
@@ -445,7 +455,7 @@ $(document).ready(function() {
                                     name_tag: item.name_tag,
                                     entity_icon_url: item.entity_icon_url
                                 };
-                                const html = templ(context);
+                                const html = suggestedTempl(context);
 
                                 $("#ds-search-list").append(html);
                             }
@@ -462,6 +472,15 @@ $(document).ready(function() {
     }).discovery_client("sp").then(entity => {
         $(".sp_title").text(entity.title);
         $("#discovery-response-warning-site").text(entity.title);
+
+        const tooltipContainer = $("#suggested-tooltip-container");
+        if (tooltipContainer) {
+            const tooltipHtml = ejs.render(tooltipHTML, {
+                tooltipTitle: localization.translateString('suggested-tooltip-title', entity.title),
+                tooltipText: localization.translateString('suggested-tooltip-text', entity.title),
+            });
+            tooltipContainer.append(tooltipHtml);
+        }
 
         let goodReturn = true;  //TODO: change to false to reactivate the warning
 

@@ -57,5 +57,7 @@
   "ds-button-access-through": "Inloggning via din organisation",
   "ds-button-add-or-change": "Lägg till eller ändra organisation",
   "ds-warning-continue": "Fortsätt",
-  "suggested-institutions-header": ""
+  "suggested-institutions-header": "",
+  "suggested-tooltip-title": "",
+  "suggested-tooltip-text": ""
 }

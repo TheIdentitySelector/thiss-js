@@ -112,8 +112,8 @@ export default class Localization extends I18n {
         })
     }
 
-    translateString (string) {
-        const translated = this.i18n(string)
+    translateString (string, ...placeholders) {
+        const translated = this.i18n(string, ...placeholders)
 
         if (this.file.hasOwnProperty(translated)) {
             if (this.file[translated]) {
@@ -126,10 +126,10 @@ export default class Localization extends I18n {
         }
     }
 
-    async translateStringP (string) {
+    async translateStringP (string, ...placeholders) {
         let translated = '';
         if (this.file !== null && this.file) {
-            translated = this.translateString(string);
+            translated = this.translateString(string, ...placeholders);
         } else {
             let resolved = false;
             for (let n of new Array(60).keys()) {
@@ -138,7 +138,7 @@ export default class Localization extends I18n {
                     await new Promise(resolve => {
                         setTimeout(() => {
                             if (this.file !== null && this.file) {
-                                translated = this.translateString(string);
+                                translated = this.translateString(string, ...placeholders);
                                 resolved = true;
                             }
                             resolve();
