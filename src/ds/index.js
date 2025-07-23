@@ -71,6 +71,64 @@ const adjustHeader = () => {
 };
 
 
+function showSuggested() {
+   if (suggested.length > 0) {
+       const suggestedTempl = ejs.compile(suggestedHTML);
+       let lang = localization.locale;
+       lang = (lang.split('-'))[0];
+       $("#searching").addClass('d-none');
+       document.getElementById('ds-search-list').innerHTML = ''
+       const headerHtml = ejs.render(suggestedHeaderHTML, {
+           suggestedString: localization.translateString('suggested-institutions-header')
+       });
+       $("#ds-search-header").html(headerHtml);
+       json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+           const tooltipHtml = ejs.render(tooltipHTML, {
+               tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
+               tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
+           });
+           $("#suggested-tooltip-container").append(tooltipHtml);
+       });
+       suggested.forEach(eid => {
+           const id = _sha1_id(eid);
+           const url = mdq_url + id + ".json"
+
+           json_mdq(url).then(function(item) {
+               if (Array.isArray(item)) {
+                   item = item[0];
+               }
+
+               if (item.hidden !== true && item.hidden !== "true") {
+
+                   localization.updateDynamic(item);
+
+                   const title_i18n = item.entityID;
+                   let title = item.title;
+                   if ('title_langs' in item && lang in item.title_langs) {
+                       title = item.title_langs[lang];
+                   }
+
+                   const context = {
+                       title: title,
+                       title_i18n: title_i18n,
+                       domain: item.domain,
+                       entity_id: item.entity_id,
+                       entity_icon: item.entity_icon,
+                       name_tag: item.name_tag,
+                       entity_icon_url: item.entity_icon_url
+                   };
+                   const html = suggestedTempl(context);
+
+                   $("#ds-search-list").append(html);
+               }
+           }).catch(function(error) {
+               console.log("ERROR getting suggested entity:", error);
+           });
+       });
+   }
+}
+
+
 $(document).ready(function() {
     let timer = null;
 
@@ -403,69 +461,13 @@ $(document).ready(function() {
                     console.log(`Error filtering entities: ${err}`)
                });
         },
-        _showSuggested: function() {
-            if (suggested.length > 0) {
-                const suggestedTempl = ejs.compile(suggestedHTML);
-                let lang = localization.locale;
-                lang = (lang.split('-'))[0];
-                $("#searching").addClass('d-none');
-                document.getElementById('ds-search-list').innerHTML = ''
-                const headerHtml = ejs.render(suggestedHeaderHTML, {
-                    suggestedString: localization.translateString('suggested-institutions-header')
-                });
-                $("#ds-search-header").html(headerHtml);
-                json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
-                    const tooltipHtml = ejs.render(tooltipHTML, {
-                        tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
-                        tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
-                    });
-                    $("#suggested-tooltip-container").append(tooltipHtml);
-                });
-                suggested.forEach(eid => {
-                    const id = _sha1_id(eid);
-                    const url = mdq_url + id + ".json"
-
-                    json_mdq(url).then(function(item) {
-                        if (Array.isArray(item)) {
-                            item = item[0];
-                        }
-
-                        if (item.hidden !== true && item.hidden !== "true") {
-
-                            localization.updateDynamic(item);
-
-                            const title_i18n = item.entityID;
-                            let title = item.title;
-                            if ('title_langs' in item && lang in item.title_langs) {
-                                title = item.title_langs[lang];
-                            }
-
-                            const context = {
-                                title: title,
-                                title_i18n: title_i18n,
-                                domain: item.domain,
-                                entity_id: item.entity_id,
-                                entity_icon: item.entity_icon,
-                                name_tag: item.name_tag,
-                                entity_icon_url: item.entity_icon_url
-                            };
-                            const html = suggestedTempl(context);
-
-                            $("#ds-search-list").append(html);
-                        }
-                    }).catch(function(error) {
-                        console.log("ERROR getting suggested entity:", error);
-                    });
-                });
-            }
-        },
         after: function(count,elt) {
             $("#searching").addClass('d-none');
             if (count == 0) {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");
                 $("#searchinput").focus();
-                this._showSuggested();
+                showSuggested();
             } else {
                 $("#choose").removeClass("d-none");
                 $("#search").addClass("d-none");
