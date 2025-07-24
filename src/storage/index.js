@@ -12,7 +12,6 @@
  * Version: 1.0.4
  */
 
-import Cookies from "js-cookie";
 import { detect } from "detect-browser";
 
 
@@ -57,10 +56,6 @@ async function getStorages (local = false) {
     var ObjectFunctionString = fnToString.call(Object);
     var getProto = Object.getPrototypeOf;
     var apis = {};
-
-    // Prefix to use with cookie fallback
-    var cookie_local_prefix = "ls_";
-    var cookie_session_prefix = "ss_";
 
     // Get items from a storage
     function _get() {
@@ -513,9 +508,6 @@ async function getStorages (local = false) {
     apis.removeAllStorages = function (reinit_ns) {
         apis.localStorage.removeAll(reinit_ns);
         apis.sessionStorage.removeAll(reinit_ns);
-        if (apis.cookieStorage) {
-            apis.cookieStorage.removeAll(reinit_ns);
-        }
         if (!reinit_ns) {
             apis.namespaceStorages = {};
         }
@@ -528,9 +520,6 @@ async function getStorages (local = false) {
         storage.alwaysUseJson = value;
         apis.localStorage.alwaysUseJson = value;
         apis.sessionStorage.alwaysUseJson = value;
-        if (apis.cookieStorage) {
-            apis.cookieStorage.alwaysUseJson = value;
-        }
     };
 
     return apis;
