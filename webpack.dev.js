@@ -2,7 +2,6 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const webpack = require("webpack");
 const path = require('path');
-const apiMocker = require('mocker-api');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = merge(common, {
@@ -17,20 +16,6 @@ module.exports = merge(common, {
        allowedHosts: 'all',
        static: { directory: path.join(__dirname,'dist'), },
        port: 9000,
-       setupMiddlewares(mw, ds) {
-
-           mw.push(
-               apiMocker(ds.app, path.resolve('./mocker/index.js'), {
-                   proxy: {
-                       '/': 'http://127.0.0.1:8080/',
-                       secure: false,
-                       changeOrigin: true,
-                   },
-                   changeHost: true,
-               })
-           );
-           return mw;
-       }
    },
    output: {
      publicPath: '/'
