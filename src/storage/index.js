@@ -321,19 +321,9 @@ async function getStorages (local = false) {
         } else {
             o = s;
         }
-        if (o && o._cookie) {
-            // If storage is a cookie, use js-cookie to retrieve keys
-            var cookies = Cookies.get();
-            for (var key in cookies) {
-                if (cookies.hasOwnProperty(key) && key != '') {
-                    keys.push(key.replace(o._prefix, ''));
-                }
-            }
-        } else {
-            for (var i in o) {
-                if (o.hasOwnProperty(i)) {
-                    keys.push(i);
-                }
+        for (var i in o) {
+            if (o.hasOwnProperty(i)) {
+                keys.push(i);
             }
         }
         return keys;
@@ -347,31 +337,16 @@ async function getStorages (local = false) {
         if (name.includes("zoid__thiss_cta")) {
             throw new Error(`CREATE NAMESPACE WITH NAME: ${name}`);
         }
-        if (storage_available) {
-            if (!handle.localStorage.getItem(name)) {
-                handle.localStorage.setItem(name, '{}');
-            }
-            if (!handle.sessionStorage.getItem(name)) {
-                handle.sessionStorage.setItem(name, '{}');
-            }
-        } else {
-            if (!handle.localCookieStorage.getItem(name)) {
-                handle.localCookieStorage.setItem(name, '{}');
-            }
-            if (!handle.sessionCookieStorage.getItem(name)) {
-                handle.sessionCookieStorage.setItem(name, '{}');
-            }
+        if (!handle.localStorage.getItem(name)) {
+            handle.localStorage.setItem(name, '{}');
+        }
+        if (!handle.sessionStorage.getItem(name)) {
+            handle.sessionStorage.setItem(name, '{}');
         }
         var ns = {
             localStorage: _extend({}, apis.localStorage, {_ns: name}),
             sessionStorage: _extend({}, apis.sessionStorage, {_ns: name})
         };
-        if (cookies_available) {
-            if (!handle.cookieStorage.getItem(name)) {
-                handle.cookieStorage.setItem(name, '{}');
-            }
-            ns.cookieStorage = _extend({}, apis.cookieStorage, {_ns: name});
-        }
         apis.namespaceStorages[name] = ns;
         return ns;
     }
@@ -445,14 +420,6 @@ async function getStorages (local = false) {
         return result;
     }
 
-    // Check if storages are natively available on browser and check is js-cookie is present
-    //var storage_available = false;
-    var storage_available = true;
-    var cookies_available = false;
-
-    apis.storage_available = storage_available;
-    apis.cookies_available = cookies_available;
-
     // Namespace object
     var storage = {
         _type: '',
@@ -474,9 +441,6 @@ async function getStorages (local = false) {
         alwaysUseJson: false,
         // Get items. If no parameters and storage have a namespace, return all namespace
         get: function () {
-            if (!storage_available && !cookies_available){
-                return null;
-            }
             return this._callMethod(_get, arguments);
         },
         // Set items
@@ -484,9 +448,6 @@ async function getStorages (local = false) {
             var l = arguments.length, a = arguments, a0 = a[0];
             if (l < 1 || !_isPlainObject(a0) && l < 2) {
                 throw new Error('Minimum 2 arguments must be given or first parameter must be an object');
-            }
-            if (!storage_available && !cookies_available){
-                return null;
             }
             // If first argument is an object and storage is a namespace storage, set values individually
             if (_isPlainObject(a0) && this._ns) {
@@ -510,16 +471,10 @@ async function getStorages (local = false) {
             if (arguments.length < 1) {
                 throw new Error('Minimum 1 argument must be given');
             }
-            if (!storage_available && !cookies_available){
-                return null;
-            }
             return this._callMethod(_remove, arguments);
         },
         // Delete all items
         removeAll: function (reinit_ns) {
-            if (!storage_available && !cookies_available){
-                return null;
-            }
             if (this._ns) {
                 this._callMethod(_set, [{}]);
                 return true;
@@ -529,9 +484,6 @@ async function getStorages (local = false) {
         },
         // Items empty
         isEmpty: function () {
-            if (!storage_available && !cookies_available){
-                return null;
-            }
             return this._callMethod(_isEmpty, arguments);
         },
         // Items exists
@@ -539,126 +491,22 @@ async function getStorages (local = false) {
             if (arguments.length < 1) {
                 throw new Error('Minimum 1 argument must be given');
             }
-            if (!storage_available && !cookies_available){
-                return null;
-            }
             return this._callMethod(_isSet, arguments);
         },
         // Get keys of items
         keys: function () {
-            if (!storage_available && !cookies_available){
-                return null;
-            }
             return this._callMethod(_keys, arguments);
         }
     };
-
-    // Use js-cookie for compatibility with old browsers and give access to cookieStorage
-    if (cookies_available) {
-        // sessionStorage is valid for one window/tab. To simulate that with cookie, we set a name for the window and use it for the name of the cookie
-        const handleName = Math.floor(Math.random() * 100000000);
-        var cookie_storage = {
-            _cookie: true,
-            _prefix: '',
-            _expires: null,
-            _path: null,
-            _domain: null,
-            setItem: function (n, v) {
-                Cookies.set(this._prefix + n, v, {expires: this._expires, path: this._path, domain: this._domain, sameSite: "None", secure: true, partitioned: !storagePerm});
-            },
-            getItem: function (n) {
-                return Cookies.get(this._prefix + n);
-            },
-            removeItem: function (n) {
-                return Cookies.remove(this._prefix + n, {path: this._path});
-            },
-            clear: function () {
-                var cookies = Cookies.get();
-                for (var key in cookies) {
-                    if (cookies.hasOwnProperty(key) && key != '') {
-                        if (!this._prefix && key.indexOf(cookie_local_prefix) === -1 && key.indexOf(cookie_session_prefix) === -1 || this._prefix && key.indexOf(this._prefix) === 0) {
-                            Cookies.remove(key);
-                        }
-                    }
-                }
-            },
-            setExpires: function (e) {
-                this._expires = e;
-                return this;
-            },
-            setPath: function (p) {
-                this._path = p;
-                return this;
-            },
-            setDomain: function (d) {
-                this._domain = d;
-                return this;
-            },
-            setConf: function (c) {
-                if (c.path) {
-                    this._path = c.path;
-                }
-                if (c.domain) {
-                    this._domain = c.domain;
-                }
-                if (c.expires) {
-                    this._expires = c.expires;
-                }
-                return this;
-            },
-            setDefaultConf: function () {
-                this._path = this._domain = this._expires = null;
-            }
-        };
-        if (!storage_available) {
-            handle.localCookieStorage = _extend({}, cookie_storage, {
-                _prefix: cookie_local_prefix,
-                _expires: 365 * 10
-            });
-            handle.sessionCookieStorage = _extend({}, cookie_storage, {_prefix: cookie_session_prefix + handleName + '_'});
-        }
-        handle.cookieStorage = _extend({}, cookie_storage);
-        // cookieStorage API
-        apis.cookieStorage = _extend({}, storage, {
-            _type: 'cookieStorage',
-            setExpires: function (e) {
-                handle.cookieStorage.setExpires(e);
-                return this;
-            },
-            setPath: function (p) {
-                handle.cookieStorage.setPath(p);
-                return this;
-            },
-            setDomain: function (d) {
-                handle.cookieStorage.setDomain(d);
-                return this;
-            },
-            setConf: function (c) {
-                handle.cookieStorage.setConf(c);
-                return this;
-            },
-            setDefaultConf: function () {
-                handle.cookieStorage.setDefaultConf();
-                return this;
-            }
-        });
-    }
 
     // Get a new API on a namespace
     apis.initNamespaceStorage = function (ns) {
         return _createNamespace(ns);
     };
-    if (storage_available) {
-        // localStorage API
-        apis.localStorage = _extend({}, storage, {_type: 'localStorage'});
-        // sessionStorage API
-        apis.sessionStorage = _extend({}, storage, {_type: 'sessionStorage'});
-    } else {
-        // localStorage API
-        apis.localStorage = _extend({}, storage, {_type: 'localCookieStorage'});
-        // sessionStorage API
-        apis.sessionStorage = _extend({}, storage, {_type: 'sessionCookieStorage'});
-    }
+    // localStorage API
+    apis.localStorage = _extend({}, storage, {_type: 'localStorage'});
+    // sessionStorage API
+    apis.sessionStorage = _extend({}, storage, {_type: 'sessionStorage'});
     // List of all namespace storage
     apis.namespaceStorages = {};
     // Remove all items in all storages
