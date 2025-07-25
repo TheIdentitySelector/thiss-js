@@ -44,7 +44,7 @@ The login button component accepts the following configuration parameters in the
 * loginInitiatorURL: <string|callable> a URL compatible with the Shibboleth login initiator protocol - can act as both discoveryRequest and discoveryResponse.
 * discoveryRequest:  <string|callable> a URL or callable that initiates a discovery flow.
 * discoveryResponse: <string|callable> a URL or callable that handles a discovery response.
-* persistenceURL: <string> the URL of the persistence service. Note that when the hostname in this URL is different from that in the URL for the source of the thiss-js code, using the Storage Access API will be disabled.
+* persistenceURL: <string> the URL of the persistence service. Note that when the hostname in this URL is different from that in the URL for the source of the thiss-js code, global persistence will be disabled.
 
 * entityID: <string> The entityID of the SP.
 * trustProfile: <string> The name of a trust profile published by the SP.

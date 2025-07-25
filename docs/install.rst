@@ -6,8 +6,8 @@ Note that most users won't want to install and deploy their own isntance of this
 The included Makefile has a number of targets aimed at those who want to build and package their own instance:
 
 * ``make setup``: Runs ``npm install`` to install all node dependencies
-* ``make start``: Runs a local development instance with a mocked MDQ/Search service (based on edugain)
-* ``make local``: Runs a local development instance for a local pyFF instance running on port 8000
+* ``make start``: Runs a local development instance. Must be provided with a MDQ_URL environment variable pointing to an MDQ service, e.g. `https://md.thiss.io/entities/`.
+* ``make local``: Runs a local development instance for a local pyFF instance running on port 8080
 * ``make build``: Builds the instance running on thiss.io in the dist directory
 * ``make standalone``: Builds a standalone instance used in the docker container (with envsubst) in the dist directory
 * ``make sameserver``: Builds a lightweight host agnostic replacement for the deprecated embedded pyFF DS when pyFF is running on the same server
@@ -29,7 +29,7 @@ The thiss-js button component is partially configured by the caller that can pas
 * DEFAULT_CONTEXT: the context where storage objects are persisted
 * LOGLEVEL: controls logging to the browser console
 * MIN_SEARCH_LENGTH: Controls the minimum number of characters that must be entered into the DS search input to start an MDQ search
-* SAA_COMPLIANT_BROWSERS: List of browsers that implement the Storage Access API with handler for localStorage
+* SAA_COMPLIANT_BROWSERS: Comma separated list of browsers that implement the Storage Access API with handler for localStorage (at this point (July 2025) only chrome and chromium derivatives).
 
 *Configuration related to access control*
 
@@ -59,11 +59,11 @@ In order to run your own instance of thiss-js you need a search-capable MDQ serv
   # docker run -ti -p 9000:80 \
         -e MDQ_URL=http://mdq:8080/entities/ \
         -e SEARCH_URL=http://mdq:8080/entities/ \
-        -e BASE_URL=http://localhost:9000/ \
+        -e BASE_URL=http://example.com/ \
         -e STORAGE_DOMAIN="example.com" \
         thiss-js:1.0.0
 
 * Replace example.com with the domain of your DS instance - eg localhost if you are just experimenting.
 * Some MDQ implementations have multiple search endpoints - you only need one that is capable of returning JSON-formatted metadata for this to work. 
 * Running your own instance of thiss-js means having your own ORIGIN for browser local storage.  If you want to share storage domain with another instance of thiss-js then you're better off implementing your own discovery frontend (eg to thiss.io). This is documented in github.com/TheIdentitySelector/thiss-ds-js.
-* The docker container does not currently support overriding all configuration parameters.Consult the start.sh script in the docker dir for details.
+* The docker container does not currently support overriding all configuration parameters.Consult the subst-vars.sh script in the docker dir for details.
