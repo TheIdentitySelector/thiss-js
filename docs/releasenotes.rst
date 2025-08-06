@@ -348,8 +348,8 @@ Version 2.1.119
 
 * New release procedure
 
-Version 2.1.125
---------------
+Version 2.1.126
+---------------
 
 * Center "access to" message in discovery service page
 * CSS fixes
