@@ -136,9 +136,7 @@ $(document).ready(function() {
                            title_i18n: title_i18n,
                            domain: item.domain,
                            entity_id: item.entity_id,
-                           entity_icon: item.entity_icon,
                            name_tag: item.name_tag,
-                           entity_icon_url: item.entity_icon_url
                        };
                        const html = suggestedTempl(context);
 
