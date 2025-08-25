@@ -354,3 +354,8 @@ Version 2.1.126
 * Center "access to" message in discovery service page
 * CSS fixes
 * Suggested institutions
+
+Version 2.1.127
+---------------
+
+* Some bug fixes
