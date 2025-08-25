@@ -41,7 +41,7 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {json_mdq, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
@@ -447,7 +447,7 @@ $(document).ready(function() {
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
-                return json_mdq_get(encodeURIComponent(item.entity.id), trustProfile, entityID, o.mdq).then(entity => {
+                return json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, o.mdq).then(entity => {
                     item.entity = entity;
                     item.modified = true;
                     item.last_refresh = now;
