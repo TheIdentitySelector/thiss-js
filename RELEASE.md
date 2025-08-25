@@ -5,13 +5,13 @@
 - git checkout staging
 - Check all PRs in github
 - merge development branches into staging, commit changes
-- make build
-- commit build (in `dist-pre/v${API_VERSION}`)
+- git stash local changes if any
 - update version in package.json and Makefile and docs/conf.py
 - update API_VERSION, prev versions, pre-release in Makefile
 - update version of thiss-ds in package.json dependencies (if needed)
 - add entry in docs/releasenotes.rst 
 - npm install
+- make build
 - git add Makefile and package-lock.json and package.json and docs and dist (in `dist-pre/v${API_VERSION}/${VERSION}`)
 - if `$PREV_VERSION` did not reach production, git rm -r dist-pre/v${API_VERSION}/${PREV_VERSION}
 - git tag, push, push tags

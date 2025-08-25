@@ -1,6 +1,7 @@
 import '../assets/nc.scss';
 import '../assets/nc.scss';
 import '../assets/ds.scss';
+import '../assets/tooltip.scss';
 import 'core-js/actual';
 import headerLogo from '../assets/sa-black.svg';
 import footerLogo from '../assets/SeamlessFooterLogo.svg';
@@ -15,18 +16,22 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import {faExclamationTriangle} from '@fortawesome/free-solid-svg-icons/faExclamationTriangle';
 import {faCheckCircle} from '@fortawesome/free-solid-svg-icons/faCheckCircle';
 import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons/faCircleInfo';
 
 import searchHTML from './templates/search.html'
 import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
+import suggestedHeaderHTML from './templates/suggested_header.html'
+import suggestedHTML from './templates/suggested.html'
+import tooltipHTML from './templates/tooltip.html'
 
 config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
 
-library.add(faPlusSquare, faPen, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle, faMagnifyingGlass);
+library.add(faPlusSquare, faPen, faAngleRight, faTimes, faExclamationTriangle, faCheckCircle, faMagnifyingGlass, faCircleInfo);
 dom.watch();
 
 import * as $ from 'jquery';
@@ -36,16 +41,20 @@ import 'jquery-ui/ui/widget.js';
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {json_mdq_pre_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
-import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
+import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
 const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
 const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
-const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities";
+const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/";
 
+
+function _sha1_id(s) {
+    return "{sha1}"+hex_sha1(s);
+}
 
 const adjustHeader = () => {
     const widthLogos = $('#sa-logos').width();
@@ -62,6 +71,7 @@ const adjustHeader = () => {
 };
 
 
+
 $(document).ready(function() {
     let timer = null;
 
@@ -69,12 +79,75 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
+    let suggested = ['https://login.idp.eduid.se/idp.xml', 'https://eduid.ch/idp/shibboleth', 'https://idp.uni-pannon.hu/simplesaml/saml2/idp/metadata.php'];
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
+
+    if (urlParams.has('suggested')) {
+        const b64Suggested = urlParams.get('suggested');
+        const csSuggested = atob(b64Suggested);
+        suggested = csSuggested.split(',').map(s => s.trim());
+    }
+
+
+    const showSuggested = () => {
+       if (suggested.length > 0) {
+           const suggestedTempl = ejs.compile(suggestedHTML);
+           let lang = localization.locale;
+           lang = (lang.split('-'))[0];
+           $("#searching").addClass('d-none');
+           document.getElementById('ds-search-list').innerHTML = ''
+           const headerHtml = ejs.render(suggestedHeaderHTML, {
+               suggestedString: localization.translateString('suggested-institutions-header')
+           });
+           $("#ds-search-header").html(headerHtml);
+           json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+               const tooltipHtml = ejs.render(tooltipHTML, {
+                   tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
+                   tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
+               });
+               $("#suggested-tooltip-container").append(tooltipHtml);
+           });
+           suggested.forEach(eid => {
+               const id = _sha1_id(eid);
+               const url = mdq_url + id + ".json"
+
+               json_mdq(url).then(function(item) {
+                   if (Array.isArray(item)) {
+                       item = item[0];
+                   }
+
+                   if (item.hidden !== true && item.hidden !== "true") {
+
+                       localization.updateDynamic(item);
+
+                       const title_i18n = item.entityID;
+                       let title = item.title;
+                       if ('title_langs' in item && lang in item.title_langs) {
+                           title = item.title_langs[lang];
+                       }
+
+                       const context = {
+                           title: title,
+                           title_i18n: title_i18n,
+                           domain: item.domain,
+                           entity_id: item.entity_id,
+                           name_tag: item.name_tag,
+                       };
+                       const html = suggestedTempl(context);
+
+                       $("#ds-search-list").append(html);
+                   }
+               }).catch(function(error) {
+                   console.log("ERROR getting suggested entity:", error);
+               });
+           });
+       }
+    };
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -121,6 +194,7 @@ $(document).ready(function() {
         event.preventDefault();
         $("#choose").toggleClass("d-none");
         $("#search").toggleClass("d-none");
+        showSuggested();
     });
 
     $("#edit_button").on('click',function(event) {
@@ -217,9 +291,11 @@ $(document).ready(function() {
                         if (items[0].counter > 1) {
                             $("#ds-search-list").append(htmlItemList);
                         } else {
+                            $("#ds-search-header").html('');
                             $("#ds-search-list").html(htmlItemList);
                         }
                     } else {
+                        $("#ds-search-header").html('');
                         $("#ds-search-list").html(htmlItemList);
                     }
                 }
@@ -336,6 +412,7 @@ $(document).ready(function() {
         too_many_results: function(bts, count) {
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
+            $("#ds-search-header").html('');
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -348,11 +425,12 @@ $(document).ready(function() {
                 showAnywayString: localization.translateString('ds-too-many-result-show')
             })
 
-            $("#ds-search-list").append(html);
+            $("#ds-search-header").append(html);
         },
         no_results: function() {
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
+            $("#ds-search-header").html('');
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -360,7 +438,7 @@ $(document).ready(function() {
 
             let html = ejs.render(noResultsHTML)
 
-            $("#ds-search-list").append(html);
+            $("#ds-search-header").append(html);
         },
         persist: function() {
             return $("#rememberThisChoice").is(':checked');
@@ -389,6 +467,7 @@ $(document).ready(function() {
                 $("#search").removeClass("d-none");
                 $("#choose").addClass("d-none");
                 $("#searchinput").focus();
+                showSuggested();
             } else {
                 $("#choose").removeClass("d-none");
                 $("#search").addClass("d-none");
@@ -397,6 +476,15 @@ $(document).ready(function() {
     }).discovery_client("sp").then(entity => {
         $(".sp_title").text(entity.title);
         $("#discovery-response-warning-site").text(entity.title);
+
+        const tooltipContainer = $("#suggested-tooltip-container");
+        if (tooltipContainer) {
+            const tooltipHtml = ejs.render(tooltipHTML, {
+                tooltipTitle: localization.translateString('suggested-tooltip-title', entity.title),
+                tooltipText: localization.translateString('suggested-tooltip-text', entity.title),
+            });
+            tooltipContainer.append(tooltipHtml);
+        }
 
         let goodReturn = true;  //TODO: change to false to reactivate the warning
 
