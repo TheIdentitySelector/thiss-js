@@ -50,7 +50,7 @@ process_version() {
 
     find "$SRC_DIR" -type f | while read -r src_file; do
         # Calculate relative path from SRC_DIR directory
-        rel_path="${src_file#$SRC_DIR/}"
+        rel_path="${src_file#$src_dir/}"
 
         dst_file="$DST_DIR/$rel_path"
 
