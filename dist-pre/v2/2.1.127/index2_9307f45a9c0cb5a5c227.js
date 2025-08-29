@@ -1,1 +1,0 @@
-!function(e,o){"object"==typeof exports&&"object"==typeof module?module.exports={}:"function"==typeof define&&define.amd?define("index2",[],o):"object"==typeof exports?exports.index2={}:e.index2={}}(this,(()=>({})));

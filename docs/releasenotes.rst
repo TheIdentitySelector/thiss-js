@@ -359,3 +359,8 @@ Version 2.1.127
 ---------------
 
 * Some bug fixes
+
+Version 2.1.128
+---------------
+
+* New release procedure
