@@ -113,7 +113,7 @@ Then, you would construct the `DiscoveryComponent` as follows:
         };
     </script>
 
-Alternatively, without needing to use shibboleth or modify its configuration, it is possible to use a trust profile setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handles the discovery response.
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to use a trust profile setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response.
 
 .. code-block:: html
 
@@ -126,6 +126,50 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
                discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
                entityID: 'https://your.entity/ID',
                trustProfile: 'some-profile-name'
+           }).render('#login');
+        };
+    </script>
+
+Adding suggested institutions
+.............................
+
+SP's can set up to 3 suggested IdP's, that will be offered to the end user in the DS UI, below the search box.
+
+To add suggested institutions to the DS you have to add a `suggested` parameter to the URL of the discovery service configured into the SP software, with a comma-separated, URI encoded list of IdP entityID's. The suggested IdP's must be known to the MDQ service configured, so they must belong to at least one of the federations aggregated by the MDQ service. So something like this for Shibboleth SP:
+
+.. code-block:: xml
+
+    <SessionInitiator type="Chaining" Location="/DS/some-profile-name" id="some-profile-name">
+       <SessionInitiator type="SAML2" acsIndex="1" template="bindingTemplate.html"/>
+       <SessionInitiator type="SAMLDS" URL="https://your.discovery.service/ds/?suggested=https%3A%2F%2Fexample.org%2Fshibboleth%2Chttps%3A%2F%2Fexample.net%2Fshibboleth"/>
+    </SessionInitiator>
+
+Then, you would construct the `DiscoveryComponent` as follows:
+
+.. code-block:: html
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/some-profile-name?target=/some-resource/',
+           }).render('#login');
+        };
+    </script>
+
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to use a trust profile setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response.
+
+.. code-block:: html
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               discoveryRequest: 'https://your.service/ds/',
+               discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
+               suggested: 'https%3A%2F%2Fexample.org%2Fshibboleth%2Chttps%3A%2F%2Fexample.net%2Fshibboleth'
            }).render('#login');
         };
     </script>

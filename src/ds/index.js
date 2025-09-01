@@ -79,7 +79,7 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
-    let suggested = ['https://login.idp.eduid.se/idp.xml', 'https://eduid.ch/idp/shibboleth', 'https://idp.uni-pannon.hu/simplesaml/saml2/idp/metadata.php'];
+    let suggested = [];
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
@@ -88,8 +88,8 @@ $(document).ready(function() {
         trustProfile = urlParams.get('trustProfile')
 
     if (urlParams.has('suggested')) {
-        const b64Suggested = urlParams.get('suggested');
-        const csSuggested = atob(b64Suggested);
+        const paramSuggested = urlParams.get('suggested');
+        const csSuggested = decodeURIComponent(paramSuggested);
         suggested = csSuggested.split(',').map(s => s.trim());
     }
 
