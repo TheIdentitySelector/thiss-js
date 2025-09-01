@@ -7,13 +7,13 @@
 - merge development branches into staging, commit changes
 - git stash local changes if any
 - update version in package.json and Makefile and docs/conf.py
-- update API_VERSION, prev versions, pre-release in Makefile
+- update VERSION, OLD_VERSION, PRE_RELEASE in Makefile
 - update version of thiss-ds in package.json dependencies (if needed)
 - add entry in docs/releasenotes.rst 
 - npm install
 - make build
 - git add Makefile and package-lock.json and package.json and docs and dist (in `dist-pre/v${API_VERSION}/${VERSION}`)
-- if `$PREV_VERSION` did not reach production, git rm -r dist-pre/v${API_VERSION}/${PREV_VERSION}
+- if `$PREV_VERSION` did not reach production, git rm -r dist-pre/${PREV_VERSION}
 - git tag, push, push tags
 - make release in github
 - readthedocs
@@ -26,21 +26,6 @@
 - make docker (providing all the needed env vars, see `Configuration` in the docs).
 
 # Types of release
-
-## Release API version for production
-
-When a new version is incompatible with the one currently in production, 
-we need to release a new version of the API, that will be served under a
-`v${API_VERSION}/` path.
-
-To do this, we need to increment the API_VERSION in the Makefile.
-
-In a subsequent version, update the PREV_API_VERSION in the Makefile.
-
-## Upgrade API version for production
-
-When a new version is compatible with the current version in production,
-we can just update the same API version. This is a 2 step process:
 
 First we pre-release a version that adds the new version assets,
 along with the old assets, and keeps the old entry points,

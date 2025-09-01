@@ -15,8 +15,7 @@ function make_manifest(buffer) {
    return manifest_JSON;
 }
 
-const public_path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
-const path_prefix = `${public_path_prefix}v${process.env.API_VERSION}/`;
+const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 
 module.exports = {
     node: false,

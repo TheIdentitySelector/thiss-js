@@ -201,7 +201,7 @@
         <div class="container">
             To use in your web application include the following code:
             <pre><code>
-&lt;script src="<%= process.env.BASE_URL %>v<%= process.env.API_VERSION %>/thiss.js"/&gt;
+&lt;script src="<%= process.env.BASE_URL %>thiss.js"/&gt;
 &lt;div id="login"&gt;&nbsp;&lt;/div&gt;
 &lt;script&gt;
     window.onload = function() {
@@ -216,7 +216,7 @@
           <p>To use a trust profile to pre-filter the results in the discovery service, if using shibboleth's session initiator, you would add a `trustProfile` query parameter to the DS URL configured into Shibboleth.
             Alternatively, you can use the URL of the discovery service as `loginInitiatorURL`, and configure the `DiscoveryComponent` with `entityID` & `trustProfile` with code like:
             <pre><code>
-&lt;script src="<%= process.env.BASE_URL %>v<%= process.env.API_VERSION %>/thiss.js"/&gt;
+&lt;script src="<%= process.env.BASE_URL %>thiss.js"/&gt;
 &lt;div id="login"&gt;&nbsp;&lt;/div&gt;
 &lt;script&gt;
     window.onload = function() {

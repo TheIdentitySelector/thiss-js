@@ -3,14 +3,7 @@ const I18N_DATA_ATTRIBUTE = '[data-i18n]';
 const DEFAULT_LOCALE = 'en';
 const localeSelector = document.getElementById('locale-selector');
 
-const public_path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
-const api_version = process.env.API_VERSION || '1';
-
-let path_prefix = public_path_prefix;
-
-if (parseInt(api_version) > 1) {
-    path_prefix = `${path_prefix}v${api_version}/`;
-}
+const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 
 export default class Localization extends I18n {
     constructor(locale) {
