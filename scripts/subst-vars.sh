@@ -34,7 +34,7 @@ process_file() {
     # Check file extension and process accordingly
     case "$src_file" in
         *.js|*.html|*.css)
-            echo "  Processing $src_file -> $dst_file (api_version: $api_version)"
+            echo "  Processing $src_file -> $dst_file"
             envsubst '$MDQ_URL,$PERSISTENCE_URL,$SEARCH_URL,$STORAGE_DOMAIN,$LOGLEVEL,$COMPONENT_URL,$WHITELIST,$DEFAULT_CONTEXT,$BASE_URL,$MIN_SEARCH_LENGTH,$SAA_COMPLIANT_BROWSERS' < "$src_file" > "$dst_file"
             ;;
         *)
@@ -48,7 +48,7 @@ process_version() {
     local version="$1"
     local src_dir="$SRC_DIR/$version"
 
-    find "$SRC_DIR" -type f | while read -r src_file; do
+    find "$src_dir" -type f | while read -r src_file; do
         # Calculate relative path from SRC_DIR directory
         rel_path="${src_file#$src_dir/}"
 
