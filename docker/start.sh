@@ -42,6 +42,7 @@ ssbzSibBsu/6iGtCOGEoXJf//////////wIBAg==
 EOF
    cat>>/etc/nginx/nginx.conf<<EOF
       listen 443 ssl backlog=4096;
+      listen [::]:443 ssl backlog=4096;
       ssl_certificate ${TLS_CERT};
       ssl_certificate_key ${TLS_KEY};
       ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
@@ -55,6 +56,7 @@ EOF
 else
    cat>>/etc/nginx/nginx.conf<<EOF
       listen 80;
+      listen [::]:80;
 EOF
 fi
 
