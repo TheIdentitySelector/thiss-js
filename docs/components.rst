@@ -158,7 +158,7 @@ Then, you would construct the `DiscoveryComponent` as follows:
         };
     </script>
 
-Alternatively, without needing to use shibboleth or modify its configuration, it is possible to use a trust profile setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response.
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to add suggested instituions setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response.
 
 .. code-block:: html
 
