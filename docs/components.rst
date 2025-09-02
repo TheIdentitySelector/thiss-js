@@ -169,6 +169,7 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
            thiss.DiscoveryComponent({
                discoveryRequest: 'https://your.service/ds/',
                discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
+               entityID: 'https://your.entity/ID',
                suggested: 'https%3A%2F%2Fexample.org%2Fshibboleth%2Chttps%3A%2F%2Fexample.net%2Fshibboleth'
            }).render('#login');
         };

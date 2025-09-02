@@ -53,7 +53,7 @@ const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/"
 
 
 function _sha1_id(s) {
-    return "{sha1}"+hex_sha1(s);
+    return encodeURIComponent("{sha1}"+hex_sha1(s));
 }
 
 const adjustHeader = () => {
