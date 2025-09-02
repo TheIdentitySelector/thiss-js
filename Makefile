@@ -51,7 +51,7 @@ publish:
 build_in_docker: thiss_builder
 	docker run -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) thiss-builder:$(VERSION) webpack --config webpack.prod.js
 	@sudo rm -rf dist-pre/$(VERSION)
-	@sudo @mkdir -p dist-pre/$(VERSION)
+	@sudo mkdir -p dist-pre/$(VERSION)
 	@sudo mv dist/* dist-pre/$(VERSION)/
 	
 build: test snyk
