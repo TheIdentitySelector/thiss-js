@@ -13,6 +13,7 @@
  */
 
 import { detect } from "detect-browser";
+import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 
 
 let COMPLIANT = ["chrome", "chromium", "edge", "edge-chromium"];
@@ -530,8 +531,8 @@ function _timestamp() {
 }
 
 export function clean_item(item) {
-    if (item.entity) {
-    let entity = item.entity;
+    if (item.entity && !item.entity.ui_infos) {
+        let entity = item.entity;
         if (entity.entityID && !entity.entity_id) {
             entity.entity_id = entity.entityID;
         }
@@ -574,6 +575,9 @@ export function set_entity(storage, entity) {
 
     if (entity.entityID && !entity.entity_id) {
         entity.entity_id = entity.entityID;
+    }
+    if (!entity.entityID && entity.entity_id) {
+        entity.entityID = entity.entity_id;
     }
     let id = entity.entity_id.hexEncode();
     item = clean_item(item);

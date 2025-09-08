@@ -3,6 +3,7 @@ import 'core-js/actual';
 
 import {requestingStorageAccess, hasSAPerm, clean_item, set_entity, get_entity, ctx, ctx_local, get_local_institutions} from "../storage/index.js";
 import getStorages from "../storage/index.js";
+import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 
 let whitelist = [];
 let expire_enabled = false;
@@ -102,7 +103,9 @@ async function gc(storage) {
         .sort(function(a,b) {
             return b.last_use - a.last_use;
         }).slice(3).forEach(function (item) {
-            storage.remove(item.entity.entity_id.hexEncode());
+            const reader = new EntityReader(item.entity);
+            const idp_entity_id = reader.getAttribute('entityID');
+            storage.remove(idp_entity_id.hexEncode());
         });
     let now = _timestamp();
     stored_institutions = [];
@@ -113,7 +116,9 @@ async function gc(storage) {
     stored_institutions
         .forEach(item => {
             if (!is_valid(item, now)) {
-                storage.remove(item.entity.entity_id.hexEncode())
+                const reader = new EntityReader(item.entity);
+                const idp_entity_id = reader.getAttribute('entityID');
+                storage.remove(idp_entity_id.hexEncode())
             }
         });
 }
@@ -143,9 +148,13 @@ async function get_entities(context) {
     let stored_institutions = await get_global_institutions(context);
     const local_stored_institutions = await get_local_institutions(context);
 
-    const dedup_institutions = stored_institutions.map(ins => ins.entity.entityID);
+    const dedup_institutions = stored_institutions.map(ins => {
+        const reader = new EntityReader(ins.entity);
+        return reader.getAttribute('entityID');
+    });
     local_stored_institutions.forEach(ins => {
-        if (!dedup_institutions.includes(ins.entity.entityID)) {
+        const reader = new EntityReader(ins.entity);
+        if (!dedup_institutions.includes(reader.getAttribute('entityID'))) {
             stored_institutions.push(ins);
         }
     });
@@ -169,7 +178,8 @@ async function remove_all_entities(context) {
     const entities = await get_entities(context);
     if (entities) {
         entities.forEach(entity => {
-            remove_entity(context, entity.entity.entityID);
+            const reader = new EntityReader(entity.entity);
+            remove_entity(context, reader.getAttribute('entityID'));
         });
     }
 }

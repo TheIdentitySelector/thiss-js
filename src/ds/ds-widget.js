@@ -1,4 +1,5 @@
 import {json_mdq_search, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 import 'core-js/actual';
 import Localization from '../localization.js'
 
@@ -46,7 +47,11 @@ jQuery(function ($) {
 
                     json_mdq_search(text, obj.options.search_url, obj.options.entityID, obj.options.trustProfile, {signal: this_ab.signal})
                         .then(data => {
-                            return data.filter(o => o.hidden !== "true" && o.hidden !== true)
+                            return data.filter(o => {
+                                const reader = new EntityReader(o);
+                                const hidden = reader.getAttribute('hidden');
+                                return hidden !== "true" && hidden !== true;
+                            })
                         })
                         .then(data => {
                             let first_ab = obj.ac.shift()
@@ -251,13 +256,16 @@ jQuery(function ($) {
                     let entities = []
                     if (items && items.length > 0) {
                         items.forEach(function (item) {
-                            if (item.hidden !== true && item.hidden !== "true") {
+                            const reader = new EntityReader(item.entity);
+                            const hidden = reader.getAttribute('hidden');
+                            if (hidden !== true && hidden !== "true") {
                                 let entity = item.entity;
                                 entity.saved = true;
                                 entities.push(entity)
                                 count++;
                             } else {
-                                obj._ds.remove(item.entity.entity_id);
+                                const idp_entity_id = reader.getAttribute('entityID');
+                                obj._ds.remove(idp_entity_id);
                             }
                         });
                     }

@@ -7,6 +7,7 @@ library.add(faPen);
 dom.watch();
 
 import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 import {requestingStorageAccess} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
 
@@ -23,13 +24,13 @@ const urlParams = new URLSearchParams(queryString);
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
 let context = process.env.DEFAULT_CONTEXT || "thiss.io";
-let entityID = null;
+let entityID = null;  // entityID of SP
 let trustProfile = null;
 let defaultText = "Your Institution";
 let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.loginHandlerURL;
 let discovery_request = window.xprops.discoveryRequest;
 let discovery_response = window.xprops.discoveryResponse;
-let entity_id = null;
+let entity_id = null;  // entityID of persisted IdP
 let suggestedInstitutions = null;
 
 const localization = new Localization(window.xprops.locale);
@@ -105,26 +106,33 @@ if (typeof discovery_response !== 'function') {
 const recoverPersisted = (start, context) => {
     Promise.all(start).then(function() {
         ds.ps.entities(context).then(result => result.data).then(function(items) {
-            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+            const item_promises = items.reverse().map(item => {
+                const reader = new EntityReader(item.entity);
+                const persisted_entity_id = reader.getAttribute('entityID');
+                json_mdq_pre_get(`{sha1}${hex_sha1(persisted_entity_id)}`, trustProfile, entityID, mdq)
+            });
             Promise.allSettled(item_promises).then(results => {
                 let lang = window.navigator.language;
                 lang = (lang.split('-'))[0];
                 let found = false;
                 results.forEach(result => {
-                    if (!found && result.status === 'fulfilled' && result.value.hidden !== true && result.value.hidden !== "true") {
+                    const reader = new EntityReader(result.value);
+                    const hidden = reader.getAttribute('hidden');
+                    const persisted_entity_id = reader.getAttribute('entityID');;
+                    if (!found && result.status === 'fulfilled' && hidden !== true && hidden !== "true") {
                         found = true;
-                        const item = result.value;
-                        let title = item.title;
-                        if ('title_langs' in item && lang in item.title_langs) {
-                            title = item.title_langs[lang];
+                        let title = reader.getAttribute('title');
+                        const title_langs = reader.getAttribute('title_langs');
+                        if (lang in title_langs) {
+                            title = title_langs[lang];
                         }
+                        entity_id = persisted_entity_id;
                         document.getElementById('title').innerText = title;
-                        entity_id = item.entity_id || item.entityID;
                         localization.translateStringP('cta-button-header').then(translated => {document.getElementById('headline').innerText = translated});
                         document.getElementById('headline').className = "ra21-button-text-secondary";
                         document.getElementById('dsbutton').hidden = false;
-                    } else if (result.status === 'fulfilled' && (result.value.hidden === true || result.value.hidden === "true")) {
-                        ds.remove(result.value.entityID);
+                    } else if (result.status === 'fulfilled' && (hidden === true || hidden === "true")) {
+                        ds.remove(persisted_entity_id);
                     }
                 });
                 if (!found) {

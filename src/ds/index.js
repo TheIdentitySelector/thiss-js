@@ -43,6 +43,7 @@ import 'ejs/ejs.min';
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
 import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
+import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
@@ -106,9 +107,11 @@ $(document).ready(function() {
            });
            $("#ds-search-header").html(headerHtml);
            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
+               const reader = new EntityReader(spEntity);
+               const title = reader.getAttribute('title');
                const tooltipHtml = ejs.render(tooltipHTML, {
-                   tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
-                   tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
+                   tooltipTitle: localization.translateString('suggested-tooltip-title', title),
+                   tooltipText: localization.translateString('suggested-tooltip-text', title)
                });
                $("#suggested-tooltip-container").append(tooltipHtml);
            });
@@ -120,23 +123,29 @@ $(document).ready(function() {
                    if (Array.isArray(item)) {
                        item = item[0];
                    }
+                   const reader = new EntityReader(item);
+                   const hidden = reader.getAttribute('hidden');
 
-                   if (item.hidden !== true && item.hidden !== "true") {
+                   if (hidden !== true && hidden !== "true") {
 
                        localization.updateDynamic(item);
 
-                       const title_i18n = item.entityID;
-                       let title = item.title;
-                       if ('title_langs' in item && lang in item.title_langs) {
-                           title = item.title_langs[lang];
+                       const title_i18n = reader.getAttribute('entityID');
+                       let title = reader.getAttribute('title');
+                       const title_langs = reader.getAttribute('title_langs');
+                       if (lang in title_langs) {
+                           title = title_langs[lang];
                        }
 
+                       const domain = reader.getAttribute('domain');
+                       const idp_entity_id = reader.getAttribute('entityID');
+                       const name_tag = reader.getAttribute('name_tag');
                        const context = {
                            title: title,
                            title_i18n: title_i18n,
-                           domain: item.domain,
-                           entity_id: item.entity_id,
-                           name_tag: item.name_tag,
+                           domain: domain,
+                           entity_id: idp_entity_id,
+                           name_tag: name_tag,
                        };
                        const html = suggestedTempl(context);
 
@@ -261,22 +270,25 @@ $(document).ready(function() {
 
                 localization.updateDynamic(item);
 
+                const reader = new EntityReader(item);
                 let hint = false;
-
-                if (!strict && 'hint' in item) {
-                    hint = true;
+                if (!strict) {
+                    hint = reader.getAttribute('hint');
                 }
-                const title_i18n = item.entityID;
-                let title = item.title;
+                const title_i18n = reader.getAttribute('entityID');
+                let title = reader.getAttribute('title');
+                const title_langs = reader.getAttribute('title_langs');
 
-                if ('title_langs' in item && lang in item.title_langs) {
-                    title = item.title_langs[lang];
+                if (lang in title_langs) {
+                    title = title_langs[lang];
                 }
+                const domain = reader.getAttribute('domain');
+                const idp_entity_id = reader.getAttribute('entityID');
                 const context = {
                     title: title,
                     title_i18n: title_i18n,
-                    domain: item.domain,
-                    entity_id: item.entity_id,
+                    domain: domain,
+                    entity_id: idp_entity_id,
                     strictProfile: strict,
                     hint: hint,
                 };
@@ -335,32 +347,40 @@ $(document).ready(function() {
             const templ = ejs.compile(savedHTML);
             items.forEach((item) => {
 
-                if (item.hidden !== true && item.hidden !== "true") {
+                const reader = new EntityReader(item);
+                const hidden = reader.getAttribute('hidden');
+                if (hidden !== true && hidden !== "true") {
 
                     localization.updateDynamic(item);
 
                     let hint = false;
-                    if (strict === false && 'hint' in item) {
-                        hint = true;
+                    if (strict === false) {
+                        hint = reader.getAttribute('hint');
                     }
                     if (!hint) hasNonHinted = true;
 
-                    const title_i18n = item.entityID;
-                    let title = item.title;
-                    if ('title_langs' in item && lang in item.title_langs) {
-                        title = item.title_langs[lang];
+                    const title_i18n = reader.getAttribute('entityID');
+                    let title = reader.getAttribute('title');
+                    const title_langs = reader.getAttribute('title_langs');
+                    if (lang in title_langs) {
+                        title = title_langs[lang];
                     }
 
+                    const domain = reader.getAttribute('domain');
+                    const idp_entity_id = reader.getAttribute('entityID');
+                    const entity_icon = reader.getAttribute('entity_icon');
+                    const entity_icon_url = reader.getAttribute('entity_icon_url');
+                    const name_tag = reader.getAttribute('name_tag');
                     const context = {
                         title: title,
                         title_i18n: title_i18n,
-                        domain: item.domain,
-                        entity_id: item.entity_id,
-                        entity_icon: item.entity_icon,
-                        name_tag: item.name_tag,
+                        domain: domain,
+                        entity_id: idp_entity_id,
+                        entity_icon: entity_icon,
+                        name_tag: name_tag,
                         strictProfile: strict,
                         hint: hint,
-                        entity_icon_url: item.entity_icon_url
+                        entity_icon_url: entity_icon_url
                     };
                     const html = templ(context);
 
@@ -369,9 +389,11 @@ $(document).ready(function() {
             })
 
             if (strict === false && hasNonHinted) {
-                let org = spEntity.title;
-                if (spEntity.title_langs && spEntity.title_langs[lang]) {
-                    org = spEntity.title_langs[lang];
+                const sp_reader = new EntityReader(spEntity);
+                let org = sp_reader.getAttribute('title');
+                let title_langs = sp_reader.getAttribute('title_langs');
+                if ('lang' in title_langs) {
+                    org = title_langs[lang];
                 }
                 const no_access = localization.translateString('filter-warning-no-access');
                 const choose_alternative = localization.translateString('filter-warning-choose-alternative');
@@ -447,7 +469,9 @@ $(document).ready(function() {
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
-                return json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, o.mdq).then(entity => {
+                const reader = new EntityReader(item.entity);
+                const idp_entity_id = reader.getAttribute('entityID');
+                return json_mdq_pre_get(`{sha1}${hex_sha1(idp_entity_id)}`, trustProfile, entityID, o.mdq).then(entity => {
                     item.entity = entity;
                     item.modified = true;
                     item.last_refresh = now;
@@ -474,28 +498,31 @@ $(document).ready(function() {
             }
         }
     }).discovery_client("sp").then(entity => {
-        $(".sp_title").text(entity.title);
-        $("#discovery-response-warning-site").text(entity.title);
+        const reader = new EntityReader(entity);
+        const title = reader.getAttribute('title');
+        $(".sp_title").text(title);
+        $("#discovery-response-warning-site").text(title);
 
         const tooltipContainer = $("#suggested-tooltip-container");
         if (tooltipContainer) {
             const tooltipHtml = ejs.render(tooltipHTML, {
-                tooltipTitle: localization.translateString('suggested-tooltip-title', entity.title),
-                tooltipText: localization.translateString('suggested-tooltip-text', entity.title),
+                tooltipTitle: localization.translateString('suggested-tooltip-title', title),
+                tooltipText: localization.translateString('suggested-tooltip-text', title),
             });
             tooltipContainer.append(tooltipHtml);
         }
 
         let goodReturn = true;  //TODO: change to false to reactivate the warning
 
-        if (entity.discovery_responses) {
+        const discovery_responses = reader.getAttribute('discovery_responses');
+        if (discovery_responses) {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             let returnUrl = null;
             if (urlParams.has('return'))
                 returnUrl = urlParams.get('return')
 
-            entity.discovery_responses.forEach(dr => {
+            discovery_responses.forEach(dr => {
                 if (returnUrl !== null && returnUrl.startsWith(dr)) {
                     goodReturn = true;
                 }
@@ -504,10 +531,11 @@ $(document).ready(function() {
         if (goodReturn === false) {
             $("#warning-discovery-response").removeClass("d-none");
         }
-        if (entity.entity_icon_url !== undefined) {
-            $("#ra-21-logo-other").attr('src', entity.entity_icon_url.url);
-            $("#ra-21-logo-other").attr('width', entity.entity_icon_url.width);
-            $("#ra-21-logo-other").attr('height', entity.entity_icon_url.height);
+        const entity_icon_url = reader.getAttribute('entity_icon_url');
+        if (entity_icon_url !== null) {
+            $("#ra-21-logo-other").attr('src', entity_icon_url.url);
+            $("#ra-21-logo-other").attr('width', entity_icon_url.width);
+            $("#ra-21-logo-other").attr('height', entity_icon_url.height);
             $("#ra-21-logo-other").removeClass("d-none");
             $("#header-logo-separator").removeClass("d-none");
         }
