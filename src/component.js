@@ -37,6 +37,13 @@ function prerenderTemplate(opts) {
     let discovery_response = opts.props.discoveryResponse;
     let entityID = opts.props.entityID;
     let trustProfile = opts.props.trustProfile;
+    let suggestedInstitutions = null;
+
+    const paramSuggested = opts.props.suggested;
+    if (paramSuggested) {
+        const csSuggested = decodeURIComponent(paramSuggested);
+        suggestedInstitutions = csSuggested.split(',').map(s => s.trim());
+    }
 
     if (!discovery_request)
         discovery_request = login_initiator_url;
@@ -52,6 +59,9 @@ function prerenderTemplate(opts) {
         }
         if (entityID && trustProfile) {
             search_string = `${search_string}&trustProfile=${trustProfile}`;
+        }
+        if (suggestedInstitutions) {
+            search_string = `${search_string}&suggested=${suggestedInstitutions}`;
         }
         if (new URL(discovery_request).searchParams.size > 0) {
             discovery_request =  `${discovery_request}&${search_string}`

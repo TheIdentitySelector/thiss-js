@@ -30,6 +30,7 @@ let login_initiator_url = window.xprops.loginInitiatorURL || window.xprops.login
 let discovery_request = window.xprops.discoveryRequest;
 let discovery_response = window.xprops.discoveryResponse;
 let entity_id = null;
+let suggestedInstitutions = null;
 
 const localization = new Localization(window.xprops.locale);
 
@@ -54,6 +55,12 @@ if (window.xprops.context)
 if (window.xprops.MDQ)
     mdq = window.xprops.MDQ;
 
+if (window.xprops.suggested) {
+    const paramSuggested = window.xprops.suggested;
+    const csSuggested = decodeURIComponent(paramSuggested);
+    suggestedInstitutions = csSuggested.split(',').map(s => s.trim());
+}
+
 const psHost = new URL(persistence).hostname;
 const curHost = window.location.hostname;
 
@@ -69,6 +76,9 @@ if (discovery_request !== discovery_response && typeof discovery_request === 'st
     }
     if (entityID && trustProfile) {
         search_string = `${search_string}&trustProfile=${trustProfile}`;
+    }
+    if (suggestedInstitutions) {
+        search_string = `${search_string}&suggested=${suggestedInstitutions}`;
     }
     if (new URL(discovery_request).searchParams.size > 0) {
         discovery_request =  `${discovery_request}&${search_string}`

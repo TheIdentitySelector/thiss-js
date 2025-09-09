@@ -1,4 +1,4 @@
-VERSION:=2.1.131
+VERSION:=2.1.135
 PREV_VERSION:=2.1.98
 PRE_RELEASE:=true
 PWD:=$(shell pwd)
@@ -51,12 +51,12 @@ publish:
 build_in_docker: thiss_builder
 	docker run -ti -v $(PWD)/dist:/usr/src/app/dist -e BASE_URL=$(BASE_URL) -e COMPONENT_URL=$(COMPONENT_URL) -e MDQ_URL=$(MDQ_URL) -e PERSISTENCE_URL=$(PERSISTENCE_URL) -e SEARCH_URL=$(SEARCH_URL) -e STORAGE_DOMAIN=$(STORAGE_DOMAIN) -e LOGLEVEL=$(LOGLEVEL) -e DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) -e WHITELIST=$(WHITELIST) -e MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) -e SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) thiss-builder:$(VERSION) webpack --config webpack.prod.js
 	@sudo rm -rf dist-pre/$(VERSION)
-	@mkdir -p dist-pre/$(VERSION)
-	@mv dist/* dist-pre/$(VERSION)/
+	@sudo mkdir -p dist-pre/$(VERSION)
+	@sudo mv dist/* dist-pre/$(VERSION)/
 	
 build: test snyk
 	env BASE_URL='$${BASE_URL}' COMPONENT_URL='$${COMPONENT_URL}' MDQ_URL='$${MDQ_URL}' PERSISTENCE_URL='$${PERSISTENCE_URL}' SEARCH_URL='$${SEARCH_URL}' STORAGE_DOMAIN='$${STORAGE_DOMAIN}' LOGLEVEL='$${LOGLEVEL}' DEFAULT_CONTEXT='$${DEFAULT_CONTEXT}' WHITELIST='$${WHITELIST}' MIN_SEARCH_LENGTH='$${MIN_SEARCH_LENGTH}'  SAA_COMPLIANT_BROWSERS='$${SAA_COMPLIANT_BROWSERS}' PUBLIC_PATH_PREFIX=$(PUBLIC_PATH_PREFIX) webpack --config webpack.prod.js
-	@sudo rm -rf dist-pre/$(VERSION)
+	@rm -rf dist-pre/$(VERSION)
 	@mkdir -p dist-pre/$(VERSION)
 	@mv dist/* dist-pre/$(VERSION)/
 
