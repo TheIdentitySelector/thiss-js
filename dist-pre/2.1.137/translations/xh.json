@@ -1,0 +1,34 @@
+{
+  "@metadata": {
+    "authors": [
+      "TENET",
+      "ST Communications"
+    ],
+    "last-updated": "2022-07-17",
+    "locale": "xh"
+  },
+  "cta-button-placeholder": "Fikelela usebenzisa iziko lakho",
+  "cta-button-header": "Fikelela usebenzisa",
+  "cta-link": "Yongeza okanye utshintshe iziko",
+  "ds-header": "Ufikelelo kwi",
+  "ds-footer-about-us": "Malunga Nathi",
+  "ds-search-heading": "Fumana Iziko Lakho",
+  "ds-search-subheading": "Iyunivesithi, iziko okanye inkampani yakho",
+  "ds-search-example": "Imizekelo: Iziko Lesayensi, Lee@uni.edu, UCLA",
+  "ds-search-placeholder": "Ikhangela amaziko...",
+  "ds-choose-heading": "Khetha Iziko Lakho",
+  "ds-choose-subheading": "Amaziko akutshanje",
+  "ds-choose-add-another": "Yongeza elinye iziko",
+  "ds-edit-heading": "Hlela amaziko",
+  "ds-edit-subheading": "Ukuba awusafuni iziko likhunjulwe kule divayisi, lisuse kuluhlu olungezantsi.",
+  "ds-choose-edit": "Hlela",
+  "ds-choose-done": "Igqibile",
+  "ds-notice-and-consent-remember": "Khumbula olu khetho",
+  "ds-notice-and-consent-learn-more": "Funda Ngakumbi",
+  "ds-notice-and-consent-banner-storage-info": "Iziko olikhethayo liza kugcinwa kugcino lwangaphakathi lwale bhrawuza yaye luza kwenziwa lufumaneke kule nakwezinye iisayithi ezisebenzisa i-SeamlessAccess. Kufuneka ucime izinto ezikugcino lwangaphakathi lwebhrawuza yakho nanini na.",
+  "ds-notice-and-consent-banner-more-info": "Inkcazelo Yemfihlelo Eyongezelelekileyo",
+  "ds-notice-and-consent-banner-personal-info": "Akukho nkcazelo yokungena, yeimeyile okanye yobuqu igciniweyo.",
+  "ds-too-many-result-show": "Ndibonise zonke ezifanayo sekunjalo",
+  "ds-too-many-result-matches": "Ezifanayo",
+  "ds-too-many-result-keep-typing": "qhubeka utayipa ukuze ulungise ukhangelo lwakho"
+}
