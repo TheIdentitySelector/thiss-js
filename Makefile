@@ -1,6 +1,6 @@
-VERSION:=2.1.138
+VERSION:=2.1.139
 PREV_VERSION:=2.1.98
-PRE_RELEASE:=true
+PRE_RELEASE:=false
 PWD:=$(shell pwd)
 NAME:=thiss-js
 REGISTRY:=docker.sunet.se

@@ -360,7 +360,7 @@ Version 2.1.127
 
 * Some bug fixes
 
-Version 2.1.138
+Version 2.1.139
 ---------------
 
 * New release procedure
