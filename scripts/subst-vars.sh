@@ -66,9 +66,9 @@ process_version() {
 
 if [[ "$PRE_RELEASE" == 'true' ]]; then
     process_version "$VERSION"
-    process_version "$OLD_VERSION"
+    process_version "$PREV_VERSION"
 else
-    process_version "$OLD_VERSION"
+    process_version "$PREV_VERSION"
     process_version "$VERSION"
 fi
 
