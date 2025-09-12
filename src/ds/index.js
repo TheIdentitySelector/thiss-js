@@ -128,7 +128,7 @@ $(document).ready(function() {
 
                    if (hidden !== true && hidden !== "true") {
 
-                       localization.updateDynamic(item);
+                       localization.updateDynamic(item, 'idp');
 
                        const title_i18n = reader.getAttribute('entityID');
                        let title = reader.getAttribute('title');
@@ -268,7 +268,7 @@ $(document).ready(function() {
 
             items.forEach((item) => {
 
-                localization.updateDynamic(item);
+                localization.updateDynamic(item, 'idp');
 
                 const reader = new EntityReader(item);
                 let hint = false;
@@ -351,7 +351,7 @@ $(document).ready(function() {
                 const hidden = reader.getAttribute('hidden');
                 if (hidden !== true && hidden !== "true") {
 
-                    localization.updateDynamic(item);
+                    localization.updateDynamic(item, 'idp');
 
                     let hint = false;
                     if (strict === false) {

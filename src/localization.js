@@ -2,6 +2,7 @@ const I18n = require('banana-i18n');
 const I18N_DATA_ATTRIBUTE = '[data-i18n]';
 const DEFAULT_LOCALE = 'en';
 const localeSelector = document.getElementById('locale-selector');
+import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 
 const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 
@@ -15,15 +16,16 @@ export default class Localization extends I18n {
         this.dynamic = {};
     }
 
-    updateDynamic (item) {
-        if ('title_langs' in item && !!item.title_langs && item.title_langs.constructor === Object) {
-            const langs = Object.keys(item.title_langs);
-            for (const lang of langs) {
-                if (!(lang in this.dynamic)) {
-                    this.dynamic[lang] = {}
-                }
-                this.dynamic[lang][item.entityID] = item.title_langs[lang];
+    updateDynamic (item, type) {
+        const reader = new EntityReader(item, type);
+        const title_langs = reader.getAttribute('title_langs');
+        const entity_id = reader.getAttribute('entityID');
+        const langs = Object.keys(title_langs);
+        for (const lang of langs) {
+            if (!(lang in this.dynamic)) {
+                this.dynamic[lang] = {}
             }
+            this.dynamic[lang][entity_id] = title_langs[lang];
         }
     }
 
