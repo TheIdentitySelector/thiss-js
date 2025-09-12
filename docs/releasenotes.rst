@@ -365,7 +365,7 @@ Version 2.1.141
 
 * New release procedure
 
-Version 3.0.2
+Version 3.0.3
 -------------
 
 * Integration of openid federations
