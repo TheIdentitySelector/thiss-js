@@ -369,3 +369,8 @@ Version 3.0.3
 -------------
 
 * Integration of openid federations
+
+Version 3.0.4
+-------------
+
+* Suggested institutioons bug fix
