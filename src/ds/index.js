@@ -105,14 +105,16 @@ $(document).ready(function() {
            const headerHtml = ejs.render(suggestedHeaderHTML, {
                suggestedString: localization.translateString('suggested-institutions-header')
            });
-           $("#ds-search-header").html(headerHtml);
+           let firstSuggested = true;
            json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
-               const reader = new EntityReader(spEntity);
-               const title = reader.getAttribute('title');
                const tooltipHtml = ejs.render(tooltipHTML, {
-                   tooltipTitle: localization.translateString('suggested-tooltip-title', title),
-                   tooltipText: localization.translateString('suggested-tooltip-text', title)
+                   tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
+                   tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
                });
+               if (firstSuggested) {
+                   $("#ds-search-header").html(headerHtml);
+                   firstSuggested = false;
+               }
                $("#suggested-tooltip-container").append(tooltipHtml);
            });
            suggested.forEach(eid => {
