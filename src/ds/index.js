@@ -81,8 +81,6 @@ $(document).ready(function() {
     let entityID = null;
     let trustProfile = null;
     let suggested = [];
-    let lang = localization.locale;
-    lang = (lang.split('-'))[0];
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
@@ -100,6 +98,8 @@ $(document).ready(function() {
     const showSuggested = () => {
        if (suggested.length > 0) {
            const suggestedTempl = ejs.compile(suggestedHTML);
+           let lang = localization.locale;
+           lang = (lang.split('-'))[0];
            $("#searching").addClass('d-none');
            document.getElementById('ds-search-list').innerHTML = ''
            document.getElementById('ds-search-header').innerHTML = ''
@@ -521,6 +521,8 @@ $(document).ready(function() {
         const reader = new EntityReader(entity);
         let title = reader.getAttribute('title');
         const title_langs = reader.getAttribute('title_langs');
+        let lang = localization.locale;
+        lang = (lang.split('-'))[0];
         if (lang in title_langs) {
             title = title_langs[lang]
         }
