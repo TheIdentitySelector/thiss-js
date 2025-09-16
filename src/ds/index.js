@@ -340,6 +340,7 @@ $(document).ready(function() {
             let hasNonHinted = false;
 
             const templ = ejs.compile(savedHTML);
+            let itemCount = 0;
             items.forEach((item) => {
 
                 if (item.hidden !== true && item.hidden !== "true") {
@@ -372,8 +373,13 @@ $(document).ready(function() {
                     const html = templ(context);
 
                     $("#ds-saved-choices").append(html);
+                    itemCount += 1;
                 }
             })
+
+            if (itemCount > 0) {
+                showSuggested();
+            }
 
             if (strict === false && hasNonHinted) {
                 let org = spEntity.title;
@@ -481,8 +487,12 @@ $(document).ready(function() {
             }
         }
     }).discovery_client("sp").then(entity => {
-        $(".sp_title").text(entity.title);
-        $("#discovery-response-warning-site").text(entity.title);
+        let spTitle = entity.title;
+        if ('title_langs' in entity && lang in entity.title_langs) {
+            spTitle = entity.title_langs[lang];
+        }
+        $(".sp_title").text(spTitle);
+        $("#discovery-response-warning-site").text(spTitle);
 
         let goodReturn = true;  //TODO: change to false to reactivate the warning
 
