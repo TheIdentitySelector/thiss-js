@@ -101,6 +101,7 @@ $(document).ready(function() {
            lang = (lang.split('-'))[0];
            $("#searching").addClass('d-none');
            document.getElementById('ds-search-list').innerHTML = ''
+            $("#ds-search-header").html('');
            const headerHtml = ejs.render(suggestedHeaderHTML, {
                suggestedString: localization.translateString('suggested-institutions-header')
            });
@@ -482,15 +483,6 @@ $(document).ready(function() {
     }).discovery_client("sp").then(entity => {
         $(".sp_title").text(entity.title);
         $("#discovery-response-warning-site").text(entity.title);
-
-        const tooltipContainer = $("#suggested-tooltip-container");
-        if (tooltipContainer) {
-            const tooltipHtml = ejs.render(tooltipHTML, {
-                tooltipTitle: localization.translateString('suggested-tooltip-title', entity.title),
-                tooltipText: localization.translateString('suggested-tooltip-text', entity.title),
-            });
-            tooltipContainer.append(tooltipHtml);
-        }
 
         let goodReturn = true;  //TODO: change to false to reactivate the warning
 
