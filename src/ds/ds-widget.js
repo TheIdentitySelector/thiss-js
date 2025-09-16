@@ -31,6 +31,7 @@ jQuery(function ($) {
         },
 
         _create: function () {
+            console.log(`Calling discovery_client _create`);
             let obj = this;
             obj.ac = [];
 
@@ -87,11 +88,13 @@ jQuery(function ($) {
         },
 
         _setOption: function (key, value) {
+            console.log(`Calling discovery_client _setOption`);
             this.options[key] = value;
             this._update();
         },
 
         sp: function() {
+            console.log(`Calling discovery_client sp`);
             let obj = this;
             let params = new URLSearchParams(window.location.search);
             let entity_id = params.get('entityID');
@@ -106,6 +109,7 @@ jQuery(function ($) {
         },
 
         _after: function (count) {
+            console.log(`Calling discovery_client _after`);
             let saved_choices_element = $(this.options.saved_choices_selector);
             if (this.options.search) {
                 let obj = this;
@@ -125,6 +129,7 @@ jQuery(function ($) {
                         return i > -1 ? v.substring(i+1,v.length) : v;
                     },
                     sourceNodes: function(opts, val, results, render) {
+                        console.log(`Calling discovery_client sourceNodes within _after`);
                         const MAX_RESULTS = 25
 
                         if (!results || results.length === 0) {
@@ -135,6 +140,7 @@ jQuery(function ($) {
                             let numberDisplayed = 0
 
                             const getResults = function() {
+                                console.log(`Calling discovery_client getResults within sourceNodes within _after`);
                                 if (numberDisplayed === 0) {
                                     if (results.length < MAX_RESULTS) {
                                         numberDisplayed = results.length
@@ -153,6 +159,7 @@ jQuery(function ($) {
                             }
 
                             const displayResults = function(newResults) {
+                                console.log(`Calling discovery_client displayResults within sourceNodes within _after`);
                                 const resultsSubset = getResults()
                                 let updatedResultsSubset = []
 
@@ -174,6 +181,7 @@ jQuery(function ($) {
                             displayResults(true);
 
                             window.onscroll = function(ev) {
+                                console.log(`Event scroll`);
                                 if (results.length >= MAX_RESULTS) {
                                     if ($(window).scrollTop() + $(window).height() > 0.75 * $(document).height()) {
                                         displayResults(false);
@@ -190,6 +198,7 @@ jQuery(function ($) {
         },
 
         _update: function () {
+            console.log(`Calling discovery_client _update`);
             let obj = this;
             obj._ds = new DiscoveryService(obj.options.mdq, obj.options.persistence,
                 obj.options.context, {entityID: obj.options.entityID, trustProfile: obj.options.trustProfile});
@@ -251,6 +260,7 @@ jQuery(function ($) {
             });
 
             obj._ds.with_items(function (items) {
+                console.log(`Calling with_items within discovery_client _update`);
                 return obj.options.before(items).then(items => {
                     let count = 0;
                     let entities = []

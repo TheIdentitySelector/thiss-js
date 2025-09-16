@@ -34,6 +34,7 @@
     }
 
     function defaultItemFilter(item, val) {
+      console.log(`Calling btsListFilter defaultItemFilter with "${val}"`);
       val = val && val.replace(new RegExp("[({[^.$*+?\\\]})]","g"),'');
       //sanitize regexp
 
@@ -54,17 +55,21 @@
       sourceData: null,
       sourceTmpl: '<a class="list-group-item" href="#"><span>{title}</span></a>',
       sourceNode: function(data) {
+        console.log(`Calling btsListFilter.opts sourceNode with "${JSON.stringify(data)}"`);
         return tmpl(opts.sourceTmpl, data);
       },
       emptyNode: function(data) {
+        console.log(`Calling btsListFilter.opts emptyNode with "${JSON.stringify(data)}"`);
         const no_results = localization.translateString('list-filter-no-results');
         return `<a class="list-group-item well" href="#"><span>${no_results}</span></a>`;
       },
       cancelNode: function() {
+        console.log(`Calling btsListFilter.opts cancelNode with "${JSON.stringify(data)}"`);
         return '<span class="btn glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>';
       },
       maxResults: -1,
       maxResultsNode: function(data) {
+        console.log(`Calling btsListFilter.opts maxResultsNode with "${JSON.stringify(data)}"`);
         const too_many = localization.translateString('list-filter-too-many-results');
         return `<span class="list-group-item well">${too_many}</span>`;
       },
@@ -79,6 +84,7 @@
     }, opts);
 
     function debouncer(func, timeout) {
+      console.log(`Calling btsListFilter debouncer`);
       var timeoutID;
       timeout = timeout || 300;
       return function () {
@@ -91,10 +97,12 @@
     }
 
     self.reset = function() {
+      console.log(`Calling btsListFilter reset`);
       inputEl$.val('').trigger(opts.eventKey);
     };
 
     self.showall = function() {
+      console.log(`Calling btsListFilter showall`);
       opts.maxResults = -1;
       inputEl$.val(inputEl$.val()).trigger(opts.eventKey);
     };

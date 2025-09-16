@@ -58,6 +58,7 @@ function _sha1_id(s) {
 }
 
 const adjustHeader = () => {
+    console.log(`Adjusting ther header`);
     const widthLogos = $('#sa-logos').width();
     const widthAccessTo = $('#sa-access-to').width();
     const widthHeader = $('header').width();
@@ -96,6 +97,7 @@ $(document).ready(function() {
 
 
     const showSuggested = () => {
+       console.log(`Showing suggested`);
        if (suggested.length > 0) {
            const suggestedTempl = ejs.compile(suggestedHTML);
            let lang = localization.locale;
@@ -164,6 +166,7 @@ $(document).ready(function() {
                        }
 
                        $("#ds-search-list").append(html);
+                       console.log(`    Added suggested`);
                    }
                }).catch(function(error) {
                    console.log("ERROR getting suggested entity:", error);
@@ -194,18 +197,22 @@ $(document).ready(function() {
     })
 
     $("#search").on('hidden.bs.collapse',function(event) {
+        console.log(`Event hidden.bs.collapse on #search`);
         $("#choose").toggleClass("d-none");
         $("#search").toggleClass("d-none");
         $("#searchinput").val('');
     }).on('shown.bs.collapse',function(event) {
+        console.log(`Event shown.bs.collapse on #search`);
         $("#choose").toggleClass("d-none");
         $("#search").toggleClass("d-none");
         $("#searchinput").focus();
     });
 
     $("#ds-search-list").on('show.bs', function(event) {
+        console.log(`Event show.bs on #ds-search-list`);
         timer = setTimeout( function () { if (timer) { console.log('searching'); $("#searching").removeClass('d-none') } }, 2500);
     }).on('hide.bs', function(event) {
+        console.log(`Event hide.bs on #ds-search-list`);
         $("#searching").addClass('d-none');
 
         if (timer) {
@@ -214,6 +221,7 @@ $(document).ready(function() {
     });
 
     $("#add_button").on('click',function(event) {
+        console.log(`Event click on #add_button`);
         event.preventDefault();
         $("#choose").toggleClass("d-none");
         $("#search").toggleClass("d-none");
@@ -221,6 +229,7 @@ $(document).ready(function() {
     });
 
     $("#edit_button").on('click',function(event) {
+        console.log(`Event click on #edit_button`);
         $("#choosetools").toggleClass("d-none");
         $(".warning-banner").toggleClass("d-none");
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
@@ -234,6 +243,7 @@ $(document).ready(function() {
     });
 
     $("#done_button").on('click',function(event) {
+        console.log(`Event click on #done_button`);
         event.preventDefault();
         $("#done_button").toggleClass("d-none").toggleClass("display-block");
         $("#choosetools").toggleClass("d-none");
@@ -248,6 +258,7 @@ $(document).ready(function() {
     });
 
     $("#discovery-response-warning-header-link").on('click',function(event) {
+        console.log(`Event click on #discovery-response-warning-header-link`);
         event.preventDefault();
         const visibleChild = $("#dsclient").children().not(".d-none")[0];
         $("#dsclient").addClass('d-none');
@@ -255,12 +266,14 @@ $(document).ready(function() {
     });
 
     $("#warning-done-button").on('click',function(event) {
+        console.log(`Event click on #warning-done-button`);
         event.preventDefault();
         $("#dsclient").removeClass('d-none');
         $("#discovery-response-warning").addClass("d-none");
     });
 
     $(window).on('resize', function(event) {
+        console.log(`Event resize on window`);
         adjustHeader();
     });
 
@@ -273,6 +286,7 @@ $(document).ready(function() {
         context: process.env.DEFAULT_CONTEXT,
         inputfieldselector: "#searchinput",
         _render_search_result: function(items, strict, spEntity) {
+            console.log(`Calling _render_search_result`);
     
             let lang = localization.locale;
             lang = (lang.split('-'))[0];
@@ -328,6 +342,7 @@ $(document).ready(function() {
             }
         },
         render_search_result: function(items) {
+            console.log(`Calling render_search_result`);
             const self = this;
             $("#searching").addClass('d-none');
 
@@ -352,6 +367,7 @@ $(document).ready(function() {
             }
         },
         _render_saved_choice: function(items, strict, spEntity) {
+            console.log(`Calling _render_saved_choice`);
 
             let lang = localization.locale;
             lang = (lang.split('-'))[0];
@@ -423,6 +439,7 @@ $(document).ready(function() {
             }
         },
         render_saved_choice: function(items) {
+            console.log(`Calling render_saved_choice`);
             const self = this;
             $("#searching").addClass('d-none');
 
@@ -446,6 +463,7 @@ $(document).ready(function() {
             }
         },
         too_many_results: function(bts, count) {
+            console.log(`Calling too_many_results`);
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
             $("#ds-search-header").html('');
@@ -464,6 +482,7 @@ $(document).ready(function() {
             $("#ds-search-header").append(html);
         },
         no_results: function() {
+            console.log(`Calling no_results`);
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
             $("#ds-search-header").html('');
@@ -477,9 +496,11 @@ $(document).ready(function() {
             $("#ds-search-header").append(html);
         },
         persist: function() {
+            console.log(`Calling persist`);
             return $("#rememberThisChoice").is(':checked');
         },
         before: function(items) {
+            console.log(`Calling before`);
             let now = Date.now();
             let o = this;
             return Promise.all(items.map(item => {
@@ -500,6 +521,7 @@ $(document).ready(function() {
                });
         },
         after: function(count,elt) {
+            console.log(`Calling after`);
             $("#searching").addClass('d-none');
             if (count == 0) {
                 $("#search").removeClass("d-none");
@@ -512,6 +534,7 @@ $(document).ready(function() {
             }
         }
     }).discovery_client("sp").then(entity => {
+        console.log(`Calling discovery_client("sp")`);
         const reader = new EntityReader(entity);
         let title = reader.getAttribute('title');
         const title_langs = reader.getAttribute('title_langs');
