@@ -280,7 +280,6 @@ $(document).ready(function() {
 
             const templ = ejs.compile(searchHTML);
 
-            let itemCount = 0;
             items.forEach((item) => {
 
                 localization.updateDynamic(item, 'idp');
@@ -310,12 +309,7 @@ $(document).ready(function() {
                 const html = templ(context);
 
                 htmlItemList.push(html);
-                itemCount += 1;
             })
-
-            if (itemCount > 0) {
-                showSuggested();
-            }
 
             if (items) {
                 if (items.length > 0) {
@@ -365,6 +359,7 @@ $(document).ready(function() {
             let hasNonHinted = false;
 
             const templ = ejs.compile(savedHTML);
+            let itemCount = 0;
             items.forEach((item) => {
 
                 const reader = new EntityReader(item);
@@ -405,8 +400,13 @@ $(document).ready(function() {
                     const html = templ(context);
 
                     $("#ds-saved-choices").append(html);
+                    itemCount += 1;
                 }
             })
+
+            if (itemCount === 0) {
+                showSuggested();
+            }
 
             if (strict === false && hasNonHinted) {
                 const sp_reader = new EntityReader(spEntity);
