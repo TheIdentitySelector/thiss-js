@@ -102,6 +102,7 @@ $(document).ready(function() {
            lang = (lang.split('-'))[0];
            $("#searching").addClass('d-none');
            document.getElementById('ds-search-list').innerHTML = ''
+           document.getElementById('ds-search-header').innerHTML = ''
            const headerHtml = ejs.render(suggestedHeaderHTML, {
                suggestedString: localization.translateString('suggested-institutions-header')
            });
@@ -279,6 +280,7 @@ $(document).ready(function() {
 
             const templ = ejs.compile(searchHTML);
 
+            let itemCount = 0;
             items.forEach((item) => {
 
                 localization.updateDynamic(item, 'idp');
@@ -307,8 +309,13 @@ $(document).ready(function() {
                 };
                 const html = templ(context);
 
-                htmlItemList.push(html)
+                htmlItemList.push(html);
+                itemCount += 1;
             })
+
+            if (itemCount > 0) {
+                showSuggested();
+            }
 
             if (items) {
                 if (items.length > 0) {
@@ -512,18 +519,13 @@ $(document).ready(function() {
         }
     }).discovery_client("sp").then(entity => {
         const reader = new EntityReader(entity);
-        const title = reader.getAttribute('title');
+        let title = reader.getAttribute('title');
+        const title_langs = reader.getAttribute('title_langs');
+        if (lang in title_langs) {
+            title = title_langs[lang]
+        }
         $(".sp_title").text(title);
         $("#discovery-response-warning-site").text(title);
-
-        const tooltipContainer = $("#suggested-tooltip-container");
-        if (tooltipContainer) {
-            const tooltipHtml = ejs.render(tooltipHTML, {
-                tooltipTitle: localization.translateString('suggested-tooltip-title', title),
-                tooltipText: localization.translateString('suggested-tooltip-text', title),
-            });
-            tooltipContainer.append(tooltipHtml);
-        }
 
         let goodReturn = true;  //TODO: change to false to reactivate the warning
 
