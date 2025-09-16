@@ -106,19 +106,9 @@ $(document).ready(function() {
                suggestedString: localization.translateString('suggested-institutions-header')
            });
            let firstSuggested = true;
-           json_mdq_get_sp(entityID, mdq_url).then(spEntity => {
-               const tooltipHtml = ejs.render(tooltipHTML, {
-                   tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity.title),
-                   tooltipText: localization.translateString('suggested-tooltip-text', spEntity.title)
-               });
-               if (firstSuggested) {
-                   $("#ds-search-header").html(headerHtml);
-                   firstSuggested = false;
-               }
-               $("#suggested-tooltip-container").append(tooltipHtml);
-           });
+           const spPromise = json_mdq_get_sp(entityID, mdq_url);
            suggested.forEach(eid => {
-               const id = _sha1_id(eid);
+               const id = _sha1_id(eid); 
                const url = mdq_url + id + ".json"
 
                json_mdq(url).then(function(item) {
@@ -151,6 +141,27 @@ $(document).ready(function() {
                        };
                        const html = suggestedTempl(context);
 
+                       if (firstSuggested) {
+                           firstSuggested = false;
+                           spPromise.then(spEntity => {
+                               let spTitle = entityID;
+                               if (spEntity) {
+                                   const spReader = EntityReader(spEntity, 'sp');
+                                   spTitle = spReader.getAttribute('title');
+                                   const sp_title_langs = spReader.getAttribute('title_langs');
+                                   if (lang in sp_title_langs) {
+                                       spTitle = sp_title_langs[lang];
+                                   }
+                               }
+                               const tooltipHtml = ejs.render(tooltipHTML, {
+                                   tooltipTitle: localization.translateString('suggested-tooltip-title', spTitle),
+                                   tooltipText: localization.translateString('suggested-tooltip-text', spTitle)
+                               });
+                               $("#ds-search-header").html(headerHtml);
+                               $("#suggested-tooltip-container").append(tooltipHtml);
+                           });
+                       }
+
                        $("#ds-search-list").append(html);
                    }
                }).catch(function(error) {
@@ -164,7 +175,7 @@ $(document).ready(function() {
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
     $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
-    $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
+    $("#seamlessaccess_footer_logo").attrfdy("src", footerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
 */
 /*    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({
