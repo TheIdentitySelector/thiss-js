@@ -1,5 +1,5 @@
-VERSION:=3.0.8
-PREV_VERSION:=3.0.8
+VERSION:=3.0.9
+PREV_VERSION:=3.0.9
 PRE_RELEASE:=true
 PWD:=$(shell pwd)
 NAME:=thiss-js
