@@ -365,7 +365,7 @@ Version 2.1.141
 
 * New release procedure
 
-Version 2.1.142
+Version 2.1.143
 ---------------
 
 * Suggested institutions bug fix
