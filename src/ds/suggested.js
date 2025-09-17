@@ -1,12 +1,18 @@
 import * as $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
+import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
 import {json_mdq, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/";
+import suggestedHeaderHTML from './templates/suggested_header.html'
+import suggestedHTML from './templates/suggested.html'
+import Localization from '../localization.js'
+
+const localization = new Localization();
 
 
 function _sha1_id(s) {

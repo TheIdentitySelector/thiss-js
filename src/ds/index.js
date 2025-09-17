@@ -23,8 +23,6 @@ import savedHTML from './templates/saved.html'
 import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
-import suggestedHeaderHTML from './templates/suggested_header.html'
-import suggestedHTML from './templates/suggested.html'
 import tooltipHTML from './templates/tooltip.html'
 
 config.autoReplaceSvg = 'nest';
