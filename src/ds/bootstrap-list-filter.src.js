@@ -14,6 +14,8 @@
 * itemChild    *sub item selector (default: .list-group-item)*,
 * itemFilter   *function for filter results(receive: text, item)*
 */
+import {showSuggested} from "./suggested.js";
+
 (function($) {
   $.fn.btsListFilter = function(inputEl, opts) {
     'use strict';
@@ -36,6 +38,8 @@
     function defaultItemFilter(item, val) {
       console.log(`Calling btsListFilter defaultItemFilter with "${val}"`);
       val = val && val.replace(new RegExp("[({[^.$*+?\\\]})]","g"),'');
+
+      // if (val === "" && suggested.includes(
       //sanitize regexp
 
       var text = $(item).text(),
@@ -155,6 +159,7 @@
         if(val!=='' && val.length >= opts.minLength)
         {
           searchlist$.html('');
+          $("#ds-search-header").html('');
           contains.show();
           containsNot.hide();
           cancelEl$.show();
@@ -214,6 +219,8 @@
           self.trigger(opts.hideEvent);
           searchlist$.find('.'+opts.itemClassTmp).remove();
           searchlist$.html('');
+          $("#ds-search-header").html('');
+          showSuggested();
         }
       }
     }, opts.delay));
