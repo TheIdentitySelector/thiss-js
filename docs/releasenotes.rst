@@ -370,7 +370,7 @@ Version 3.0.3
 
 * Integration of openid federations
 
-Version 3.0.12
+Version 3.0.13
 --------------
 
 * Suggested institutioons bug fixes
