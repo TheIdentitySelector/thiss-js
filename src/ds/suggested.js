@@ -10,6 +10,7 @@ import {EntityReader} from "@theidentityselector/thiss-ds/src/md_extractor.js";
 const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/";
 import suggestedHeaderHTML from './templates/suggested_header.html'
 import suggestedHTML from './templates/suggested.html'
+import tooltipHTML from './templates/tooltip.html'
 import Localization from '../localization.js'
 
 const localization = new Localization();
