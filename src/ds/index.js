@@ -90,7 +90,7 @@ $(document).ready(function() {
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
     $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
-    $("#seamlessaccess_footer_logo").attrfdy("src", footerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
+    $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
 */
 /*    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
     $('#learn-more-banner').html(learnMoreBanner.render({
