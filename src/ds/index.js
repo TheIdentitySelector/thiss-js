@@ -77,12 +77,18 @@ $(document).ready(function() {
     const urlParams = new URLSearchParams(queryString);
     let entityID = null;
     let trustProfile = null;
+    let showLogo = false;
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
 
     if (urlParams.has('trustProfile'))
         trustProfile = urlParams.get('trustProfile')
+
+    if (urlParams.has('showLogo')) {
+        if (urlParams.get('showLogo') === 'true')
+            showLogo = true;
+    }
 
 /*
     $("#ra-21-logo").attr("src", headerLogo);
@@ -440,7 +446,7 @@ $(document).ready(function() {
         if (goodReturn === false) {
             $("#warning-discovery-response").removeClass("d-none");
         }
-        if (entity.entity_icon_url !== undefined) {
+        if (entity.entity_icon_url !== undefined && showLogo) {
             $("#ra-21-logo-other").attr('src', entity.entity_icon_url.url);
             $("#ra-21-logo-other").attr('width', entity.entity_icon_url.width);
             $("#ra-21-logo-other").attr('height', entity.entity_icon_url.height);
