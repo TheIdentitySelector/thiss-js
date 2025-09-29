@@ -103,8 +103,13 @@ $(document).ready(function() {
         learn_more_url: learn_more_url
     }));*/
 
+    let lang = 'en';
+
     if (localization && localization.locale) {
         document.documentElement.setAttribute('lang', localization.locale);
+
+        lang = localization.locale;
+        lang = (lang.split('-'))[0];
     }
 
     $('#learn-more-trigger, #learn-more-close').on('click', function() {
@@ -192,8 +197,6 @@ $(document).ready(function() {
         inputfieldselector: "#searchinput",
         _render_search_result: function(items, strict, spEntity) {
     
-            let lang = localization.locale;
-            lang = (lang.split('-'))[0];
             let htmlItemList = []
 
             const templ = ejs.compile(searchHTML);
