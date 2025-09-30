@@ -373,4 +373,9 @@ Version 3.0.3
 Version 3.0.14
 --------------
 
-* Suggested institutioons bug fixes
+* Suggested institutions bug fixes
+
+Version 3.0.15
+--------------
+
+* Make branding configurable
