@@ -49,6 +49,8 @@ The login button component accepts the following configuration parameters in the
 * entityID: <string> The entityID of the SP.
 * trustProfile: <string> The name of a trust profile published by the SP.
 
+* showLogo: <string true|false> Whether to display the SP logo side by side with the SeamlessAccess logo on the left of the header.
+
 * MDQ: <string|callable> a callback (either function or MDQ service URL) used to lookup metadata. By default the MDQ service configured will be used.
 * backgroundColor: <string> (default '#FFFFFF') the background color of the iframe where the button is rendered.
 * color: <string> (default '#0079ff') the color of the button.
@@ -158,7 +160,7 @@ Then, you would construct the `DiscoveryComponent` as follows:
         };
     </script>
 
-Alternatively, without needing to use shibboleth or modify its configuration, it is possible to add suggested instituions setting `discoveryRequest` pointing to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response.
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to add suggested institutions in the constructor of the `DiscovertyComponent`, setting `discoveryRequest` to point to an instance of the Discovery Service provided by this package, `discoveryResponse` to a different URL or callable to handle the discovery response, and `suggested` to the URL encoded, comma separated list of entityID's of the IdP's to be suggested.
 
 .. code-block:: html
 
@@ -174,6 +176,48 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
            }).render('#login');
         };
     </script>
+
+Showing the SP logo
+...................
+
+SP's can choose to display their logo in the DS page, to the right of the SeamlessAccess logo in the top left corner. For this, their metadata must reference a logo.
+To display the SP logo in the DS page you have to add a `showLogo=true` parameter to the URL of the discovery service configured into the SP software. So something like this for Shibboleth SP:
+
+.. code-block:: xml
+    <SessionInitiator type="Chaining" Location="/DS/some-profile-name" id="some-profile-name">
+       <SessionInitiator type="SAML2" acsIndex="1" template="bindingTemplate.html"/>
+       <SessionInitiator type="SAMLDS" URL="https://your.discovery.service/ds/?showLogo=true"/>
+    </SessionInitiator>
+
+Then, you would construct the `DiscoveryComponent` as follows:
+
+.. code-block:: html
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/some-profile-name?target=/some-resource/',
+           }).render('#login');
+        };
+    </script>
+
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to configure showing the logo in the constructor for the `DiscoveryComponent`, by setting `discoveryRequest` to point to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response, and `showLogo` to `true`.
+
+.. code-block:: html
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               discoveryRequest: 'https://your.service/ds/',
+               discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
+               entityID: 'https://your.entity/ID',
+               showLogo: 'true'
+           }).render('#login');
+        };
+    </script>
+
 
 Persistence Service
 -------------------
