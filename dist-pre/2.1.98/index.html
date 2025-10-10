@@ -1,4 +1,39 @@
-<!doctype html><head><title>The Identity Selector</title><style>.login{height:85px;width:380px}#checkbox-sa-holder{display:flex;flex-direction:row;align-items:center}</style><link rel="icon" href="/sa-black.svg"><script defer="defer" src="/252_f528d509ac8a851ec03f.js"></script><script defer="defer" src="/880_ec8c101dc4989a8ccddf.js"></script><script defer="defer" src="/index_935effa4dd4339a59e97.js"></script><link href="/604_858466deb55426a370d1.css" rel="stylesheet"><link href="/index_ba5bf41d3aa92ecbbd07.css" rel="stylesheet"></head><body><main role="main"><h1 class="display-3">Thiss.io Login</h1><p>This page is for testing the Discovery Service for thiss.io. .</p><p>Note that in this demo the origin for the persistence service is the same as that for the demo page, so storage access will be 1st party, and the Storage Access API will not be used.</p><div class="jumbotron"><div class="container"><div class="login" id="login0"></div></div></div><div class="container">To use in your web application include the following code:<pre><code>
+<!doctype html>
+<head>
+  <title>The Identity Selector</title>
+  <style>
+    .login {
+      height: 85px;
+      width: 380px;
+    }
+    #checkbox-sa-holder {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  </style>
+  <link rel="icon" href="/sa-black.svg" />
+  <script defer="defer" src="/252_f528d509ac8a851ec03f.js"></script>
+  <script defer="defer" src="/880_ec8c101dc4989a8ccddf.js"></script>
+  <script defer="defer" src="/index_935effa4dd4339a59e97.js"></script>
+  <link href="/604_858466deb55426a370d1.css" rel="stylesheet" />
+  <link href="/index_ba5bf41d3aa92ecbbd07.css" rel="stylesheet" />
+</head>
+<body>
+  <main role="main">
+    <h1 class="display-3">Thiss.io Login</h1>
+    <p>This page is for testing the Discovery Service for thiss.io. .</p>
+    <p>
+      Note that in this demo the origin for the persistence service is the same
+      as that for the demo page, so storage access will be 1st party, and the
+      Storage Access API will not be used.
+    </p>
+    <div class="jumbotron">
+      <div class="container"><div class="login" id="login0"></div></div>
+    </div>
+    <div class="container">
+      To use in your web application include the following code:
+      <pre><code>
 &lt;script src="${BASE_URL}thiss.js"/&gt;
 &lt;div id="login"&gt;&nbsp;&lt;/div&gt;
 &lt;script&gt;
@@ -8,7 +43,18 @@
        }).render('#login');
     };
 &lt;/script&gt;
-            </code></pre></div><div class="container"><p>To use a trust profile to pre-filter the results in the discovery service, if using shibboleth's session initiator, you would add a `trustProfile` query parameter to the DS URL configured into Shibboleth. Alternatively, you can use the URL of the discovery service as `loginInitiatorURL`, and configure the `DiscoveryComponent` with `entityID` & `trustProfile` with code like:<pre><code>
+            </code></pre>
+    </div>
+    <div class="container">
+      <p>
+        To use a trust profile to pre-filter the results in the discovery
+        service, if using shibboleth's session initiator, you would add a
+        `trustProfile` query parameter to the DS URL configured into Shibboleth.
+        Alternatively, you can use the URL of the discovery service as
+        `loginInitiatorURL`, and configure the `DiscoveryComponent` with
+        `entityID` & `trustProfile` with code like:
+      </p>
+      <pre><code>
 &lt;script src="${BASE_URL}thiss.js"/&gt;
 &lt;div id="login"&gt;&nbsp;&lt;/div&gt;
 &lt;script&gt;
@@ -20,4 +66,7 @@
        }).render('#login');
     };
 &lt;/script&gt;
-            </code></pre></p></div></main></body>
+            </code></pre>
+    </div>
+  </main>
+</body>
