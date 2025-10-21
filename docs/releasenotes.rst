@@ -370,3 +370,8 @@ Version 2.1.152
 
 * Suggested institutions bug fixes
 * Make displaying the SP logo configurable
+
+Version 2.1.153
+---------------
+
+* Update docs
