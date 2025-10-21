@@ -222,6 +222,10 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
         };
     </script>
 
+NOTE: If using Shibboleth SP and setting both suggested institutions and showLogo,
+you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
+since Shibboleth does not allow an `&` in the entity reference.
+
 Persistence Service
 -------------------
 
