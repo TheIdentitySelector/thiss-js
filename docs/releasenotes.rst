@@ -371,7 +371,8 @@ Version 2.1.152
 * Suggested institutions bug fixes
 * Make displaying the SP logo configurable
 
-Version 2.1.153
+Version 2.1.155
 ---------------
 
+* Max number of suggested institutions
 * Update docs
