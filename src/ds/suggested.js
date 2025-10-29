@@ -12,6 +12,14 @@ import suggestedHTML from './templates/suggested.html'
 import tooltipHTML from './templates/tooltip.html'
 import Localization from '../localization.js'
 
+const max_suggested_raw = Number.parseInt(process.env.MAX_SUGGESTED);
+let max_suggested;
+if (Number.isInteger(max_suggested_raw)) {
+  max_suggested = max_suggested_raw;
+} else {
+  max_suggested = 5;
+}
+
 const localization = new Localization();
 
 
@@ -31,6 +39,9 @@ if (urlParams.has('suggested')) {
     const paramSuggested = urlParams.get('suggested');
     const csSuggested = decodeURIComponent(paramSuggested);
     suggested = csSuggested.split(',').map(s => s.trim());
+    if (suggested.length > max_suggested) {
+        suggested = suggested.slice(0, max_suggested);
+    }
 }
 
 export const showSuggested = () => {

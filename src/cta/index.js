@@ -33,6 +33,14 @@ let entity_id = null;
 let suggestedInstitutions = null;
 let showSPLogo = false;
 
+const max_suggested_raw = Number.parseInt(process.env.MAX_SUGGESTED);
+let max_suggested;
+if (Number.isInteger(max_suggested_raw)) {
+  max_suggested = max_suggested_raw;
+} else {
+  max_suggested = 5;
+}
+
 const localization = new Localization(window.xprops.locale);
 
 if (!discovery_request)
@@ -60,6 +68,10 @@ if (window.xprops.suggested) {
     const paramSuggested = window.xprops.suggested;
     const csSuggested = decodeURIComponent(paramSuggested);
     suggestedInstitutions = csSuggested.split(',').map(s => s.trim());
+    if (suggestedInstitutions.length > max_suggested) {
+        suggestedInstitutions = suggestedInstitutions.slice(0, max_suggested);
+    }
+    suggestedInstitutions = encodeURIComponent(suggestedInstitutions);
 }
 
 if (window.xprops.showLogo === true || window.xprops.showLogo === 'true') {
