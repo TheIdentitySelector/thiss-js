@@ -135,7 +135,7 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
 Adding suggested institutions
 .............................
 
-SP's can set up to 3 suggested IdP's, that will be offered to the end user in the DS UI, below the search box.
+SP's can set up to 5 suggested IdP's, that will be offered to the end user in the DS UI, below the search box.
 
 To add suggested institutions to the DS you have to add a `suggested` parameter to the URL of the discovery service configured into the SP software, with a comma-separated, URI encoded list of IdP entityID's. The suggested IdP's must be known to the MDQ service configured, so they must belong to at least one of the federations aggregated by the MDQ service. So something like this for Shibboleth SP:
 
