@@ -376,3 +376,9 @@ Version 2.1.155
 
 * Max number of suggested institutions
 * Update docs
+
+Version 2.1.156
+---------------
+
+* Notifications to the user
+* Opt in to discovery Responses warning 
