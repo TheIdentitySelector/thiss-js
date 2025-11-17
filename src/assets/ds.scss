@@ -759,18 +759,22 @@ i.list-item-warning {
   }
 }
 
-.warning-header {
+.notice-header {
   padding: 4px;
-  border-radius: 3px;
-  margin-left: 2rem;
-  border: 1px solid rgb(133, 99, 29);
-  background: #fff2d5;
+  margin: 0;
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  min-height: 2rem;
+  align-items: center;
+  border-radius: 5px;
 
-  a#discovery-response-warning-header-link {
+  a#notice-header-link {
     font-size: 13px;
     color: var(--text-grey);
     text-decoration: underline;
     margin-right: 10px;
+    color: inherit;
   }
 }
 

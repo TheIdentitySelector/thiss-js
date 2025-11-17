@@ -26,7 +26,9 @@ jQuery(function ($) {
             entity_selector: '.identityprovider',
             too_many_results: undefined,
             no_results: undefined,
-            persist: undefined
+            persist: undefined,
+            showNotice: undefined,
+            hideNotice: undefined,
         },
 
         _create: function () {

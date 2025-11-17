@@ -68,6 +68,44 @@ const adjustHeader = () => {
     }
 };
 
+export const showNotice = (content, level, timeout) => {
+    const notice = $('#sa-notice-header');
+    if (level === 'success') {
+        notice.css('background-color', '#d1e7dd');
+        notice.css('color', '#0f5132');
+        notice.css('border', '1px solid #badbcc');
+    } else if (level === 'info') {
+        notice.css('background-color', '#cff4fc');
+        notice.css('color', '#055160');
+        notice.css('border', '1px solid #b6effb');
+    } else if (level === 'warning') {
+        notice.css('background-color', '#fff3cd');
+        notice.css('color', '#664d03');
+        notice.css('border', '1px solid #ffecb5');
+    } else if (level === 'danger') {
+        notice.css('background-color', '#f8d7da');
+        notice.css('color', '#842029');
+        notice.css('border', '1px solid #f5c2c7');
+    }
+    if (Array.isArray(content)) {
+        notice.html('');
+        content.forEach(e => {
+            notice.append(e);
+        });
+    } else {
+        notice.html(content);
+    }
+    notice.css('visibility', 'visible');
+    if (Number.isInteger(timeout)) {
+        setTimeout(() => {
+            hideNotice();
+        }, timeout);
+    }
+}
+export const hideNotice = () => {
+    $('#sa-notice-header').html('');
+    $('#sa-notice-header').css('visibility', 'hidden');
+}
 
 
 $(document).ready(function() {
@@ -78,6 +116,7 @@ $(document).ready(function() {
     let entityID = null;
     let trustProfile = null;
     let showLogo = false;
+    let warnDR = false;
 
     if (urlParams.has('entityID'))
         entityID = urlParams.get('entityID')
@@ -88,6 +127,11 @@ $(document).ready(function() {
     if (urlParams.has('showLogo')) {
         if (urlParams.get('showLogo') === 'true')
             showLogo = true;
+    }
+
+    if (urlParams.has('warnDR')) {
+        if (urlParams.get('warnDR') === 'true')
+            warnDR = true;
     }
 
 /*
@@ -168,13 +212,6 @@ $(document).ready(function() {
         $(".institution-icon").removeClass("item-fade");
         $(".institution-select").toggleClass("d-none");
         $(".institution-remove").toggleClass("d-none");
-    });
-
-    $("#discovery-response-warning-header-link").on('click',function(event) {
-        event.preventDefault();
-        const visibleChild = $("#dsclient").children().not(".d-none")[0];
-        $("#dsclient").addClass('d-none');
-        $("#discovery-response-warning").removeClass("d-none");
     });
 
     $("#warning-done-button").on('click',function(event) {
@@ -431,7 +468,7 @@ $(document).ready(function() {
         $(".sp_title").text(spTitle);
         $("#discovery-response-warning-site").text(spTitle);
 
-        let goodReturn = true;  //TODO: change to false to reactivate the warning
+        let goodReturn = !warnDR;
 
         if (entity.discovery_responses) {
             const queryString = window.location.search;
@@ -445,9 +482,26 @@ $(document).ready(function() {
                     goodReturn = true;
                 }
             });
+        } else {
+            goodReturn = true;
         }
         if (goodReturn === false) {
-            $("#warning-discovery-response").removeClass("d-none");
+            const iElem = $('<i>');
+            iElem.addClass('fa');
+            iElem.addClass('fa-exclamation-triangle');
+            iElem.addClass('warning-fa-item');
+            const aElem = $('<a>');
+            aElem.attr('id', 'notice-header-link');
+            aElem.attr('href', '#');
+            aElem.attr('data-i18n', 'ds-unable-to-verify-return');
+            aElem.text('Unable to verify returning website');
+
+            aElem.on('click',function(event) {
+                event.preventDefault();
+                $("#dsclient").addClass('d-none');
+                $("#discovery-response-warning").removeClass("d-none");
+            });
+            showNotice([iElem, aElem], 'success');
         }
         if (entity.entity_icon_url !== undefined && showLogo) {
             $("#ra-21-logo-other").attr('src', entity.entity_icon_url.url);

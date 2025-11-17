@@ -38,6 +38,7 @@ function prerenderTemplate(opts) {
     let entityID = opts.props.entityID;
     let trustProfile = opts.props.trustProfile;
     let suggestedInstitutions = null;
+    let warnDR = opts.props.warnDR || false;
 
     const paramSuggested = opts.props.suggested;
     if (paramSuggested) {
@@ -62,6 +63,9 @@ function prerenderTemplate(opts) {
         }
         if (suggestedInstitutions) {
             search_string = `${search_string}&suggested=${suggestedInstitutions}`;
+        }
+        if (warnDR) {
+            search_string = `${search_string}&warnDR=${warnDR}`;
         }
         if (new URL(discovery_request).searchParams.size > 0) {
             discovery_request =  `${discovery_request}&${search_string}`

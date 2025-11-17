@@ -32,6 +32,7 @@ let discovery_response = window.xprops.discoveryResponse;
 let entity_id = null;
 let suggestedInstitutions = null;
 let showSPLogo = false;
+let warnDR = false;
 
 const max_suggested_raw = Number.parseInt(process.env.MAX_SUGGESTED);
 let max_suggested;
@@ -78,6 +79,10 @@ if (window.xprops.showLogo === true || window.xprops.showLogo === 'true') {
     showSPLogo = true;
 }
 
+if (window.xprops.warnDR === true || window.xprops.warnDR === 'true') {
+    warnDR = true;
+}
+
 const psHost = new URL(persistence).hostname;
 const curHost = window.location.hostname;
 
@@ -99,6 +104,9 @@ if (discovery_request !== discovery_response && typeof discovery_request === 'st
     }
     if (showSPLogo) {
         search_string = `${search_string}&showLogo=${showSPLogo}`;
+    }
+    if (warnDR) {
+        search_string = `${search_string}&warnDR=${warnDR}`;
     }
     if (new URL(discovery_request).searchParams.size > 0) {
         discovery_request =  `${discovery_request}&${search_string}`
