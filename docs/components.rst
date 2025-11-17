@@ -226,6 +226,59 @@ NOTE: If using Shibboleth SP and setting both suggested institutions and showLog
 you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
 since Shibboleth does not allow an `&` in the entity reference.
 
+Showing Discovery Response warnings
+...................................
+
+SP's can publish a list of allowed DiscoveryResponse in their metadata,
+indicating which endpoints can be used to send the discovery response.
+When using SeamlessAccess standard integration, they can choose to
+show a warning in case the discovery response is configured to be sent to an endpoint not in the metadata.
+This way they can prevent external systems to use it as an open redirect.
+
+To display the warning in the DS page you have to add a `warnDR=true` parameter to the URL of the discovery service configured into the SP software. So something like this for Shibboleth SP:
+
+.. code-block:: xml
+
+    <SessionInitiator type="Chaining" Location="/DS/some-profile-name" id="some-profile-name">
+       <SessionInitiator type="SAML2" acsIndex="1" template="bindingTemplate.html"/>
+       <SessionInitiator type="SAMLDS" URL="https://your.discovery.service/ds/?warnDR=true"/>
+    </SessionInitiator>
+
+Then, you would construct the `DiscoveryComponent` as follows:
+
+.. code-block:: html
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/some-profile-name?target=/some-resource/',
+           }).render('#login');
+        };
+    </script>
+
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to configure showing the warning in the constructor for the `DiscoveryComponent`, by setting `discoveryRequest` to point to an instance of the Discovery Service provided by this package, and `discoveryResponse` to a different URL or callable to handle the discovery response, and `warnDR` to `true`.
+
+.. code-block:: html
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               discoveryRequest: 'https://your.service/ds/',
+               discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
+               entityID: 'https://your.entity/ID',
+               warnDR: 'true'
+           }).render('#login');
+        };
+    </script>
+
+NOTE: If using Shibboleth SP and setting more than one parameter,
+you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
+since Shibboleth does not allow an `&` in the entity reference.
+
 Persistence Service
 -------------------
 
