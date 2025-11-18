@@ -377,7 +377,7 @@ Version 2.1.155
 * Max number of suggested institutions
 * Update docs
 
-Version 2.1.159
+Version 2.1.160
 ---------------
 
 * Notifications to the user
