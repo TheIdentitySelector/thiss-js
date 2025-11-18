@@ -501,7 +501,7 @@ $(document).ready(function() {
                 $("#dsclient").addClass('d-none');
                 $("#discovery-response-warning").removeClass("d-none");
             });
-            showNotice([iElem, aElem], 'success');
+            showNotice([iElem, aElem], 'warning');
         }
         if (entity.entity_icon_url !== undefined && showLogo) {
             $("#ra-21-logo-other").attr('src', entity.entity_icon_url.url);
