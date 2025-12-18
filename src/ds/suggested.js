@@ -45,7 +45,8 @@ if (urlParams.has('suggested')) {
 }
 
 export const showSuggested = () => {
-   if (suggested.length > 0) {
+   const howmany = suggested.length;
+   if (howmany > 0) {
        const suggestedTempl = ejs.compile(suggestedHTML);
        let lang = localization.locale;
        lang = (lang.split('-'))[0];
@@ -57,7 +58,8 @@ export const showSuggested = () => {
        });
        let firstSuggested = true;
        const spPromise = json_mdq_get_sp(entityID, mdq_url);
-       suggested.forEach(eid => {
+       const htmls = [];
+       suggested.forEach((eid, idx) => {
            const id = _sha1_id(eid);
            const url = mdq_url + id + ".json"
 
@@ -96,8 +98,14 @@ export const showSuggested = () => {
                            $("#suggested-tooltip-container").append(tooltipHtml);
                        });
                    }
+                   htmls.push([idx, html]);
 
-                   $("#ds-search-list").append(html);
+                   if (htmls.length === howmany) {
+                      htmls.sort((h1, h2) => h1[0] - h2[0]);
+                      htmls.forEach(h => {
+                        $("#ds-search-list").append(h[1]);
+                      });
+                   }
                }
            }).catch(function(error) {
                console.log("ERROR getting suggested entity:", error);
