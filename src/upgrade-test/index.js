@@ -11,8 +11,8 @@ import './styles.scss';
 const BASE_URL = process.env.BASE_URL || '/';
 const CURRENT_PS = `${BASE_URL}ps/`;
 const NEW_PS = `${BASE_URL}new/ps/`;
-const CURRENT_DS = `${BASE_URL}ds/`;
-const NEW_DS = `${BASE_URL}new/ds/`;
+const CURRENT_DS = `${BASE_URL}ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}`;
+const NEW_DS = `${BASE_URL}new/ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}`;
 const RESULT_URL = `${BASE_URL}result/`;
 
 // Test login initiator (just shows the result page)
@@ -146,7 +146,6 @@ async function renderCombination(combination) {
 
         // Render the CTA with overridden URLs
         thissModule.DiscoveryComponent({
-            loginInitiatorURL: TEST_LOGIN_INITIATOR,
             persistenceURL: combination.psUrl,
             discoveryRequest: combination.dsUrl,
             discoveryResponse: TEST_LOGIN_INITIATOR,
