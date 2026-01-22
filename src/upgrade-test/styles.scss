@@ -1,0 +1,14 @@
+// Upgrade test page styles
+// Most styles are inline in the EJS template for simplicity
+// This file exists for any additional SCSS-based styling
+
+.test-card {
+    .cta-container {
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fafafa;
+        border-radius: 4px;
+    }
+}
