@@ -383,7 +383,7 @@ Version 2.1.162
 * Notifications to the user
 * Opt in to discovery Responses warning 
 
-Version 2.1.164
+Version 2.1.165
 ---------------
 
 * Pre-releases to test upgrades
