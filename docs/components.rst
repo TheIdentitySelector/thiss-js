@@ -231,11 +231,18 @@ Showing Discovery Response warnings
 
 SP's can publish a list of allowed DiscoveryResponse in their metadata,
 indicating which endpoints can be used to send the discovery response.
-When using SeamlessAccess standard integration, they can choose to
-show a warning in case the discovery response is configured to be sent to an endpoint not in the metadata.
-This way they can prevent external systems to use it as an open redirect.
+The intention of this is that a discovery service such as SeamlessAccess can
+show a warning to the end users in case the discovery response
+is configured to be sent to an endpoint not in the metadata.
 
-To display the warning in the DS page you have to add a `warnDR=true` parameter to the URL of the discovery service configured into the SP software. So something like this for Shibboleth SP:
+At this point in time, not many SP's are publishing DiscoveryResponse elements
+in their metadata. The warning will be shown when the flag is enabled, the SP's
+metadata contains at least one DiscoveryResponse element, and the discovery
+response is not among them.
+
+To display the warning in the DS page you have to add a `warnDR=true` parameter
+to the URL of the discovery service configured into the SP software.
+So something like this for Shibboleth SP:
 
 .. code-block:: xml
 
