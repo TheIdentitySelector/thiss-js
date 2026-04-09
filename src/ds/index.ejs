@@ -68,7 +68,7 @@
             <div id="learn-more-banner" class="alert alert-secondary d-none">
               <%- include('templates/learn_more_banner.ejs') %>
             </div>
-            <div class="d-none" id="searching" role="region" aria-live="assertive">
+            <div class="d-none" id="searching" role="region">
               <h3 data-i18n="ds-search-placeholder">Searching for institutions...</h3>
               <div class="loader">
 
@@ -76,7 +76,7 @@
             </div>
           </div>
         </form>
-        <div class="results search-list" id="resultwidget">
+        <div class="results search-list" id="resultwidget" aria-live="assertive">
           <div id="ds-search-header"></div>
           <ul id="ds-search-list"></ul>
         </div>
