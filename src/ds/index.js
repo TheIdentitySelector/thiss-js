@@ -202,16 +202,22 @@ $(document).ready(function() {
 
     $("#done_button").on('click',function(event) {
         event.preventDefault();
-        $("#done_button").toggleClass("d-none").toggleClass("display-block");
-        $("#choosetools").toggleClass("d-none");
-        $(".warning-banner").toggleClass("d-none");
-        $("#savedchoices").removeClass('edit').addClass('choose');
-        $("#choose > span.edit").toggleClass("d-none");
-        $("#choose > span.choose").toggleClass("d-none");
-        $(".institution-text").removeClass("item-fade");
-        $(".institution-icon").removeClass("item-fade");
-        $(".institution-select").toggleClass("d-none");
-        $(".institution-remove").toggleClass("d-none");
+        if ( $('#ds-saved-choices').children().length !== 0) {
+            $("#done_button").toggleClass("d-none").toggleClass("display-block");
+            $("#choosetools").toggleClass("d-none");
+            $(".warning-banner").toggleClass("d-none");
+            $("#savedchoices").removeClass('edit').addClass('choose');
+            $("#choose > span.edit").toggleClass("d-none");
+            $("#choose > span.choose").toggleClass("d-none");
+            $(".institution-text").removeClass("item-fade");
+            $(".institution-icon").removeClass("item-fade");
+            $(".institution-select").toggleClass("d-none");
+            $(".institution-remove").toggleClass("d-none");
+        } else {
+            $("#choose").toggleClass("d-none");
+            $("#search").toggleClass("d-none");
+            showSuggested();
+        }
     });
 
     $("#warning-done-button").on('click',function(event) {
