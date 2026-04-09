@@ -59,5 +59,10 @@
   "ds-warning-continue": "Fortsätt",
   "suggested-institutions-header": "",
   "suggested-tooltip-title": "",
-  "suggested-tooltip-text": ""
+  "suggested-tooltip-text": "",
+  "aria-label-searchinput": "",
+  "aria-label-locale-selector": "",
+  "aria-label-close-info-banner": "",
+  "aria-label-remove-institute": "",
+  "title-remove-institution": ""
 }

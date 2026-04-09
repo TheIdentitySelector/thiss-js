@@ -3,6 +3,8 @@ const I18N_DATA_ATTRIBUTE = '[data-i18n]';
 const DEFAULT_LOCALE = 'en';
 const localeSelector = document.getElementById('locale-selector');
 
+import {translatable} from "./ds/translatableAttributes.js";
+
 const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 
 export default class Localization extends I18n {
@@ -56,9 +58,13 @@ export default class Localization extends I18n {
                 this.locale = event.target.value;
                 this.updateLocaleSelector(event.target.value);
                 this.selectAvailableLocale().then(() => {
-                  const accessToPost = this.translateString('ds-header');
-                  const titlePost = titlePrev.replace(accessToPrev, accessToPost);
-                  $(".header-sp-title").text(titlePost);
+                    // translate page title and html attributes
+                    const accessToPost = this.translateString('ds-header');
+                    const titlePost = titlePrev.replace(accessToPrev, accessToPost);
+                    $(".header-sp-title").text(titlePost);
+                    translatable.forEach(tr => {
+                        $(tr[1]).attr(tr[2], this.translateString(tr[0]));
+                    });
                 });
             });
         }

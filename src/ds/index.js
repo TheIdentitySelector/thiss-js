@@ -24,6 +24,8 @@ import tooManyHTML from './templates/too_many.html'
 import noResultsHTML from './templates/no_results.html'
 import filterWarningHTML from './templates/filter_warning.html'
 
+import {translatable} from "./translatableAttributes.js";
+
 config.autoReplaceSvg = 'nest';
 
 const localization = new Localization();
@@ -228,6 +230,12 @@ $(document).ready(function() {
 
     $(window).on('resize', function(event) {
         adjustHeader();
+    });
+
+    translatable.forEach(tr => {
+        localization.translateStringP(tr[0]).then(val => {
+            $(tr[1]).attr(tr[2], val);
+        });
     });
 
     $("#dsclient").discovery_client({

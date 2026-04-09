@@ -57,7 +57,12 @@
   "ds-button-access-through": "Accede a través de tu institución",
   "ds-button-add-or-change": "Añade o cambia institución",
   "ds-warning-continue": "Continua",
-  "suggested-institutions-header": "Instituciones sugeridas",
+  "suggested-institutions-header": "Instituciones sugeridas por $1",
   "suggested-tooltip-title": "",
-  "suggested-tooltip-text": ""
+  "suggested-tooltip-text": "",
+  "aria-label-searchinput": "Encuentra tu institución, universidad, organización o compañía edita texto",
+  "aria-label-locale-selector": "Cambia idioma",
+  "aria-label-close-info-banner": "Cierra cuadro de información",
+  "aria-label-remove-institute": "Elimina institución de las instituciones recordadas",
+  "title-remove-institution": "Elimina"
 }
