@@ -40,7 +40,7 @@ export default class Localization extends I18n {
             }
         }
 
-        this.fetchLocaleFile(locale)
+        return this.fetchLocaleFile(locale)
             .catch(() => {
                 this.selectAvailableLocale(DEFAULT_LOCALE)
             })
@@ -49,9 +49,17 @@ export default class Localization extends I18n {
     selectNewLocale () {
         if (localeSelector) {
             localeSelector.addEventListener('change', (event) => {
+                // here we also update explicitly the page title
+                const accessToPrev = this.translateString('ds-header');
+                const titlePrev = $(".header-sp-title").text();
+
                 this.locale = event.target.value;
                 this.updateLocaleSelector(event.target.value);
-                this.selectAvailableLocale();
+                this.selectAvailableLocale().then(() => {
+                  const accessToPost = this.translateString('ds-header');
+                  const titlePost = titlePrev.replace(accessToPrev, accessToPost);
+                  $(".header-sp-title").text(titlePost);
+                });
             });
         }
     }

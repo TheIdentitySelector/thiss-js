@@ -466,6 +466,9 @@ $(document).ready(function() {
             spTitle = entity.title_langs[lang];
         }
         $(".sp_title").text(spTitle);
+        localization.translateStringP('ds-header').then(val => {
+          $(".header-sp-title").text(`${val} ${spTitle}`);
+        });
         $("#discovery-response-warning-site").text(spTitle);
 
         let goodReturn = !warnDR;
