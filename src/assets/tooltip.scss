@@ -23,7 +23,7 @@
     color: #333;
     padding: 16px 20px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 0.875rem;
     line-height: 1.5;
     opacity: 0;
     visibility: hidden;
@@ -66,13 +66,13 @@
 
 .tooltip-title {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #333;
     margin-bottom: 4px;
 }
 
 .tooltip-description {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: rgba(51, 51, 51, 0.8);
     line-height: 1.4;
 }

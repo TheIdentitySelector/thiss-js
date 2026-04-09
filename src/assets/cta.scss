@@ -53,13 +53,13 @@ button {
   }
 
   .ra21-button-text-primary {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 700;
   }
 
   .ra21-button-text-secondary {
     /* Zep */
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: normal;
   }
 }
@@ -68,7 +68,7 @@ a {
   &.ra21-access-text {
     width: 100%;
     /* Zep */
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.46;
     color: var(--pastel-blue);
   }
