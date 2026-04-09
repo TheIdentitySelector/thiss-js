@@ -63,11 +63,57 @@ process_version() {
     done
 }
 
+# Copy entry points to /new/ path for upgrade testing
+# This is called during PRE_RELEASE=true (step 1 deployment)
+copy_entry_points_to_new() {
+    local version="$1"
+    local src_dir="$SRC_DIR/$version"
+
+    # List of entry point directories to copy
+    local entry_points=("cta" "ps" "ds" "result" "upgrade-test")
+
+    for entry in "${entry_points[@]}"; do
+        local src_entry="$src_dir/$entry/index.html"
+        if [ -f "$src_entry" ]; then
+            local dst_entry="$DST_DIR/new/$entry/index.html"
+            mkdir -p "$(dirname "$dst_entry")"
+            process_file "$src_entry" "$dst_entry"
+            echo "  Copied entry point to /new/$entry/"
+        fi
+    done
+
+    # Also copy the main index.html
+    local src_index="$src_dir/index.html"
+    if [ -f "$src_index" ]; then
+        local dst_index="$DST_DIR/new/index.html"
+        mkdir -p "$(dirname "$dst_index")"
+        process_file "$src_index" "$dst_index"
+        echo "  Copied entry point to /new/"
+    fi
+
+    # Copy thiss.js to /new/thiss.js for testing with new CTA
+    # We need to modify COMPONENT_URL to point to /new/cta/ instead of /cta/
+    local src_thiss="$src_dir/thiss.js"
+    if [ -f "$src_thiss" ]; then
+        local dst_thiss="$DST_DIR/new/thiss.js"
+        mkdir -p "$(dirname "$dst_thiss")"
+        # Process with modified COMPONENT_URL that points to /new/cta/
+        local NEW_COMPONENT_URL="${BASE_URL}new/cta/"
+        echo "  Processing $src_thiss -> $dst_thiss (with COMPONENT_URL=$NEW_COMPONENT_URL)"
+        COMPONENT_URL="$NEW_COMPONENT_URL" envsubst '$MDQ_URL,$PERSISTENCE_URL,$SEARCH_URL,$STORAGE_DOMAIN,$LOGLEVEL,$COMPONENT_URL,$WHITELIST,$DEFAULT_CONTEXT,$BASE_URL,$MIN_SEARCH_LENGTH,$SAA_COMPLIANT_BROWSERS' < "$src_thiss" > "$dst_thiss"
+        echo "  Copied thiss.js to /new/thiss.js"
+    fi
+}
+
 
 if [[ "$PRE_RELEASE" == 'true' ]]; then
+    # Step 1 deployment: VERSION assets + PREV_VERSION entry points
+    # Also deploy VERSION entry points under /new/ for upgrade testing
     process_version "$VERSION"
+    copy_entry_points_to_new "$VERSION"
     process_version "$PREV_VERSION"
 else
+    # Step 2 deployment: Both versions assets + VERSION entry points
     process_version "$PREV_VERSION"
     process_version "$VERSION"
 fi
