@@ -129,7 +129,7 @@ export default class Localization extends I18n {
     translateString (string, ...placeholders) {
         const translated = this.i18n(string, ...placeholders)
 
-        if (this.file.hasOwnProperty(translated)) {
+        if (this.file && this.file.hasOwnProperty(translated)) {
             if (this.file[translated]) {
                 return this.file[translated]
             } else {
