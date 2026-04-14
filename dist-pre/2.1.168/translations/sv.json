@@ -3,7 +3,7 @@
     "authors": [
       "Fredrik Domeij, Zacharias Törnblom"
     ],
-    "last-updated": "2025-03-05",
+    "last-updated": "2025-04-12",
     "locale": "sv"
   },
   "cta-button-placeholder": "Inloggning via din organisation",
@@ -57,12 +57,12 @@
   "ds-button-access-through": "Inloggning via din organisation",
   "ds-button-add-or-change": "Lägg till eller ändra organisation",
   "ds-warning-continue": "Fortsätt",
-  "suggested-institutions-header": "",
-  "suggested-tooltip-title": "",
-  "suggested-tooltip-text": "",
-  "aria-label-searchinput": "",
-  "aria-label-locale-selector": "",
-  "aria-label-close-info-banner": "",
-  "aria-label-remove-institute": "",
-  "title-remove-institution": ""
+  "suggested-institutions-header": "Föreslagna organisationer",
+  "suggested-tooltip-title": "Organisationer föreslagna av $1",
+  "suggested-tooltip-text": "Nedan lista har föreslagits av $1 baserat på det tjänsten vet om dig",
+  "aria-label-searchinput": "Hitta din organisation, ditt universitet eller ditt företag",
+  "aria-label-locale-selector": "Byt språk",
+  "aria-label-close-info-banner": "Stäng detta avsnitt",
+  "aria-label-remove-institute": "Ta bort från dina sparade val",
+  "title-remove-institution": "Ta bort"
 }
