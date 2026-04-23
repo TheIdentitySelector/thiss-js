@@ -162,8 +162,11 @@ h3, legend {
 
 .content {
   flex-grow: 1;
-  padding-top: 10rem;
   padding-bottom: 5rem;
+
+  @media (min-width: 768px) {
+    padding-top: 10rem;
+  }
 }
 
 header {
