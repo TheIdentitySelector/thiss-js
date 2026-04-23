@@ -392,3 +392,8 @@ Version 2.1.169
 ---------------
 
 * Some accessibility improvements
+
+Version 2.1.170
+---------------
+
+* Fix timing issue with suggested institutions
