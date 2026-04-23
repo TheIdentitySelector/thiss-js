@@ -132,6 +132,10 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
         };
     </script>
 
+NOTE: If using Shibboleth SP and setting more than one parameter,
+you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
+since Shibboleth does not allow an `&` in the entity reference.
+
 Adding suggested institutions
 .............................
 
@@ -160,7 +164,7 @@ Then, you would construct the `DiscoveryComponent` as follows:
         };
     </script>
 
-Alternatively, without needing to use shibboleth or modify its configuration, it is possible to add suggested institutions in the constructor of the `DiscovertyComponent`, setting `discoveryRequest` to point to an instance of the Discovery Service provided by this package, `discoveryResponse` to a different URL or callable to handle the discovery response, and `suggested` to the URL encoded, comma separated list of entityID's of the IdP's to be suggested.
+Alternatively, without needing to use shibboleth or modify its configuration, it is possible to add suggested institutions in the constructor of the `DiscovertyComponent`, setting `discoveryRequest` to point to an instance of the Discovery Service provided by this package, `discoveryResponse` to a different URL or callable to handle the discovery response, and `suggested` to the comma separated, URL encoded list of entityID's of the IdP's to be suggested.
 
 .. code-block:: html
 
@@ -176,6 +180,10 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
            }).render('#login');
         };
     </script>
+
+NOTE: If using Shibboleth SP and setting more than one parameter,
+you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
+since Shibboleth does not allow an `&` in the entity reference.
 
 Showing the SP logo
 ...................
