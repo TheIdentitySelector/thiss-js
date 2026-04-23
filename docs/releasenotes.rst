@@ -393,7 +393,7 @@ Version 2.1.169
 
 * Some accessibility improvements
 
-Version 2.1.176
+Version 2.1.177
 ---------------
 
 * Fix timing issue with suggested institutions
