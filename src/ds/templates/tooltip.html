@@ -1,7 +1,7 @@
-<div class="tooltip">
+<div id="<%= tooltipId %>" class="tooltip" data-tooltip="<%= tooltipData %>">
     <div class="tooltip-content">
-        <div class="tooltip-title"><%= tooltipTitle %></div>
-        <div class="tooltip-description">
+        <div id="<%= tooltipId %>-title" class="tooltip-title"><%= tooltipTitle %></div>
+        <div id="<%= tooltipId %>-text" class="tooltip-description">
             <%= tooltipText %>
         </div>
     </div>

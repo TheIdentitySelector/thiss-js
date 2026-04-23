@@ -90,9 +90,12 @@ export const showSuggested = () => {
                    if (firstSuggested) {
                        firstSuggested = false;
                        spPromise.then(spEntity => {
+                           const spEntityTitle = spEntity.title ? spEntity.title : entityID;
                            const tooltipHtml = ejs.render(tooltipHTML, {
-                               tooltipTitle: localization.translateString('suggested-tooltip-title', spEntity ? spEntity.title : entityID),
-                               tooltipText: localization.translateString('suggested-tooltip-text', spEntity ? spEntity.title : entityID)
+                               tooltipId: 'suggested-tooltip',
+                               tooltipData: spEntityTitle,
+                               tooltipTitle: localization.translateString('suggested-tooltip-title', spEntityTitle),
+                               tooltipText: localization.translateString('suggested-tooltip-text', spEntityTitle)
                            });
                            $("#ds-search-header").html(headerHtml);
                            $("#suggested-tooltip-container").append(tooltipHtml);

@@ -10,6 +10,9 @@ const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 export default class Localization extends I18n {
     constructor(locale) {
         super();
+        if (locale === undefined) {
+            locale = this.formatLocale(window.navigator.userLanguage || window.navigator.language || DEFAULT_LOCALE);
+        }
         this.locale = locale;
         this.file = null;
         this.selectAvailableLocale();
@@ -65,6 +68,13 @@ export default class Localization extends I18n {
                     translatable.forEach(tr => {
                         $(tr[1]).attr(tr[2], this.translateString(tr[0]));
                     });
+                    const suggestedHeader = this.translateString('suggested-institutions-header');
+                    $("suggested-header-string").html(suggestedHeader);
+                    const spEntityTitle = $("suggested-tooltip").dataset.tooltip;
+                    const tooltipTitle = this.translateString('suggested-tooltip-title', spEntityTitle);
+                    const tooltipText = this.translateString('suggested-tooltip-text', spEntityTitle);
+                    $("suggested-tooltip-title").html(tooltipTitle);
+                    $("suggested-tooltip-text").html(tooltipText);
                 });
             });
         }
