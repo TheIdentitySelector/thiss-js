@@ -393,7 +393,8 @@ Version 2.1.169
 
 * Some accessibility improvements
 
-Version 2.1.177
+Version 2.1.178
 ---------------
 
 * Fix timing issue with suggested institutions
+* Remove top padding in ds in small devices
