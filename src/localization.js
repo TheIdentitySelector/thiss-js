@@ -70,7 +70,7 @@ export default class Localization extends I18n {
                     });
                     const suggestedHeader = this.translateString('suggested-institutions-header');
                     $("#suggested-header-string").html(suggestedHeader);
-                    const spEntityTitle = $("#suggested-tooltip").dataset.tooltip;
+                    const spEntityTitle = $("#suggested-tooltip").data("tooltip");
                     const tooltipTitle = this.translateString('suggested-tooltip-title', spEntityTitle);
                     const tooltipText = this.translateString('suggested-tooltip-text', spEntityTitle);
                     $("#suggested-tooltip-title").html(tooltipTitle);
