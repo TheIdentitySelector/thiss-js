@@ -69,12 +69,12 @@ export default class Localization extends I18n {
                         $(tr[1]).attr(tr[2], this.translateString(tr[0]));
                     });
                     const suggestedHeader = this.translateString('suggested-institutions-header');
-                    $("suggested-header-string").html(suggestedHeader);
-                    const spEntityTitle = $("suggested-tooltip").dataset.tooltip;
+                    $("#suggested-header-string").html(suggestedHeader);
+                    const spEntityTitle = $("#suggested-tooltip").dataset.tooltip;
                     const tooltipTitle = this.translateString('suggested-tooltip-title', spEntityTitle);
                     const tooltipText = this.translateString('suggested-tooltip-text', spEntityTitle);
-                    $("suggested-tooltip-title").html(tooltipTitle);
-                    $("suggested-tooltip-text").html(tooltipText);
+                    $("#suggested-tooltip-title").html(tooltipTitle);
+                    $("#suggested-tooltip-text").html(tooltipText);
                 });
             });
         }
