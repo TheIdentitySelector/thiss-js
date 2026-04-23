@@ -112,6 +112,7 @@ if [[ "$PRE_RELEASE" == 'true' ]]; then
     process_version "$VERSION"
     copy_entry_points_to_new "$VERSION"
     process_version "$PREV_VERSION"
+    cp "$SRC_DIR/$VERSION/manifest.json" "$DST_DIR"
 else
     # Step 2 deployment: Both versions assets + VERSION entry points
     process_version "$PREV_VERSION"
