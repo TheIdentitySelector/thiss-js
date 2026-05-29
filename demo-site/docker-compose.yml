@@ -1,0 +1,176 @@
+# SeamlessAccess demo environment — see plan.md.
+# Identical for both TLS modes; scripts/up.sh is the only thing that branches
+# (it sets COMPOSE_PROFILES=letsencrypt and/or runs gen-tls-local.sh).
+#
+# nginx-proxy terminates TLS for every vhost, so NO backend sets TLS_CERT /
+# SSL_CERT — they all listen plain HTTP and trust X-Forwarded-Proto.
+
+networks:
+  demonet:
+    name: demonet
+    driver: bridge
+
+volumes:
+  vhost:
+  html:
+  conf:
+  acme:
+
+services:
+
+  # --- Front door --------------------------------------------------------
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy:${NGINX_PROXY_TAG:-1.6}
+    container_name: nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - conf:/etc/nginx/conf.d
+    networks:
+      - demonet
+
+  # Only started in TLS_MODE=letsencrypt (up.sh sets COMPOSE_PROFILES).
+  acme-companion:
+    image: nginxproxy/acme-companion:${ACME_COMPANION_TAG:-2.4}
+    container_name: acme-companion
+    restart: unless-stopped
+    profiles: ["letsencrypt"]
+    depends_on:
+      - nginx-proxy
+    environment:
+      DEFAULT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - acme:/etc/acme.sh
+    networks:
+      - demonet
+
+  # --- Identity provider -------------------------------------------------
+  idp:
+    build:
+      context: ./idp
+      args:
+        IDP_IMAGE: ${IDP_IMAGE:-unicon/shibboleth-idp:4.1.0}
+    container_name: idp
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${IDP_HOST}
+      VIRTUAL_PORT: "8080"
+      LETSENCRYPT_HOST: ${IDP_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      # Make the IdP emit https://${IDP_HOST}/... URLs while serving plain HTTP.
+      JETTY_BROWSER_SSL_KEYSTORE_PASSWORD: changeit
+      JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD: changeit
+    volumes:
+      - ./idp/config/conf/idp.properties:/opt/shibboleth-idp/conf/idp.properties:ro
+      - ./idp/config/conf/metadata-providers.xml:/opt/shibboleth-idp/conf/metadata-providers.xml:ro
+      - ./idp/config/conf/attribute-resolver.xml:/opt/shibboleth-idp/conf/attribute-resolver.xml:ro
+      - ./idp/config/conf/attribute-filter.xml:/opt/shibboleth-idp/conf/attribute-filter.xml:ro
+      - ./idp/config/conf/authn/password-authn-config.xml:/opt/shibboleth-idp/conf/authn/password-authn-config.xml:ro
+      - ./idp/config/credentials/idp-signing.crt:/opt/shibboleth-idp/credentials/idp-signing.crt:ro
+      - ./idp/config/credentials/idp-signing.key:/opt/shibboleth-idp/credentials/idp-signing.key:ro
+      - ./idp/config/credentials/idp-encryption.crt:/opt/shibboleth-idp/credentials/idp-encryption.crt:ro
+      - ./idp/config/credentials/idp-encryption.key:/opt/shibboleth-idp/credentials/idp-encryption.key:ro
+      - ./idp/config/credentials/idp.htpasswd:/opt/shibboleth-idp/credentials/idp.htpasswd:ro
+      - ./metadata/sp1-metadata.xml:/opt/shibboleth-idp/metadata/sp1-metadata.xml:ro
+      - ./metadata/sp2-metadata.xml:/opt/shibboleth-idp/metadata/sp2-metadata.xml:ro
+    networks:
+      - demonet
+
+  # --- Protected service providers --------------------------------------
+  sp1:
+    build:
+      context: ./sp1
+    container_name: sp1
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${SP1_HOST}
+      VIRTUAL_PORT: "80"
+      LETSENCRYPT_HOST: ${SP1_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - ./sp1/shibboleth2.xml:/etc/shibboleth/shibboleth2.xml:ro
+      - ./sp1/attribute-map.xml:/etc/shibboleth/attribute-map.xml:ro
+      - ./sp1/credentials:/etc/shibboleth/credentials:ro
+      - ./metadata/idp-metadata.xml:/etc/shibboleth/idp-metadata.xml:ro
+      - ./sp1/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
+      - ./sp1/html:/var/www/html:ro
+    networks:
+      - demonet
+
+  sp2:
+    build:
+      context: ./sp2
+    container_name: sp2
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${SP2_HOST}
+      VIRTUAL_PORT: "80"
+      LETSENCRYPT_HOST: ${SP2_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - ./sp2/shibboleth2.xml:/etc/shibboleth/shibboleth2.xml:ro
+      - ./sp2/attribute-map.xml:/etc/shibboleth/attribute-map.xml:ro
+      - ./sp2/credentials:/etc/shibboleth/credentials:ro
+      - ./metadata/idp-metadata.xml:/etc/shibboleth/idp-metadata.xml:ro
+      - ./sp2/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
+      - ./sp2/html:/var/www/html:ro
+    networks:
+      - demonet
+
+  # --- Metadata query service (discojson) -------------------------------
+  mdq:
+    build:
+      context: ../thiss-mdq
+    container_name: mdq
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${MDQ_HOST}
+      VIRTUAL_PORT: "3000"
+      LETSENCRYPT_HOST: ${MDQ_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      PORT: "3000"
+      FORKS: "1"
+      METADATA: /etc/metadata.json
+      TRUSTINFO: /etc/trustinfo.json
+    volumes:
+      - ./metadata/metadata.json:/etc/metadata.json:ro
+      - ./metadata/trustinfo.json:/etc/trustinfo.json:ro
+    networks:
+      - demonet
+
+  # --- Discovery SPA + login button (thiss-js) --------------------------
+  thiss:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      args:
+        VERSION: ${THISS_VERSION}
+        PREV_VERSION: ${THISS_PREV_VERSION}
+    container_name: thiss
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${SERVICE_HOST}
+      VIRTUAL_PORT: "80"
+      LETSENCRYPT_HOST: ${SERVICE_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+      BASE_URL: https://${SERVICE_HOST}/
+      MDQ_URL: https://${MDQ_HOST}/entities/
+      SEARCH_URL: https://${MDQ_HOST}/entities/
+      COMPONENT_URL: https://${SERVICE_HOST}/cta/
+      PERSISTENCE_URL: https://${SERVICE_HOST}/ps/
+      STORAGE_DOMAIN: ${SA_DOMAIN}
+      MDQ_HOSTPORT: ${MDQ_HOST}
+      MIN_SEARCH_LENGTH: "2"
+      LOGLEVEL: info
+    networks:
+      - demonet

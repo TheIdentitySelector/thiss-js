@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<!-- Rendered from index.html.tmpl by scripts/render.sh. Public landing page:
+     unauthenticated visitors see this plus the SeamlessAccess login button. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo SP 2</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 4rem auto; padding: 0 1rem; }
+        #login { margin: 2rem 0; }
+        .muted { color: #666; }
+    </style>
+</head>
+<body>
+    <h1>Demo Service Provider 2</h1>
+    <p>This is the public part of <strong>${SP2_HOST}</strong>. Anyone can see this.</p>
+    <p class="muted">Sign in with SeamlessAccess to reach the protected area.</p>
+
+    <div id="login"></div>
+
+    <p><a href="/secure/">Go to the protected area</a> (you'll be sent through login first).</p>
+
+    <script src="https://${SERVICE_HOST}/thiss.js"></script>
+    <script>
+        window.onload = function () {
+            thiss.DiscoveryComponent({
+                loginInitiatorURL: 'https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/',
+                entityID: '${SP2_ENTITYID}'
+            }).render('#login');
+        };
+    </script>
+</body>
+</html>

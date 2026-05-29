@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from shibboleth2.xml.tmpl by scripts/render.sh.
+     handlerURL is ABSOLUTE https so mod_shib emits https://${SP2_HOST}/... URLs
+     while Apache serves plain HTTP behind the TLS-terminating nginx-proxy
+     (forwarded-proto fix, plan §4 / §10.2). -->
+<SPConfig xmlns="urn:mace:shibboleth:3.0:native:sp:config"
+          xmlns:conf="urn:mace:shibboleth:3.0:native:sp:config"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          clockSkew="180">
+
+    <ApplicationDefaults entityID="${SP2_ENTITYID}"
+                         REMOTE_USER="eppn"
+                         cipherSuites="DEFAULT:!EXP:!LOW:!aNULL:!eNULL:!DES:!IDEA:!SEED:!RC4:!3DES:!kRSA:!SSLv2:!SSLv3:!TLSv1:!TLSv1.1">
+
+        <Sessions lifetime="28800" timeout="3600" relayState="ss:mem"
+                  checkAddress="false" handlerSSL="true" cookieProps="https"
+                  handlerURL="https://${SP2_HOST}/Shibboleth.sso"
+                  redirectLimit="exact">
+
+            <SSO discoveryProtocol="SAMLDS" discoveryURL="https://${SERVICE_HOST}/ds">
+                SAML2
+            </SSO>
+
+            <Logout>SAML2 Local</Logout>
+
+            <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/>
+            <Handler type="Status" Location="/Status"/>
+            <Handler type="Session" Location="/Session" showAttributeValues="true"/>
+            <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
+        </Sessions>
+
+        <Errors supportContact="root@${SP2_HOST}"
+                helpLocation="/about.html"
+                styleSheet="/shibboleth-sp/main.css"/>
+
+        <MetadataProvider type="XML" validate="true" path="/etc/shibboleth/idp-metadata.xml"/>
+
+        <AttributeExtractor type="XML" validate="true" reloadChanges="false" path="attribute-map.xml"/>
+        <AttributeResolver type="Query" subjectMatch="true"/>
+        <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
+
+        <CredentialResolver type="Chaining">
+            <CredentialResolver type="File" use="signing"
+                key="credentials/sp-signing.key" certificate="credentials/sp-signing.crt"/>
+            <CredentialResolver type="File" use="encryption"
+                key="credentials/sp-encryption.key" certificate="credentials/sp-encryption.crt"/>
+        </CredentialResolver>
+
+    </ApplicationDefaults>
+
+    <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+    <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+
+</SPConfig>

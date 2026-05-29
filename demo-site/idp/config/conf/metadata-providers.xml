@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Loads the two SP EntityDescriptors so the IdP trusts both SPs. The files
+     are bind-mounted (read-only) by docker-compose into the metadata dir. -->
+<MetadataProvider id="ShibbolethMetadata" xsi:type="ChainingMetadataProvider"
+    xmlns="urn:mace:shibboleth:2.0:metadata"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:resource="urn:mace:shibboleth:2.0:resource"
+    xsi:schemaLocation="urn:mace:shibboleth:2.0:metadata http://shibboleth.net/schema/idp/shibboleth-metadata.xsd">
+
+    <MetadataProvider id="SP1" xsi:type="FilesystemMetadataProvider"
+                      metadataFile="%{idp.home}/metadata/sp1-metadata.xml"/>
+
+    <MetadataProvider id="SP2" xsi:type="FilesystemMetadataProvider"
+                      metadataFile="%{idp.home}/metadata/sp2-metadata.xml"/>
+
+</MetadataProvider>

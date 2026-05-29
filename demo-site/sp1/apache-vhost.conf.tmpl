@@ -1,0 +1,33 @@
+# Rendered from apache-vhost.conf.tmpl by scripts/render.sh.
+# Mounted at /etc/apache2/sites-enabled/000-default.conf.
+<VirtualHost *:80>
+    ServerName ${SP1_HOST}
+    DocumentRoot /var/www/html
+
+    # nginx-proxy terminates TLS and forwards plain HTTP. Tell mod_shib the
+    # original request was https so it builds https://${SP1_HOST}/... URLs.
+    SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on
+
+    # Make the /Shibboleth.sso handler available.
+    <Location /Shibboleth.sso>
+        SetHandler shib
+    </Location>
+
+    # Public landing page: shibboleth is active (so attributes appear if a
+    # session exists) but a session is NOT required.
+    <Location />
+        AuthType shibboleth
+        ShibRequestSetting requireSession 0
+        Require shibboleth
+    </Location>
+
+    # Protected area reached via the SeamlessAccess button's target= URL.
+    <Location /secure>
+        AuthType shibboleth
+        ShibRequestSetting requireSession 1
+        Require shib-session
+    </Location>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

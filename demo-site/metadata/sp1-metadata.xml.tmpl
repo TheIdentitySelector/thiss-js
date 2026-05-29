@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from sp1-metadata.xml.tmpl by scripts/gen-certs.sh.
+     ACS/SLO/DiscoveryResponse locations must match what mod_shib advertises at
+     https://${SP1_HOST}/Shibboleth.sso/Metadata — if login fails with "no SSO
+     endpoint"/binding mismatch, regenerate from that URL and trim (plan §10.5). -->
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+                  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                  xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui"
+                  xmlns:idpdisco="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol"
+                  entityID="${SP1_ENTITYID}">
+
+  <SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol"
+                   AuthnRequestsSigned="false" WantAssertionsSigned="true">
+    <Extensions>
+      <mdui:UIInfo>
+        <mdui:DisplayName xml:lang="en">Demo SP 1</mdui:DisplayName>
+        <mdui:Description xml:lang="en">SeamlessAccess demo service provider 1</mdui:Description>
+      </mdui:UIInfo>
+      <idpdisco:DiscoveryResponse Binding="urn:oasis:names:tc:SAML:profiles:SSO:idp-discovery-protocol"
+                                  Location="https://${SP1_HOST}/Shibboleth.sso/Login" index="1"/>
+    </Extensions>
+
+    <KeyDescriptor use="signing">
+      <ds:KeyInfo>
+        <ds:X509Data><ds:X509Certificate>${SP1_SIGNING_CERT}</ds:X509Certificate></ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+    <KeyDescriptor use="encryption">
+      <ds:KeyInfo>
+        <ds:X509Data><ds:X509Certificate>${SP1_ENCRYPTION_CERT}</ds:X509Certificate></ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                         Location="https://${SP1_HOST}/Shibboleth.sso/SLO/Redirect"/>
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                         Location="https://${SP1_HOST}/Shibboleth.sso/SLO/POST"/>
+
+    <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+
+    <AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                              Location="https://${SP1_HOST}/Shibboleth.sso/SAML2/POST" index="1"/>
+    <AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign"
+                              Location="https://${SP1_HOST}/Shibboleth.sso/SAML2/POST-SimpleSign" index="2"/>
+  </SPSSODescriptor>
+
+</EntityDescriptor>

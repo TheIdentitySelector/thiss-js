@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from attribute-resolver.xml.tmpl by scripts/render.sh.
+     The demo has a single static account, so all attribute values are fixed
+     here via a Static data connector. SAML2 encoding is handled by the image's
+     default attribute registry (conf/attributes/), which already has rules for
+     eduPersonPrincipalName, displayName and mail — no inline encoders needed. -->
+<AttributeResolver
+    xmlns="urn:mace:shibboleth:2.0:resolver"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:mace:shibboleth:2.0:resolver http://shibboleth.net/schema/idp/shibboleth-attribute-resolver.xsd">
+
+    <AttributeDefinition id="eduPersonPrincipalName" xsi:type="Scoped" scope="${IDP_SCOPE}">
+        <InputDataConnector ref="staticAttributes" attributeNames="uid"/>
+    </AttributeDefinition>
+
+    <AttributeDefinition id="displayName" xsi:type="Simple">
+        <InputDataConnector ref="staticAttributes" attributeNames="displayNameSrc"/>
+    </AttributeDefinition>
+
+    <AttributeDefinition id="mail" xsi:type="Simple">
+        <InputDataConnector ref="staticAttributes" attributeNames="mailSrc"/>
+    </AttributeDefinition>
+
+    <DataConnector id="staticAttributes" xsi:type="Static">
+        <Attribute id="uid">
+            <Value>${DEMO_USER}</Value>
+        </Attribute>
+        <Attribute id="displayNameSrc">
+            <Value>${DEMO_DISPLAYNAME}</Value>
+        </Attribute>
+        <Attribute id="mailSrc">
+            <Value>${DEMO_MAIL}</Value>
+        </Attribute>
+    </DataConnector>
+
+</AttributeResolver>

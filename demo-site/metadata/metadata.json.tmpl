@@ -1,0 +1,81 @@
+[
+  {
+    "entityID": "${IDP_ENTITYID}",
+    "entity_id": "${IDP_ENTITYID}",
+    "type": "idp",
+    "title": "Demo IdP",
+    "title_langs": {"en": "Demo IdP"},
+    "descr_langs": {"en": "SeamlessAccess demo identity provider"},
+    "domain": "${IDP_SCOPE}",
+    "scope": "${IDP_SCOPE}",
+    "entity_icon_url": {"url": "https://${IDP_HOST}/logo.png", "width": "120", "height": "120"},
+    "keywords": "demo,seamlessaccess,identity",
+    "hidden": "false"
+  },
+  {
+    "entityID": "https://idp.example-university.edu/idp/shibboleth",
+    "entity_id": "https://idp.example-university.edu/idp/shibboleth",
+    "type": "idp",
+    "title": "Example University (mock)",
+    "title_langs": {"en": "Example University (mock)"},
+    "descr_langs": {"en": "Mock IdP to populate discovery search"},
+    "domain": "example-university.edu",
+    "scope": "example-university.edu",
+    "keywords": "demo,university,example,mock",
+    "hidden": "false"
+  },
+  {
+    "entityID": "https://login.example-college.org/idp",
+    "entity_id": "https://login.example-college.org/idp",
+    "type": "idp",
+    "title": "Example College (mock)",
+    "title_langs": {"en": "Example College (mock)"},
+    "descr_langs": {"en": "Mock IdP to populate discovery search"},
+    "domain": "example-college.org",
+    "scope": "example-college.org",
+    "keywords": "demo,college,example,mock",
+    "hidden": "false"
+  },
+  {
+    "entityID": "https://idp.example-institute.net/saml",
+    "entity_id": "https://idp.example-institute.net/saml",
+    "type": "idp",
+    "title": "Example Institute (mock)",
+    "title_langs": {"en": "Example Institute (mock)"},
+    "descr_langs": {"en": "Mock IdP to populate discovery search"},
+    "domain": "example-institute.net",
+    "scope": "example-institute.net",
+    "keywords": "demo,institute,research,example,mock",
+    "hidden": "false"
+  },
+  {
+    "entityID": "https://idp.example-hospital.org/idp/shibboleth",
+    "entity_id": "https://idp.example-hospital.org/idp/shibboleth",
+    "type": "idp",
+    "title": "Example Hospital (mock)",
+    "title_langs": {"en": "Example Hospital (mock)"},
+    "descr_langs": {"en": "Mock IdP to populate discovery search"},
+    "domain": "example-hospital.org",
+    "scope": "example-hospital.org",
+    "keywords": "demo,hospital,health,example,mock",
+    "hidden": "false"
+  },
+  {
+    "entityID": "${SP1_ENTITYID}",
+    "entity_id": "${SP1_ENTITYID}",
+    "type": "sp",
+    "title": "Demo SP 1",
+    "title_langs": {"en": "Demo SP 1"},
+    "descr_langs": {"en": "SeamlessAccess demo service provider 1"},
+    "discovery_responses": ["https://${SP1_HOST}/Shibboleth.sso/Login"]
+  },
+  {
+    "entityID": "${SP2_ENTITYID}",
+    "entity_id": "${SP2_ENTITYID}",
+    "type": "sp",
+    "title": "Demo SP 2",
+    "title_langs": {"en": "Demo SP 2"},
+    "descr_langs": {"en": "SeamlessAccess demo service provider 2"},
+    "discovery_responses": ["https://${SP2_HOST}/Shibboleth.sso/Login"]
+  }
+]

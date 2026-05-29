@@ -1,0 +1,20 @@
+# Rendered from idp.properties.tmpl by scripts/render.sh.
+# Minimal demo overlay — the image ships a full idp.properties; only the
+# identity-defining values and the password authn flow are pinned here.
+
+idp.entityID=${IDP_ENTITYID}
+idp.scope=${IDP_SCOPE}
+
+# Single password login flow, validated against the static htpasswd file
+# (see conf/authn/password-authn-config.xml).
+idp.authn.flows=Password
+
+# We terminate TLS at nginx-proxy and serve plain HTTP on :8080; trust the
+# forwarded scheme/host so SSO/ACS URLs are emitted as https://${IDP_HOST}/...
+# (Jetty in the image must have the ForwardedRequestCustomizer enabled.)
+
+# Release the demo attributes without requiring per-attribute consent so the
+# round trip is one click in the demo.
+idp.consent.allowDoNotRemember=true
+idp.consent.allowGlobal=true
+idp.consent.compareValues=true

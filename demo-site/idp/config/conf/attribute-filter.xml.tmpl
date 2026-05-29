@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from attribute-filter.xml.tmpl by scripts/render.sh.
+     Releases the three demo attributes to each SP by entityID (Requester rule). -->
+<AttributeFilterPolicyGroup id="DemoPolicies"
+    xmlns="urn:mace:shibboleth:2.0:afp"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:mace:shibboleth:2.0:afp http://shibboleth.net/schema/idp/shibboleth-afp.xsd">
+
+    <AttributeFilterPolicy id="releaseToDemoSPs">
+        <PolicyRequirementRule xsi:type="OR">
+            <Rule xsi:type="Requester" value="${SP1_ENTITYID}"/>
+            <Rule xsi:type="Requester" value="${SP2_ENTITYID}"/>
+        </PolicyRequirementRule>
+
+        <AttributeRule attributeID="eduPersonPrincipalName">
+            <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+        <AttributeRule attributeID="displayName">
+            <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+        <AttributeRule attributeID="mail">
+            <PermitValueRule xsi:type="ANY"/>
+        </AttributeRule>
+    </AttributeFilterPolicy>
+
+</AttributeFilterPolicyGroup>
