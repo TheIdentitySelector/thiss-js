@@ -25,6 +25,8 @@ idp/config/credentials/idp.htpasswd
 sp1/shibboleth2.xml
 sp1/apache-vhost.conf
 sp1/html/index.html
+sp1/html/secure/index.html
 sp2/shibboleth2.xml
 sp2/apache-vhost.conf
 sp2/html/index.html
+sp2/html/secure/index.html

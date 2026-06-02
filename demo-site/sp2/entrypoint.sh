@@ -3,6 +3,9 @@
 set -e
 
 mkdir -p /run/shibboleth
+# On a container restart the previous run's UNIX socket lingers and shibd dies
+# with "listener failed to initialize" — remove it so restarts are robust.
+rm -f /run/shibboleth/shibd.sock
 # shibd daemonizes; wait for its socket before Apache starts handling /Shibboleth.sso
 shibd
 
