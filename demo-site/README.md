@@ -28,9 +28,19 @@ them (without the suffix). The rendered files, the `.env`, the generated keys an
 ## Prerequisites
 
 - Docker + Docker Compose v2, `openssl`, `gettext` (`envsubst`).
-- The sibling repos present next to this one: `../` must contain the `thiss-js`
-  repo (this one, built via its root `Dockerfile` using `dist-pre/`) and
-  `../thiss-mdq`. No registry needed — both are built locally.
+- Run everything from this directory (`thiss-js/demo-site`). The two source
+  repos are built locally (no registry):
+  - **thiss-js** is the parent of this directory — build context `..`.
+  - **thiss-mdq** is a sibling of `thiss-js` — build context `../../thiss-mdq`.
+
+  So the expected on-disk layout is:
+
+  ```
+  <somewhere>/
+    thiss-js/          # this repo (built from its root Dockerfile + dist-pre/)
+      demo-site/       # <- run docker compose / scripts from here
+    thiss-mdq/         # sibling repo
+  ```
 - For `TLS_MODE=local`, [`mkcert`](https://github.com/FiloSottile/mkcert) is
   recommended (it installs a trusted local CA); otherwise a self-managed openssl
   CA is used and you must import `certs/local-ca.crt` into each test browser.
@@ -74,10 +84,29 @@ Switching modes is a one-line `.env` edit plus re-running `up.sh`.
   `https://md.sa.org/entities/?q=` directly.
 - **Empty DS search** → only `type:"idp"` entities are indexed; verify
   `metadata.json` and the `MDQ_URL` value.
+- **All `/Shibboleth.sso/*` handlers 404 (and no `native.log`)** → mod_shib is
+  declining the handlers because the request it reconstructs (`http://host:80`)
+  doesn't match the absolute `handlerURL` (`https://host:443`). The vhost needs
+  `ServerName https://<host>` + `UseCanonicalName On` (already in
+  `apache-vhost.conf.tmpl`) so Apache builds external-https self URLs. Note a
+  `docker compose restart` of an SP leaves a stale `shibd.sock` and crash-loops
+  with `listener failed to initialize` — use `up -d --force-recreate <sp>`.
+- **IdP login page shows `Login Failure: Invalid salt value: …`** → the htpasswd
+  hash is bcrypt (`$2a$`/`$2y$`), which `HTPasswdValidator` can't verify. Use
+  SHA-512 crypt (`$6$`); `gen-certs.sh` already does. Note this surfaces only on
+  the login page, not in the IdP logs at default level.
+- **IdP SSO returns `Invalid relying party configuration` /
+  `RelyingPartyResolverService is unavailable`** → the mounted `idp.properties`
+  is incomplete; it must be the full image default with only entityID/scope
+  changed (see the IdP caveat above).
 - **Login loop / "no SSO endpoint"** → entityID or endpoint mismatch, or
   forwarded-proto emitting `http://...`. Compare the SP metadata ACS locations
   against `https://sp1.org/Shibboleth.sso/Metadata` and regenerate if needed
   (plan §10.5).
+- **502 on `service.sa.org` / `thiss` crash-looping** with `host not found in
+  upstream "md.sa.org"` → `MDQ_HOSTPORT` must be the internal service address
+  (`mdq:3000`), not the public `${MDQ_HOST}`; nginx resolves that upstream at
+  startup and the public name doesn't resolve inside the container.
 - **Logged in but `/secure/` empty** → `attribute-filter.xml` not releasing to
   that SP entityID.
 
@@ -85,14 +114,37 @@ Switching modes is a one-line `.env` edit plus re-running `up.sh`.
 
 The Shibboleth IdP is the most image-version-sensitive part:
 
-- `IDP_IMAGE` in `.env` pins the image (default `unicon/shibboleth-idp:4.1.0`).
-  The static-user login uses `HTPasswdCredentialValidator`, which needs IdP
-  **≥ 4.1**. On older images, swap `conf/authn/password-authn-config.xml` for
-  the validator your image supports.
-- The compose file assumes the IdP serves plain **HTTP on :8080** behind the
-  proxy (`VIRTUAL_PORT=8080`) and honours `X-Forwarded-Proto`. If your tag only
-  exposes HTTPS on `:4443`, set `VIRTUAL_PORT=4443` and add
-  `VIRTUAL_PROTO=https` on the `idp` service instead.
+- `IDP_IMAGE` in `.env` pins the image. Default is **`i2incommon/shib-idp:latest5`**
+  — the Internet2/InCommon image (Shibboleth IdP **v5**), the maintained
+  successor of the abandoned `unicon/shibboleth-idp` (which never went past v3).
+  Pin a dated tag (e.g. `5.1.6_20251106_rocky9_multiarch`) for reproducibility.
+  The static-user login uses a `shibboleth.HTPasswdValidator` bean, available in
+  IdP ≥ 4.1 and so present in v5. The htpasswd entry must be **SHA-512 crypt
+  (`$6$`)**, written by `gen-certs.sh` via `openssl passwd -6` — the validator
+  delegates to Apache Commons Codec `Crypt` (`$1$`/`$5$`/`$6$`), which does
+  **not** support bcrypt; a `$2a$`/`$2y$` entry fails login with
+  `Invalid salt value: …`.
+- The bind-mounted `idp.properties` is a **complete** copy of the image default
+  (only `idp.entityID`/`idp.scope` overridden + the Password flow). Mounting a
+  partial file drops required properties (`idp.signing.cert`, `idp.sealer.*`,
+  `idp.additionalProperties`, …) and the IdP fails with
+  `RelyingPartyResolverService is unavailable` / `Invalid relying party
+  configuration`. Re-diff after an image bump:
+  `docker run --rm --entrypoint cat <image> /opt/shibboleth-idp/conf/idp.properties`.
+- The compose file fronts the IdP with `VIRTUAL_PORT=443` + `VIRTUAL_PROTO=https`,
+  because this image serves its own Tomcat HTTPS on **:443**. nginx-proxy
+  re-encrypts to it without verifying its self-signed cert, so the browser still
+  sees nginx-proxy's trusted cert. (`docker compose ps idp` shows `443/tcp`; if a
+  future tag moves the connector, set `VIRTUAL_PORT` to whatever
+  `ss -ltnp` reports inside the container.)
+- Because the IdP serves on the default https port 443, its self-generated URLs
+  are clean `https://${IDP_HOST}/...` with no port to leak. `/idp/status` returns
+  **403 through the proxy** by design (it's restricted to localhost) — that's not
+  a fault; the container's own health check hits it on `127.0.0.1` and gets 200.
+- The mounted config (`idp.properties`, `attribute-resolver/-filter`,
+  `metadata-providers.xml`, `password-authn-config.xml`) uses the standard v4/v5
+  schemas and overrides the image's baked defaults at the usual
+  `/opt/shibboleth-idp/...` paths.
 - The IdP signing/encryption keypair generated by `gen-certs.sh` is mounted over
   the image's own credentials so it matches the cert embedded in
   `idp-metadata.xml`. Keep them in sync — re-run `gen-certs.sh --force` to rotate

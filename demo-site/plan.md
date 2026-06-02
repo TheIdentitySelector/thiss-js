@@ -29,11 +29,11 @@ Seven services on one user-defined bridge network (`demonet`). Names come from `
 |---|---|---|---|---|
 | `nginx-proxy` | `nginxproxy/nginx-proxy` | — (host `80`/`443`) | — | TLS termination, vhost routing |
 | `acme-companion` | `nginxproxy/acme-companion` | — | — | Let's Encrypt issuance — **`letsencrypt` profile only** (see §8) |
-| `idp` | `unicon/shibboleth-idp` (pinned) | `${IDP_HOST}` | 8080 | SAML IdP |
+| `idp` | `i2incommon/shib-idp` (pinned) | `${IDP_HOST}` | 443 (https) | SAML IdP |
 | `sp1` | own Dockerfile (Apache + mod_shib) | `${SP1_HOST}` | 80 | Protected site 1 |
 | `sp2` | own Dockerfile (Apache + mod_shib) | `${SP2_HOST}` | 80 | Protected site 2 |
-| `mdq` | build `../thiss-mdq` | `${MDQ_HOST}` | 3000 | discojson MDQ |
-| `thiss` | build `../thiss-js` (repo `Dockerfile`) | `${SERVICE_HOST}` | 80 | Discovery SPA + button JS |
+| `mdq` | build `../../thiss-mdq` | `${MDQ_HOST}` | 3000 | discojson MDQ |
+| `thiss` | build `..` (the enclosing `thiss-js` repo root `Dockerfile`) | `${SERVICE_HOST}` | 80 | Discovery SPA + button JS |
 
 **Proxy wiring.** `nginx-proxy` mounts `/var/run/docker.sock:/tmp/docker.sock:ro`, bind-mounts `./certs:/etc/nginx/certs`, and shares named volumes `vhost`, `html`, `conf`; publishes host `80:80` and `443:443`. `acme-companion` is declared with `profiles: ["letsencrypt"]` (so it starts **only** in `TLS_MODE=letsencrypt`), shares the same `./certs` bind mount + `vhost`/`html` volumes + its own `acme` state volume + the socket, with `DEFAULT_EMAIL=${LETSENCRYPT_EMAIL}`. Each backend declares `VIRTUAL_HOST`, `VIRTUAL_PORT`, and single-sources `LETSENCRYPT_HOST` (= its `*_HOST` var) + `LETSENCRYPT_EMAIL`; these `LETSENCRYPT_*` labels are inert in local mode because nothing consumes them. nginx-proxy terminates TLS, so **no backend sets `TLS_CERT`/`SSL_CERT`** — they all listen plain HTTP. The single `./certs` dir holds the certs in both modes: acme-companion writes them in `letsencrypt` mode, `gen-tls-local.sh` writes them in `local` mode (§8).
 
@@ -61,16 +61,16 @@ Compose `environment:` for the `thiss` service:
 - `COMPONENT_URL=https://${SERVICE_HOST}/cta/`
 - `PERSISTENCE_URL=https://${SERVICE_HOST}/ps/`
 - `STORAGE_DOMAIN=${SA_DOMAIN}` (origin the cross-domain persistence iframe keys to)
-- `MDQ_HOSTPORT=${MDQ_HOST}` (nginx `@mdq` fallback only — rarely hit, since the browser reaches MDQ directly via `MDQ_URL`)
+- `MDQ_HOSTPORT=mdq:3000` (nginx `@mdq` fallback `proxy_pass`). **Must be the internal docker service address, not `${MDQ_HOST}`** — nginx resolves this upstream host at config-load time, and the public name only exists in the host's `/etc/hosts`, not inside the container, so `${MDQ_HOST}` makes nginx fail to start with `host not found in upstream`. The browser reaches MDQ directly via `MDQ_URL`; this fallback is rarely hit, but the name still has to resolve in-container.
 - `MIN_SEARCH_LENGTH=2`, `LOGLEVEL=info`
 
 **`MAX_SUGGESTED` is not configurable here.** It is absent from the `envsubst` allowlist, and in the pinned `2.1.179` bundle `process.env.MAX_SUGGESTED` was compiled to a non-functional reference (`"MISSING_ENV_VAR".MAX_SUGGESTED` → `undefined`), so the suggested-IdP count falls back to the hard-coded default (5). Changing it would require a webpack rebuild with the var defined at build time — out of scope for this prebuilt-`dist-pre/` plan. Do not set it in compose expecting an effect.
 
-Build: `build: { context: ../thiss-js, dockerfile: Dockerfile, args: { VERSION: ${THISS_VERSION}, PREV_VERSION: ${THISS_PREV_VERSION} } }`. `subst-vars.sh` injects the env values at container start.
+Build: `build: { context: .., dockerfile: Dockerfile, args: { VERSION: ${THISS_VERSION}, PREV_VERSION: ${THISS_PREV_VERSION} } }` — `..` is the enclosing `thiss-js` repo root, since this `demo-site/` lives inside it. `subst-vars.sh` injects the env values at container start.
 
 ## 3. Shibboleth IdP
 
-Image `unicon/shibboleth-idp` (pin a tag). Internal port 8080 → `VIRTUAL_PORT=8080`; nginx-proxy fronts TLS.
+Image `i2incommon/shib-idp` (Internet2/InCommon, Shibboleth IdP v5 on Tomcat — the maintained successor of the abandoned `unicon/shibboleth-idp`, which never went past v3; pin a tag, default `latest5`). The image serves its own HTTPS on **:443**, so it is fronted with `VIRTUAL_PORT=443` + `VIRTUAL_PROTO=https` (nginx-proxy re-encrypts to the self-signed backend; the browser sees nginx-proxy's trusted cert). Serving on the default https port means its self-referential URLs are clean `https://${IDP_HOST}/...` with no port to leak. (`/idp/status` is localhost-only, so it returns 403 through the proxy by design — the container health check hits it on 127.0.0.1.)
 
 Mounted config under `demo-site/idp/config/` → image config paths:
 
@@ -80,17 +80,18 @@ Mounted config under `demo-site/idp/config/` → image config paths:
 - `conf/metadata-providers.xml` — `FilesystemMetadataProvider`(s) loading the two SP metadata files so the IdP trusts both SPs.
 - `conf/attribute-resolver.xml` — minimal static `eduPersonPrincipalName`, `displayName`, `mail` for the demo user.
 - `conf/attribute-filter.xml` — release those attributes to `${SP1_ENTITYID}` and `${SP2_ENTITYID}` (`Requester` policy rule).
-- One demo user `${DEMO_USER}` / `${DEMO_PASS}` (image built-in demo account, or a minimal static credential).
+- `conf/authn/password-authn-config.xml` — points the `shibboleth.HTPasswdValidator` at `credentials/idp.htpasswd`.
+- One demo user `${DEMO_USER}` / `${DEMO_PASS}` — a single static account in `credentials/idp.htpasswd`, written by `gen-certs.sh` from `.env` as **SHA-512 crypt (`$6$`)** via `openssl passwd -6`. **Not bcrypt:** the IdP's `HTPasswdValidator` delegates to Apache Commons Codec `Crypt`, which supports the crypt(3) families `$1$`/`$5$`/`$6$` but **not** bcrypt (`$2a$`/`$2y$`) — a bcrypt entry fails login with `Invalid salt value: …`.
 
-**Risk flags:** forwarded-proto (IdP must emit `https://idp.org/...` while serving HTTP on 8080 behind the proxy); attribute release; cert/entityID consistency between XML, keys, and config.
+**Risk flags:** the IdP self-terminates TLS on the default port 443 (so no port leaks into its URLs); attribute release; cert/entityID consistency between XML, keys, and config.
 
 ## 4. Shibboleth SPs (separate per-SP configs)
 
 `demo-site/sp1/` and `demo-site/sp2/` each have a full independent tree:
 
 - `Dockerfile` — `FROM debian:bookworm`, install `apache2 libapache2-mod-shib`, copy in config + page.
-- `shibboleth2.xml` — `entityID="${SPn_ENTITYID}"`; discovery via `<SSO discoveryProtocol="SAMLDS" discoveryURL="https://${SERVICE_HOST}/ds">SAML2</SSO>`; `<MetadataProvider type="XML" path="/etc/shibboleth/idp-metadata.xml"/>`; `<CredentialResolver>` for the SP keypair; `<Sessions handlerURL="/Shibboleth.sso" handlerSSL="true" cookieProps="https">`.
-- `apache-vhost.conf` — `/` public (no `require shibboleth`); `<Location /secure>` with `AuthType shibboleth` / `ShibRequestSetting requireSession 1` / `Require shib-session`; `/Shibboleth.sso` handler enabled; forwarded-proto handling so shibd builds `https://spN.org/...` URLs.
+- `shibboleth2.xml` — `entityID="${SPn_ENTITYID}"`; discovery via `<SSO discoveryProtocol="SAMLDS" discoveryURL="https://${SERVICE_HOST}/ds">SAML2</SSO>`; `<MetadataProvider type="XML" path="/etc/shibboleth/idp-metadata.xml"/>`; `<CredentialResolver>` for the SP keypair; `<Sessions handlerURL="https://${SPn_HOST}/Shibboleth.sso" handlerSSL="true" cookieProps="https">`. **handlerURL is ABSOLUTE https** — see the apache-vhost note below.
+- `apache-vhost.conf` — `/` public (no `require shibboleth`); `<Location /secure>` with `AuthType shibboleth` / `ShibRequestSetting requireSession 1` / `Require shib-session`; `/Shibboleth.sso` handler enabled via `SetHandler shib`. **Forwarded-proto/port (critical):** behind the TLS-terminating proxy Apache sees the request as `http://spN.org:80`, but the absolute `handlerURL` is `https://spN.org:443` — mod_shib only treats a request as a handler request when the reconstructed URL matches, so a scheme/port mismatch makes it **silently decline every `/Shibboleth.sso/*` handler and Apache 404s (no error, no `native.log`)**. Fix: `ServerName https://${SPn_HOST}` + `UseCanonicalName On` (so Apache builds self-referential URLs as external https, port 443 omitted) plus `SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on`. A *relative* `handlerURL="/Shibboleth.sso"` dodges the handler-match check but then emits `http://...` ACS/redirect URLs, so the absolute form + canonical name is the correct combination.
 - `credentials/sp-signing.{crt,key}`, `sp-encryption.{crt,key}`.
 - `html/index.html` (public, embeds the button) + `html/secure/index.html` (protected, reached via the button `target`).
 
@@ -162,6 +163,8 @@ Plus a minimal `trustinfo.json` (`[]`) to satisfy the loader.
 
 ## 6. Directory layout
 
+This `demo-site/` tree lives **inside the `thiss-js` checkout** (`thiss-js/demo-site/`), so its build contexts are `..` (the `thiss-js` repo root) and `../../thiss-mdq` (sibling of `thiss-js`). All `docker compose` / `scripts/*` commands are run from here.
+
 ```
 demo-site/
   pre-plan.md                 (exists)
@@ -175,7 +178,7 @@ demo-site/
     up.sh                     (bring-up wrapper; reads TLS_MODE, sets COMPOSE_PROFILES / runs gen-tls-local.sh)
   certs/                      (nginx-proxy TLS material, bind-mounted; gitignored — LE writes it, or gen-tls-local.sh does)
   idp/
-    Dockerfile                (optional, extends unicon/shibboleth-idp)
+    Dockerfile                (extends i2incommon/shib-idp)
     config/
       conf/{idp.properties,metadata-providers.xml,attribute-resolver.xml,attribute-filter.xml,authn/...}
       credentials/{idp-signing,idp-encryption}.{crt,key}
@@ -206,9 +209,9 @@ Mount `metadata/metadata.json`→`/etc/metadata.json` and `metadata/trustinfo.js
 
 ## 7. Build vs pull
 
-- **Pull:** `nginx-proxy`, `acme-companion`, `unicon/shibboleth-idp`, the Debian/Apache SP base.
-- **Build locally:** `thiss` from `../thiss-js` (existing `dist-pre/`), `mdq` from `../thiss-mdq` (its `Dockerfile`, `FROM node:20`).
-- The VM needs the sibling repos present (or pre-built images pushed to a registry, switching compose to `image:`). Building on the VM from the sibling repos needs no registry.
+- **Pull:** `nginx-proxy`, `acme-companion`, `i2incommon/shib-idp`, the Debian/Apache SP base.
+- **Build locally:** `thiss` from `..` — the enclosing `thiss-js` repo root (existing `dist-pre/`) — and `mdq` from `../../thiss-mdq` (its `Dockerfile`, `FROM node:20`).
+- This `demo-site/` lives inside the `thiss-js` checkout, so the VM needs that checkout plus the `thiss-mdq` repo as a sibling of `thiss-js` (i.e. `../../thiss-mdq` from here). Alternatively push pre-built images to a registry and switch compose to `image:`; building on the VM from the two repos needs no registry.
 
 ## 8. DNS + TLS — one switch (`TLS_MODE`), chosen at bring-up
 
@@ -249,13 +252,13 @@ Because the only differences are "does acme-companion run" and "who fills `./cer
 6. SAML POST back to `sp1.org/Shibboleth.sso/SAML2/POST` → redirect to `/secure/` → protected content visible (full SSO + attribute release).
 7. Repeat on `sp2.org` → seamless SSO (existing IdP session, no re-prompt) → proves multi-SP federation.
 
-**Failure triage:** button 404 → `service.sa.org` cert / CORS; empty DS search → check baked `MDQ_URL` (view-source) and hit `md.sa.org/entities/?q=` directly; login loop / "no SSO endpoint" → IdP/SP entityID or endpoint mismatch, or forwarded-proto emitting `http://...:8080`; logged in but protected content empty → `attribute-filter.xml` not releasing to that SP entityID.
+**Failure triage:** button 404 → `service.sa.org` cert / CORS; empty DS search → check baked `MDQ_URL` (view-source) and hit `md.sa.org/entities/?q=` directly; login loop / "no SSO endpoint" → IdP/SP entityID or endpoint mismatch, or the IdP emitting a wrong scheme instead of `https://${IDP_HOST}/...`; logged in but protected content empty → `attribute-filter.xml` not releasing to that SP entityID.
 
 ## 10. Risk callouts (priority order)
 
 1. **TLS/DNS mode** — pick `TLS_MODE` (§8) up front: `local` (private names in `/etc/hosts` + local CA, the default for a lab VM) or `letsencrypt` (needs real public DNS for names you own + inbound :80). The `*.org` example domains only work in `local` mode.
-2. **Reverse-proxy forwarded-proto** so IdP and SPs emit `https://<host>` URLs while listening on plain HTTP behind nginx-proxy.
-3. **IdP authn method decision** — §3's "built-in demo account or static credential" must be pinned down *before* building; the `unicon/shibboleth-idp` authn config is the most fragile part of bring-up. Decide the mechanism and where `${DEMO_USER}`/`${DEMO_PASS}` live up front, not at debug time.
+2. **Reverse-proxy scheme/host** — the SPs listen on plain HTTP behind nginx-proxy and must emit `https://<host>` URLs (forwarded-proto). The fix that works: `ServerName https://<host>` + `UseCanonicalName On` in the SP vhost (see §4). The IdP terminates its own TLS on the default port 443 (nginx-proxy re-encrypts via `VIRTUAL_PROTO=https`), so it self-references as clean `https://<host>/...` with no port leak.
+3. **IdP authn method decision** — §3's static-credential choice must be pinned *before* building; the IdP authn config is the most fragile part of bring-up. This demo uses `i2incommon/shib-idp` (IdP v5) with a single static account in an htpasswd file validated by a `shibboleth.HTPasswdValidator` bean (`conf/authn/password-authn-config.xml`); `${DEMO_USER}`/`${DEMO_PASS}` live in `.env` and are baked into the htpasswd by `gen-certs.sh` as **SHA-512 crypt (`$6$`)** — bcrypt is rejected by the validator (see §3). Also note: the IdP's whole config is one overlay — the bind-mounted `idp.properties` must be a **complete** copy of the image default (entityID/scope overridden only), or core services fail to load.
 4. **IdP attribute release + metadata trust** round trip.
 5. **SP metadata ↔ shibd endpoint consistency** — hand-authored SP `EntityDescriptor`s (§5) must match the ACS locations/bindings `mod_shib` actually advertises for each entityID, or login fails with "no SSO endpoint"/binding mismatch. Prefer generating each SP's metadata from `https://${SPn_HOST}/Shibboleth.sso/Metadata` and trimming, over authoring by hand.
 6. **entityID / SAML X509 sync** across the three XML files, the discojson, and the SP/IdP configs — handled by `.env` single-sourcing and `gen-certs.sh`.

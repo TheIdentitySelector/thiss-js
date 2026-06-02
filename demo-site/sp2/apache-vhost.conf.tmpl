@@ -1,12 +1,18 @@
 # Rendered from apache-vhost.conf.tmpl by scripts/render.sh.
 # Mounted at /etc/apache2/sites-enabled/000-default.conf.
 <VirtualHost *:80>
-    ServerName ${SP2_HOST}
-    DocumentRoot /var/www/html
-
-    # nginx-proxy terminates TLS and forwards plain HTTP. Tell mod_shib the
-    # original request was https so it builds https://${SP2_HOST}/... URLs.
+    # nginx-proxy terminates TLS and forwards plain HTTP on :80. mod_shib must
+    # still reconstruct the EXTERNAL url (https://${SP2_HOST}/..., default port
+    # 443) so it (a) recognises /Shibboleth.sso/* as handler requests — these
+    # must match the absolute handlerURL in shibboleth2.xml or shibd silently
+    # declines and Apache 404s — and (b) emits https ACS/redirect URLs.
+    # ServerName carries the scheme; UseCanonicalName On makes Apache build
+    # self-referential URLs from it (so the :80 the connection really uses does
+    # not leak); HTTPS=on asserts SSL to the SP from the forwarded proto.
+    ServerName https://${SP2_HOST}
+    UseCanonicalName On
     SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on
+    DocumentRoot /var/www/html
 
     # Make the /Shibboleth.sso handler available.
     <Location /Shibboleth.sso>

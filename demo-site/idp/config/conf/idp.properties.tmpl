@@ -1,20 +1,41 @@
 # Rendered from idp.properties.tmpl by scripts/render.sh.
-# Minimal demo overlay — the image ships a full idp.properties; only the
-# identity-defining values and the password authn flow are pinned here.
+#
+# This is a COMPLETE copy of the image's default idp.properties
+# (i2incommon/shib-idp v5) with only idp.entityID / idp.scope overridden and the
+# Password authn flow pinned. We bind-mount this OVER the image's file, so it
+# must stay complete: conf/credentials.xml and the core services reference
+# idp.signing.cert, idp.sealer.*, idp.additionalProperties, etc. — dropping any
+# of them makes RelyingPartyResolverService fail to load and SSO returns
+# "Invalid relying party configuration".
+#
+# If you bump IDP_IMAGE, re-diff against the new default:
+#   docker run --rm --entrypoint cat <image> /opt/shibboleth-idp/conf/idp.properties
+#
+# The sealer keystore (sealer.jks/.kver) and secrets.properties stay as the
+# image generated them — we only mount our own idp-signing/idp-encryption pair
+# (matching idp-metadata.xml) over the image's, not the whole credentials dir.
 
+idp.searchForProperties=true
+idp.additionalProperties=/credentials/secrets.properties
+
+# --- demo overrides ---
 idp.entityID=${IDP_ENTITYID}
 idp.scope=${IDP_SCOPE}
-
-# Single password login flow, validated against the static htpasswd file
-# (see conf/authn/password-authn-config.xml).
 idp.authn.flows=Password
 
-# We terminate TLS at nginx-proxy and serve plain HTTP on :8080; trust the
-# forwarded scheme/host so SSO/ACS URLs are emitted as https://${IDP_HOST}/...
-# (Jetty in the image must have the ForwardedRequestCustomizer enabled.)
-
-# Release the demo attributes without requiring per-attribute consent so the
-# round trip is one click in the demo.
-idp.consent.allowDoNotRemember=true
-idp.consent.allowGlobal=true
-idp.consent.compareValues=true
+idp.csrf.enabled=true
+idp.sealer.storeResource=%{idp.home}/credentials/sealer.jks
+idp.sealer.versionResource=%{idp.home}/credentials/sealer.kver
+idp.signing.key=%{idp.home}/credentials/idp-signing.key
+idp.signing.cert=%{idp.home}/credentials/idp-signing.crt
+idp.encryption.key=%{idp.home}/credentials/idp-encryption.key
+idp.encryption.cert=%{idp.home}/credentials/idp-encryption.crt
+idp.encryption.config=shibboleth.EncryptionConfiguration.GCM
+idp.trust.signatures=shibboleth.ExplicitKeySignatureTrustEngine
+idp.trust.certificates=shibboleth.ExplicitKeyX509TrustEngine
+idp.storage.htmlLocalStorage=true
+idp.session.trackSPSessions=true
+idp.session.secondaryServiceIndex=true
+idp.bindings.inMetadataOrder=false
+idp.ui.fallbackLanguages=en,fr,de
+idp.audit.shortenBindings=true

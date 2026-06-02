@@ -59,17 +59,18 @@ services:
     build:
       context: ./idp
       args:
-        IDP_IMAGE: ${IDP_IMAGE:-unicon/shibboleth-idp:4.1.0}
+        IDP_IMAGE: ${IDP_IMAGE:-i2incommon/shib-idp:latest5}
     container_name: idp
     restart: unless-stopped
     environment:
       VIRTUAL_HOST: ${IDP_HOST}
-      VIRTUAL_PORT: "8080"
+      # The i2incommon image serves the IdP over its OWN https (Tomcat) on :443.
+      # nginx-proxy re-encrypts to it and does not verify the backend's
+      # self-signed cert, so the browser still sees nginx-proxy's trusted cert.
+      VIRTUAL_PORT: "443"
+      VIRTUAL_PROTO: "https"
       LETSENCRYPT_HOST: ${IDP_HOST}
       LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
-      # Make the IdP emit https://${IDP_HOST}/... URLs while serving plain HTTP.
-      JETTY_BROWSER_SSL_KEYSTORE_PASSWORD: changeit
-      JETTY_BACKCHANNEL_SSL_KEYSTORE_PASSWORD: changeit
     volumes:
       - ./idp/config/conf/idp.properties:/opt/shibboleth-idp/conf/idp.properties:ro
       - ./idp/config/conf/metadata-providers.xml:/opt/shibboleth-idp/conf/metadata-providers.xml:ro
@@ -130,7 +131,7 @@ services:
   # --- Metadata query service (discojson) -------------------------------
   mdq:
     build:
-      context: ../thiss-mdq
+      context: ../../thiss-mdq
     container_name: mdq
     restart: unless-stopped
     environment:
@@ -169,7 +170,11 @@ services:
       COMPONENT_URL: https://${SERVICE_HOST}/cta/
       PERSISTENCE_URL: https://${SERVICE_HOST}/ps/
       STORAGE_DOMAIN: ${SA_DOMAIN}
-      MDQ_HOSTPORT: ${MDQ_HOST}
+      # nginx resolves this proxy_pass upstream at startup, so it must resolve
+      # INSIDE the container — use the mdq service name on demonet, not the
+      # public ${MDQ_HOST} (which only exists in the host's /etc/hosts). This is
+      # only the @mdq fallback; the browser reaches MDQ directly via MDQ_URL.
+      MDQ_HOSTPORT: "mdq:3000"
       MIN_SEARCH_LENGTH: "2"
       LOGLEVEL: info
     networks:

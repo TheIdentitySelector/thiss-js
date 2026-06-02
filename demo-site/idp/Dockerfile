@@ -3,12 +3,13 @@
 # metadata-providers, attribute-resolver/filter, credentials, htpasswd) so the
 # image itself stays generic and rebuild-free when domains change.
 #
-# NOTE (plan §10.3): the unicon image is the most version-sensitive part of the
-# stack. This expects an image that serves the IdP over plain HTTP on :8080
-# behind the TLS-terminating nginx-proxy and honours X-Forwarded-Proto. If your
-# pinned tag only exposes https on :4443, set VIRTUAL_PORT=4443 +
-# VIRTUAL_PROTO=https on the idp service in docker-compose.yml instead.
-ARG IDP_IMAGE=unicon/shibboleth-idp:4.1.0
+# NOTE (plan §10.3): the IdP image is the most version-sensitive part of the
+# stack. Default is i2incommon/shib-idp (Internet2/InCommon — the maintained
+# successor of the old TIER/unicon image), Shibboleth IdP v5 on Tomcat. It serves
+# its own https on :443, so docker-compose fronts it with VIRTUAL_PORT=443 +
+# VIRTUAL_PROTO=https. Pin a dated tag (e.g. 5.1.6_YYYYMMDD_rocky9_multiarch) in
+# .env for reproducibility; `latest5` just tracks the newest v5 build.
+ARG IDP_IMAGE=i2incommon/shib-idp:latest5
 FROM ${IDP_IMAGE}
 
 # All runtime config arrives via bind mounts (see docker-compose.yml).
