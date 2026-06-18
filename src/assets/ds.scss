@@ -204,16 +204,16 @@ footer {
   background-color: transparent;
   font-weight: 700;
   color: #ffffff;
+
+  a {
+    color: var(--secondary-blue);
+ }
 }
 
 .footer-ra21-logo {
   width: 100px;
   vertical-align: middle;
   margin: 0 20px 0 0;
-}
-
-.footer-pill a {
-  color: var(--secondary-blue);
 }
 
 .header-ra21-logo {
