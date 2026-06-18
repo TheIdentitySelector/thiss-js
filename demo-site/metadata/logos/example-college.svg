@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Example College">
+  <rect width="120" height="120" rx="24" fill="#2e7d4f"/>
+  <path d="M60 38 C49 31 33 31 24 36 V84 C33 79 49 79 60 86 Z" fill="#ffffff"/>
+  <path d="M60 38 C71 31 87 31 96 36 V84 C87 79 71 79 60 86 Z" fill="#d7ecdf"/>
+  <line x1="60" y1="38" x2="60" y2="86" stroke="#2e7d4f" stroke-width="3"/>
+</svg>

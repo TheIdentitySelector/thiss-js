@@ -23,13 +23,14 @@ This plan was validated against the actual behavior of the sibling repos:
 
 ## 1. Services and request flow
 
-Seven services on one user-defined bridge network (`demonet`). Names come from `.env`.
+Eight services on one user-defined bridge network (`demonet`). Names come from `.env`.
 
 | Service | Image | Domain (`VIRTUAL_HOST` / `LETSENCRYPT_HOST`) | Internal port | Role |
 |---|---|---|---|---|
 | `nginx-proxy` | `nginxproxy/nginx-proxy` | — (host `80`/`443`) | — | TLS termination, vhost routing |
 | `acme-companion` | `nginxproxy/acme-companion` | — | — | Let's Encrypt issuance — **`letsencrypt` profile only** (see §8) |
-| `idp` | `i2incommon/shib-idp` (pinned) | `${IDP_HOST}` | 443 (https) | SAML IdP |
+| `idp` | `i2incommon/shib-idp` (pinned) | `${IDP_HOST}` | 443 (https) | SAML IdP #1 ("Demo IdP") |
+| `idp2` | `i2incommon/shib-idp` (same image as `idp`) | `${IDP2_HOST}` | 443 (https) | SAML IdP #2 ("Universidad de Cazalla") |
 | `sp1` | own Dockerfile (Apache + mod_shib) | `${SP1_HOST}` | 80 | Protected site 1 |
 | `sp2` | own Dockerfile (Apache + mod_shib) | `${SP2_HOST}` | 80 | Protected site 2 |
 | `mdq` | build `../../thiss-mdq` | `${MDQ_HOST}` | 3000 | discojson MDQ |
@@ -43,9 +44,11 @@ Seven services on one user-defined bridge network (`demonet`). Names come from `
 2. Page loads `https://service.sa.org/thiss.js` and renders the button via `thiss.DiscoveryComponent({loginInitiatorURL, entityID}).render('#login')`.
 3. Click → top window navigates to `https://sp1.org/Shibboleth.sso/Login?target=https://sp1.org/secure/`.
 4. The SP `SAMLDS` SessionInitiator redirects to `https://service.sa.org/ds/?entityID=<sp1>&return=<SP discovery response>`.
-5. The DS page calls `https://md.sa.org/entities/?q=...` (CORS) and lists `idp.org` + mock IdPs.
-6. User picks `idp.org` → DS returns the chosen `entityID` to the SP discovery response.
-7. SP issues a SAML AuthnRequest → user authenticates at `idp.org` → SAML Response posts to `sp1.org/Shibboleth.sso/SAML2/POST` → session created → redirect to `target` → protected content rendered.
+5. The DS page calls `https://md.sa.org/entities/?q=...` (CORS) and lists both real IdPs (`idp.org`, `login.uni-cazalla.net`) + mock IdPs.
+6. User picks an IdP → DS returns the chosen `entityID` to the SP discovery response.
+7. SP issues a SAML AuthnRequest → user authenticates at the chosen IdP → SAML Response posts to `sp1.org/Shibboleth.sso/SAML2/POST` → session created → redirect to `target` → protected content rendered. Both SPs carry both IdPs' metadata, so either IdP works at either SP.
+
+**Second IdP (`idp2`).** It is a full peer of `idp`, not a clone wired differently: a distinct `entityID`/`scope`/host, its own SAML keypair and htpasswd, and its own `attribute-resolver` (so the released `displayName`/`mail` and scoped `eduPersonPrincipalName` differ). It runs the **same generic image** and reuses `idp/`'s byte-identical static config (`metadata-providers.xml`, the rendered `attribute-filter.xml`, `authn/password-authn-config.xml`) via bind mounts, so only its per-instance overlay (`idp2/config/`) is kept separately. Trust is symmetric: `idp2` mounts both SP descriptors, and both SPs add a second `<MetadataProvider>` for `idp2-metadata.xml`. In the discovery JSON it is just another real `type:"idp"` entry alongside the mocks.
 
 ## 2. thiss-js (`thiss`) configuration
 

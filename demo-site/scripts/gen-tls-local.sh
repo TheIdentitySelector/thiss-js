@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# gen-tls-local.sh — TLS_MODE=local only. Mint browser TLS certs for the five
+# gen-tls-local.sh — TLS_MODE=local only. Mint browser TLS certs for the six
 # vhosts into ./certs as <host>.crt / <host>.key (the filenames nginx-proxy
 # matches on). Prefers mkcert (installs a trusted local CA); falls back to a
 # self-managed openssl CA written to certs/local-ca.crt — import that into the
@@ -20,7 +20,7 @@ FORCE=0
 set -a; source "$ROOT/.env"; set +a
 
 mkdir -p "$CERTS"
-HOSTS=("$IDP_HOST" "$SP1_HOST" "$SP2_HOST" "$MDQ_HOST" "$SERVICE_HOST")
+HOSTS=("$IDP_HOST" "$IDP2_HOST" "$SP1_HOST" "$SP2_HOST" "$MDQ_HOST" "$SERVICE_HOST")
 
 if command -v mkcert >/dev/null 2>&1; then
     echo "Using mkcert (trusted local CA)."

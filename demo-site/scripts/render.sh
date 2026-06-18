@@ -26,13 +26,32 @@ source "$ROOT/.env"
 [ -f "$HERE/.certs-env.sh" ] && source "$HERE/.certs-env.sh"
 set +a
 
+# Entity logos: base64-encode the committed SVG sources (metadata/logos/) into
+# inline data: URLs, so every entity carries its icon directly in metadata.json
+# and its SAML descriptor — no separate logo hosting. Names mirror the entities
+# in metadata/metadata.json.tmpl (the four example-* ones are the mock IdPs).
+logo_url() { printf 'data:image/svg+xml;base64,%s' "$(base64 -w0 "$1")"; }
+LOGODIR="$ROOT/metadata/logos"
+export IDP_LOGO="$(logo_url "$LOGODIR/demo-idp.svg")"
+export IDP2_LOGO="$(logo_url "$LOGODIR/cazalla.svg")"
+export SP1_LOGO="$(logo_url "$LOGODIR/demo-sp1.svg")"
+export SP2_LOGO="$(logo_url "$LOGODIR/demo-sp2.svg")"
+export EXAMPLE_UNIVERSITY_LOGO="$(logo_url "$LOGODIR/example-university.svg")"
+export EXAMPLE_COLLEGE_LOGO="$(logo_url "$LOGODIR/example-college.svg")"
+export EXAMPLE_INSTITUTE_LOGO="$(logo_url "$LOGODIR/example-institute.svg")"
+export EXAMPLE_HOSPITAL_LOGO="$(logo_url "$LOGODIR/example-hospital.svg")"
+
 # Everything templates may reference. envsubst only touches these names.
-ALLOW='$SA_DOMAIN $IDP_HOST $SP1_HOST $SP2_HOST $MDQ_HOST $SERVICE_HOST'
-ALLOW="$ALLOW "'$IDP_ENTITYID $IDP_SCOPE $SP1_ENTITYID $SP2_ENTITYID'
+ALLOW='$SA_DOMAIN $IDP_HOST $IDP2_HOST $SP1_HOST $SP2_HOST $MDQ_HOST $SERVICE_HOST'
+ALLOW="$ALLOW "'$IDP_ENTITYID $IDP_SCOPE $IDP2_ENTITYID $IDP2_SCOPE $SP1_ENTITYID $SP2_ENTITYID'
 ALLOW="$ALLOW "'$DEMO_USER $DEMO_DISPLAYNAME $DEMO_MAIL'
+ALLOW="$ALLOW "'$DEMO2_USER $DEMO2_DISPLAYNAME $DEMO2_MAIL'
 ALLOW="$ALLOW "'$IDP_SIGNING_CERT $IDP_ENCRYPTION_CERT'
+ALLOW="$ALLOW "'$IDP2_SIGNING_CERT $IDP2_ENCRYPTION_CERT'
 ALLOW="$ALLOW "'$SP1_SIGNING_CERT $SP1_ENCRYPTION_CERT'
 ALLOW="$ALLOW "'$SP2_SIGNING_CERT $SP2_ENCRYPTION_CERT'
+ALLOW="$ALLOW "'$IDP_LOGO $IDP2_LOGO $SP1_LOGO $SP2_LOGO'
+ALLOW="$ALLOW "'$EXAMPLE_UNIVERSITY_LOGO $EXAMPLE_COLLEGE_LOGO $EXAMPLE_INSTITUTE_LOGO $EXAMPLE_HOSPITAL_LOGO'
 
 rendered=0
 while IFS= read -r -d '' tmpl; do

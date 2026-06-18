@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Demo IdP">
+  <rect width="120" height="120" rx="24" fill="#0e7c86"/>
+  <path d="M60 22 L92 34 V60 C92 80 78 94 60 100 C42 94 28 80 28 60 V34 Z" fill="#0b656d"/>
+  <path d="M60 28 L86 38 V60 C86 77 74 89 60 94 C46 89 34 77 34 60 V38 Z" fill="#ffffff"/>
+  <circle cx="60" cy="54" r="11" fill="#0e7c86"/>
+  <rect x="56" y="58" width="8" height="22" rx="4" fill="#0e7c86"/>
+</svg>

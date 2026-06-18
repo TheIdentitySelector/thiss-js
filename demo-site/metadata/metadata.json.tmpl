@@ -8,8 +8,21 @@
     "descr_langs": {"en": "SeamlessAccess demo identity provider"},
     "domain": "${IDP_SCOPE}",
     "scope": "${IDP_SCOPE}",
-    "entity_icon_url": {"url": "https://${IDP_HOST}/logo.png", "width": "120", "height": "120"},
+    "entity_icon_url": {"url": "${IDP_LOGO}", "width": "120", "height": "120"},
     "keywords": "demo,seamlessaccess,identity",
+    "hidden": "false"
+  },
+  {
+    "entityID": "${IDP2_ENTITYID}",
+    "entity_id": "${IDP2_ENTITYID}",
+    "type": "idp",
+    "title": "University of Cazalla (mock)",
+    "title_langs": {"en": "University of Cazalla"},
+    "descr_langs": {"en": "SeamlessAccess demo identity provider (second institution)"},
+    "domain": "${IDP2_SCOPE}",
+    "scope": "${IDP2_SCOPE}",
+    "entity_icon_url": {"url": "${IDP2_LOGO}", "width": "120", "height": "120"},
+    "keywords": "demo,seamlessaccess,cazalla,identity",
     "hidden": "false"
   },
   {
@@ -17,10 +30,11 @@
     "entity_id": "https://idp.example-university.edu/idp/shibboleth",
     "type": "idp",
     "title": "Example University (mock)",
-    "title_langs": {"en": "Example University (mock)"},
+    "title_langs": {"en": "Example University"},
     "descr_langs": {"en": "Mock IdP to populate discovery search"},
     "domain": "example-university.edu",
     "scope": "example-university.edu",
+    "entity_icon_url": {"url": "${EXAMPLE_UNIVERSITY_LOGO}", "width": "120", "height": "120"},
     "keywords": "demo,university,example,mock",
     "hidden": "false"
   },
@@ -29,10 +43,11 @@
     "entity_id": "https://login.example-college.org/idp",
     "type": "idp",
     "title": "Example College (mock)",
-    "title_langs": {"en": "Example College (mock)"},
+    "title_langs": {"en": "Example College"},
     "descr_langs": {"en": "Mock IdP to populate discovery search"},
     "domain": "example-college.org",
     "scope": "example-college.org",
+    "entity_icon_url": {"url": "${EXAMPLE_COLLEGE_LOGO}", "width": "120", "height": "120"},
     "keywords": "demo,college,example,mock",
     "hidden": "false"
   },
@@ -41,10 +56,11 @@
     "entity_id": "https://idp.example-institute.net/saml",
     "type": "idp",
     "title": "Example Institute (mock)",
-    "title_langs": {"en": "Example Institute (mock)"},
+    "title_langs": {"en": "Example Institute"},
     "descr_langs": {"en": "Mock IdP to populate discovery search"},
     "domain": "example-institute.net",
     "scope": "example-institute.net",
+    "entity_icon_url": {"url": "${EXAMPLE_INSTITUTE_LOGO}", "width": "120", "height": "120"},
     "keywords": "demo,institute,research,example,mock",
     "hidden": "false"
   },
@@ -53,10 +69,11 @@
     "entity_id": "https://idp.example-hospital.org/idp/shibboleth",
     "type": "idp",
     "title": "Example Hospital (mock)",
-    "title_langs": {"en": "Example Hospital (mock)"},
+    "title_langs": {"en": "Example Hospital"},
     "descr_langs": {"en": "Mock IdP to populate discovery search"},
     "domain": "example-hospital.org",
     "scope": "example-hospital.org",
+    "entity_icon_url": {"url": "${EXAMPLE_HOSPITAL_LOGO}", "width": "120", "height": "120"},
     "keywords": "demo,hospital,health,example,mock",
     "hidden": "false"
   },
@@ -67,6 +84,7 @@
     "title": "Demo SP 1",
     "title_langs": {"en": "Demo SP 1"},
     "descr_langs": {"en": "SeamlessAccess demo service provider 1"},
+    "entity_icon_url": {"url": "${SP1_LOGO}", "width": "120", "height": "120"},
     "discovery_responses": ["https://${SP1_HOST}/Shibboleth.sso/Login"]
   },
   {
@@ -76,6 +94,7 @@
     "title": "Demo SP 2",
     "title_langs": {"en": "Demo SP 2"},
     "descr_langs": {"en": "SeamlessAccess demo service provider 2"},
+    "entity_icon_url": {"url": "${SP2_LOGO}", "width": "120", "height": "120"},
     "discovery_responses": ["https://${SP2_HOST}/Shibboleth.sso/Login"]
   }
 ]

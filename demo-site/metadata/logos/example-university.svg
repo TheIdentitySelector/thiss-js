@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Example University">
+  <rect width="120" height="120" rx="24" fill="#1f5fa8"/>
+  <path d="M60 34 L100 52 L60 70 L20 52 Z" fill="#ffffff"/>
+  <path d="M38 60 V80 C38 87 82 87 82 80 V60 L60 70 Z" fill="#bcd4f0"/>
+  <line x1="100" y1="52" x2="100" y2="80" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="100" cy="82" r="5" fill="#ffd34e"/>
+</svg>

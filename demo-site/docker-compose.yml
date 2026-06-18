@@ -77,11 +77,49 @@ services:
       - ./idp/config/conf/attribute-resolver.xml:/opt/shibboleth-idp/conf/attribute-resolver.xml:ro
       - ./idp/config/conf/attribute-filter.xml:/opt/shibboleth-idp/conf/attribute-filter.xml:ro
       - ./idp/config/conf/authn/password-authn-config.xml:/opt/shibboleth-idp/conf/authn/password-authn-config.xml:ro
+      # Branded login page: stock view with the "Demo IdP" logo inlined as SVG.
+      - ./idp/config/views/login.vm:/opt/shibboleth-idp/views/login.vm:ro
       - ./idp/config/credentials/idp-signing.crt:/opt/shibboleth-idp/credentials/idp-signing.crt:ro
       - ./idp/config/credentials/idp-signing.key:/opt/shibboleth-idp/credentials/idp-signing.key:ro
       - ./idp/config/credentials/idp-encryption.crt:/opt/shibboleth-idp/credentials/idp-encryption.crt:ro
       - ./idp/config/credentials/idp-encryption.key:/opt/shibboleth-idp/credentials/idp-encryption.key:ro
       - ./idp/config/credentials/idp.htpasswd:/opt/shibboleth-idp/credentials/idp.htpasswd:ro
+      - ./metadata/sp1-metadata.xml:/opt/shibboleth-idp/metadata/sp1-metadata.xml:ro
+      - ./metadata/sp2-metadata.xml:/opt/shibboleth-idp/metadata/sp2-metadata.xml:ro
+    networks:
+      - demonet
+
+  # Second IdP — a separate institution in the same federation. Same generic
+  # image as `idp`; only its entityID/scope (idp.properties), released identity
+  # (attribute-resolver) and SAML keypair/htpasswd differ. The metadata-providers,
+  # attribute-filter and password-authn config are byte-identical, so it reuses
+  # idp/'s rendered copies rather than keeping a second set in sync.
+  idp2:
+    build:
+      context: ./idp
+      args:
+        IDP_IMAGE: ${IDP_IMAGE:-i2incommon/shib-idp:latest5}
+    container_name: idp2
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${IDP2_HOST}
+      VIRTUAL_PORT: "443"
+      VIRTUAL_PROTO: "https"
+      LETSENCRYPT_HOST: ${IDP2_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - ./idp2/config/conf/idp.properties:/opt/shibboleth-idp/conf/idp.properties:ro
+      - ./idp/config/conf/metadata-providers.xml:/opt/shibboleth-idp/conf/metadata-providers.xml:ro
+      - ./idp2/config/conf/attribute-resolver.xml:/opt/shibboleth-idp/conf/attribute-resolver.xml:ro
+      - ./idp/config/conf/attribute-filter.xml:/opt/shibboleth-idp/conf/attribute-filter.xml:ro
+      - ./idp/config/conf/authn/password-authn-config.xml:/opt/shibboleth-idp/conf/authn/password-authn-config.xml:ro
+      # Branded login page: stock view with the "Universidad de Cazalla" logo inlined as SVG.
+      - ./idp2/config/views/login.vm:/opt/shibboleth-idp/views/login.vm:ro
+      - ./idp2/config/credentials/idp-signing.crt:/opt/shibboleth-idp/credentials/idp-signing.crt:ro
+      - ./idp2/config/credentials/idp-signing.key:/opt/shibboleth-idp/credentials/idp-signing.key:ro
+      - ./idp2/config/credentials/idp-encryption.crt:/opt/shibboleth-idp/credentials/idp-encryption.crt:ro
+      - ./idp2/config/credentials/idp-encryption.key:/opt/shibboleth-idp/credentials/idp-encryption.key:ro
+      - ./idp2/config/credentials/idp.htpasswd:/opt/shibboleth-idp/credentials/idp.htpasswd:ro
       - ./metadata/sp1-metadata.xml:/opt/shibboleth-idp/metadata/sp1-metadata.xml:ro
       - ./metadata/sp2-metadata.xml:/opt/shibboleth-idp/metadata/sp2-metadata.xml:ro
     networks:
@@ -103,6 +141,7 @@ services:
       - ./sp1/attribute-map.xml:/etc/shibboleth/attribute-map.xml:ro
       - ./sp1/credentials:/etc/shibboleth/credentials:ro
       - ./metadata/idp-metadata.xml:/etc/shibboleth/idp-metadata.xml:ro
+      - ./metadata/idp2-metadata.xml:/etc/shibboleth/idp2-metadata.xml:ro
       - ./sp1/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
       - ./sp1/html:/var/www/html:ro
     networks:
@@ -123,6 +162,7 @@ services:
       - ./sp2/attribute-map.xml:/etc/shibboleth/attribute-map.xml:ro
       - ./sp2/credentials:/etc/shibboleth/credentials:ro
       - ./metadata/idp-metadata.xml:/etc/shibboleth/idp-metadata.xml:ro
+      - ./metadata/idp2-metadata.xml:/etc/shibboleth/idp2-metadata.xml:ro
       - ./sp2/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
       - ./sp2/html:/var/www/html:ro
     networks:

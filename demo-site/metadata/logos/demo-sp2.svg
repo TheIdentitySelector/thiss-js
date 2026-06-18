@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Demo SP 2">
+  <rect width="120" height="120" rx="24" fill="#e67817"/>
+  <circle cx="60" cy="52" r="30" fill="#ffffff"/>
+  <text x="60" y="66" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="bold" fill="#e67817" text-anchor="middle">2</text>
+  <text x="60" y="102" font-family="Arial, sans-serif" font-size="14" letter-spacing="3" fill="#f6d2b3" text-anchor="middle">SP&#160;2</text>
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from idp2/config/conf/attribute-resolver.xml.tmpl by render.sh.
+     Second IdP (Universidad de Cazalla). Same shape as idp/'s resolver but the
+     scope and the static account values come from the IDP2_/DEMO2_ vars, so the
+     released identity is distinct from the first IdP's. -->
+<AttributeResolver
+    xmlns="urn:mace:shibboleth:2.0:resolver"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:mace:shibboleth:2.0:resolver http://shibboleth.net/schema/idp/shibboleth-attribute-resolver.xsd">
+
+    <AttributeDefinition id="eduPersonPrincipalName" xsi:type="Scoped" scope="${IDP2_SCOPE}">
+        <InputDataConnector ref="staticAttributes" attributeNames="uid"/>
+    </AttributeDefinition>
+
+    <AttributeDefinition id="displayName" xsi:type="Simple">
+        <InputDataConnector ref="staticAttributes" attributeNames="displayNameSrc"/>
+    </AttributeDefinition>
+
+    <AttributeDefinition id="mail" xsi:type="Simple">
+        <InputDataConnector ref="staticAttributes" attributeNames="mailSrc"/>
+    </AttributeDefinition>
+
+    <DataConnector id="staticAttributes" xsi:type="Static">
+        <Attribute id="uid">
+            <Value>${DEMO2_USER}</Value>
+        </Attribute>
+        <Attribute id="displayNameSrc">
+            <Value>${DEMO2_DISPLAYNAME}</Value>
+        </Attribute>
+        <Attribute id="mailSrc">
+            <Value>${DEMO2_MAIL}</Value>
+        </Attribute>
+    </DataConnector>
+
+</AttributeResolver>

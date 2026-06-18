@@ -1,14 +1,17 @@
 # SeamlessAccess Docker Compose demo
 
-A self-contained federation demo: a Shibboleth IdP, a thiss-mdq metadata
-service, a thiss-js discovery site, and two Shibboleth-protected SPs, all behind
-`nginx-proxy` (TLS) on one `demonet` bridge network. See [`plan.md`](plan.md)
-for the full design and [`pre-plan.md`](pre-plan.md) for the original sketch.
+A self-contained federation demo: two Shibboleth IdPs (a generic "Demo IdP" and
+"Universidad de Cazalla"), a thiss-mdq metadata service, a thiss-js discovery
+site, and two Shibboleth-protected SPs, all behind `nginx-proxy` (TLS) on one
+`demonet` bridge network. Both SPs trust both IdPs and both IdPs appear in the
+same discovery service, so you can sign in to either SP through either IdP. See
+[`plan.md`](plan.md) for the full design and [`pre-plan.md`](pre-plan.md) for the
+original sketch.
 
 ## Layout
 
 ```
-docker-compose.yml      seven services (plan §1)
+docker-compose.yml      eight services (plan §1)
 .env.example            copy to .env and edit
 scripts/
   gen-certs.sh          one-time SAML keypairs + htpasswd + embeds X509 into the XML
@@ -16,7 +19,13 @@ scripts/
   render.sh             fills every *.tmpl from .env (+ cert bodies)
   up.sh                 bring-up wrapper; the only thing that branches on TLS_MODE
 metadata/               XML EntityDescriptors (.tmpl) + discojson + trustinfo
-idp/                    Dockerfile (extends the Shibboleth IdP image) + mounted config
+  logos/                invented per-entity SVG logos; render.sh inlines each as
+                        a data: URL into metadata.json + the SAML descriptors
+idp/                    Dockerfile (extends the Shibboleth IdP image) + mounted
+                        config; config/views/login.vm brands the login page logo
+idp2/                   second IdP's per-instance config (idp.properties +
+                        attribute-resolver + credentials + views/login.vm); shares
+                        idp/'s image and its static metadata-providers/filter/authn
 sp1/  sp2/              Apache + mod_shib; all config is mounted, image is generic
 certs/                  nginx-proxy TLS material (gitignored)
 ```
@@ -24,6 +33,17 @@ certs/                  nginx-proxy TLS material (gitignored)
 Files ending in `.tmpl` are templates; `render.sh` produces the real file next to
 them (without the suffix). The rendered files, the `.env`, the generated keys and
 `certs/` are all gitignored.
+
+**Logos.** Every entity (both real IdPs, the four mock IdPs, and both SPs) gets an
+invented SVG under `metadata/logos/`. `render.sh` base64-encodes each into an
+inline `data:` URL and substitutes it as the entity's `entity_icon_url` in
+`metadata.json` (shown in the discovery search) and as `<mdui:Logo>` in the SAML
+descriptors — so no logo needs separate hosting. The two real IdPs also brand
+their Shibboleth login page: `idp/config/views/login.vm` and
+`idp2/config/views/login.vm` are copies of the stock view with the header logo
+replaced by that IdP's SVG inlined directly (the stock `idp.logo` message can't be
+a `data:` URL because the view prefixes it with the `/idp` context path). To
+restyle a logo, edit the SVG and re-run `render.sh`.
 
 ## Prerequisites
 
@@ -59,8 +79,9 @@ docker compose build         # builds thiss (from ../) and mdq (from ../thiss-md
 `up.sh` does the mode-specific work:
 
 - **`TLS_MODE=local`** (default): runs `gen-tls-local.sh`, prints the `/etc/hosts`
-  line to add on every test machine (`<VM_IP> idp.org sp1.org sp2.org md.sa.org
-  service.sa.org`), then `docker compose up -d` without acme-companion.
+  line to add on every test machine (`<VM_IP> idp.org login.uni-cazalla.net
+  sp1.org sp2.org md.sa.org service.sa.org`), then `docker compose up -d` without
+  acme-companion.
 - **`TLS_MODE=letsencrypt`**: checks the names resolve publicly, then
   `COMPOSE_PROFILES=letsencrypt docker compose up -d`. Requires public DNS for
   names you **own** and inbound `:80` for the HTTP-01 challenge.
@@ -69,13 +90,17 @@ Switching modes is a one-line `.env` edit plus re-running `up.sh`.
 
 ## End-to-end test (plan §9)
 
-1. `https://md.sa.org/entities/?q=demo` → JSON listing the IdP + mock IdPs.
+1. `https://md.sa.org/entities/?q=demo` → JSON listing both real IdPs + mock IdPs.
 2. `https://service.sa.org/ds/` → search UI loads; typing shows IdPs.
 3. `https://sp1.org/` → public page + SeamlessAccess button renders.
-4. Click the button → `service.sa.org/ds` with the SP params → pick "Demo IdP".
-5. Authenticate at `idp.org` as `${DEMO_USER}` / `${DEMO_PASS}`.
+4. Click the button → `service.sa.org/ds` with the SP params → pick **either**
+   "Demo IdP" (`idp.org`) **or** "Universidad de Cazalla" (`login.uni-cazalla.net`).
+5. Authenticate at the chosen IdP as `${DEMO_USER}` / `${DEMO_PASS}` (the login is
+   the same at both; the released identity — displayName / mail / scoped eppn —
+   differs so you can tell which institution you used).
 6. SAML POST back to `sp1.org/Shibboleth.sso/SAML2/POST` → `/secure/` content shows.
-7. Repeat on `sp2.org` → no re-prompt (SSO across both SPs).
+7. Repeat on `sp2.org` → no re-prompt (SSO across both SPs). Both SPs accept both
+   IdPs, so the same applies whichever IdP you picked.
 
 ## Failure triage (plan §9 / §10)
 

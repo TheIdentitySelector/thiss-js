@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Example Hospital">
+  <rect width="120" height="120" rx="24" fill="#c62828"/>
+  <circle cx="60" cy="60" r="34" fill="#ffffff"/>
+  <rect x="52" y="36" width="16" height="48" rx="3" fill="#c62828"/>
+  <rect x="36" y="52" width="48" height="16" rx="3" fill="#c62828"/>
+</svg>

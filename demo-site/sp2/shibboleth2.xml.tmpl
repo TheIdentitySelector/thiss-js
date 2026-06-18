@@ -33,7 +33,11 @@
                 helpLocation="/about.html"
                 styleSheet="/shibboleth-sp/main.css"/>
 
+        <!-- Trust BOTH IdPs in the federation. The discovery service lets the
+             user pick either one; mod_shib needs each IdP's metadata to redirect
+             to its SSO endpoint and validate the returned assertion. -->
         <MetadataProvider type="XML" validate="true" path="/etc/shibboleth/idp-metadata.xml"/>
+        <MetadataProvider type="XML" validate="true" path="/etc/shibboleth/idp2-metadata.xml"/>
 
         <AttributeExtractor type="XML" validate="true" reloadChanges="false" path="attribute-map.xml"/>
         <AttributeResolver type="Query" subjectMatch="true"/>

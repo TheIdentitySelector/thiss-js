@@ -25,7 +25,7 @@ fi
 echo "==> Rendering templates"
 bash scripts/render.sh
 
-HOSTS=("$IDP_HOST" "$SP1_HOST" "$SP2_HOST" "$MDQ_HOST" "$SERVICE_HOST")
+HOSTS=("$IDP_HOST" "$IDP2_HOST" "$SP1_HOST" "$SP2_HOST" "$MDQ_HOST" "$SERVICE_HOST")
 
 case "$TLS_MODE" in
     local)

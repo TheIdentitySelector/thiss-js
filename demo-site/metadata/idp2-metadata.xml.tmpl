@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from idp2-metadata.xml.tmpl by render.sh (cert bodies stashed by
+     gen-certs.sh). SAML metadata for the SECOND IdP, Universidad de Cazalla.
+     Bind-mounted (read-only) into both SPs so they trust this IdP in addition to
+     the first one. Do not edit the generated file; edit the .tmpl. -->
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+                  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                  xmlns:shibmd="urn:mace:shibboleth:metadata:1.0"
+                  xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui"
+                  entityID="${IDP2_ENTITYID}">
+
+  <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:mace:shibboleth:1.0">
+    <Extensions>
+      <shibmd:Scope regexp="false">${IDP2_SCOPE}</shibmd:Scope>
+      <mdui:UIInfo>
+        <mdui:DisplayName xml:lang="en">Universidad de Cazalla</mdui:DisplayName>
+        <mdui:Description xml:lang="en">SeamlessAccess demo identity provider (second institution)</mdui:Description>
+        <mdui:Logo height="120" width="120">${IDP2_LOGO}</mdui:Logo>
+      </mdui:UIInfo>
+    </Extensions>
+
+    <KeyDescriptor use="signing">
+      <ds:KeyInfo>
+        <ds:X509Data><ds:X509Certificate>${IDP2_SIGNING_CERT}</ds:X509Certificate></ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+    <KeyDescriptor use="encryption">
+      <ds:KeyInfo>
+        <ds:X509Data><ds:X509Certificate>${IDP2_ENCRYPTION_CERT}</ds:X509Certificate></ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                         Location="https://${IDP2_HOST}/idp/profile/SAML2/Redirect/SLO"/>
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                         Location="https://${IDP2_HOST}/idp/profile/SAML2/POST/SLO"/>
+
+    <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                         Location="https://${IDP2_HOST}/idp/profile/SAML2/Redirect/SSO"/>
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                         Location="https://${IDP2_HOST}/idp/profile/SAML2/POST/SSO"/>
+  </IDPSSODescriptor>
+
+</EntityDescriptor>
