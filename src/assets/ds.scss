@@ -204,10 +204,10 @@ footer {
   background-color: transparent;
   font-weight: 700;
   color: #ffffff;
+}
 
-  a {
-    color: var(--secondary-blue);
- }
+a.footer-about-link {
+  color: var(--secondary-blue);
 }
 
 .footer-ra21-logo {
