@@ -193,7 +193,7 @@ footer {
     #locale-selector {
         border: none;
         background: transparent;
-        color: var(--primary-blue);
+        color: var(--secondary-blue);
     }
 }
 
@@ -210,6 +210,10 @@ footer {
   width: 100px;
   vertical-align: middle;
   margin: 0 20px 0 0;
+}
+
+.footer-pill a {
+  color: var(--secondary-blue);
 }
 
 .header-ra21-logo {
