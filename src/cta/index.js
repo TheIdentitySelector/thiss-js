@@ -23,6 +23,10 @@ const urlParams = new URLSearchParams(queryString);
 let mdq = process.env.MDQ_URL;
 let persistence = process.env.PERSISTENCE_URL;
 let context = process.env.DEFAULT_CONTEXT || "thiss.io";
+// Site root where CopyWebpackPlugin emits src/assets/*.svg (matches webpack
+// output.publicPath). Used to load sa-populated.svg from the server in the
+// button's populated state — see swapInPopulatedLogo().
+const path_prefix = process.env.PUBLIC_PATH_PREFIX || '/';
 let entityID = null;
 let trustProfile = null;
 let defaultText = "Your Institution";
@@ -130,6 +134,20 @@ if (typeof discovery_response !== 'function') {
     };
 }
 
+// In the populated state (a persisted choice was recovered) replace the inlined
+// SeamlessAccess logo with one fetched from the server, so every populated
+// render leaves a `GET /sa-populated.svg` line in the access logs. The
+// non-populated state keeps the build-time inlined SVG and makes no request, so
+// the two states are distinguishable in the logs: counting these GETs against
+// total CTA loads yields the populated/non-populated ratio. The cache-buster
+// forces a fresh GET on each render so cached responses don't undercount.
+const swapInPopulatedLogo = () => {
+    const logoEl = document.getElementById('buttonLogo');
+    if (!logoEl) return;
+    const src = `${path_prefix}sa-populated.svg?cb=${Date.now()}`;
+    logoEl.innerHTML = `<img src="${src}" alt="" style="width:100%;height:auto;display:block">`;
+};
+
 const recoverPersisted = (start, context) => {
     Promise.all(start).then(function() {
         ds.ps.entities(context).then(result => result.data).then(function(items) {
@@ -148,6 +166,7 @@ const recoverPersisted = (start, context) => {
                         }
                         document.getElementById('title').innerText = title;
                         entity_id = item.entity_id || item.entityID;
+                        swapInPopulatedLogo();
                         localization.translateStringP('cta-button-header').then(translated => {document.getElementById('headline').innerText = translated});
                         document.getElementById('headline').className = "ra21-button-text-secondary";
                         document.getElementById('dsbutton').hidden = false;
