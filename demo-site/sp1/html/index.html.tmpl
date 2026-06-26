@@ -11,7 +11,7 @@
     <title>Andaliz Publishing — Hydrostatic Equilibrium and the Near-Spherical Structure of the Sun</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600;700&family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;600;700&family=Roboto:wght@400;500;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --pastel: #f9eaff; --purple: #7f57f1; --ink: #333; --head: #222;
@@ -139,6 +139,93 @@
                 entityID: '${SP1_ENTITYID}'
             }).render('#login');
         };
+    </script>
+
+    <!-- ============================================================
+         Demo instructions overlay — implements the Figma "Advanced
+         instructions" dialog (node 2543:10166) on its scrim (2543:10181).
+         Brand-neutral and self-contained; the IDENTICAL block lives in
+         sp2/html/index.html.tmpl — edit both together. Shown on every
+         load; dismissable via the ✕, "Continue to demo", Esc, or the
+         backdrop. (To show it only once per visitor, gate showOverlay()
+         on localStorage — see the comment in the script below.)
+         ============================================================ -->
+    <style>
+        .demo-overlay {
+            position: fixed; inset: 0; z-index: 2000; padding: 24px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(120, 120, 120, 0.43);
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+        .demo-overlay[hidden] { display: none; }
+        .demo-overlay__card {
+            width: 582px; max-width: 100%; max-height: calc(100vh - 48px);
+            overflow-y: auto; background: #fff; border-radius: 20px;
+            box-shadow: 0 5px 16px rgba(0, 0, 0, 0.28); padding: 24px;
+            display: flex; flex-direction: column; gap: 24px;
+        }
+        .demo-overlay__head { display: flex; align-items: flex-start; gap: 24px; }
+        .demo-overlay__title { flex: 1; margin: 0; font-weight: 700; font-size: 24px; line-height: 1.2; color: #000; }
+        .demo-overlay__close {
+            flex: none; width: 24px; height: 24px; padding: 0; border: 0;
+            background: none; color: #000; cursor: pointer; line-height: 0;
+        }
+        .demo-overlay__close svg { display: block; }
+        .demo-overlay__body { color: #535353; font-size: 14px; line-height: 22px; }
+        .demo-overlay__body p { margin: 0 0 16px; }
+        .demo-overlay__body ul { margin: 0 0 16px; padding-left: 21px; }
+        .demo-overlay__body li { margin: 0; }
+        .demo-overlay__body :last-child { margin-bottom: 0; }
+        .demo-overlay__actions { display: flex; justify-content: flex-end; }
+        .demo-overlay__continue {
+            height: 44px; padding: 0 14px; border: 0; border-radius: 6px;
+            background: #216e93; color: #fff; font-family: inherit; font-size: 14px; cursor: pointer;
+        }
+    </style>
+    <div id="demo-overlay" class="demo-overlay" role="dialog" aria-modal="true" aria-labelledby="demo-overlay-title" hidden>
+        <div class="demo-overlay__card">
+            <div class="demo-overlay__head">
+                <h2 id="demo-overlay-title" class="demo-overlay__title">Advanced instructions</h2>
+                <button type="button" class="demo-overlay__close" aria-label="Close instructions">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+            </div>
+            <div class="demo-overlay__body">
+                <p>Advanced integration enables content websites to provide a custom experience to its users. To use the demo, a few example identity providers (with login) are provided to allow you to evaluate the full experience.</p>
+                <p>Available identity providers:</p>
+                <ul>
+                    <li>Demo IdP</li>
+                    <li>University of Cazalla</li>
+                </ul>
+                <p>Login at identity provider:</p>
+                <ul>
+                    <li>Username: demo</li>
+                    <li>Password: demopassword</li>
+                </ul>
+            </div>
+            <div class="demo-overlay__actions">
+                <button type="button" class="demo-overlay__continue">Continue to demo</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var overlay = document.getElementById('demo-overlay');
+            if (!overlay) return;
+            // To show only once per visitor, wrap the reveal below in:
+            //   if (localStorage.getItem('demoOverlayDismissed')) return;
+            // and call localStorage.setItem('demoOverlayDismissed', '1') in hide().
+            function hide() {
+                overlay.setAttribute('hidden', '');
+                document.removeEventListener('keydown', onKey);
+            }
+            function onKey(e) { if (e.key === 'Escape') hide(); }
+            overlay.removeAttribute('hidden');
+            document.addEventListener('keydown', onKey);
+            overlay.addEventListener('click', function (e) { if (e.target === overlay) hide(); });
+            overlay.querySelector('.demo-overlay__close').addEventListener('click', hide);
+            overlay.querySelector('.demo-overlay__continue').addEventListener('click', hide);
+        })();
     </script>
 </body>
 </html>
