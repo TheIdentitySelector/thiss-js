@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <!-- Rendered from index.html.tmpl by scripts/render.sh. Public (unauthenticated)
      landing page for SP2 — "Prinsen". Abstract + truncated intro, with the
-     SeamlessAccess button inside the "Authenticate for full-text" card. The blue
-     button is rendered by thiss.js into #login — do not hardcode a look-alike. -->
+     SeamlessAccess button inside the "View full article" access panel (Figma
+     frame 2459:12145, panel group 2627:8694 — see ../../design-updates-2026-08.md).
+     The access button is rendered by thiss.js into #login — do not hardcode a
+     look-alike; the magenta custom button in Figma is the future Advanced mode.
+     All "other log in" / "purchase" options are dummy links. -->
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -51,10 +54,36 @@
         .h-abstract { font-family: "Nunito Sans", sans-serif; font-weight: 700; font-size: 18px; color: var(--ink); margin: 0 0 6px; }
         .body p { font-size: 16px; color: var(--ink); margin: 0 0 18px; }
 
-        .auth-card { border: 1px solid var(--border); border-top: 4px solid var(--ink); border-radius: 4px; padding: 28px 36px 34px; margin-top: 28px; max-width: 705px; }
-        .auth-card-title { font-family: "IBM Plex Serif", Georgia, serif; font-weight: 600; font-size: 18px; color: var(--ink); margin: 0 0 12px; }
-        .auth-card-desc { font-size: 15px; color: var(--ink); margin: 0 0 24px; }
-        #login { width: 350px; max-width: 100%; min-height: 58px; }
+        /* "View full article" access panel (Figma group 2627:8694) */
+        .access-panel { margin-top: 28px; max-width: 705px; border-top: 6px solid #000; box-shadow: 0 4px 8.5px rgba(179,179,179,.25); }
+        .access-main { background: #fff; padding: 30px 36px 34px; text-align: center; }
+        .access-title { font-weight: 700; font-size: 25px; line-height: 28px; color: #000; margin: 0 0 10px; }
+        .access-sub { font-size: 15px; line-height: 24px; color: #000; margin: 0 0 24px; }
+        #login { width: 350px; max-width: 100%; min-height: 58px; margin: 0 auto; }
+        .access-change { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--magenta); text-decoration: none; }
+        .access-change:hover { text-decoration: underline; }
+        .access-change svg { width: 13px; height: 13px; display: block; }
+        .access-options { position: relative; display: grid; grid-template-columns: 1fr 1fr; background: rgba(35,148,6,.05); padding: 30px 25px 40px; }
+        .access-options::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(35,148,6,.2); }
+        .access-col { padding: 0 25px; min-width: 0; }
+        .access-col h3 { font-size: 15px; line-height: 28px; font-weight: 700; color: #000; margin: 0 0 14px; }
+        .other-login { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+        .other-login a { display: inline-flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--magenta); text-decoration: none; }
+        .other-login a:hover { text-decoration: underline; }
+        .other-login svg, .opt-btn svg { width: 11px; height: 15px; display: block; flex: none; }
+        .purchase { display: flex; flex-direction: column; gap: 12px; }
+        .opt-btn { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #fff; border: 2px solid rgba(115,25,99,.2); border-radius: 5px; padding: 12px 24px; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--magenta); text-decoration: none; }
+        .opt-btn:hover { border-color: rgba(115,25,99,.45); }
+        .opt-btn--center { justify-content: center; }
+        .opt-label { display: inline-flex; align-items: center; gap: 9px; }
+        .opt-meta { font-weight: 500; color: #999; white-space: nowrap; }
+        .access-support { font-size: 15px; line-height: 24px; color: #000; text-align: center; max-width: 705px; margin: 18px 0 0; }
+        .access-support a { font-weight: 700; color: var(--magenta); text-decoration: none; }
+        .access-support a:hover { text-decoration: underline; }
+        @media (max-width: 720px) {
+            .access-options { grid-template-columns: 1fr; gap: 28px; }
+            .access-options::before { display: none; }
+        }
 
         /* Sidebar */
         .rec-title { font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px; color: var(--ink); margin: 0 0 20px; }
@@ -105,11 +134,44 @@
                 <p>In addition to established geological explanations, some theoretical models propose that Mars may once have possessed an ancient moon, sometimes referred to hypothetically as Nerio, whose gravitational influence and eventual destruction could have contributed to crustal deformation and planetary imbalance. This article examines the physical and geological processes responsible for the shape of Mars, including rotational deformation, volcanic loading, hemispheric asymmetry, and speculative satellite interaction theories.</p>
             </div>
 
-            <section class="auth-card">
-                <h2 class="auth-card-title">Authenticate for full-text</h2>
-                <p class="auth-card-desc">Authenticate using your preferred authentication provider to gain access to articles from the Dual-Band journal and more at Prinsen publishing.</p>
-                <div id="login"></div>
+            <section class="access-panel">
+                <div class="access-main">
+                    <h2 class="access-title">View full article</h2>
+                    <p class="access-sub">Get access to the full-text by authenticating with your institute</p>
+                    <div id="login"></div>
+                    <a class="access-change" href="https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h13M13 3l4 4-4 4M20 17H7M11 13l-4 4 4 4"/></svg>
+                        Add or change institution
+                    </a>
+                </div>
+                <div class="access-options">
+                    <div class="access-col">
+                        <h3>Other log in options</h3>
+                        <div class="other-login">
+                            <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>Log in on Prinsen</a>
+                            <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>Access code</a>
+                            <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>AKS member access</a>
+                        </div>
+                    </div>
+                    <div class="access-col">
+                        <h3>Purchase options</h3>
+                        <div class="purchase">
+                            <a class="opt-btn" href="#">
+                                <span class="opt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Purchase article (PDF)</span>
+                                <span class="opt-meta">€120</span>
+                            </a>
+                            <a class="opt-btn opt-btn--center" href="#">
+                                <span class="opt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Purchase journal issue (PDF)</span>
+                            </a>
+                            <a class="opt-btn" href="#">
+                                <span class="opt-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>Rent article</span>
+                                <span class="opt-meta">20 days access</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </section>
+            <p class="access-support">If you have any problems gaining access, <a href="#">contact our support desk.</a></p>
         </article>
 
         <aside class="sidebar">
