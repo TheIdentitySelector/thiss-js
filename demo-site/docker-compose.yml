@@ -144,6 +144,7 @@ services:
       - ./metadata/idp2-metadata.xml:/etc/shibboleth/idp2-metadata.xml:ro
       - ./sp1/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
       - ./sp1/html:/var/www/html:ro
+      - ./demo-toolbar:/var/www/html/demo-toolbar:ro
     networks:
       - demonet
 
@@ -165,6 +166,7 @@ services:
       - ./metadata/idp2-metadata.xml:/etc/shibboleth/idp2-metadata.xml:ro
       - ./sp2/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
       - ./sp2/html:/var/www/html:ro
+      - ./demo-toolbar:/var/www/html/demo-toolbar:ro
     networks:
       - demonet
 

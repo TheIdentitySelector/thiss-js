@@ -1,0 +1,160 @@
+/* Rendered from demo-toolbar.js.tmpl by scripts/render.sh.
+ *
+ * SeamlessAccess demo toolbar (Figma frames 2543:9402 bar, 2543:9495 hidden
+ * chip, 2627:898 mode dropdown — see ../design-updates-2026-08.md). One shared
+ * self-injecting script, bind-mounted into both SP containers and included by
+ * all four demo pages as <script src="/demo-toolbar/demo-toolbar.js" defer>.
+ *
+ * Behavior implemented now: hide/show toggle (collapses to a small chip,
+ * persisted), Example dropdown navigates between the content sites, and the
+ * Integration Mode choice is persisted and broadcast as a "sa:demo-mode"
+ * event on document — the mode does not change page behavior yet (that lands
+ * with the advanced-integration discovery page).
+ *
+ * No JS template literals in this file: render.sh runs envsubst over it, so
+ * every ${...} must be one of the allowlisted deployment vars.
+ */
+(function () {
+    'use strict';
+
+    var SP1_URL = 'https://${SP1_HOST}/';
+    var SP2_URL = 'https://${SP2_HOST}/';
+    var DOCS_URL = 'https://thiss-js.readthedocs.io/en/latest/';
+    var LS_KEY = 'saDemoToolbar';
+
+    var state = { mode: 'advanced', hidden: false };
+    try {
+        var saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+        if (saved.mode) state.mode = saved.mode;
+        if (saved.hidden) state.hidden = true;
+    } catch (e) { /* first visit or blocked storage */ }
+    function save() {
+        try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+    }
+
+    var caret = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\' viewBox=\'0 0 10 6\'%3E%3Cpath d=\'M1 1l4 4 4-4\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'1.6\' stroke-linecap=\'round\'/%3E%3C/svg%3E")';
+    var check = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'11\' height=\'9\' viewBox=\'0 0 11 9\'%3E%3Cpath d=\'M1 4.5L4 7.5L10 1\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")';
+
+    var css = '' +
+        '.sadt { box-sizing: border-box; display: flex; align-items: center; gap: 24px;' +
+        '  height: 60px; padding: 0 22px; background: #216e93;' +
+        '  font-family: Roboto, "Segoe UI", system-ui, sans-serif; }' +
+        '.sadt *, .sadt *::before, .sadt *::after { box-sizing: border-box; }' +
+        '.sadt[hidden], .sadt-reopen[hidden] { display: none; }' +
+        '.sadt-brand { display: flex; align-items: center; gap: 17px; color: #fff;' +
+        '  font-size: 16px; white-space: nowrap; }' +
+        '.sadt-brand img { width: 22px; height: 21px; display: block; }' +
+        '.sadt-brand b { font-weight: 700; }' +
+        '.sadt-controls { display: flex; align-items: center; gap: 20px; margin: 0 auto; }' +
+        '.sadt-chip { display: flex; align-items: stretch; height: 36px; background: #2a4e68;' +
+        '  border-radius: 9px; overflow: hidden; }' +
+        '.sadt-chip-label { display: flex; align-items: center; padding: 0 15px;' +
+        '  border-right: 1px solid #2e81aa; color: #fff; font-size: 10px; font-weight: 700;' +
+        '  text-transform: capitalize; white-space: nowrap; }' +
+        '.sadt-chip select { appearance: none; -webkit-appearance: none; border: 0; margin: 0;' +
+        '  background: transparent ' + caret + ' no-repeat right 12px center;' +
+        '  color: #fff; font: inherit; font-size: 10px; padding: 0 30px 0 12px; cursor: pointer; }' +
+        '.sadt-chip select:focus { outline: 2px solid #2e81aa; outline-offset: -2px; }' +
+        '.sadt-chip select option { color: #000; background: #fff; }' +
+        '.sadt-hide { display: flex; align-items: center; gap: 7px; color: #fff;' +
+        '  font-size: 10px; cursor: pointer; white-space: nowrap; }' +
+        '.sadt-hide input { appearance: none; -webkit-appearance: none; margin: 0; width: 15px;' +
+        '  height: 15px; background: #2a4e68; border: 1px solid #2e81aa; border-radius: 3px;' +
+        '  cursor: pointer; }' +
+        '.sadt-hide input:checked { background: #2a4e68 ' + check + ' no-repeat center; }' +
+        '.sadt-docs { display: flex; align-items: center; gap: 8px; color: #fff;' +
+        '  font-size: 13px; text-decoration: none; white-space: nowrap; }' +
+        '.sadt-docs:hover { text-decoration: underline; }' +
+        '.sadt-docs svg { width: 15px; height: 15px; display: block; }' +
+        '.sadt-reopen { position: fixed; top: 12px; right: 16px; z-index: 3000;' +
+        '  display: flex; align-items: center; justify-content: center; gap: 5px;' +
+        '  width: 43px; height: 27px; padding: 0; background: #216e93; border: 0;' +
+        '  border-radius: 6px; cursor: pointer; }' +
+        '.sadt-reopen img { width: 15px; height: 14px; display: block; }' +
+        '@media (max-width: 1100px) { .sadt { flex-wrap: wrap; height: auto; padding: 10px 22px; } }';
+
+    var docsIcon =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        '<circle cx="12" cy="12" r="10"/>' +
+        '<path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.33c-.8.31-1.4 1-1.4 1.87v.3"/>' +
+        '<circle cx="12" cy="17" r="0.5" fill="currentColor"/></svg>';
+    var caretSvg =
+        '<svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true">' +
+        '<path d="M1 1l4 4 4-4" fill="none" stroke="#fff" stroke-width="1.6" ' +
+        'stroke-linecap="round"/></svg>';
+
+    var html = '' +
+        '<span class="sadt-brand"><img src="/demo-toolbar/sa-white.svg" alt="">' +
+        '<span><b>Seamless Access</b> - Demo</span></span>' +
+        '<span class="sadt-controls">' +
+        '<label class="sadt-chip"><span class="sadt-chip-label">Integration Mode</span>' +
+        '<select id="sadt-mode" aria-label="Integration mode">' +
+        '<option value="advanced">Advanced</option>' +
+        '<option value="standard">Standard</option>' +
+        '<option value="limited" disabled title="Not yet available">Limited</option>' +
+        '</select></label>' +
+        '<label class="sadt-chip"><span class="sadt-chip-label">Example</span>' +
+        '<select id="sadt-example" aria-label="Example site">' +
+        '<option value="cs1">Content Site 1</option>' +
+        '<option value="cs2">Content Site 2</option>' +
+        '<option value="button" disabled title="Not yet available">Standard Button</option>' +
+        '</select></label>' +
+        '<label class="sadt-hide"><input type="checkbox" id="sadt-hide"> Hide demo toolbar</label>' +
+        '</span>' +
+        '<a class="sadt-docs" href="' + DOCS_URL + '" target="_blank" rel="noopener">' +
+        'Documentation ' + docsIcon + '</a>';
+
+    function init() {
+        var style = document.createElement('style');
+        style.textContent = css;
+        document.head.appendChild(style);
+
+        var bar = document.createElement('div');
+        bar.className = 'sadt';
+        bar.innerHTML = html;
+
+        var reopen = document.createElement('button');
+        reopen.type = 'button';
+        reopen.className = 'sadt-reopen';
+        reopen.title = 'Show demo toolbar';
+        reopen.innerHTML = '<img src="/demo-toolbar/sa-white.svg" alt="">' + caretSvg;
+
+        document.body.insertBefore(bar, document.body.firstChild);
+        document.body.appendChild(reopen);
+
+        var mode = bar.querySelector('#sadt-mode');
+        var example = bar.querySelector('#sadt-example');
+        var hide = bar.querySelector('#sadt-hide');
+
+        mode.value = state.mode;
+        mode.addEventListener('change', function () {
+            state.mode = mode.value;
+            save();
+            document.dispatchEvent(new CustomEvent('sa:demo-mode', { detail: state.mode }));
+        });
+
+        var onSp2 = location.hostname === '${SP2_HOST}';
+        example.value = onSp2 ? 'cs2' : 'cs1';
+        example.addEventListener('change', function () {
+            if (example.value === 'cs1' && !onSp2) return;
+            if (example.value === 'cs2' && onSp2) return;
+            location.href = example.value === 'cs2' ? SP2_URL : SP1_URL;
+        });
+
+        function apply() {
+            if (state.hidden) { bar.setAttribute('hidden', ''); reopen.removeAttribute('hidden'); }
+            else { bar.removeAttribute('hidden'); reopen.setAttribute('hidden', ''); }
+            hide.checked = state.hidden;
+        }
+        hide.addEventListener('change', function () { state.hidden = hide.checked; save(); apply(); });
+        reopen.addEventListener('click', function () { state.hidden = false; save(); apply(); });
+        apply();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
