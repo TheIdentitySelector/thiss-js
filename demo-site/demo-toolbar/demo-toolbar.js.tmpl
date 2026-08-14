@@ -8,8 +8,9 @@
  * Behavior implemented now: hide/show toggle (collapses to a small chip,
  * persisted), Example dropdown navigates between the content sites, and the
  * Integration Mode choice is persisted and broadcast as a "sa:demo-mode"
- * event on document — the mode does not change page behavior yet (that lands
- * with the advanced-integration discovery page).
+ * event on document. The SP2 pages consume the mode: advanced (default)
+ * shows their custom button + /discovery/ page, standard shows the thiss.js
+ * DiscoveryComponent. SP1 does not react to the mode yet.
  *
  * No JS template literals in this file: render.sh runs envsubst over it, so
  * every ${...} must be one of the allowlisted deployment vars.

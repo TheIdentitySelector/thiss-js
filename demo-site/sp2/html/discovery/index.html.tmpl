@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- Rendered from discovery/index.html.tmpl by scripts/render.sh. SP2's
+     advanced-integration discovery page (Figma frame 2627:8751 "SP 2 -
+     Authentication - Advanced mode"): Prinsen chrome around the STANDARD
+     SeamlessAccess DS, embedded unstyled in an iframe — the functional box
+     looks and behaves exactly like standard, only encapsulated in the SP's
+     own page. Iframe experiment per design-updates-2026-08.md: the DS
+     redirects the iframe to `return`, which points at return.html here; that
+     page breaks out to the top window and starts the Shibboleth login. -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prinsen — Access to view full article</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600;700&family=Nunito+Sans:wght@400;600;700&family=Numans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --magenta: #731963; --teal: #0b3c49; --ink: #2a2a2a;
+            --border: #e3e3e3;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; color: var(--ink); background: #fff;
+            font-family: "Nunito Sans", system-ui, sans-serif; line-height: 1.6;
+            display: flex; flex-direction: column; min-height: 100vh;
+        }
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+        @media (max-width: 720px) { .container { padding: 0 20px; } }
+
+        .nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.9); backdrop-filter: blur(14px); border-bottom: 3px solid var(--teal); }
+        .nav-inner { display: flex; align-items: center; gap: 28px; height: 80px; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-mark { width: 26px; height: 30px; display: block; }
+        .brand-name { font-family: Numans, system-ui, sans-serif; font-size: 18px; color: #000; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-weight: 600; font-size: 16px; color: var(--ink); text-decoration: none; }
+        .nav-icons { margin-left: auto; display: flex; gap: 22px; color: var(--ink); }
+        .nav-icons svg { width: 22px; height: 22px; display: block; }
+        @media (max-width: 820px) { .nav-links { display: none; } }
+
+        .hero { background: var(--magenta); }
+        .hero .container { padding-top: 40px; padding-bottom: 40px; }
+        .hero h1 { font-family: "IBM Plex Serif", Georgia, serif; font-weight: 600; font-size: 32px; line-height: 1.25; color: #fff; margin: 0; }
+
+        main { flex: 1; width: 100%; }
+        .ds-wrap { display: flex; justify-content: center; padding: 48px 0 64px; }
+        .ds-card { width: 100%; max-width: 820px; background: #fff; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 4px 8.5px rgba(179,179,179,.25); overflow: hidden; }
+        .ds-card iframe { display: block; width: 100%; height: 680px; border: 0; }
+
+        .site-footer { background: var(--teal); }
+        .site-footer .container { display: flex; align-items: center; gap: 20px; padding-top: 40px; padding-bottom: 40px; }
+        .footer-mark { width: 26px; height: 30px; display: block; }
+        .site-footer p { margin: 0; font-size: 12px; color: #eaeaea; }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="container nav-inner">
+            <span class="brand">
+                <img class="brand-mark" src="/img/prinsen-logo.svg" alt="">
+                <span class="brand-name">Prinsen</span>
+            </span>
+            <span class="nav-links">
+                <a href="/">Journals</a><a href="#">Books</a><a href="#">Authors</a><a href="#">Conferences</a>
+            </span>
+            <span class="nav-icons">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </span>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Access to view full article</h1>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="ds-wrap">
+            <div class="ds-card">
+                <iframe id="ds-frame" title="Find your institution"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <img class="footer-mark" src="/img/prinsen-logo-white.svg" alt="">
+            <p>Demo by Seamless Access team</p>
+        </div>
+    </footer>
+
+    <script>
+        // The DS validates `return` against SP2's discovery_responses (the
+        // /discovery/ prefix is listed there) and redirects the IFRAME to it
+        // with &entityID=<chosen> appended; return.html then breaks out to
+        // the top window. entityID must be URL-encoded, which envsubst
+        // cannot do, so the URL is assembled here.
+        var ret = 'https://${SP2_HOST}/discovery/return.html';
+        document.getElementById('ds-frame').src =
+            'https://${SERVICE_HOST}/ds/?entityID=' + encodeURIComponent('${SP2_ENTITYID}') +
+            '&return=' + encodeURIComponent(ret);
+    </script>
+    <script src="/demo-toolbar/demo-toolbar.js" defer></script>
+</body>
+</html>

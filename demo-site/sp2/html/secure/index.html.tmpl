@@ -2,7 +2,11 @@
 <!-- Rendered from secure/index.html.tmpl by scripts/render.sh. Protected
      (authenticated) page for SP2 — "Prinsen". Reached only after Shibboleth login
      via the SeamlessAccess discovery flow. Full article; the button moves to the
-     sidebar "Authentication" block (thiss.js shows the returning institution). -->
+     sidebar "Authentication" block. As on the landing page, the demo toolbar's
+     Integration Mode picks the button: standard = thiss.js DiscoveryComponent
+     in #login, advanced (default) = the SP-authored magenta custom button
+     (Figma frame 2460:12290 "SP 2 - Access") wired to thiss-ds and the SP's
+     own /discovery/ page. -->
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -52,6 +56,12 @@
         .auth-block { margin-bottom: 36px; }
         .auth-title { font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px; color: var(--ink); margin: 0 0 18px; }
         #login { width: 350px; max-width: 100%; min-height: 58px; }
+        /* Advanced-mode custom button: standard-button anatomy (logo cell,
+           divider, "Access through …") in Prinsen magenta. */
+        .sa-custom { display: flex; align-items: stretch; width: 350px; max-width: 100%; min-height: 58px; background: var(--magenta); border-radius: 5px; text-decoration: none; }
+        .sa-custom-logo { display: flex; align-items: center; padding: 5px 14px 5px 12px; border-right: 1px solid #fff; }
+        .sa-custom-logo img { width: 30px; display: block; }
+        .sa-custom-text { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px 12px; color: #fff; font-weight: 700; font-size: 15px; line-height: 1.4; }
 
         .rec-title { font-family: Poppins, sans-serif; font-weight: 600; font-size: 18px; color: var(--ink); margin: 0 0 20px; }
         .rec-card { background: #fff; border-radius: 3px; box-shadow: 0 1px 6px rgba(0,0,0,.12); overflow: hidden; max-width: 350px; }
@@ -121,7 +131,11 @@
         <aside class="sidebar">
             <div class="auth-block">
                 <h2 class="auth-title">Authentication</h2>
-                <div id="login"></div>
+                <div id="login" hidden></div>
+                <a id="sa-custom" class="sa-custom" href="/discovery/" hidden>
+                    <span class="sa-custom-logo"><img src="/demo-toolbar/sa-white.svg" alt=""></span>
+                    <span class="sa-custom-text">Access through your institution</span>
+                </a>
             </div>
             <h2 class="rec-title">Recommended for you</h2>
             <div class="rec-card">
@@ -141,13 +155,51 @@
         </div>
     </footer>
 
+    <script src="/demo-toolbar/thiss-ds.js"></script>
+    <script>
+        // thiss-ds.js and thiss.js both claim window.thiss; capture the DS
+        // client before the component bundle overwrites it.
+        var thissDS = window.thiss;
+    </script>
     <script src="https://${SERVICE_HOST}/thiss.js"></script>
     <script>
+        // Same Integration Mode wiring as the landing page (see the comment
+        // there); the custom button lives in the sidebar Authentication block.
         window.onload = function () {
-            thiss.DiscoveryComponent({
-                loginInitiatorURL: 'https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/',
-                entityID: '${SP2_ENTITYID}'
-            }).render('#login');
+            var custom = document.getElementById('sa-custom');
+            var login = document.getElementById('login');
+            var shibLogin = 'https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/';
+            var rendered = false;
+
+            function currentMode() {
+                try { return JSON.parse(localStorage.getItem('saDemoToolbar') || '{}').mode || 'advanced'; }
+                catch (e) { return 'advanced'; }
+            }
+            function apply(mode) {
+                var advanced = mode !== 'standard';
+                custom.hidden = !advanced;
+                login.hidden = advanced;
+                if (!advanced && !rendered) {
+                    rendered = true;
+                    thiss.DiscoveryComponent({
+                        loginInitiatorURL: shibLogin,
+                        entityID: '${SP2_ENTITYID}'
+                    }).render('#login');
+                }
+            }
+            apply(currentMode());
+            document.addEventListener('sa:demo-mode', function (e) { apply(e.detail); });
+
+            new thissDS.PersistenceService('https://${SERVICE_HOST}/ps/')
+                .entities('${DEFAULT_CONTEXT}')
+                .then(function (result) {
+                    var items = result && result.data;
+                    if (items && items.length && items[0].entity && items[0].entity.title) {
+                        custom.querySelector('.sa-custom-text').textContent =
+                            'Access through ' + items[0].entity.title;
+                    }
+                })
+                .catch(function () { /* no persisted choice — keep the generic label */ });
         };
     </script>
     <script src="/demo-toolbar/demo-toolbar.js" defer></script>

@@ -3,8 +3,11 @@
      landing page for SP2 — "Prinsen". Abstract + truncated intro, with the
      SeamlessAccess button inside the "View full article" access panel (Figma
      frame 2459:12145, panel group 2627:8694 — see ../../design-updates-2026-08.md).
-     The access button is rendered by thiss.js into #login — do not hardcode a
-     look-alike; the magenta custom button in Figma is the future Advanced mode.
+     The access button depends on the demo toolbar's Integration Mode:
+     standard renders the thiss.js DiscoveryComponent into #login (never
+     hardcode a look-alike of THAT button); advanced (default) shows the
+     SP-authored magenta custom button (Figma instance 2627:8676) wired to
+     thiss-ds and the SP's own /discovery/ page.
      All "other log in" / "purchase" options are dummy links. -->
 <html lang="en">
 <head>
@@ -60,6 +63,12 @@
         .access-title { font-weight: 700; font-size: 25px; line-height: 28px; color: #000; margin: 0 0 10px; }
         .access-sub { font-size: 15px; line-height: 24px; color: #000; margin: 0 0 24px; }
         #login { width: 350px; max-width: 100%; min-height: 58px; margin: 0 auto; }
+        /* Advanced-mode custom button: standard-button anatomy (logo cell,
+           divider, "Access through …") in Prinsen magenta. */
+        .sa-custom { display: flex; align-items: stretch; width: 350px; max-width: 100%; min-height: 58px; margin: 0 auto; background: var(--magenta); border-radius: 5px; text-decoration: none; }
+        .sa-custom-logo { display: flex; align-items: center; padding: 5px 14px 5px 12px; border-right: 1px solid #fff; }
+        .sa-custom-logo img { width: 30px; display: block; }
+        .sa-custom-text { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px 12px; color: #fff; font-weight: 700; font-size: 15px; line-height: 1.4; }
         .access-change { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--magenta); text-decoration: none; }
         .access-change:hover { text-decoration: underline; }
         .access-change svg { width: 13px; height: 13px; display: block; }
@@ -138,7 +147,11 @@
                 <div class="access-main">
                     <h2 class="access-title">View full article</h2>
                     <p class="access-sub">Get access to the full-text by authenticating with your institute</p>
-                    <div id="login"></div>
+                    <div id="login" hidden></div>
+                    <a id="sa-custom" class="sa-custom" href="/discovery/" hidden>
+                        <span class="sa-custom-logo"><img src="/demo-toolbar/sa-white.svg" alt=""></span>
+                        <span class="sa-custom-text">Access through your institution</span>
+                    </a>
                     <a class="access-change" href="https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h13M13 3l4 4-4 4M20 17H7M11 13l-4 4 4 4"/></svg>
                         Add or change institution
@@ -193,13 +206,59 @@
         </div>
     </footer>
 
+    <script src="/demo-toolbar/thiss-ds.js"></script>
+    <script>
+        // thiss-ds.js and thiss.js both claim window.thiss; capture the DS
+        // client before the component bundle overwrites it.
+        var thissDS = window.thiss;
+    </script>
     <script src="https://${SERVICE_HOST}/thiss.js"></script>
     <script>
+        // Integration Mode (demo toolbar, default "advanced"):
+        //  - advanced: the SP-authored custom button; its label shows the
+        //    institution the DS persisted, and it links to the SP's own
+        //    /discovery/ page.
+        //  - standard: the thiss.js DiscoveryComponent in #login, rendered
+        //    lazily the first time standard mode is shown.
         window.onload = function () {
-            thiss.DiscoveryComponent({
-                loginInitiatorURL: 'https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/',
-                entityID: '${SP2_ENTITYID}'
-            }).render('#login');
+            var custom = document.getElementById('sa-custom');
+            var login = document.getElementById('login');
+            var change = document.querySelector('.access-change');
+            var shibLogin = 'https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/';
+            var rendered = false;
+
+            function currentMode() {
+                try { return JSON.parse(localStorage.getItem('saDemoToolbar') || '{}').mode || 'advanced'; }
+                catch (e) { return 'advanced'; }
+            }
+            function apply(mode) {
+                var advanced = mode !== 'standard';
+                custom.hidden = !advanced;
+                login.hidden = advanced;
+                change.href = advanced ? '/discovery/' : shibLogin;
+                if (!advanced && !rendered) {
+                    rendered = true;
+                    thiss.DiscoveryComponent({
+                        loginInitiatorURL: shibLogin,
+                        entityID: '${SP2_ENTITYID}'
+                    }).render('#login');
+                }
+            }
+            apply(currentMode());
+            document.addEventListener('sa:demo-mode', function (e) { apply(e.detail); });
+
+            // Advanced integration: read the persisted choice through
+            // thiss-ds (same PERSISTENCE_URL and context as the DS).
+            new thissDS.PersistenceService('https://${SERVICE_HOST}/ps/')
+                .entities('${DEFAULT_CONTEXT}')
+                .then(function (result) {
+                    var items = result && result.data;
+                    if (items && items.length && items[0].entity && items[0].entity.title) {
+                        custom.querySelector('.sa-custom-text').textContent =
+                            'Access through ' + items[0].entity.title;
+                    }
+                })
+                .catch(function () { /* no persisted choice — keep the generic label */ });
         };
     </script>
 

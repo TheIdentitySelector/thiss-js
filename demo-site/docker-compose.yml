@@ -217,6 +217,11 @@ services:
       # public ${MDQ_HOST} (which only exists in the host's /etc/hosts). This is
       # only the @mdq fallback; the browser reaches MDQ directly via MDQ_URL.
       MDQ_HOSTPORT: "mdq:3000"
+      # Persistence context. Was the Dockerfile default ("local") before it
+      # was set here; keep "local" so existing browser-persisted choices
+      # survive. render.sh exports the same value to the SP2 templates, whose
+      # advanced-mode custom button reads the choice the DS persists.
+      DEFAULT_CONTEXT: ${DEFAULT_CONTEXT:-local}
       MIN_SEARCH_LENGTH: "2"
       LOGLEVEL: info
     networks:

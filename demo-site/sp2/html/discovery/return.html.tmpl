@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- Rendered from discovery/return.html.tmpl by scripts/render.sh. Discovery
+     response endpoint for SP2's advanced-integration page: the embedded DS
+     redirects its iframe here with ?entityID=<chosen>. This page escapes the
+     iframe (window.top) and starts the Shibboleth login directly against the
+     chosen IdP — SessionInitiator accepts entityID without a SAMLDS round
+     trip. Listed in SP2's discovery_responses in metadata.json.tmpl. -->
+<html lang="en">
+<head><meta charset="utf-8"><title>Signing in…</title></head>
+<body>
+<script>
+    var entityID = new URLSearchParams(window.location.search).get('entityID');
+    var login = 'https://${SP2_HOST}/Shibboleth.sso/Login?target=' +
+        encodeURIComponent('https://${SP2_HOST}/secure/');
+    if (entityID) login += '&entityID=' + encodeURIComponent(entityID);
+    // If no entityID came back, fall through to the SP's normal login
+    // initiator rather than stranding the user in the frame.
+    window.top.location.href = login;
+</script>
+</body>
+</html>

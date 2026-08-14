@@ -41,8 +41,14 @@ export EXAMPLE_COLLEGE_LOGO="$(logo_url "$LOGODIR/example-college.svg")"
 export EXAMPLE_INSTITUTE_LOGO="$(logo_url "$LOGODIR/example-institute.svg")"
 export EXAMPLE_HOSPITAL_LOGO="$(logo_url "$LOGODIR/example-hospital.svg")"
 
+# Persistence context shared by the DS (thiss container env) and the SP2
+# advanced-mode pages (custom button reads the choice the DS persisted).
+# Must match DEFAULT_CONTEXT in docker-compose.yml's thiss service.
+export DEFAULT_CONTEXT="${DEFAULT_CONTEXT:-local}"
+
 # Everything templates may reference. envsubst only touches these names.
 ALLOW='$SA_DOMAIN $IDP_HOST $IDP2_HOST $SP1_HOST $SP2_HOST $MDQ_HOST $SERVICE_HOST'
+ALLOW="$ALLOW "'$DEFAULT_CONTEXT'
 ALLOW="$ALLOW "'$IDP_ENTITYID $IDP_SCOPE $IDP2_ENTITYID $IDP2_SCOPE $SP1_ENTITYID $SP2_ENTITYID'
 ALLOW="$ALLOW "'$DEMO_USER $DEMO_DISPLAYNAME $DEMO_MAIL'
 ALLOW="$ALLOW "'$DEMO2_USER $DEMO2_DISPLAYNAME $DEMO2_MAIL'

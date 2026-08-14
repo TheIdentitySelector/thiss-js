@@ -126,3 +126,51 @@ standard flow). The wiring, not the styling, is the work here.
 
 Still open for the designer: what "Limited" mode should demo, and whether the
 Example dropdown has a "Content Site 2" entry.
+
+## Clarification (2026-08-14) — custom button and custom discovery page
+
+New guidance on the advanced-integration mocks:
+
+- The buttons on "SP 2 - Access" (`2460:12290`) and "SP 2 - No access"
+  (`2459:12145`, instance `2627:8676` "Access") are **custom, non-standard
+  buttons**. In advanced mode the SP renders its own button; it does not embed
+  the thiss.js DiscoveryComponent. The June constraint ("do not hardcode a
+  look-alike") applies to **standard** mode only — that is exactly the
+  difference the demo exists to show.
+- "SP 2 - Authentication - Advanced mode" (`2627:8751`) is a **custom
+  discovery page** owned by the SP. The functional box inside it looks and
+  behaves the same as the standard SeamlessAccess DS; the point is that it is
+  encapsulated in the SP's own page, so the integration feels advanced.
+
+Implementation decisions:
+
+- **Custom button.** SP-authored markup mirroring the standard button's
+  anatomy (SA logo cell, divider, "Access through …" label) in Prinsen
+  magenta `#731963`. Populated via thiss-ds: `PersistenceService.entities()`
+  against `https://${SERVICE_HOST}/ps/` under the deployment's
+  `DEFAULT_CONTEXT`; with a persisted choice the label is "Access through
+  {institution}", otherwise "Access through your institution". Clicking goes
+  to the SP's own discovery page `/discovery/`.
+- **Mode switching.** Both SP2 pages read the toolbar state
+  (`localStorage.saDemoToolbar`, default `advanced`) and listen for the
+  toolbar's `sa:demo-mode` event: advanced shows the custom button, standard
+  shows the thiss.js DiscoveryComponent in `#login` (rendered lazily on first
+  use). This lands the first slice of item 4.
+- **thiss-ds client.** The dist bundle
+  `@theidentityselector/thiss-ds/dist/thiss-ds.js` (44 KB) is vendored into
+  `demo-toolbar/` (the existing shared mount on both SPs). It claims the
+  global `thiss`, same as thiss.js — pages load thiss-ds.js first, capture
+  the global into `thissDS`, then load thiss.js.
+- **Custom discovery page (iframe experiment).** `sp2/html/discovery/` wraps
+  an `<iframe>` onto `https://${SERVICE_HOST}/ds/?entityID=…&return=…` in
+  Prinsen chrome. The DS redirects the *iframe* to the return URL, so
+  `return` points at `/discovery/return.html` on SP2, which breaks out via
+  `window.top.location` to `Shibboleth.sso/Login?entityID={chosen}&target=…`
+  (Shibboleth's SessionInitiator accepts a direct entityID, no SAMLDS round
+  trip needed). `https://${SP2_HOST}/discovery/` is added to SP2's
+  `discovery_responses` in metadata.json so the DS return-URL check passes.
+- **DEFAULT_CONTEXT plumbing.** The thiss container's `DEFAULT_CONTEXT`
+  (previously the Dockerfile default `local`, unset in compose) is now set
+  explicitly in docker-compose.yml and exported to the templates via
+  render.sh, so the SP pages query the same persistence context the DS
+  writes.
