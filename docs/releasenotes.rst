@@ -399,7 +399,7 @@ Version 2.1.179
 * Fix timing issue with suggested institutions
 * Remove top padding in ds in small devices
 
-Version 2.1.195
+Version 2.1.196
 ---------------
 
 * Fix some accessibility and style issues
