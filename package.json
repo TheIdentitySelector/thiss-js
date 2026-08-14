@@ -85,5 +85,8 @@
     "stream-browserify": "^3.0.0",
     "zoid": "==9.0.34"
   },
-  "snyk": true
+  "snyk": true,
+  "overrides": {
+    "basic-ftp": "5.3.1"
+  }
 }
