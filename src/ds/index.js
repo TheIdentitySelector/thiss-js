@@ -136,6 +136,15 @@ $(document).ready(function() {
             warnDR = true;
     }
 
+    // Advanced integrations embedding the DS in their own page (e.g. in an
+    // iframe) pass embedded=true to hide the SA header/footer chrome — the
+    // functional box is unchanged. Styling lives under body.embedded in
+    // ds.scss.
+    if (urlParams.has('embedded')) {
+        if (urlParams.get('embedded') === 'true')
+            $('body').addClass('embedded');
+    }
+
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);

@@ -169,6 +169,16 @@ Implementation decisions:
   (Shibboleth's SessionInitiator accepts a direct entityID, no SAMLDS round
   trip needed). `https://${SP2_HOST}/discovery/` is added to SP2's
   `discovery_responses` in metadata.json so the DS return-URL check passes.
+- **Embedded DS chrome.** The DS page grows a generic `embedded=true` query
+  parameter (src/ds/index.js + `body.embedded` in src/assets/ds.scss) that
+  hides its own header and footer, leaving only the functional box — the
+  embedding page supplies the chrome. The SP2 discovery page passes it in
+  the iframe URL. This is a thiss-js product change, not demo-site-only:
+  the demo's thiss container rebuilds from this repo and picks it up.
+- **Recommended-for-you image.** The sidebar card's `img/recommended.jpg`
+  showed an unrelated stock photo; replaced with a Saturn's-rings image
+  supplied by Enrique (converted from a 1254² PNG to a 700×400 center-crop
+  JPEG matching the card's 350×200 render).
 - **DEFAULT_CONTEXT plumbing.** The thiss container's `DEFAULT_CONTEXT`
   (previously the Dockerfile default `local`, unset in compose) is now set
   explicitly in docker-compose.yml and exported to the templates via

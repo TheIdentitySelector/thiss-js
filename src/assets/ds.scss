@@ -169,6 +169,22 @@ h3, legend {
   }
 }
 
+/* ?embedded=true — for advanced integrations that frame the DS inside their
+   own page: only the functional box is shown, the surrounding page supplies
+   the chrome. */
+body.embedded {
+  header, footer { display: none; }
+
+  .content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+
+    @media (min-width: 768px) {
+      padding-top: 2rem;
+    }
+  }
+}
+
 header {
 	height: 70px;
 }
