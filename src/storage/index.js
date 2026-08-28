@@ -734,10 +734,20 @@ export async function getStorageHandle() {
 
   // Check if access has already been granted
   if (await document.hasStorageAccess()) {
-    const handle = await document.requestStorageAccess({all: true});
-    if (handle) {
-      return handle;
-    } else {
+    try {
+      const handle = await document.requestStorageAccess({all: true});
+      if (handle) {
+        return handle;
+      } else {
+        return window;
+      }
+    } catch (error) {
+      // requestStorageAccess({all: true}) requires transient user activation;
+      // when hasStorageAccess() is already true (e.g. a same-origin/first-party
+      // frame) this runs at page load with no activation and rejects with
+      // NotAllowedError. The granted-permission branch below already guards the
+      // same call; without this guard the rejection is uncaught. Fall back to
+      // window, which is first-party storage in that case.
       return window;
     }
   }
