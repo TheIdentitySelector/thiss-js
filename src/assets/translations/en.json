@@ -65,6 +65,6 @@
   "aria-label-searchinput": "Find your institution, university, organization or company edit text",
   "aria-label-locale-selector": "Change language",
   "aria-label-close-info-banner": "Close info banner",
-  "aria-label-remove-institute": "Remove Institute from remembered institutions",
+  "aria-label-remove-institute": "Remove $1 from remembered institutions",
   "title-remove-institution": "Remove"
 }

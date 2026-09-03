@@ -62,6 +62,6 @@
   "aria-label-searchinput": "",
   "aria-label-locale-selector": "",
   "aria-label-close-info-banner": "",
-  "aria-label-remove-institute": "",
+  "aria-label-remove-institute": "$1 eltávolítása a megjegyzett intézmények közül",
   "title-remove-institution": ""
 }

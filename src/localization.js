@@ -68,6 +68,13 @@ export default class Localization extends I18n {
                     translatable.forEach(tr => {
                         $(tr[1]).attr(tr[2], this.translateString(tr[0]));
                     });
+                    // The remove buttons' aria-labels name their institution,
+                    // so translate them one by one with the (already
+                    // re-translated) title next to each button.
+                    $('.institution-remove-cross-wrapper').each((i, el) => {
+                        const title = $(el).closest('.institution').find('.label.primary').text();
+                        $(el).attr('aria-label', this.translateString('aria-label-remove-institute', title));
+                    });
                     const suggestedHeader = this.translateString('suggested-institutions-header');
                     $("#suggested-header-string").html(suggestedHeader);
                     const spEntityTitle = $("#suggested-tooltip").data("tooltip");

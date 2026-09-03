@@ -60,6 +60,7 @@
   "ds-warning-continue": "",
   "suggested-institutions-header": "",
   "suggested-tooltip-title": "",
-  "suggested-tooltip-text": ""
+  "suggested-tooltip-text": "",
+  "aria-label-remove-institute": "$1 aus den gemerkten Institutionen entfernen"
 }
  

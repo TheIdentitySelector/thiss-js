@@ -79,12 +79,20 @@ export const showSuggested = () => {
                        title = item.title_langs[lang];
                    }
 
+                   // Name the institution in the remove button's aria-label
+                   // (issue #309). Fall back to English if the locale file
+                   // is not loaded yet.
+                   let remove_label = localization.translateString('aria-label-remove-institute', title);
+                   if (!remove_label || remove_label === 'aria-label-remove-institute')
+                       remove_label = 'Remove ' + title + ' from remembered institutions';
+
                    const context = {
                        title: title,
                        title_i18n: title_i18n,
                        domain: item.domain,
                        entity_id: item.entity_id,
                        name_tag: item.name_tag,
+                       remove_label: remove_label,
                    };
                    const html = suggestedTempl(context);
 

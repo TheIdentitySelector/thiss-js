@@ -64,6 +64,6 @@
   "aria-label-searchinput": "Encuentra tu institución, universidad, organización o compañía edita texto",
   "aria-label-locale-selector": "Cambia idioma",
   "aria-label-close-info-banner": "Cierra cuadro de información",
-  "aria-label-remove-institute": "Elimina institución de las instituciones recordadas",
+  "aria-label-remove-institute": "Elimina $1 de las instituciones recordadas",
   "title-remove-institution": "Elimina"
 }

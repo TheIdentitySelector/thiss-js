@@ -64,6 +64,6 @@
   "aria-label-searchinput": "Hitta din organisation, ditt universitet eller ditt företag",
   "aria-label-locale-selector": "Byt språk",
   "aria-label-close-info-banner": "Stäng detta avsnitt",
-  "aria-label-remove-institute": "Ta bort från dina sparade val",
+  "aria-label-remove-institute": "Ta bort $1 från dina sparade val",
   "title-remove-institution": "Ta bort"
 }
