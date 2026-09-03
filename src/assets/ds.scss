@@ -501,8 +501,11 @@ ul li a:hover {
 }
 
 input {
+  /* The unfocused input already has a 1px #0077ff border, so a border-color
+     change alone is not a visible focus indicator (WCAG 2.4.7, issue #309). */
   &:focus, &:active, &:focus-visible {
-    outline: unset;
+    outline: solid var(--secondary-blue);
+    outline-offset: 2px;
     border-color: var(--secondary-blue);
   }
 }
