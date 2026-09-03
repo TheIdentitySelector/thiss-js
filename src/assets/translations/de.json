@@ -30,6 +30,7 @@
   "ds-too-many-result-show": "Zeigen Sie mir trotzdem alle Treffer an",
   "ds-too-many-result-matches": "Treffer",
   "ds-too-many-result-keep-typing": "Geben Sie weiter ein, um Ihre Suche zu verfeinern",
+  "ds-search-results-shown": "$1 Treffer werden angezeigt",
 
   "list-filter-no-results": "",
   "list-filter-too-many-results": "",

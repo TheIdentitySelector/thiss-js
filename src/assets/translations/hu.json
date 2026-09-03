@@ -30,6 +30,7 @@
   "ds-too-many-result-show": "Mutassa így is az összes egyezést",
   "ds-too-many-result-matches": "Egyezések",
   "ds-too-many-result-keep-typing": "folytassa a gépelést a keresés pontosításához",
+  "ds-search-results-shown": "$1 találat megjelenítve",
 
   "list-filter-no-results": "Nincs találat",
   "list-filter-too-many-results": "Túl sok találat - folytassa a gépelést a keresés pontosításához",

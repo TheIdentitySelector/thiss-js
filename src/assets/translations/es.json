@@ -30,6 +30,7 @@
   "ds-too-many-result-show": "Muéstrame todas las coincidencias de todos modos",
   "ds-too-many-result-matches": "Coincidencias",
   "ds-too-many-result-keep-typing": "sigue escribiendo para refinar tu búsqueda",
+  "ds-search-results-shown": "Mostrando $1 coincidencias",
 
   "list-filter-no-results": "Sin resultados",
   "list-filter-too-many-results": "Demasiados resultados - sigue escribiendo para refinar la búsqueda",

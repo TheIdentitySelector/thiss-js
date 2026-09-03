@@ -31,6 +31,7 @@
   "ds-too-many-result-show": "Show me all matches anyway",
   "ds-too-many-result-matches": "Matches",
   "ds-too-many-result-keep-typing": "keep typing to refine your search",
+  "ds-search-results-shown": "Showing $1 matches",
 
   "list-filter-no-results": "No results",
   "list-filter-too-many-results": "Too many results - keep typing to refine search",

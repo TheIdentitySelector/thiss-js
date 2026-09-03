@@ -302,6 +302,11 @@ $(document).ready(function() {
                         $("#ds-search-header").html('');
                         $("#ds-search-list").html(htmlItemList);
                     }
+                    // Announce only the number of matches via the live region;
+                    // the list itself is outside it (issue #309).
+                    const shown = $("#ds-search-list li").length;
+                    $("#ds-search-count").text(
+                        localization.translateString('ds-search-results-shown', shown));
                 }
             }
         },
@@ -423,6 +428,7 @@ $(document).ready(function() {
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
             $("#ds-search-header").html('');
+            $("#ds-search-count").html('');
 
             if (timer) {
                 clearTimeout(timer); timer = null;
@@ -441,6 +447,7 @@ $(document).ready(function() {
             $("#searching").addClass('d-none');
             document.getElementById('ds-search-list').innerHTML = ''
             $("#ds-search-header").html('');
+            $("#ds-search-count").html('');
 
             if (timer) {
                 clearTimeout(timer); timer = null;

@@ -30,6 +30,7 @@
   "ds-too-many-result-show": "Visa alla träffar",
   "ds-too-many-result-matches": "träffar",
   "ds-too-many-result-keep-typing": "fortsätt skriva för att begränsa sökresultatet",
+  "ds-search-results-shown": "Visar $1 träffar",
 
   "list-filter-no-results": "Inga resultat",
   "list-filter-too-many-results": "fortsätt skriva för att begränsa sökresultatet",

@@ -76,8 +76,15 @@
             </div>
           </div>
         </form>
-        <div class="results search-list" id="resultwidget" aria-live="assertive">
-          <div id="ds-search-header"></div>
+        <div class="results search-list" id="resultwidget">
+          <!-- Only the header (too many / no results / suggested notices) and
+               the visually-hidden match count are announced; the result list
+               itself stays outside the live region so screen readers do not
+               read every match (issue #309). -->
+          <div aria-live="assertive">
+            <div id="ds-search-header"></div>
+            <div id="ds-search-count" class="visually-hidden"></div>
+          </div>
           <ul id="ds-search-list"></ul>
         </div>
       </div>

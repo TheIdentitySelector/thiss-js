@@ -53,6 +53,7 @@ export const showSuggested = () => {
        $("#searching").addClass('d-none');
        document.getElementById('ds-search-list').innerHTML = ''
         $("#ds-search-header").html('');
+        $("#ds-search-count").html('');
        const headerHtml = ejs.render(suggestedHeaderHTML, {
            suggestedString: localization.translateString('suggested-institutions-header')
        });

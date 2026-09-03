@@ -150,6 +150,7 @@ import {showSuggested} from "./suggested.js";
         {
           searchlist$.html('');
           $("#ds-search-header").html('');
+          $("#ds-search-count").html('');
           contains.show();
           containsNot.hide();
           cancelEl$.show();
@@ -210,6 +211,7 @@ import {showSuggested} from "./suggested.js";
           searchlist$.find('.'+opts.itemClassTmp).remove();
           searchlist$.html('');
           $("#ds-search-header").html('');
+          $("#ds-search-count").html('');
           showSuggested();
         }
       }
