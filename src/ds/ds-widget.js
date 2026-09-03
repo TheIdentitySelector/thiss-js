@@ -215,6 +215,10 @@ jQuery(function ($) {
             $('body').on('keyup', obj.options.entity_selector, function (e) {
                 if (e.keyCode === 13) {
                     e.preventDefault();
+                    // Enter on the remove button already fired the button's
+                    // click; do not also select the institution.
+                    if ($(e.target).closest('.institution-remove-cross-wrapper').length)
+                        return;
                     $(this).click();
                 }
             });
@@ -238,12 +242,6 @@ jQuery(function ($) {
                         obj._count -= 1;
                         listItem.remove();
                     });
-                }
-            });
-
-            $('body').on('keypress', '.remove', function (e) {
-                if(e.which == 13){
-                    $('.remove').click();
                 }
             });
 

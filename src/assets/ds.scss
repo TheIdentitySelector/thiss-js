@@ -845,8 +845,21 @@ i.list-item-warning {
   flex-direction: row;
   justify-content: flex-end;
 
+  /* A real <button> for accessibility (issue #309); reset the button chrome
+     so it renders like the former div. */
   .institution-remove-cross-wrapper {
     height: 60px;
     width: 40px;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: solid var(--secondary-blue);
+      outline-offset: -2px;
+    }
   }
 }
