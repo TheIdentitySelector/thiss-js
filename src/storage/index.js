@@ -732,14 +732,22 @@ export async function getStorageHandle() {
     return window;
   }
 
-  // Check if access has already been granted
-  if (await document.hasStorageAccess()) {
-    const handle = await document.requestStorageAccess({all: true});
-    if (handle) {
-      return handle;
-    } else {
-      return window;
+  // Check if access has already been granted.
+  // Brave ships the API surface but rejects requestStorageAccess by
+  // policy and serves ephemeral partitioned storage instead, while
+  // hasStorageAccess() still resolves true. Treat any rejection as
+  // "no storage access" (issue #317).
+  try {
+    if (await document.hasStorageAccess()) {
+      const handle = await document.requestStorageAccess({all: true});
+      if (handle) {
+        return handle;
+      } else {
+        return window;
+      }
     }
+  } catch (error) {
+    return window;
   }
 
   // Check the storage-access permission
@@ -796,8 +804,12 @@ export async function hasSAPerm() {
     return true;
   }
   // Check if access has already been granted
-  if (await document.hasStorageAccess()) {
-    return true;
+  try {
+    if (await document.hasStorageAccess()) {
+      return true;
+    }
+  } catch (error) {
+    return false;
   }
   // Check the storage-access permission
   // Wrap this in a try/catch for browsers that support the

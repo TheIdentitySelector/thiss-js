@@ -405,3 +405,4 @@ Version 2.1.197
 * Fix some accessibility and style issues
 * Add code for the demo sites
 * Use special logo for the populated standard button
+* Fix for brave browser
