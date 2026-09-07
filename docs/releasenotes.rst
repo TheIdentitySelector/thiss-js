@@ -398,3 +398,8 @@ Version 2.1.179
 
 * Fix timing issue with suggested institutions
 * Remove top padding in ds in small devices
+
+Version 2.1.198
+---------------
+
+* Fix for brave browser
