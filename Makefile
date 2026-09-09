@@ -59,6 +59,7 @@ build: test snyk
 	@rm -rf dist-pre/$(VERSION)
 	@mkdir -p dist-pre/$(VERSION)
 	@mv dist/* dist-pre/$(VERSION)/
+	./scripts/check-wire-surface.sh dist-pre/$(VERSION)
 
 bundle:
 	env BASE_URL=$(BASE_URL) COMPONENT_URL=$(BASE_URL)cta/ MDQ_URL=$(MDQ_URL) PERSISTENCE_URL=$(BASE_URL)ps/ SEARCH_URL=$(SEARCH_URL) STORAGE_DOMAIN=$(STORAGE_DOMAIN) LOGLEVEL=$(LOGLEVEL) DEFAULT_CONTEXT=$(DEFAULT_CONTEXT) MIN_SEARCH_LENGTH=$(MIN_SEARCH_LENGTH) SAA_COMPLIANT_BROWSERS=$(SAA_COMPLIANT_BROWSERS) WHITELIST=netlify.app,build.thiss.io bash ./scripts/subst-vars.sh dist-pre out

@@ -14,7 +14,7 @@
     "prepare": "npm run snyk",
     "snyk": "snyk-protect",
     "preinstall": "echo Clearing Cache & npm cache clean --force",
-    "postinstall": "echo Finished Installing & npm list --depth=0"
+    "postinstall": "./scripts/pin-post-robot-key.sh && echo Finished Installing && npm list --depth=0"
   },
   "keywords": [],
   "author": "Leif Johansson <leifj@sunet.se>",
@@ -79,7 +79,7 @@
     "lodash": "^4.17.21",
     "mocha": "^10.7.3",
     "path-browserify": "^1.0.1",
-    "post-robot": "==10.0.14",
+    "post-robot": "npm:@krakenjs/post-robot@11.0.0",
     "proxy-agent": "^6.4.0",
     "sass": "1.77.8",
     "stream-browserify": "^3.0.0",
