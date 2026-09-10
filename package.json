@@ -1,6 +1,6 @@
 {
   "name": "@theidentityselector/thiss",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "The Identity Selector",
   "main": "index.js",
   "private": false,
@@ -64,7 +64,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@popperjs/core": "^2.11.8",
     "@snyk/protect": "^1.1292.4",
-    "@theidentityselector/thiss-ds": "^4.0.0",
+    "@theidentityselector/thiss-ds": "^4.0.1",
     "banana-i18n": "==2.3.3",
     "belter": "^1.0.165",
     "bootstrap-scss": "^5.3.3",
