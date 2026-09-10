@@ -407,7 +407,7 @@ Version 2.1.197
 * Use special logo for the populated standard button
 * Fix for brave browser
 
-Version 4.0.0
+Version 4.0.1
 -------------
 
 * Upgrade post-robot to the maintained @krakenjs/post-robot 11, keeping the
