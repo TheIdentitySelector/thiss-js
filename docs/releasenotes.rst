@@ -406,3 +406,15 @@ Version 2.1.197
 * Add code for the demo sites
 * Use special logo for the populated standard button
 * Fix for brave browser
+
+Version 4.0.0
+-------------
+
+* Upgrade post-robot to the maintained @krakenjs/post-robot 11, keeping the
+  wire protocol compatible with every previous release: the message envelope
+  key is pinned to ``__post_robot_10_0_14__`` at install time
+  (``scripts/pin-post-robot-key.sh``), so old and new components keep
+  talking during and after upgrades. Background in ``post-robot-upgrade.md``.
+* ``make build`` now fails if the built bundles speak any other
+  post-robot/zoid dialect (``scripts/check-wire-surface.sh``).
+* Use thiss-ds 4.0.0, which carries the same treatment.
