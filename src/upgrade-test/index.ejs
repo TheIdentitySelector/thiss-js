@@ -231,6 +231,36 @@
         </div>
     </div>
 
+    <h2>Frozen CDN clients</h2>
+    <p>Real SPs load published artifacts from unpkg/npm that never change. These cards run
+    byte-identical vendored copies of those artifacts against this deployment.</p>
+
+    <div class="test-grid">
+        <div class="test-card">
+            <h3>thiss-ds 3.0.3 client (npm/unpkg)</h3>
+            <div class="version-info">
+                <span class="version-old">frozen thiss-ds dist</span>
+            </div>
+            <p style="font-size: 0.85em; color: #666;">Automated <code>entities()</code> round-trip
+            from the published thiss-ds client against each persistence service generation.</p>
+            <ul style="font-size: 0.9em; list-style: none; padding: 0;">
+                <li>PS current: <span id="frozen-ds-current">running…</span></li>
+                <li>PS new: <span id="frozen-ds-new">running…</span></li>
+            </ul>
+        </div>
+
+        <div class="test-card">
+            <h3>thiss 1.5.0-dev0 button (npm/unpkg, 2021)</h3>
+            <div class="version-info">
+                <span class="version-old">frozen thiss.js dist</span>
+            </div>
+            <p style="font-size: 0.85em; color: #666;">The 2021 published button bundle. It has no
+            persistenceURL option, so it talks to the live <code>/ps/</code> — exactly like a real
+            frozen SP page during and after the upgrade.</p>
+            <div class="cta-container" id="test-cta-frozen"></div>
+        </div>
+    </div>
+
     <div class="direct-links">
         <h2>Direct Entry Point Links</h2>
         <p>You can also test the entry points directly:</p>

@@ -169,6 +169,85 @@ async function renderCombination(combination) {
     }
 }
 
+// ---- Frozen CDN clients ----
+// Byte-identical vendored copies of published npm dists (see
+// src/upgrade-test/vendor/), representing SPs whose bundles never change.
+// Each UMD bundle overwrites window.thiss on load, so capture and restore.
+
+async function loadFrozenModule(url) {
+    const saved = window.thiss;
+    await loadScript(url);
+    const frozen = window.thiss;
+    window.thiss = saved;
+    return frozen;
+}
+
+function withTimeout(promise, ms, label) {
+    return Promise.race([
+        promise,
+        new Promise((resolve, reject) =>
+            setTimeout(() => reject(new Error(`${label}: timeout after ${ms}ms`)), ms)),
+    ]);
+}
+
+function paintCell(id, text, ok) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.textContent = text;
+        el.style.color = ok ? '#2e7d32' : '#c00';
+        el.style.fontWeight = 'bold';
+    }
+}
+
+// Automated round-trip: the frozen thiss-ds client asks each PS generation
+// for the remembered entities. Any resolution (even an empty list) proves
+// the wire works; a timeout means the pair cannot talk.
+async function checkFrozenDsClient() {
+    let frozen;
+    try {
+        frozen = await loadFrozenModule(`${BASE_URL}vendor/thiss-ds-3.0.3.js`);
+        if (!frozen || !frozen.PersistenceService) throw new Error('PersistenceService not exported');
+    } catch (error) {
+        paintCell('frozen-ds-current', `load failed: ${error.message}`, false);
+        paintCell('frozen-ds-new', `load failed: ${error.message}`, false);
+        return;
+    }
+    const context = process.env.DEFAULT_CONTEXT || 'thiss.io';
+    for (const [cell, psUrl] of [['frozen-ds-current', CURRENT_PS], ['frozen-ds-new', NEW_PS]]) {
+        try {
+            const ps = new frozen.PersistenceService(psUrl);
+            const result = await withTimeout(ps.entities(context), 5000, psUrl);
+            const items = (result && result.data) || [];
+            paintCell(cell, `OK (${items.length} remembered)`, true);
+        } catch (error) {
+            paintCell(cell, `FAILED: ${error.message}`, false);
+        }
+    }
+}
+
+// The 2021 published button: no persistenceURL option, talks to the live
+// /ps/ via its baked configuration, like every real frozen SP bundle.
+async function renderFrozenButton() {
+    const container = document.getElementById('test-cta-frozen');
+    if (!container) return;
+    try {
+        const frozen = await loadFrozenModule(`${BASE_URL}vendor/thiss-1.5.0-dev0.js`);
+        if (!frozen || !frozen.DiscoveryComponent) throw new Error('DiscoveryComponent not exported');
+        const ctaDiv = document.createElement('div');
+        ctaDiv.id = 'cta-render-frozen';
+        ctaDiv.style.width = '350px';
+        ctaDiv.style.height = '85px';
+        container.appendChild(ctaDiv);
+        frozen.DiscoveryComponent({
+            discoveryRequest: dsUrl('current', CURRENT_PS),
+            discoveryResponse: TEST_LOGIN_INITIATOR,
+        }).render('#cta-render-frozen');
+    } catch (error) {
+        console.error('Error loading frozen 2021 button:', error);
+        container.innerHTML = `<p style="color: #c00; font-size: 0.9em;">Error loading: ${error.message}</p>`;
+    }
+}
+
 // Initialize all combinations when the page loads
 async function init() {
     // Load current version first (it should always be available)
@@ -189,6 +268,11 @@ async function init() {
     for (const combination of combinations) {
         await renderCombination(combination);
     }
+
+    // Frozen CDN clients (loaded last: their UMD bundles also claim
+    // window.thiss, which loadFrozenModule saves and restores).
+    await renderFrozenButton();
+    await checkFrozenDsClient();
 }
 
 // Start initialization when DOM is ready

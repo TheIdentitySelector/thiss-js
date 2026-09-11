@@ -102,6 +102,13 @@ module.exports = {
                     from: "./src/assets/*.svg",
                     to: "./[name].svg",
                 },
+                {
+                    // Frozen CDN clients for the upgrade-test page:
+                    // byte-identical copies of published npm dists, vendored
+                    // so the harness does not depend on unpkg being up.
+                    from: "./src/upgrade-test/vendor",
+                    to: "./vendor",
+                },
             ],
         }),
         new HtmlWebpackPlugin({
