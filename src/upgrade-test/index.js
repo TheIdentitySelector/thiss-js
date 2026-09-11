@@ -11,9 +11,19 @@ import './styles.scss';
 const BASE_URL = process.env.BASE_URL || '/';
 const CURRENT_PS = `${BASE_URL}ps/`;
 const NEW_PS = `${BASE_URL}new/ps/`;
-const CURRENT_DS = `${BASE_URL}ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}`;
-const NEW_DS = `${BASE_URL}new/ds/?entityID=${encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth")}`;
+const ENTITY_ID = encodeURIComponent("https://demo.beta.seamlessaccess.org/shibboleth");
 const RESULT_URL = `${BASE_URL}result/`;
+
+// The DS accepts a same-origin psUrl query override (4.0.x+), so each
+// combination also pins its DS page to the combination's persistence
+// generation; without this the DS always talks to its baked /ps/ and the
+// DS×PS half of the matrix is not actually exercised. A 2.1.x "current"
+// DS ignores the parameter and keeps its baked /ps/ (which is the same
+// generation, so the pairing still holds).
+function dsUrl(version, psUrl) {
+    const base = version === 'current' ? `${BASE_URL}ds/` : `${BASE_URL}new/ds/`;
+    return `${base}?entityID=${ENTITY_ID}&psUrl=${encodeURIComponent(psUrl)}`;
+}
 
 // Test login initiator (just shows the result page)
 const TEST_LOGIN_INITIATOR = RESULT_URL;
@@ -43,7 +53,7 @@ const combinations = [
         name: 'All Current',
         ctaVersion: 'current',
         psUrl: CURRENT_PS,
-        dsUrl: CURRENT_DS,
+        dsUrl: dsUrl('current', CURRENT_PS),
         description: 'Standard production configuration'
     },
     {
@@ -51,7 +61,7 @@ const combinations = [
         name: 'All New',
         ctaVersion: 'new',
         psUrl: NEW_PS,
-        dsUrl: NEW_DS,
+        dsUrl: dsUrl('new', NEW_PS),
         description: 'Full new version (post-upgrade)'
     },
     {
@@ -59,7 +69,7 @@ const combinations = [
         name: 'New CTA, Current PS & DS',
         ctaVersion: 'new',
         psUrl: CURRENT_PS,
-        dsUrl: CURRENT_DS,
+        dsUrl: dsUrl('current', CURRENT_PS),
         description: 'New CTA with old services'
     },
     {
@@ -67,7 +77,7 @@ const combinations = [
         name: 'Current CTA, New PS & DS',
         ctaVersion: 'current',
         psUrl: NEW_PS,
-        dsUrl: NEW_DS,
+        dsUrl: dsUrl('new', NEW_PS),
         description: 'Old CTA with new services'
     },
     {
@@ -75,7 +85,7 @@ const combinations = [
         name: 'New CTA & PS, Current DS',
         ctaVersion: 'new',
         psUrl: NEW_PS,
-        dsUrl: CURRENT_DS,
+        dsUrl: dsUrl('current', NEW_PS),
         description: 'New CTA and PS, old DS'
     },
     {
@@ -83,7 +93,7 @@ const combinations = [
         name: 'Current CTA & PS, New DS',
         ctaVersion: 'current',
         psUrl: CURRENT_PS,
-        dsUrl: NEW_DS,
+        dsUrl: dsUrl('new', CURRENT_PS),
         description: 'Old CTA and PS, new DS'
     },
     {
@@ -91,7 +101,7 @@ const combinations = [
         name: 'New CTA & DS, Current PS',
         ctaVersion: 'new',
         psUrl: CURRENT_PS,
-        dsUrl: NEW_DS,
+        dsUrl: dsUrl('new', CURRENT_PS),
         description: 'New CTA and DS, old PS'
     },
     {
@@ -99,7 +109,7 @@ const combinations = [
         name: 'Current CTA & DS, New PS',
         ctaVersion: 'current',
         psUrl: NEW_PS,
-        dsUrl: CURRENT_DS,
+        dsUrl: dsUrl('current', NEW_PS),
         description: 'Old CTA and DS, new PS'
     }
 ];

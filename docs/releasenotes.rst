@@ -418,3 +418,7 @@ Version 4.0.3
 * ``make build`` now fails if the built bundles speak any other
   post-robot/zoid dialect (``scripts/check-wire-surface.sh``).
 * Use thiss-ds 4.0.1, which carries the same treatment.
+* The DS accepts a ``psUrl`` query parameter overriding the persistence
+  service URL, restricted to same-origin targets. The upgrade-test page
+  uses it to pin each combination's DS to that combination's persistence
+  generation, so the DS×PS half of the test matrix is really exercised.

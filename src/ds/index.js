@@ -145,6 +145,19 @@ $(document).ready(function() {
             $('body').addClass('embedded');
     }
 
+    // The upgrade-test harness points the DS at a specific persistence
+    // service generation (/ps/ vs /new/ps/). Only same-origin targets are
+    // accepted, so a crafted link cannot redirect persistence elsewhere.
+    let persistence = process.env.PERSISTENCE_URL;
+    if (urlParams.has('psUrl')) {
+        try {
+            const psOverride = new URL(urlParams.get('psUrl'), window.location.href);
+            if (psOverride.origin === window.location.origin)
+                persistence = psOverride.href;
+        } catch (err) {
+        }
+    }
+
 /*
     $("#ra-21-logo").attr("src", headerLogo);
     $("#seamlessaccess_footer_logo").attr("src", footerLogo);
@@ -249,7 +262,7 @@ $(document).ready(function() {
 
     $("#dsclient").discovery_client({
         mdq: mdq_url,
-        persistence: process.env.PERSISTENCE_URL,
+        persistence: persistence,
         search: process.env.SEARCH_URL,
         entityID: entityID,
         trustProfile: trustProfile,
