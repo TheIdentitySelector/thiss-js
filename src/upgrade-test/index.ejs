@@ -261,6 +261,43 @@
         </div>
     </div>
 
+    <h2>Advanced integration (direct thiss-ds client)</h2>
+    <p>SPs on the advanced integration bundle the thiss-ds client themselves and drive the
+    persistence service directly, including the "remember me" checkbox flow
+    (<code>init-checkbox</code>/<code>has_storage_access</code>). These cards run the thiss-ds
+    client bundled in this page (the new generation) against each PS generation; together with
+    the frozen 3.0.3 card above they complete the client×PS generation matrix.</p>
+
+    <div class="test-grid">
+        <div class="test-card">
+            <h3>Bundled thiss-ds client × PS current</h3>
+            <div class="version-info">
+                <span class="version-new">client: New</span>
+                <span class="version-old">PS: Current</span>
+            </div>
+            <ul style="font-size: 0.9em; list-style: none; padding: 0;">
+                <li>entities: <span id="adv-entities-current">running…</span></li>
+                <li>has_storage_access: <span id="adv-hsa-current">running…</span></li>
+            </ul>
+            <p style="font-size: 0.9em;">Checkbox:
+                <span id="adv-checkbox-current" style="display: inline-block; min-width: 220px; min-height: 32px; vertical-align: middle;"></span></p>
+        </div>
+
+        <div class="test-card">
+            <h3>Bundled thiss-ds client × PS new</h3>
+            <div class="version-info">
+                <span class="version-new">client: New</span>
+                <span class="version-new">PS: New</span>
+            </div>
+            <ul style="font-size: 0.9em; list-style: none; padding: 0;">
+                <li>entities: <span id="adv-entities-new">running…</span></li>
+                <li>has_storage_access: <span id="adv-hsa-new">running…</span></li>
+            </ul>
+            <p style="font-size: 0.9em;">Checkbox:
+                <span id="adv-checkbox-new" style="display: inline-block; min-width: 220px; min-height: 32px; vertical-align: middle;"></span></p>
+        </div>
+    </div>
+
     <div class="direct-links">
         <h2>Direct Entry Point Links</h2>
         <p>You can also test the entry points directly:</p>

@@ -6,6 +6,9 @@
  */
 
 import './styles.scss';
+// The bundled (new-generation) thiss-ds client, for the advanced-integration
+// cards. Bundled from source, so it uses this build's patched post-robot.
+import {PersistenceService} from "@theidentityselector/thiss-ds/src/persist.js";
 
 // URLs for current and new versions
 const BASE_URL = process.env.BASE_URL || '/';
@@ -248,6 +251,37 @@ async function renderFrozenButton() {
     }
 }
 
+// Advanced integration: the bundled (new-generation) thiss-ds client driving
+// each PS generation directly, checkbox flow included. entities() proves the
+// wire; has_storage_access() exercises the advanced-mode message; the visible
+// checkbox exercises init-checkbox and sa-checkbox-clicked when toggled.
+async function checkAdvancedClient() {
+    const context = process.env.DEFAULT_CONTEXT || 'thiss.io';
+    for (const [suffix, psUrl] of [['current', CURRENT_PS], ['new', NEW_PS]]) {
+        let ps;
+        try {
+            ps = new PersistenceService(psUrl, {selector: `#adv-checkbox-${suffix}`});
+        } catch (error) {
+            paintCell(`adv-entities-${suffix}`, `client failed: ${String(error && error.message || error)}`, false);
+            paintCell(`adv-hsa-${suffix}`, 'skipped', false);
+            continue;
+        }
+        try {
+            const result = await withTimeout(ps.entities(context), 5000, psUrl);
+            const items = (result && result.data) || [];
+            paintCell(`adv-entities-${suffix}`, `OK (${items.length} remembered)`, true);
+        } catch (error) {
+            paintCell(`adv-entities-${suffix}`, `FAILED: ${String(error && error.message || error)}`, false);
+        }
+        try {
+            const hsa = await withTimeout(ps.has_storage_access(context), 5000, psUrl);
+            paintCell(`adv-hsa-${suffix}`, `answered: ${hsa && hsa.data}`, true);
+        } catch (error) {
+            paintCell(`adv-hsa-${suffix}`, `FAILED: ${String(error && error.message || error)}`, false);
+        }
+    }
+}
+
 // Initialize all combinations when the page loads
 async function init() {
     // Load current version first (it should always be available)
@@ -273,6 +307,7 @@ async function init() {
     // window.thiss, which loadFrozenModule saves and restores).
     await renderFrozenButton();
     await checkFrozenDsClient();
+    await checkAdvancedClient();
 }
 
 // Start initialization when DOM is ready
