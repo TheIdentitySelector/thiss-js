@@ -407,7 +407,7 @@ Version 2.1.197
 * Use special logo for the populated standard button
 * Fix for brave browser
 
-Version 4.0.3
+Version 4.0.4
 -------------
 
 * Upgrade post-robot to the maintained @krakenjs/post-robot 11, keeping the
@@ -422,3 +422,4 @@ Version 4.0.3
   service URL, restricted to same-origin targets. The upgrade-test page
   uses it to pin each combination's DS to that combination's persistence
   generation, so the DS×PS half of the test matrix is really exercised.
+* More teests in upgrade-test
