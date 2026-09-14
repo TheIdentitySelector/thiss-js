@@ -33,6 +33,17 @@
         try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
     }
 
+    // ?toolbar=show switches the hide toggle off, as if the visitor had
+    // unticked the checkbox, and persists that like the click would. For
+    // demo links that must show the toolbar even after someone hid it in
+    // this browser. There is no parameter for the opposite direction.
+    try {
+        if (new URLSearchParams(location.search).get('toolbar') === 'show' && state.hidden) {
+            state.hidden = false;
+            save();
+        }
+    } catch (e) { /* keep the saved state */ }
+
     var caret = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\' viewBox=\'0 0 10 6\'%3E%3Cpath d=\'M1 1l4 4 4-4\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'1.6\' stroke-linecap=\'round\'/%3E%3C/svg%3E")';
     var check = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'11\' height=\'9\' viewBox=\'0 0 11 9\'%3E%3Cpath d=\'M1 4.5L4 7.5L10 1\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")';
 

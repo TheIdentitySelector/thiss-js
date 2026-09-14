@@ -184,3 +184,12 @@ Implementation decisions:
   explicitly in docker-compose.yml and exported to the templates via
   render.sh, so the SP pages query the same persistence context the DS
   writes.
+
+## Toolbar unhide via query parameter (2026-09-14)
+
+The "Hide demo toolbar" toggle persists in localStorage, so a hidden toolbar
+stays hidden across visits. For demo links that must show the toolbar
+regardless of that state, the toolbar honors `?toolbar=show` on any demo
+page: it switches the toggle off and persists that, exactly as if the
+visitor had unticked the checkbox. No parameter for the opposite direction;
+hiding stays a deliberate click.
