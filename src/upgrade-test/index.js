@@ -117,65 +117,46 @@ const combinations = [
     }
 ];
 
-// Map to store loaded thiss modules
-const thissModules = {};
+// Each button lives in its own iframe on the host page (host.js), which
+// loads exactly one thiss.js bundle. zoid 9.0.34 registers the component
+// tag in a window global (window.__zoid_9_0_34__), so a second thiss.js in
+// the same window throws "Can not register multiple components with the
+// same tag"; one document per bundle is the only way to show several
+// generations side by side, and it matches production, where the SP page
+// and the cta are separate windows anyway. The host page is resolved
+// relative to this page, so it is the same generation as the harness
+// (/upgrade-test/host/ or /new/upgrade-test/host/).
+function buttonFrame(id, which, psUrl, dsUrl) {
+    const host = new URL('host/', window.location.href);
+    host.searchParams.set('thiss', which);
+    if (psUrl) host.searchParams.set('ps', psUrl);
+    host.searchParams.set('ds', dsUrl);
+    host.searchParams.set('result', TEST_LOGIN_INITIATOR);
 
-async function loadThissModule(version) {
-    const scriptUrl = version === 'current' ? `${BASE_URL}thiss.js` : `${BASE_URL}new/thiss.js`;
-
-    if (!thissModules[version]) {
-        await loadScript(scriptUrl);
-        // The thiss module attaches to window.thiss
-        thissModules[version] = window.thiss;
-    }
-
-    return thissModules[version];
+    const frame = document.createElement('iframe');
+    frame.id = `cta-frame-${id}`;
+    frame.src = host.href;
+    frame.title = `thiss.js ${which} button`;
+    frame.style.width = '350px';
+    frame.style.height = '100px';
+    frame.style.border = '0';
+    return frame;
 }
 
-async function renderCombination(combination) {
+function renderCombination(combination) {
     const container = document.getElementById(`test-cta-${combination.id}`);
     if (!container) {
         console.warn(`Container not found for combination ${combination.id}`);
         return;
     }
-
-    try {
-        const thissModule = await loadThissModule(combination.ctaVersion);
-
-        if (!thissModule || !thissModule.DiscoveryComponent) {
-            container.innerHTML = `<p style="color: #999; font-size: 0.9em;">
-                Could not load ${combination.ctaVersion} thiss.js.
-                ${combination.ctaVersion === 'new' ? 'The /new/ paths may not be available (only during step 1 deployment).' : ''}
-            </p>`;
-            return;
-        }
-
-        // Create a unique container for this CTA
-        const ctaDiv = document.createElement('div');
-        ctaDiv.id = `cta-render-${combination.id}`;
-        ctaDiv.style.width = '350px';
-        ctaDiv.style.height = '85px';
-        container.appendChild(ctaDiv);
-
-        // Render the CTA with overridden URLs
-        thissModule.DiscoveryComponent({
-            persistenceURL: combination.psUrl,
-            discoveryRequest: combination.dsUrl,
-            discoveryResponse: TEST_LOGIN_INITIATOR,
-        }).render(`#cta-render-${combination.id}`);
-
-    } catch (error) {
-        console.error(`Error loading combination ${combination.id}:`, error);
-        container.innerHTML = `<p style="color: #c00; font-size: 0.9em;">
-            Error loading: ${error.message}
-        </p>`;
-    }
+    container.appendChild(buttonFrame(combination.id, combination.ctaVersion, combination.psUrl, combination.dsUrl));
 }
 
 // ---- Frozen CDN clients ----
 // Byte-identical vendored copies of published npm dists (see
 // src/upgrade-test/vendor/), representing SPs whose bundles never change.
-// Each UMD bundle overwrites window.thiss on load, so capture and restore.
+// The thiss-ds client UMD bundle overwrites window.thiss on load, so
+// capture and restore (nothing else uses window.thiss here any more).
 
 async function loadFrozenModule(url) {
     const saved = window.thiss;
@@ -229,26 +210,12 @@ async function checkFrozenDsClient() {
 }
 
 // The 2021 published button: no persistenceURL option, talks to the live
-// /ps/ via its baked configuration, like every real frozen SP bundle.
-async function renderFrozenButton() {
+// /ps/ via its baked configuration, like every real frozen SP bundle. It
+// calls zoid.create too, so it gets its own host iframe like the others.
+function renderFrozenButton() {
     const container = document.getElementById('test-cta-frozen');
     if (!container) return;
-    try {
-        const frozen = await loadFrozenModule(`${BASE_URL}vendor/thiss-1.5.0-dev0.js`);
-        if (!frozen || !frozen.DiscoveryComponent) throw new Error('DiscoveryComponent not exported');
-        const ctaDiv = document.createElement('div');
-        ctaDiv.id = 'cta-render-frozen';
-        ctaDiv.style.width = '350px';
-        ctaDiv.style.height = '85px';
-        container.appendChild(ctaDiv);
-        frozen.DiscoveryComponent({
-            discoveryRequest: dsUrl('current', CURRENT_PS),
-            discoveryResponse: TEST_LOGIN_INITIATOR,
-        }).render('#cta-render-frozen');
-    } catch (error) {
-        console.error('Error loading frozen 2021 button:', error);
-        container.innerHTML = `<p style="color: #c00; font-size: 0.9em;">Error loading: ${error.message}</p>`;
-    }
+    container.appendChild(buttonFrame('frozen', 'frozen', null, dsUrl('current', CURRENT_PS)));
 }
 
 // Advanced integration: the bundled (new-generation) thiss-ds client driving
@@ -282,30 +249,16 @@ async function checkAdvancedClient() {
     }
 }
 
-// Initialize all combinations when the page loads
+// Initialize all combinations when the page loads. No thiss.js is loaded
+// into this window: every button renders in its own host iframe.
 async function init() {
-    // Load current version first (it should always be available)
-    try {
-        await loadThissModule('current');
-    } catch (e) {
-        console.warn('Could not load current thiss.js:', e);
-    }
-
-    // Try to load new version (may not be available)
-    try {
-        await loadThissModule('new');
-    } catch (e) {
-        console.warn('Could not load new thiss.js (expected if not in step 1 deployment):', e);
-    }
-
-    // Render each combination
     for (const combination of combinations) {
-        await renderCombination(combination);
+        renderCombination(combination);
     }
+    renderFrozenButton();
 
-    // Frozen CDN clients (loaded last: their UMD bundles also claim
-    // window.thiss, which loadFrozenModule saves and restores).
-    await renderFrozenButton();
+    // The post-robot-only clients run in this window; the frozen thiss-ds
+    // UMD bundle claims window.thiss, which loadFrozenModule saves/restores.
     await checkFrozenDsClient();
     await checkAdvancedClient();
 }

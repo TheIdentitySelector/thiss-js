@@ -70,7 +70,7 @@ copy_entry_points_to_new() {
     local src_dir="$SRC_DIR/$version"
 
     # List of entry point directories to copy
-    local entry_points=("cta" "ps" "ds" "result" "upgrade-test")
+    local entry_points=("cta" "ps" "ds" "result" "upgrade-test" "upgrade-test/host")
 
     for entry in "${entry_points[@]}"; do
         local src_entry="$src_dir/$entry/index.html"

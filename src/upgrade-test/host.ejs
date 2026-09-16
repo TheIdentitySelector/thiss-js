@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SeamlessAccess Upgrade Test - button host</title>
+    <style>
+        /* One button per document: loaded in an iframe by /upgrade-test/, so
+           each thiss.js bundle gets its own window and its own zoid registry. */
+        html, body { margin: 0; padding: 0; background: transparent; }
+        #cta { width: 350px; height: 85px; }
+        .error { color: #c00; font: 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 8px; }
+    </style>
+</head>
+<body>
+    <div id="cta"></div>
+</body>
+</html>

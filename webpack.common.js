@@ -63,6 +63,7 @@ module.exports = {
         result: ['./src/result/index.js'],
         thiss: ['./src/component.js'],
         'upgrade-test': ['./src/upgrade-test/index.js'],
+        'upgrade-test-host': ['./src/upgrade-test/host.js'],
     },
     output: {
         filename: (pathData) => {
@@ -150,6 +151,12 @@ module.exports = {
             inject: true,
             template: 'src/upgrade-test/index.ejs',
             favicon: "./src/assets/sa-black.svg"
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'upgrade-test/host/index.html',
+            chunks: ['upgrade-test-host'],
+            inject: true,
+            template: 'src/upgrade-test/host.ejs',
         }),
         new MiniCssExtractPlugin({
             filename: "[name]_[contenthash].css"
