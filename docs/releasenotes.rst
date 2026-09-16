@@ -407,7 +407,7 @@ Version 2.1.197
 * Use special logo for the populated standard button
 * Fix for brave browser
 
-Version 4.0.8
+Version 4.0.9
 -------------
 
 * Upgrade post-robot to the maintained @krakenjs/post-robot 11, keeping the
@@ -424,3 +424,4 @@ Version 4.0.8
   generation, so the DS×PS half of the test matrix is really exercised.
 * More teests in upgrade-test
 * Switch off the "hide toolbar" toggle in the dmo with  a URL query param
+* Fixes for the upgrade-test
