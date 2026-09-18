@@ -43,6 +43,7 @@ import 'ejs/ejs.min';
 import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 import {showSuggested} from "./suggested.js";
+import {initHelp} from "./help.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
@@ -180,9 +181,10 @@ $(document).ready(function() {
         lang = (lang.split('-'))[0];
     }
 
-    $('#learn-more-trigger, #learn-more-close').on('click', function() {
+    $('#learn-more-close').on('click', function() {
       $("#learn-more-banner").toggleClass("d-none");
     })
+    initHelp();
 
     $("#search").on('hidden.bs.collapse',function(event) {
         $("#choose").toggleClass("d-none");
