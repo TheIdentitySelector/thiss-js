@@ -46,9 +46,6 @@ import {showSuggested} from "./suggested.js";
 import {initHelp} from "./help.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
-const learn_more_url = process.env.LEARN_MORE_URL || "https://seamlessaccess.org/about/trust/";
-const service_url = process.env.SERVICE_URL || "https://seamlessaccess.org/";
-const service_name = process.env.SERVICE_NAME || "SeamlessAccess";
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
 const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/";
 
@@ -165,13 +162,6 @@ $(document).ready(function() {
     $("#ra-21-logo").attr("src", headerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
     $("#seamlessaccess_footer_logo").attr("src", footerLogo.split(" = ")[1].replace(/'/g,"").replace(/"/g,""));
 */
-/*    $('#notice-and-consent-actions').html(noticeAndConsentActions.render({}));
-    $('#learn-more-banner').html(learnMoreBanner.render({
-        service_url: service_url,
-        service_name: service_name,
-        learn_more_url: learn_more_url
-    }));*/
-
     let lang = 'en';
 
     if (localization && localization.locale) {
@@ -181,9 +171,6 @@ $(document).ready(function() {
         lang = (lang.split('-'))[0];
     }
 
-    $('#learn-more-close').on('click', function() {
-      $("#learn-more-banner").toggleClass("d-none");
-    })
     initHelp();
 
     $("#search").on('hidden.bs.collapse',function(event) {
