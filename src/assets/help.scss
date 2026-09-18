@@ -1,0 +1,76 @@
+/* Help Center panel (issue #315), imported from ds.scss. Markup in
+   ds/templates/help.ejs, behavior in ds/help.js. Native <details> styled
+   after the mock: divided rows, grey when closed, bold question with a
+   chevron when open. */
+#help {
+  h2 {
+    margin-bottom: 0;
+  }
+
+  .help-articles {
+    margin: 1.75rem 0;
+    border-top: 1px solid var(--white-three);
+  }
+
+  details {
+    border-bottom: 1px solid var(--white-three);
+    background-color: var(--white-two);
+
+    &[open] {
+      background-color: var(--white);
+    }
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    cursor: pointer;
+    padding: 0.7rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    color: var(--text-grey);
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Chevron: points right when closed, down when open. */
+    &::after {
+      content: "";
+      flex-shrink: 0;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-left: 1rem;
+      border-right: 2px solid var(--text-grey);
+      border-bottom: 2px solid var(--text-grey);
+      transform: rotate(-45deg);
+    }
+
+    &:focus-visible {
+      outline: solid var(--secondary-blue);
+      outline-offset: -2px;
+    }
+  }
+
+  details[open] summary {
+    font-weight: 700;
+
+    &::after {
+      transform: rotate(45deg);
+    }
+  }
+
+  details p {
+    margin: 0 0 1rem 0;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    color: var(--text-grey);
+
+    a {
+      color: var(--secondary-blue);
+    }
+  }
+}
