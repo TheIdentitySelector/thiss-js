@@ -417,11 +417,11 @@ Version 4.0.10
   talking during and after upgrades. Background in ``post-robot-upgrade.md``.
 * ``make build`` now fails if the built bundles speak any other
   post-robot/zoid dialect (``scripts/check-wire-surface.sh``).
-* Use thiss-ds 4.0.1, which carries the same treatment.
+* Use thiss-ds 4.0.1 or later, which carries the same treatment.
 * The DS accepts a ``psUrl`` query parameter overriding the persistence
   service URL, restricted to same-origin targets. The upgrade-test page
   uses it to pin each combination's DS to that combination's persistence
   generation, so the DS×PS half of the test matrix is really exercised.
-* More teests in upgrade-test
-* Switch off the "hide toolbar" toggle in the dmo with  a URL query param
+* More tests in upgrade-test
+* Switch off the "hide toolbar" toggle in the demo with a URL query param
 * Fixes for the upgrade-test

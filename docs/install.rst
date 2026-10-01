@@ -1,7 +1,7 @@
 Building and Installing
 =======================
 
-Note that most users won't want to install and deploy their own isntance of thiss-js but will most likely want to use one of the existing service instances such as service.seamlessaccess.org.
+Note that most users won't want to install and deploy their own instance of thiss-js but will most likely want to use one of the existing service instances such as service.seamlessaccess.org.
 
 The included Makefile has a number of targets aimed at those who want to build and package their own instance:
 
@@ -16,7 +16,7 @@ The included Makefile has a number of targets aimed at those who want to build a
 Configuration
 =============
 
-The thiss-js application is a set of SPAs and web components that are configured via environment variables via calls to process.env. dDeploying the apps essentially either amounts to building the app with the environment variables set, or substituting the environment variables at runtime. This latter approach is what is done in the docker container start.sh.
+The thiss-js application is a set of SPAs and web components that are configured via environment variables via calls to process.env. Deploying the apps essentially either amounts to building the app with the environment variables set, or substituting the environment variables at runtime. This latter approach is what is done in the docker container start.sh.
 
 The thiss-js button component is partially configured by the caller that can pass several parameters into the button change its behaviour. This is documented in detail in the thiss-ds-js package.
 
@@ -36,11 +36,9 @@ The thiss-js button component is partially configured by the caller that can pas
 
 * WHITELIST: a comma-separated list of ORIGINs allowed to access the persistence layer directly
 
-*Configuration related to notice and consent/privacy policy notice*
+*Configuration of the docker container (runtime only, see start.sh)*
 
-* LEARN_MORE_URL: a URL where the user can learn more about privacy of the service
-* SERVICE_NAME: the name of the service
-* SERVICE_URL: the information URL/landing page of the service
+* CACHE_CONTROL: the ``Cache-Control`` header nginx sends for every resource. Default ``public, max-age=36000, must-revalidate, s-maxage=36000, proxy-revalidate``, i.e. ten hours. After an upgrade, browsers can keep the old entry points for this long, so old and new components coexist during that window (they are built to interoperate). Set it short on instances used for development.
 
 * PUBLIC_PATH_PREFIX: To run the discovery service on a path other than /, you must build the app with an environment variable PUBLIC_PATH_PREFIX starting and ending in /. Then the prefix must be included in BASE_URL (and COMPONENT_URL and PERSISTENCE_URL if set).
 
@@ -66,4 +64,28 @@ In order to run your own instance of thiss-js you need a search-capable MDQ serv
 * Replace example.com with the domain of your DS instance - eg localhost if you are just experimenting.
 * Some MDQ implementations have multiple search endpoints - you only need one that is capable of returning JSON-formatted metadata for this to work. 
 * Running your own instance of thiss-js means having your own ORIGIN for browser local storage.  If you want to share storage domain with another instance of thiss-js then you're better off implementing your own discovery frontend (eg to thiss.io). This is documented in github.com/TheIdentitySelector/thiss-ds-js.
-* The docker container does not currently support overriding all configuration parameters.Consult the subst-vars.sh script in the docker dir for details.
+* The docker container substitutes a fixed set of configuration parameters at startup; the others are fixed at build time. The list is the envsubst allow-list in ``scripts/subst-vars.sh``.
+
+Upgrading a running instance
+============================
+
+Browsers cache the entry points (``/thiss.js``, ``/cta/``, ``/ds/``, ``/ps/``) for the ``CACHE_CONTROL`` lifetime, and
+each one independently. After an upgrade, a page can therefore run an old button against a new persistence service, or
+the reverse, for up to that long. Every release is built so that such mixed pairs keep working, and releases are made
+in pairs so that the mix can be tested before users see it:
+
+1. A pre-release version with ``PRE_RELEASE=true`` in the Makefile and ``PREV_VERSION`` set to the version in
+   production. Its image serves the production entry points unchanged and adds the new assets; the new entry points are
+   reachable under ``/new/`` only. Deploy it, then open ``/new/upgrade-test/`` (with the trailing slash) and go through
+   every card: each combination of old and new button, persistence service and discovery service must work, and the
+   automated client checks must all be green.
+2. The release version, identical except for ``PRE_RELEASE=false``, which switches the entry points to the new version.
+   Deploy it once the pre-release checks pass.
+
+To roll back after step 2, redeploy the pre-release image of step 1, not the previous version: browsers that have
+already cached the new entry points keep requesting the new assets, which the previous version's image does not contain.
+
+Mixed pairs work because the message protocol between the components is pinned: the post-robot wire dialect of the
+persistence channel and the zoid keys of the button channel never change, whatever library versions a release packages.
+``make build`` fails if a build violates this. The mechanics and the history are in ``RELEASE.md`` and
+``post-robot-upgrade.md`` in the repository.

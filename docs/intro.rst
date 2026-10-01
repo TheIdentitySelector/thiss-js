@@ -7,12 +7,12 @@ The Identity Selector Software suite is a front-channel identity selector for di
 
 The system was designed with privacy as the number one focus. No information is shared with the relying party during the identity provider choice process. This is ensured by relying on the browser security model and judicious use of inter-domain communicatiton using post-message.
 
-This package (thiss-ds-js) contains the parts needed to write a client that talks to an instance of a thiss-js service (eg use.thiss.io or service.seamlessaccess.org).
+This package (thiss-js) contains the services themselves: the persistence service, the discovery service and the login button, as deployed at use.thiss.io and service.seamlessaccess.org. The client library for talking to such a service from your own code is `thiss-ds-js <https://github.com/TheIdentitySelector/thiss-ds-js>`_.
 
 Architecture
 ------------
 
-The Identity Selector Software (thiss.io) is a set of front-channel (aka browser-based) cross-domain APIs using post-message (built using the `post-robot <https://github.com/krakenjs/post-robot>`_ package):
+The Identity Selector Software (thiss.io) is a set of front-channel (aka browser-based) cross-domain APIs using post-message (built using the `post-robot <https://github.com/krakenjs/post-robot>`_ package). post-robot only connects two sides that speak the same wire dialect; the services and the client library pin their bundled post-robot to one dialect, so deployed versions stay compatible with each other and with integrators' bundles across library upgrades (see Upgrading a running instance):
 
 * A persistence API that allows store & retrieval of information about the last N (3) identity providers used to authenticate a user. Unlike simlilar project (eg google account chooser) the information stored does not include any PII (eg email-addresses) but only identifies the identity provider used in a way consistent with the authentication protocol used.
 * A discovery API that implements `SAML identity provider discovery <http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-idp-discovery.pdf>`_ layered on top of the persistence API

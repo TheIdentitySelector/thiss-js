@@ -294,9 +294,44 @@ NOTE: If using Shibboleth SP and setting more than one parameter,
 you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
 since Shibboleth does not allow an `&` in the entity reference.
 
+Embedding the discovery service in your own page
+................................................
+
+Advanced integrations can show the discovery service inside their own page, for example in an iframe or a modal,
+instead of sending the user to it. Add `embedded=true` to the discovery service URL: the page then renders only the
+functional box, without the SeamlessAccess header and footer, and the surrounding page supplies the chrome.
+Everything else, including the other parameters above, works as usual.
+
+.. code-block:: html
+
+    <iframe src="https://your.service/ds/?entityID=https%3A%2F%2Fyour.entity%2FID&embedded=true"></iframe>
+
+The discovery service also accepts a `psUrl` parameter. It is for the upgrade-test page shipped with this package,
+which uses it to pair a discovery service with a specific persistence service generation during an upgrade; it only
+accepts targets on the service's own origin and is not meant for integrations.
+
 Persistence Service
 -------------------
 
 In order to directly interact with the persistence service and low-level discovery components you need to implement your own components using the low-level APIs in `thiss-ds-js <https://github.com/TheIdentitySelector/thiss-ds-js>`_.
 
 The persistence service supports ACLs based on whitelisting (currently). Turn on by providing a comma-separated list of domains in the env variable WHITELIST. Only ORIGINs that end with any of the items in the list (remember that port-numbers are part of the ORIGIN if present!) are allowed to call the API when this feature is turned on. This is only meant for small scale deployments.
+
+Browser support and persistence
+...............................
+
+The remembered institution is stored in the browser's local storage for the persistence service's origin, inside an
+iframe on the relying party's page. Browsers treat such third-party storage differently, so the "remember this choice"
+feature does not behave the same everywhere:
+
+* Chromium-based browsers (Chrome, Edge, Vivaldi; the list is ``SAA_COMPLIANT_BROWSERS``) support the Storage Access
+  API. There the choice is shared across every site that uses the same persistence service, after the user has granted
+  storage access when asked.
+* Firefox, Safari and Brave partition third-party storage per site. The button and the discovery service work, but a
+  choice made on one site is not seen on another; each site remembers its own. Brave rejects the Storage Access API
+  outright, which the service handles.
+* Private or incognito windows start with empty storage and discard it when closed, so nothing is remembered between
+  sessions there.
+
+This is a property of the browsers, not of the deployment. An integrator who sees "the button does not remember my
+institution" should first check which browser and mode the report comes from.
