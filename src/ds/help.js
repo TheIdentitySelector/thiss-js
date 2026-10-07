@@ -37,4 +37,10 @@ export function initHelp() {
     $('#help-back-button').on('click', (e) => { e.preventDefault(); hideHelp(); });
     $('#footer-help-link').on('click', (e) => { e.preventDefault(); showHelp(); });
     $('#learn-more-trigger').on('click', (e) => { e.preventDefault(); showHelp('help-remember-me'); });
+    // "Learn more" links in the result templates (rendered later) and anywhere
+    // else: <a data-help-article="help-..."> opens that article.
+    $(document).on('click', 'a[data-help-article]', function (e) {
+        e.preventDefault();
+        showHelp($(this).data('help-article'));
+    });
 }
