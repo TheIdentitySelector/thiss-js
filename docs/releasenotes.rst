@@ -425,3 +425,14 @@ Version 4.0.10
 * More tests in upgrade-test
 * Switch off the "hide toolbar" toggle in the demo with a URL query param
 * Fixes for the upgrade-test
+
+Version 4.0.11
+--------------
+
+* Help Center (issue #315): the six FAQ articles as a panel inside the discovery
+  service, reached from the footer "Help center" link and from "Learn more" links
+  next to the inline hints (remember-this-choice row, no results, suggested
+  institutions, per-result access warning), without leaving the page. The article
+  about institutions added by the relying party names it. The inline privacy
+  banner is removed; its content lives in the "Remember me" article. English copy;
+  other locales fall back to English until translated.

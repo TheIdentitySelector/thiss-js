@@ -310,6 +310,17 @@ The discovery service also accepts a `psUrl` parameter. It is for the upgrade-te
 which uses it to pair a discovery service with a specific persistence service generation during an upgrade; it only
 accepts targets on the service's own origin and is not meant for integrations.
 
+Help center
+...........
+
+The discovery service contains a Help Center: six articles answering the questions end users ask most (institution
+not found, no access after login, suggested institutions, institutions added by the relying party, "remember me",
+remembering across sites). It is a panel inside the page, reached from the "Help center" footer link and from the
+"Learn more" links next to the inline hints, and a Back button returns to where the user was; no navigation happens, so
+it also works in embedded mode. The article about institutions added by the relying party names the relying party,
+using the same metadata lookup as the "Access to" header. The articles are in `src/ds/templates/help.ejs`, the copy in
+the translation files (English; other locales fall back to English until translated).
+
 Persistence Service
 -------------------
 
