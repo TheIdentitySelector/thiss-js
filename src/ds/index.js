@@ -43,7 +43,7 @@ import 'ejs/ejs.min';
 import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 import {showSuggested} from "./suggested.js";
-import {initHelp} from "./help.js";
+import {initHelp, setHelpSp} from "./help.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -171,7 +171,7 @@ $(document).ready(function() {
         lang = (lang.split('-'))[0];
     }
 
-    initHelp();
+    initHelp(localization);
 
     $("#search").on('hidden.bs.collapse',function(event) {
         $("#choose").toggleClass("d-none");
@@ -506,6 +506,7 @@ $(document).ready(function() {
             spTitle = entity.title_langs[lang];
         }
         $(".sp_title").text(spTitle);
+        setHelpSp(spTitle);
         localization.translateStringP('ds-header').then(val => {
           $(".header-sp-title").text(`${val} ${spTitle}`);
         });

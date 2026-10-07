@@ -5,6 +5,25 @@
 import * as $ from 'jquery';
 
 let hiddenPanel = null;
+let localization = null;
+let spTitle = null;
+
+// The article about institutions added by the SP names it: elements marked
+// data-i18n-sp carry a $1 key, rendered here once the DS knows the SP title.
+// Their data-i18n key is the generic wording Localization applies otherwise.
+function renderSpArticles() {
+    if (!localization || !spTitle) return;
+    $('#help [data-i18n-sp]').each((i, el) => {
+        localization.translateStringP(el.dataset.i18nSp, spTitle).then(text => {
+            if (text && text !== el.dataset.i18nSp) el.textContent = text;
+        });
+    });
+}
+
+export function setHelpSp(title) {
+    spTitle = title;
+    renderSpArticles();
+}
 
 export function showHelp(article) {
     hiddenPanel = $('#dsclient, #discovery-response-warning').not('.d-none');
@@ -33,7 +52,9 @@ export function hideHelp() {
     hiddenPanel = null;
 }
 
-export function initHelp() {
+export function initHelp(l10n) {
+    localization = l10n;
+    document.addEventListener('sa:locale-changed', renderSpArticles);
     $('#help-back-button').on('click', (e) => { e.preventDefault(); hideHelp(); });
     $('#footer-help-link').on('click', (e) => { e.preventDefault(); showHelp(); });
     $('#learn-more-trigger').on('click', (e) => { e.preventDefault(); showHelp('help-remember-me'); });

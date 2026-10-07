@@ -82,6 +82,7 @@ export default class Localization extends I18n {
                     const tooltipText = this.translateString('suggested-tooltip-text', spEntityTitle);
                     $("#suggested-tooltip-title").html(tooltipTitle);
                     $("#suggested-tooltip-text").html(tooltipText);
+                    document.dispatchEvent(new CustomEvent('sa:locale-changed', { detail: this.locale }));
                 });
             });
         }
