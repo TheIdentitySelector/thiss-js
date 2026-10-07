@@ -65,5 +65,8 @@
   "aria-label-locale-selector": "Cambia idioma",
   "aria-label-close-info-banner": "Cierra cuadro de información",
   "aria-label-remove-institute": "Elimina $1 de las instituciones recordadas",
-  "title-remove-institution": "Elimina"
+  "title-remove-institution": "Elimina",
+  "ds-footer-help-center": "Centro de ayuda",
+  "help-title": "Centro de ayuda",
+  "help-back": "Volver"
 }
