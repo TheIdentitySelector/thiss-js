@@ -44,7 +44,8 @@ import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theide
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 import {showSuggested} from "./suggested.js";
 import {initHelp, setHelpSp} from "./help.js";
-import {selectExtra} from "./extra.js";
+import {selectExtra, extraEntities} from "./extra.js";
+import {findExtra} from "../extra-md.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -352,8 +353,10 @@ $(document).ready(function() {
 
                     localization.updateDynamic(item);
 
+                    // Institutions added by the SP are not subject to its
+                    // trust profile (filtering-in.md): no access warning.
                     let hint = false;
-                    if (strict === false && 'hint' in item) {
+                    if (strict === false && ('hint' in item || item.extra_md)) {
                         hint = true;
                     }
                     if (!hint) hasNonHinted = true;
@@ -475,8 +478,21 @@ $(document).ready(function() {
         before: function(items) {
             let now = Date.now();
             let o = this;
+            // A persisted institution added by an SP is refreshed from the
+            // current SP's extra metadata (filtering-in.md); without an
+            // endpoint, or when it is not listed there, it is not shown.
+            const refresh = item => {
+                if (item.entity.extra_md) {
+                    return extraEntities().then(entities => {
+                        const entity = findExtra(entities, item.entity.entityID);
+                        if (!entity) throw new Error(`${item.entity.entityID} is not in the extra metadata`);
+                        return entity;
+                    });
+                }
+                return json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, o.mdq);
+            };
             return Promise.all(items.map(item => {
-                return json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, o.mdq).then(entity => {
+                return refresh(item).then(entity => {
                     item.entity = entity;
                     item.modified = true;
                     item.last_refresh = now;
