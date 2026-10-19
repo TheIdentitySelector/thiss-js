@@ -27,6 +27,7 @@ jQuery(function ($) {
             too_many_results: undefined,
             no_results: undefined,
             persist: undefined,
+            select_extra: undefined,
             showNotice: undefined,
             hideNotice: undefined,
         },
@@ -207,8 +208,14 @@ jQuery(function ($) {
 
             $('body').on('click', obj.options.entity_selector, function (e) {
                 e.preventDefault();
-                let entity_id = $(this).closest(obj.options.entity_selector).attr('data-href');
+                const row = $(this).closest(obj.options.entity_selector);
+                let entity_id = row.attr('data-href');
 
+                // Rows from the SP's extra metadata are not in MDQ
+                // (filtering-in.md); the page handles their selection.
+                if (row.attr('data-extra') && $.isFunction(obj.options.select_extra)) {
+                    return obj.options.select_extra(obj._ds, entity_id, obj.options.persist());
+                }
                 return obj._ds.saml_discovery_response(entity_id, obj.options.persist());
             });
 

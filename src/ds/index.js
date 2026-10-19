@@ -44,6 +44,7 @@ import {json_mdq, json_mdq_pre_get, json_mdq_get, json_mdq_get_sp} from "@theide
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 import {showSuggested} from "./suggested.js";
 import {initHelp, setHelpSp} from "./help.js";
+import {selectExtra} from "./extra.js";
 require("./bootstrap-list-filter.src.js");
 require("./ds-widget.js");
 const item_ttl = parseInt(process.env.ITEM_TTL || "3600") * 1000;
@@ -470,6 +471,7 @@ $(document).ready(function() {
         persist: function() {
             return $("#rememberThisChoice").is(':checked');
         },
+        select_extra: selectExtra,
         before: function(items) {
             let now = Date.now();
             let o = this;

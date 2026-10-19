@@ -3,9 +3,9 @@
 // #ds-extra in index.ejs, templates/extra_header.html and extra.html.
 import * as $ from 'jquery';
 import 'ejs/ejs.min';
-import {json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq_get_sp, ds_response_url} from "@theidentityselector/thiss-ds/src/discovery.js";
 import Localization from '../localization.js';
-import {extraMDEndpointFrom, fetchExtraMD} from '../extra-md.js';
+import {extraMDEndpointFrom, fetchExtraMD, findExtra} from '../extra-md.js';
 import extraHeaderHTML from './templates/extra_header.html';
 import extraHTML from './templates/extra.html';
 
@@ -83,6 +83,26 @@ export function showExtra() {
             }));
         });
     });
+}
+
+// The click on an extra row. Unlike DiscoveryService.saml_discovery_response,
+// the item is built from the endpoint's entity, not looked up in MDQ, and is
+// stored with its extra_md flag. The redirect does not depend on the
+// persistence reply.
+export function selectExtra(ds, entity_id, persist) {
+    return extraEntities().then(entities => {
+        const entity = findExtra(entities, entity_id);
+        if (!entity) throw new Error(`${entity_id} is not in the extra metadata`);
+        const now = Date.now();
+        const item = {entity: entity, last_refresh: now, last_use: now};
+        const stored = persist
+            ? ds.ps.update(ds.context, item).catch(err => console.log(`Error persisting extra entity: ${err}`))
+            : Promise.resolve();
+        return stored.then(() => {
+            const params = Object.fromEntries(new URLSearchParams(window.location.search));
+            window.top.location.href = ds_response_url(entity, params);
+        });
+    }).catch(err => console.log(err));
 }
 
 document.addEventListener('sa:locale-changed', () => {
