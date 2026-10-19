@@ -61,6 +61,8 @@
   "suggested-institutions-header": "Instituciones sugeridas",
   "suggested-tooltip-title": "Instituciones sugeridas por $1",
   "suggested-tooltip-text": "Esta lista de sugerencias ha sido provista por $1, basándose en lo que entienden que es más aplicable a tí",
+  "extra-institutions-header": "Instituciones añadidas por $1",
+  "extra-institutions-header-generic": "Instituciones añadidas por este sitio",
   "aria-label-searchinput": "Encuentra tu institución, universidad, organización o compañía edita texto",
   "aria-label-locale-selector": "Cambia idioma",
   "aria-label-close-info-banner": "Cierra cuadro de información",
