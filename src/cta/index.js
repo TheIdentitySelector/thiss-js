@@ -9,7 +9,7 @@ dom.watch();
 import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import {requestingStorageAccess} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
-import {extraMDEndpointFrom} from "../extra-md.js";
+import {extraMDEndpointFrom, fetchExtraMD, findExtra} from "../extra-md.js";
 
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'
@@ -160,7 +160,22 @@ const swapInPopulatedLogo = () => {
 const recoverPersisted = (start, context) => {
     Promise.all(start).then(function() {
         ds.ps.entities(context).then(result => result.data).then(function(items) {
-            const item_promises = items.reverse().map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq));
+            // Most recently used first, federated entries before extra ones
+            // (filtering-in.md). An extra entry is confirmed from the SP's
+            // endpoint instead of MDQ; without an endpoint, or when it is no
+            // longer listed, its promise rejects and it is skipped below.
+            const recent = items.reverse();
+            const federated = recent.filter(item => !item.entity.extra_md);
+            const extra = recent.filter(item => item.entity.extra_md);
+            const extraList = (extra.length > 0 && extraMDEndpoint) ? fetchExtraMD(extraMDEndpoint) : Promise.resolve([]);
+            const item_promises = [
+                ...federated.map(item => json_mdq_pre_get(`{sha1}${hex_sha1(item.entity.entityID)}`, trustProfile, entityID, mdq)),
+                ...extra.map(item => extraList.then(list => {
+                    const entity = findExtra(list, item.entity.entityID);
+                    if (!entity) throw new Error(`${item.entity.entityID} is not in the extra metadata`);
+                    return entity;
+                })),
+            ];
             Promise.allSettled(item_promises).then(results => {
                 let lang = window.navigator.language;
                 lang = (lang.split('-'))[0];
