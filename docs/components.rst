@@ -48,6 +48,7 @@ The login button component accepts the following configuration parameters in the
 
 * entityID: <string> The entityID of the SP.
 * trustProfile: <string> The name of a trust profile published by the SP.
+* extraMDEndpoint: <string> The https URL of a discojson endpoint published by the SP with institutions that are not in the federation metadata. See "Adding institutions from your own metadata" below.
 
 * showLogo: <string true|false> Whether to display the SP logo side by side with the SeamlessAccess logo on the left of the header.
 
@@ -184,6 +185,57 @@ Alternatively, without needing to use shibboleth or modify its configuration, it
 NOTE: If using Shibboleth SP and setting more than one parameter,
 you will need to use the 2nd alternative (setting them as parameters in the constructor for `DiscoveryComponent`),
 since Shibboleth does not allow an `&` in the entity reference.
+
+Adding institutions from your own metadata
+..........................................
+
+An SP can offer institutions that are not in the metadata aggregated by the MDQ service. The SP publishes their metadata itself, in the discojson format produced by pyFF (a JSON array of entity objects with at least `entityID` and `title`; `domain`, `title_langs` and `entity_icon_url` are used when present), at an https URL that
+
+* returns `Content-Type: application/json`, and
+* allows cross-origin reads from the discovery service and from the site hosting the button, with an `Access-Control-Allow-Origin` header (`*` is enough; no credentials are sent).
+
+The URL is passed as `extraMDEndpoint`. In the DS the institutions appear under the search box in a section headed "Institutions added by <your SP>", with a link to the Help Center article explaining them, whenever the user has no remembered institutions. Searching replaces the section; they are not part of the search results. A chosen institution is remembered like any other, with a mark saying it came from extra metadata. Later, the button and the DS only offer it when the page they run for passes an `extraMDEndpoint` that still lists it; otherwise it is left out, so the institutions one SP adds are never offered on another SP. When the button finds both federated and extra remembered institutions, it shows the most recently used federated one.
+
+With Shibboleth SP the parameter goes in the discovery URL. The value is percent-encoded and, being inside an XML attribute, any `&` in the resulting URL is written as `&amp;`:
+
+.. code-block:: xml
+
+    <SessionInitiator type="Chaining" Location="/DS/extra-md" id="extramd">
+       <SessionInitiator type="SAML2" acsIndex="1" template="bindingTemplate.html"/>
+       <SessionInitiator type="SAMLDS" URL="https://your.discovery.service/ds/?extraMDEndpoint=https%3A%2F%2Fsp.example.com%2Fextra-md.json"/>
+    </SessionInitiator>
+
+.. code-block:: html
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               loginInitiatorURL: 'https://sp.example.com/Shibboleth.sso/DS/extra-md?target=/some-resource/',
+               extraMDEndpoint: 'https://sp.example.com/extra-md.json'
+           }).render('#login');
+        };
+    </script>
+
+Alternatively, without modifying the Shibboleth configuration, set `discoveryRequest` to the DS and let the button add the parameter:
+
+.. code-block:: html
+
+    <script src="https://your.service/thiss.js"/>
+    <div id="login"> </div>
+    <script>
+        window.onload = function() {
+           thiss.DiscoveryComponent({
+               discoveryRequest: 'https://your.service/ds/',
+               discoveryResponse: 'https://sp.example.com/Shibboleth.sso/Login?target=/some-resource/',
+               entityID: 'https://your.entity/ID',
+               extraMDEndpoint: 'https://sp.example.com/extra-md.json'
+           }).render('#login');
+        };
+    </script>
+
+In the `loginInitiatorURL` form the button does not add parameters to the discovery URL, which is why the parameter must be in the Shibboleth configuration; the `extraMDEndpoint` given to the button is then used only to refresh remembered institutions. A value that is not an absolute https URL is ignored.
 
 Showing the SP logo
 ...................
