@@ -15,6 +15,7 @@
 * itemFilter   *function for filter results(receive: text, item)*
 */
 import {showSuggested} from "./suggested.js";
+import {clearExtra} from "./extra.js";
 
 (function($) {
   $.fn.btsListFilter = function(inputEl, opts) {
@@ -151,6 +152,7 @@ import {showSuggested} from "./suggested.js";
           searchlist$.html('');
           $("#ds-search-header").html('');
           $("#ds-search-count").html('');
+          clearExtra();
           contains.show();
           containsNot.hide();
           cancelEl$.show();
