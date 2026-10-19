@@ -9,6 +9,7 @@ dom.watch();
 import {ds_response_url, json_mdq_pre_get, DiscoveryService} from "@theidentityselector/thiss-ds/src/discovery.js";
 import {requestingStorageAccess} from "../storage/index.js";
 import hex_sha1 from '@theidentityselector/thiss-ds/src/sha1.js';
+import {extraMDEndpointFrom} from "../extra-md.js";
 
 import {DiscoveryComponent} from "../component";
 import Localization from '../localization.js'
@@ -37,6 +38,7 @@ let entity_id = null;
 let suggestedInstitutions = null;
 let showSPLogo = false;
 let warnDR = false;
+let extraMDEndpoint = null;
 
 const max_suggested_raw = Number.parseInt(process.env.MAX_SUGGESTED);
 let max_suggested;
@@ -87,6 +89,10 @@ if (window.xprops.warnDR === true || window.xprops.warnDR === 'true') {
     warnDR = true;
 }
 
+// Filtering-in (filtering-in.md): the SP's extra metadata endpoint, forwarded
+// to the DS and used to refresh persisted extra IdPs.
+extraMDEndpoint = extraMDEndpointFrom(window.xprops.extraMDEndpoint, window.location.protocol);
+
 const psHost = new URL(persistence).hostname;
 const curHost = window.location.hostname;
 
@@ -111,6 +117,9 @@ if (discovery_request !== discovery_response && typeof discovery_request === 'st
     }
     if (warnDR) {
         search_string = `${search_string}&warnDR=${warnDR}`;
+    }
+    if (extraMDEndpoint) {
+        search_string = `${search_string}&extraMDEndpoint=${encodeURIComponent(extraMDEndpoint)}`;
     }
     if (new URL(discovery_request).searchParams.size > 0) {
         discovery_request =  `${discovery_request}&${search_string}`

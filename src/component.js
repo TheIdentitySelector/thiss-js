@@ -1,6 +1,7 @@
 //import { create } from '@krakenjs/zoid'
 import * as zoid from 'zoid/dist/zoid.frame';
 import {toCSS, destroyElement} from 'belter/src';
+import {extraMDEndpointFrom} from "./extra-md.js";
 
 import preload_template from "!!ejs-loader?variable=props!./cta/preload.html";
 
@@ -39,6 +40,7 @@ function prerenderTemplate(opts) {
     let trustProfile = opts.props.trustProfile;
     let suggestedInstitutions = null;
     let warnDR = opts.props.warnDR || false;
+    const extraMDEndpoint = extraMDEndpointFrom(opts.props.extraMDEndpoint, window.location.protocol);
 
     const paramSuggested = opts.props.suggested;
     if (paramSuggested) {
@@ -66,6 +68,9 @@ function prerenderTemplate(opts) {
         }
         if (warnDR) {
             search_string = `${search_string}&warnDR=${warnDR}`;
+        }
+        if (extraMDEndpoint) {
+            search_string = `${search_string}&extraMDEndpoint=${encodeURIComponent(extraMDEndpoint)}`;
         }
         if (new URL(discovery_request).searchParams.size > 0) {
             discovery_request =  `${discovery_request}&${search_string}`
