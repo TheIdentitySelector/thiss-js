@@ -11,6 +11,7 @@ import suggestedHeaderHTML from './templates/suggested_header.html'
 import suggestedHTML from './templates/suggested.html'
 import tooltipHTML from './templates/tooltip.html'
 import Localization from '../localization.js'
+import {showExtra} from './extra.js'
 
 const max_suggested_raw = Number.parseInt(process.env.MAX_SUGGESTED);
 let max_suggested;
@@ -124,4 +125,7 @@ export const showSuggested = () => {
            });
        });
    }
+   // Institutions added by the SP render below, in their own container, with
+   // or without suggested institutions (filtering-in.md).
+   showExtra();
 };
