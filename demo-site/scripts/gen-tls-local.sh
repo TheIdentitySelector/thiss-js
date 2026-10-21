@@ -20,7 +20,7 @@ FORCE=0
 set -a; source "$ROOT/.env"; set +a
 
 mkdir -p "$CERTS"
-HOSTS=("$IDP_HOST" "$IDP2_HOST" "$SP1_HOST" "$SP2_HOST" "$MDQ_HOST" "$SERVICE_HOST")
+HOSTS=("$IDP_HOST" "$IDP2_HOST" "$IDP3_HOST" "$SP1_HOST" "$SP2_HOST" "$MDQ_HOST" "$SERVICE_HOST")
 
 if command -v mkcert >/dev/null 2>&1; then
     echo "Using mkcert (trusted local CA)."

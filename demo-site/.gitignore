@@ -10,6 +10,8 @@ idp/config/credentials/*.crt
 idp/config/credentials/*.key
 idp2/config/credentials/*.crt
 idp2/config/credentials/*.key
+idp3/config/credentials/*.crt
+idp3/config/credentials/*.key
 sp1/credentials/*.crt
 sp1/credentials/*.key
 sp2/credentials/*.crt
@@ -19,9 +21,11 @@ sp2/credentials/*.key
 demo-toolbar/demo-toolbar.js
 metadata/idp-metadata.xml
 metadata/idp2-metadata.xml
+metadata/idp3-metadata.xml
 metadata/sp1-metadata.xml
 metadata/sp2-metadata.xml
 metadata/metadata.json
+metadata/extra-md.json
 idp/config/conf/idp.properties
 idp/config/conf/attribute-resolver.xml
 idp/config/conf/attribute-filter.xml
@@ -29,6 +33,9 @@ idp/config/credentials/idp.htpasswd
 idp2/config/conf/idp.properties
 idp2/config/conf/attribute-resolver.xml
 idp2/config/credentials/idp.htpasswd
+idp3/config/conf/idp.properties
+idp3/config/conf/attribute-resolver.xml
+idp3/config/credentials/idp.htpasswd
 sp1/shibboleth2.xml
 sp1/apache-vhost.conf
 sp1/html/index.html
