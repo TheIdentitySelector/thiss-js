@@ -226,6 +226,16 @@
             var change = document.querySelector('.access-change');
             var shibLogin = 'https://${SP2_HOST}/Shibboleth.sso/Login?target=https://${SP2_HOST}/secure/';
             var rendered = false;
+            // Discovery features SP2 demonstrates (plan.md §11): the two
+            // federated IdPs as suggested institutions, and an IdP outside
+            // the federation filtered in from SP2's own discojson endpoint.
+            var suggested = encodeURIComponent('${IDP_ENTITYID},${IDP2_ENTITYID}');
+            var extraMD = 'https://${SP2_HOST}/extra-md.json';
+            // The SP's own "Add or change institution" link in standard mode
+            // goes to the DS with the same parameters the button sends.
+            var dsUrl = 'https://${SERVICE_HOST}/ds/?entityID=' + encodeURIComponent('${SP2_ENTITYID}') +
+                '&return=' + encodeURIComponent(shibLogin) +
+                '&suggested=' + suggested + '&extraMDEndpoint=' + encodeURIComponent(extraMD);
 
             function currentMode() {
                 try { return JSON.parse(localStorage.getItem('saDemoToolbar') || '{}').mode || 'advanced'; }
@@ -235,12 +245,20 @@
                 var advanced = mode !== 'standard';
                 custom.hidden = !advanced;
                 login.hidden = advanced;
-                change.href = advanced ? '/discovery/' : shibLogin;
+                change.href = advanced ? '/discovery/' : dsUrl;
                 if (!advanced && !rendered) {
                     rendered = true;
+                    // discoveryRequest/discoveryResponse rather than
+                    // loginInitiatorURL: the button then adds entityID,
+                    // suggested and extraMDEndpoint to the DS URL itself
+                    // (docs/components.rst). The DS returns to the Shibboleth
+                    // Login handler with &entityID=<chosen>, which it accepts.
                     thiss.DiscoveryComponent({
-                        loginInitiatorURL: shibLogin,
-                        entityID: '${SP2_ENTITYID}'
+                        discoveryRequest: 'https://${SERVICE_HOST}/ds/',
+                        discoveryResponse: shibLogin,
+                        entityID: '${SP2_ENTITYID}',
+                        suggested: suggested,
+                        extraMDEndpoint: extraMD
                     }).render('#login');
                 }
             }
@@ -265,8 +283,9 @@
     <!-- ============================================================
          Demo instructions overlay — implements the Figma "Advanced
          instructions" dialog (node 2543:10166) on its scrim (2543:10181).
-         Brand-neutral and self-contained; the IDENTICAL block lives in
-         sp1/html/index.html.tmpl — edit both together. Shown on every
+         Brand-neutral and self-contained; the same block lives in
+         sp1/html/index.html.tmpl — edit both together (only the IdP list
+         differs: the third IdP is filtered in by SP2 alone). Shown on every
          load; dismissable via the ✕, "Continue to demo", Esc, or the
          backdrop. (To show it only once per visitor, gate showOverlay()
          on localStorage — see the comment in the script below.)
@@ -317,6 +336,7 @@
                 <ul>
                     <li>Demo IdP</li>
                     <li>University of Cazalla</li>
+                    <li>Clínica Cazalla (outside the federation, added by Prinsen)</li>
                 </ul>
                 <p>Login at identity provider:</p>
                 <ul>

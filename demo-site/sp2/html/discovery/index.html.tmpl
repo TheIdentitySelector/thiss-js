@@ -103,11 +103,16 @@
         // embedded=true makes the DS hide its own header/footer (see
         // src/assets/ds.scss body.embedded) — only the functional box shows;
         // this page supplies the chrome.
+        // suggested and extraMDEndpoint as on the standard-mode page
+        // (plan.md §11): two federated IdPs suggested, one IdP outside the
+        // federation filtered in from SP2's own discojson endpoint.
         var ret = 'https://${SP2_HOST}/discovery/return.html';
         document.getElementById('ds-frame').src =
             'https://${SERVICE_HOST}/ds/?embedded=true' +
             '&entityID=' + encodeURIComponent('${SP2_ENTITYID}') +
-            '&return=' + encodeURIComponent(ret);
+            '&return=' + encodeURIComponent(ret) +
+            '&suggested=' + encodeURIComponent('${IDP_ENTITYID},${IDP2_ENTITYID}') +
+            '&extraMDEndpoint=' + encodeURIComponent('https://${SP2_HOST}/extra-md.json');
     </script>
     <script src="/demo-toolbar/demo-toolbar.js" defer></script>
 </body>
