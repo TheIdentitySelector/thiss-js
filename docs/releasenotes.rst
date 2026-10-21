@@ -436,6 +436,10 @@ Version 4.0.11
   about institutions added by the relying party names it. The inline privacy
   banner is removed; its content lives in the "Remember me" article. English copy;
   other locales fall back to English until translated.
+
+Version 4.0.12
+--------------
+
 * Filtering-in: an SP can add institutions that are not in the federation
   metadata by publishing them as discojson and passing the endpoint URL as
   ``extraMDEndpoint`` to the button, or in the DS URL. They are listed under the

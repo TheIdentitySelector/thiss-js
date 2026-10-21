@@ -59,6 +59,8 @@
   "suggested-institutions-header": "",
   "suggested-tooltip-title": "",
   "suggested-tooltip-text": "",
+  "extra-institutions-header": "Institutions added by $1",
+  "extra-institutions-header-generic": "Institutions added by this site",
   "aria-label-searchinput": "",
   "aria-label-locale-selector": "",
   "aria-label-close-info-banner": "",
