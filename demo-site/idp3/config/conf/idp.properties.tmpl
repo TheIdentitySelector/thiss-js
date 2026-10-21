@@ -1,0 +1,32 @@
+# Rendered from idp3/config/conf/idp.properties.tmpl by scripts/render.sh.
+#
+# Third IdP (Clínica Cazalla), outside the federation: not in the MDQ metadata,
+# filtered in by SP2 through its extra metadata endpoint (plan.md §11).
+# Identical to idp/'s idp.properties except for idp.entityID / idp.scope — see
+# idp/config/conf/idp.properties.tmpl for the full rationale (it is a COMPLETE
+# copy of the image default so the bind mount does not drop required keys).
+
+idp.searchForProperties=true
+idp.additionalProperties=/credentials/secrets.properties
+
+# --- demo overrides ---
+idp.entityID=${IDP3_ENTITYID}
+idp.scope=${IDP3_SCOPE}
+idp.authn.flows=Password
+
+idp.csrf.enabled=true
+idp.sealer.storeResource=%{idp.home}/credentials/sealer.jks
+idp.sealer.versionResource=%{idp.home}/credentials/sealer.kver
+idp.signing.key=%{idp.home}/credentials/idp-signing.key
+idp.signing.cert=%{idp.home}/credentials/idp-signing.crt
+idp.encryption.key=%{idp.home}/credentials/idp-encryption.key
+idp.encryption.cert=%{idp.home}/credentials/idp-encryption.crt
+idp.encryption.config=shibboleth.EncryptionConfiguration.GCM
+idp.trust.signatures=shibboleth.ExplicitKeySignatureTrustEngine
+idp.trust.certificates=shibboleth.ExplicitKeyX509TrustEngine
+idp.storage.htmlLocalStorage=true
+idp.session.trackSPSessions=true
+idp.session.secondaryServiceIndex=true
+idp.bindings.inMetadataOrder=false
+idp.ui.fallbackLanguages=en,fr,de
+idp.audit.shortenBindings=true
