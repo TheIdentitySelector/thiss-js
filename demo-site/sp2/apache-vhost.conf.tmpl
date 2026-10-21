@@ -27,6 +27,15 @@
         Require shibboleth
     </Location>
 
+    # Extra metadata endpoint (plan.md §11): the discojson for the IdP SP2
+    # filters into the discovery service. The DS and the button fetch it
+    # cross-origin, so it needs CORS; no credentials are involved, so "*" is
+    # enough. mod_headers is enabled in the image.
+    <Files "extra-md.json">
+        Header set Access-Control-Allow-Origin "*"
+        ForceType application/json
+    </Files>
+
     # Protected area reached via the SeamlessAccess button's target= URL.
     <Location /secure>
         AuthType shibboleth
