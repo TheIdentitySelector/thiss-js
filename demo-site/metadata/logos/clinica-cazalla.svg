@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="Clínica Cazalla">
+  <rect width="120" height="120" rx="24" fill="#0f6e56"/>
+  <circle cx="60" cy="50" r="30" fill="#ffffff"/>
+  <rect x="54" y="30" width="12" height="40" rx="3" fill="#0f6e56"/>
+  <rect x="40" y="44" width="40" height="12" rx="3" fill="#0f6e56"/>
+  <text x="60" y="104" font-family="Helvetica, Arial, sans-serif" font-size="13" letter-spacing="3" fill="#c9efe3" text-anchor="middle">CLÍNICA</text>
+</svg>

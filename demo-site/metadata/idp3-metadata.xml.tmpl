@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Rendered from idp3-metadata.xml.tmpl by render.sh (cert bodies stashed by
+     gen-certs.sh). SAML metadata for the THIRD IdP, Clínica Cazalla, which is
+     outside the federation (plan.md §11): bind-mounted (read-only) into SP2
+     only, which filters it in through its extra metadata endpoint. Not in the
+     MDQ's metadata.json. Do not edit the generated file; edit the .tmpl. -->
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata"
+                  xmlns:ds="http://www.w3.org/2000/09/xmldsig#"
+                  xmlns:shibmd="urn:mace:shibboleth:metadata:1.0"
+                  xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui"
+                  entityID="${IDP3_ENTITYID}">
+
+  <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:mace:shibboleth:1.0">
+    <Extensions>
+      <shibmd:Scope regexp="false">${IDP3_SCOPE}</shibmd:Scope>
+      <mdui:UIInfo>
+        <mdui:DisplayName xml:lang="en">Clínica Cazalla</mdui:DisplayName>
+        <mdui:Description xml:lang="en">SeamlessAccess demo identity provider outside the federation (filtered in by SP2)</mdui:Description>
+        <mdui:Logo height="120" width="120">${IDP3_LOGO}</mdui:Logo>
+      </mdui:UIInfo>
+    </Extensions>
+
+    <KeyDescriptor use="signing">
+      <ds:KeyInfo>
+        <ds:X509Data><ds:X509Certificate>${IDP3_SIGNING_CERT}</ds:X509Certificate></ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+    <KeyDescriptor use="encryption">
+      <ds:KeyInfo>
+        <ds:X509Data><ds:X509Certificate>${IDP3_ENCRYPTION_CERT}</ds:X509Certificate></ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                         Location="https://${IDP3_HOST}/idp/profile/SAML2/Redirect/SLO"/>
+    <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                         Location="https://${IDP3_HOST}/idp/profile/SAML2/POST/SLO"/>
+
+    <NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
+
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                         Location="https://${IDP3_HOST}/idp/profile/SAML2/Redirect/SSO"/>
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                         Location="https://${IDP3_HOST}/idp/profile/SAML2/POST/SSO"/>
+  </IDPSSODescriptor>
+
+</EntityDescriptor>
