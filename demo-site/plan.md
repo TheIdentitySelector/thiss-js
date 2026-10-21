@@ -266,3 +266,23 @@ Because the only differences are "does acme-companion run" and "who fills `./cer
 5. **SP metadata ↔ shibd endpoint consistency** — hand-authored SP `EntityDescriptor`s (§5) must match the ACS locations/bindings `mod_shib` actually advertises for each entityID, or login fails with "no SSO endpoint"/binding mismatch. Prefer generating each SP's metadata from `https://${SPn_HOST}/Shibboleth.sso/Metadata` and trimming, over authoring by hand.
 6. **entityID / SAML X509 sync** across the three XML files, the discojson, and the SP/IdP configs — handled by `.env` single-sourcing and `gen-certs.sh`.
 7. **Config-injection contract** — only the `envsubst`-allowlisted vars (§2) reach the SPA; `MAX_SUGGESTED` in particular does **not**, and silently defaults to 5. Verify injected values with view-source on `https://${SERVICE_HOST}/ds/` before deeper debugging.
+
+## 11. SP2: suggested institutions and a filtered-in external IdP (2026-10-21)
+
+SP2 demonstrates two DS features the demo did not exercise: suggested institutions (`suggested` parameter, `docs/components.rst` "Adding suggested institutions") and filtering-in (`filtering-in.md`, `filtering-in-implementation.md`; parameter `extraMDEndpoint`). SP1 is unchanged.
+
+**Third IdP `idp3`, outside the federation.** "Clínica Cazalla", host `${IDP3_HOST}` (`login.clinica-cazalla.net`), entityID `${IDP3_ENTITYID}`, scope `${IDP3_SCOPE}`, demo account `${DEMO3_USER}`/`${DEMO3_PASS}` with its own displayName/mail. Built like `idp2`: same image, its own `idp3/config/` overlay (`idp.properties`, `attribute-resolver`, branded `login.vm`, keypair, htpasswd), reusing `idp/`'s `metadata-providers.xml`, `attribute-filter.xml` and `password-authn-config.xml`. Those two files name both SPs, so `idp3` would also trust SP1; SP1 does not load `idp3`'s metadata, so it cannot use it. Simpler than a third copy of the files.
+
+**Not in the MDQ.** `idp3` does not appear in `metadata/metadata.json`. Its discojson entity lives in `metadata/extra-md.json.tmpl`, served by SP2's Apache at `https://${SP2_HOST}/extra-md.json` (bind mount into `/var/www/html/`, `Header set Access-Control-Allow-Origin "*"` on that file; `mod_headers` is already enabled). `metadata/idp3-metadata.xml.tmpl` is the SAML descriptor; only SP2 loads it (`shibboleth2.xml` MetadataProvider + mount). `gen-certs.sh` generates the keypair and htpasswd and stashes the cert bodies; `render.sh` gets the new variables and `IDP3_LOGO` (`metadata/logos/clinica-cazalla.svg`); `up.sh` and `gen-tls-local.sh` add `${IDP3_HOST}` to the host list.
+
+**SP2 pages.**
+
+- Standard mode (`sp2/html/index.html.tmpl`): the component moves from the `loginInitiatorURL` form to `discoveryRequest: https://${SERVICE_HOST}/ds/` + `discoveryResponse: <Shibboleth Login?target=…>`, so the button itself adds `return`, `entityID`, `suggested` and `extraMDEndpoint` (two parameters; `docs/components.rst` says to use this form then). The DS returns to `Login?target=…&entityID=<chosen>`, which the Login handler accepts; that prefix is already in SP2's `discovery_responses`. Suggested: the two federated IdPs (`${IDP_ENTITYID}`, `${IDP2_ENTITYID}`), both loginable.
+- Advanced mode (`sp2/html/discovery/index.html.tmpl`): the hand-built iframe URL gains `&suggested=…&extraMDEndpoint=…`.
+- The instructions overlay lists Clínica Cazalla as a third available IdP.
+
+**Expected behavior.** Fresh browser, SP2, standard mode: DS shows "Suggested institutions" (Demo IdP, Universidad de Cazalla) and "Institutions added by Demo SP 2" (Clínica Cazalla) under the search box. Choosing Clínica Cazalla with "remember" checked logs in at `idp3` and stores the entity with `extra_md: true`. Back on SP2 the button is populated with Clínica Cazalla; on SP1 it is not (no endpoint there). After also logging in through a federated IdP, SP2's button shows the federated one.
+
+**`.env`.** New keys `IDP3_HOST`, `IDP3_ENTITYID`, `IDP3_SCOPE`, `DEMO3_USER`, `DEMO3_PASS`, `DEMO3_DISPLAYNAME`, `DEMO3_MAIL` (in `.env.example`); an existing `.env` needs them before `gen-certs.sh`/`up.sh` run again (`set -u` stops them otherwise).
+
+**Steps (one commit each):** 1. this section. 2. `.env.example`, `.gitignore`, scripts. 3. `idp3/config/`. 4. `metadata/`: descriptor, `extra-md.json.tmpl`, logo. 5. `docker-compose.yml`. 6. `sp2/shibboleth2.xml.tmpl`, `sp2/apache-vhost.conf.tmpl`. 7. SP2 pages. 8. README.
