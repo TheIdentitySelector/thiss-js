@@ -64,7 +64,7 @@ After `git pull`, in this order:
    | an IdP's `conf/`, `credentials/`, `views/` | `docker compose restart idp` (or `idp2`, `idp3`) |
    | an SP's `shibboleth2.xml`, vhost, metadata mounts | `docker compose up -d --force-recreate sp1` (or `sp2`); a plain `restart` leaves a stale `shibd.sock` and the SP crash-loops |
    | `sp*/html/*.tmpl` | nothing: Apache serves the rendered file from the bind mount |
-   | `metadata/extra-md.json` | nothing: served by SP2's Apache from the bind mount |
+   | `sp2/html/extra-md.json` | nothing: served by SP2's Apache from the html bind mount |
    | `docker-compose.yml` | `docker compose up -d` |
 
 Recreating an IdP container regenerates its sealer key, which invalidates the
@@ -81,8 +81,8 @@ Needs thiss-js 4.0.12 or later in the `thiss` service (section 1).
 - `.env`: add `IDP3_HOST`, `IDP3_ENTITYID`, `IDP3_SCOPE`, `DEMO3_USER`,
   `DEMO3_PASS`, `DEMO3_DISPLAYNAME`, `DEMO3_MAIL` from `.env.example`.
 - `./scripts/gen-certs.sh`: generates `idp3/config/credentials/` and renders
-  `metadata/idp3-metadata.xml` and `metadata/extra-md.json`.
+  `metadata/idp3-metadata.xml` and `sp2/html/extra-md.json`.
 - `./scripts/up.sh`: a TLS certificate for `${IDP3_HOST}`, one more name in the
   `/etc/hosts` line, the new `idp3` service (same image as `idp`, no rebuild),
-  and `sp2` recreated for its two new mounts.
+  and `sp2` recreated for its new metadata mount.
 - Verify with README steps 8 to 12.

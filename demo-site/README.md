@@ -29,7 +29,7 @@ idp2/                   second IdP's per-instance config (idp.properties +
                         attribute-resolver + credentials + views/login.vm); shares
                         idp/'s image and its static metadata-providers/filter/authn
 idp3/                   third IdP, same layout as idp2/; outside the federation:
-                        its discojson is metadata/extra-md.json, served by SP2
+                        its discojson is sp2/html/extra-md.json, served by SP2
 sp1/  sp2/              Apache + mod_shib; all config is mounted, image is generic
 certs/                  nginx-proxy TLS material (gitignored)
 ```

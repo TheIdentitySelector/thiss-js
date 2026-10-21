@@ -201,9 +201,10 @@ services:
       - ./metadata/idp-metadata.xml:/etc/shibboleth/idp-metadata.xml:ro
       - ./metadata/idp2-metadata.xml:/etc/shibboleth/idp2-metadata.xml:ro
       # The filtered-in IdP (plan.md §11): SP2 trusts it and serves its
-      # discojson at https://${SP2_HOST}/extra-md.json for the DS.
+      # discojson at https://${SP2_HOST}/extra-md.json for the DS. The file
+      # is rendered into sp2/html/ and served by the html mount below; a
+      # second mount inside that read-only mount cannot be created.
       - ./metadata/idp3-metadata.xml:/etc/shibboleth/idp3-metadata.xml:ro
-      - ./metadata/extra-md.json:/var/www/html/extra-md.json:ro
       - ./sp2/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
       - ./sp2/html:/var/www/html:ro
       - ./demo-toolbar:/var/www/html/demo-toolbar:ro

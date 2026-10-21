@@ -25,7 +25,6 @@ metadata/idp3-metadata.xml
 metadata/sp1-metadata.xml
 metadata/sp2-metadata.xml
 metadata/metadata.json
-metadata/extra-md.json
 idp/config/conf/idp.properties
 idp/config/conf/attribute-resolver.xml
 idp/config/conf/attribute-filter.xml
@@ -46,3 +45,4 @@ sp2/html/index.html
 sp2/html/secure/index.html
 sp2/html/discovery/index.html
 sp2/html/discovery/return.html
+sp2/html/extra-md.json
