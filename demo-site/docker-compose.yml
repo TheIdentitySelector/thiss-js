@@ -125,6 +125,42 @@ services:
     networks:
       - demonet
 
+  # Third IdP — OUTSIDE the federation (plan.md §11). Not in the MDQ's
+  # metadata.json; SP2 alone loads its SAML descriptor and filters it into the
+  # discovery service through /extra-md.json. Built like idp2: same image,
+  # its own overlay, idp/'s shared static config. That config trusts both
+  # SPs, but SP1 never loads this IdP's metadata, so only SP2 can use it.
+  idp3:
+    build:
+      context: ./idp
+      args:
+        IDP_IMAGE: ${IDP_IMAGE:-i2incommon/shib-idp:latest5}
+    container_name: idp3
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: ${IDP3_HOST}
+      VIRTUAL_PORT: "443"
+      VIRTUAL_PROTO: "https"
+      LETSENCRYPT_HOST: ${IDP3_HOST}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+    volumes:
+      - ./idp3/config/conf/idp.properties:/opt/shibboleth-idp/conf/idp.properties:ro
+      - ./idp/config/conf/metadata-providers.xml:/opt/shibboleth-idp/conf/metadata-providers.xml:ro
+      - ./idp3/config/conf/attribute-resolver.xml:/opt/shibboleth-idp/conf/attribute-resolver.xml:ro
+      - ./idp/config/conf/attribute-filter.xml:/opt/shibboleth-idp/conf/attribute-filter.xml:ro
+      - ./idp/config/conf/authn/password-authn-config.xml:/opt/shibboleth-idp/conf/authn/password-authn-config.xml:ro
+      # Branded login page: stock view with the "Clínica Cazalla" logo inlined as SVG.
+      - ./idp3/config/views/login.vm:/opt/shibboleth-idp/views/login.vm:ro
+      - ./idp3/config/credentials/idp-signing.crt:/opt/shibboleth-idp/credentials/idp-signing.crt:ro
+      - ./idp3/config/credentials/idp-signing.key:/opt/shibboleth-idp/credentials/idp-signing.key:ro
+      - ./idp3/config/credentials/idp-encryption.crt:/opt/shibboleth-idp/credentials/idp-encryption.crt:ro
+      - ./idp3/config/credentials/idp-encryption.key:/opt/shibboleth-idp/credentials/idp-encryption.key:ro
+      - ./idp3/config/credentials/idp.htpasswd:/opt/shibboleth-idp/credentials/idp.htpasswd:ro
+      - ./metadata/sp1-metadata.xml:/opt/shibboleth-idp/metadata/sp1-metadata.xml:ro
+      - ./metadata/sp2-metadata.xml:/opt/shibboleth-idp/metadata/sp2-metadata.xml:ro
+    networks:
+      - demonet
+
   # --- Protected service providers --------------------------------------
   sp1:
     build:
@@ -164,6 +200,10 @@ services:
       - ./sp2/credentials:/etc/shibboleth/credentials:ro
       - ./metadata/idp-metadata.xml:/etc/shibboleth/idp-metadata.xml:ro
       - ./metadata/idp2-metadata.xml:/etc/shibboleth/idp2-metadata.xml:ro
+      # The filtered-in IdP (plan.md §11): SP2 trusts it and serves its
+      # discojson at https://${SP2_HOST}/extra-md.json for the DS.
+      - ./metadata/idp3-metadata.xml:/etc/shibboleth/idp3-metadata.xml:ro
+      - ./metadata/extra-md.json:/var/www/html/extra-md.json:ro
       - ./sp2/apache-vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
       - ./sp2/html:/var/www/html:ro
       - ./demo-toolbar:/var/www/html/demo-toolbar:ro
