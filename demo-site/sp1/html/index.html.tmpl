@@ -134,9 +134,20 @@
     <script src="https://${SERVICE_HOST}/thiss.js"></script>
     <script>
         window.onload = function () {
+            // Discovery features SP1 demonstrates (plan.md §12): the two
+            // federated IdPs as suggested institutions, and an IdP outside
+            // the federation filtered in from SP1's own discojson endpoint.
+            // discoveryRequest/discoveryResponse rather than
+            // loginInitiatorURL: the button then adds entityID, suggested
+            // and extraMDEndpoint to the DS URL itself (docs/components.rst).
+            // The DS returns to the Shibboleth Login handler with
+            // &entityID=<chosen>, which it accepts.
             thiss.DiscoveryComponent({
-                loginInitiatorURL: 'https://${SP1_HOST}/Shibboleth.sso/Login?target=https://${SP1_HOST}/secure/',
-                entityID: '${SP1_ENTITYID}'
+                discoveryRequest: 'https://${SERVICE_HOST}/ds/',
+                discoveryResponse: 'https://${SP1_HOST}/Shibboleth.sso/Login?target=https://${SP1_HOST}/secure/',
+                entityID: '${SP1_ENTITYID}',
+                suggested: encodeURIComponent('${IDP_ENTITYID},${IDP2_ENTITYID}'),
+                extraMDEndpoint: 'https://${SP1_HOST}/extra-md.json'
             }).render('#login');
         };
     </script>
@@ -144,8 +155,9 @@
     <!-- ============================================================
          Demo instructions overlay — implements the Figma "Advanced
          instructions" dialog (node 2543:10166) on its scrim (2543:10181).
-         Brand-neutral and self-contained; the IDENTICAL block lives in
-         sp2/html/index.html.tmpl — edit both together. Shown on every
+         Brand-neutral and self-contained; the same block lives in
+         sp2/html/index.html.tmpl — edit both together (only the IdP list
+         differs: the third IdP is filtered in by SP1 alone). Shown on every
          load; dismissable via the ✕, "Continue to demo", Esc, or the
          backdrop. (To show it only once per visitor, gate showOverlay()
          on localStorage — see the comment in the script below.)
@@ -196,6 +208,7 @@
                 <ul>
                     <li>Demo IdP</li>
                     <li>University of Cazalla</li>
+                    <li>Clínica Cazalla (outside the federation, added by Andaliz)</li>
                 </ul>
                 <p>Login at identity provider:</p>
                 <ul>
