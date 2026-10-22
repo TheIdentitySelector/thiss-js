@@ -6,8 +6,8 @@ site, and two Shibboleth-protected SPs, all behind `nginx-proxy` (TLS) on one
 `demonet` bridge network. Both SPs trust both IdPs and both IdPs appear in the
 same discovery service, so you can sign in to either SP through either IdP. A
 third IdP ("Clínica Cazalla") sits outside the federation: it is not in the
-metadata service, and only SP2 offers it, through the discovery service's
-filtering-in feature (plan §11). See [`plan.md`](plan.md) for the full design
+metadata service, and only SP1 offers it, through the discovery service's
+filtering-in feature (plan §11, §12). See [`plan.md`](plan.md) for the full design
 and [`pre-plan.md`](pre-plan.md) for the original sketch.
 
 ## Layout
@@ -29,7 +29,7 @@ idp2/                   second IdP's per-instance config (idp.properties +
                         attribute-resolver + credentials + views/login.vm); shares
                         idp/'s image and its static metadata-providers/filter/authn
 idp3/                   third IdP, same layout as idp2/; outside the federation:
-                        its discojson is sp2/html/extra-md.json, served by SP2
+                        its discojson is sp1/html/extra-md.json, served by SP1
 sp1/  sp2/              Apache + mod_shib; all config is mounted, image is generic
 certs/                  nginx-proxy TLS material (gitignored)
 ```
@@ -109,21 +109,22 @@ Switching modes is a one-line `.env` edit plus re-running `up.sh`.
 7. Repeat on `sp2.org` → no re-prompt (SSO across both SPs). Both SPs accept both
    IdPs, so the same applies whichever IdP you picked.
 
-### Suggested institutions and filtering-in (SP2 only, plan §11)
+### Suggested institutions and filtering-in (SP1 only, plan §12)
 
-8. `https://sp2.org/extra-md.json` → a one-entity discojson array (Clínica
+8. `https://sp1.org/extra-md.json` → a one-entity discojson array (Clínica
    Cazalla) with an `Access-Control-Allow-Origin` header.
-9. In a fresh browser (or after removing remembered institutions), `https://sp2.org/`
-   in either integration mode → the DS shows "Suggested institutions" (Demo IdP,
-   University of Cazalla) and "Institutions added by Demo SP 2" (Clínica Cazalla)
+9. In a fresh browser (or after removing remembered institutions), `https://sp1.org/`
+   → click the button → the DS shows "Suggested institutions" (Demo IdP,
+   University of Cazalla) and "Institutions added by Demo SP 1" (Clínica Cazalla)
    under the search box. Typing a search replaces both; clearing it brings them back.
 10. Pick Clínica Cazalla with "Remember this choice" on → authenticate at
     `login.clinica-cazalla.net` as `${DEMO3_USER}` / `${DEMO3_PASS}` → `/secure/`
     shows the Clínica identity.
-11. Back on `https://sp2.org/`, the standard button is populated with Clínica
-    Cazalla. On `https://sp1.org/` it is not: SP1 passes no `extraMDEndpoint`,
-    so a remembered institution added by another site is never offered there.
-12. Log in through a federated IdP on SP2 as well → the SP2 button now shows that
+11. Back on `https://sp1.org/`, the button is populated with Clínica Cazalla and
+    a click goes straight to the IdP. On `https://sp2.org/` it is not: SP2
+    passes no `extraMDEndpoint`, so a remembered institution added by another
+    site is never offered there.
+12. Log in through a federated IdP on SP1 as well → the SP1 button now shows that
     one: federated remembered institutions take precedence over added ones.
 
 ## Failure triage (plan §9 / §10)
