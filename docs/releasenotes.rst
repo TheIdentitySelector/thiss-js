@@ -437,7 +437,7 @@ Version 4.0.11
   banner is removed; its content lives in the "Remember me" article. English copy;
   other locales fall back to English until translated.
 
-Version 4.0.14
+Version 4.0.15
 --------------
 
 * Filtering-in: an SP can add institutions that are not in the federation
