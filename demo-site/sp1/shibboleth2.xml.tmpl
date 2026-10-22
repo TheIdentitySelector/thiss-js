@@ -38,6 +38,10 @@
              to its SSO endpoint and validate the returned assertion. -->
         <MetadataProvider type="XML" validate="true" path="/etc/shibboleth/idp-metadata.xml"/>
         <MetadataProvider type="XML" validate="true" path="/etc/shibboleth/idp2-metadata.xml"/>
+        <!-- The third IdP is outside the federation: only SP1 trusts it, and
+             SP1 filters it into the discovery service through its extra
+             metadata endpoint (/extra-md.json, plan.md §12). -->
+        <MetadataProvider type="XML" validate="true" path="/etc/shibboleth/idp3-metadata.xml"/>
 
         <AttributeExtractor type="XML" validate="true" reloadChanges="false" path="attribute-map.xml"/>
         <AttributeResolver type="Query" subjectMatch="true"/>
