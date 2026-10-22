@@ -286,3 +286,17 @@ SP2 demonstrates two DS features the demo did not exercise: suggested institutio
 **`.env`.** New keys `IDP3_HOST`, `IDP3_ENTITYID`, `IDP3_SCOPE`, `DEMO3_USER`, `DEMO3_PASS`, `DEMO3_DISPLAYNAME`, `DEMO3_MAIL` (in `.env.example`); an existing `.env` needs them before `gen-certs.sh`/`up.sh` run again (`set -u` stops them otherwise).
 
 **Steps (one commit each):** 1. this section. 2. `.env.example`, `.gitignore`, scripts. 3. `idp3/config/`. 4. `metadata/`: descriptor, `extra-md.json.tmpl`, logo. 5. `docker-compose.yml`. 6. `sp2/shibboleth2.xml.tmpl`, `sp2/apache-vhost.conf.tmpl`. 7. SP2 pages. 8. README. 9. Move `extra-md.json.tmpl` to `sp2/html/` (the mount failure above).
+
+Superseded by §12 on 2026-10-22: the two features now live on SP1.
+
+## 12. Move suggested institutions and filtering-in from SP2 to SP1 (2026-10-22)
+
+**Decision.** The two DS features of §11 (`suggested`, `extraMDEndpoint`) move from SP2 to SP1. SP2 goes back to plain discovery: no suggested institutions, no extra metadata, no trust in `idp3`. `idp3` itself, its `.env` keys, its logo, `metadata/idp3-metadata.xml.tmpl` and the scripts are unchanged.
+
+**Consequence for the demo.** SP1 has only the standard button, so a remembered Clínica Cazalla populates that button and a click goes straight to `Login?target=…&entityID=<idp3>`. SP2's advanced-mode custom button links to `/discovery/` whatever the remembered choice is, so on SP2 the direct login to a filtered-in IdP could only be shown in standard mode.
+
+**SP1 page.** The component moves from `loginInitiatorURL` to `discoveryRequest: https://${SERVICE_HOST}/ds/` + `discoveryResponse: https://${SP1_HOST}/Shibboleth.sso/Login?target=https://${SP1_HOST}/secure/`, with `suggested` (`${IDP_ENTITYID},${IDP2_ENTITYID}`) and `extraMDEndpoint` (`https://${SP1_HOST}/extra-md.json`), as SP2 did in §11. `metadata.json.tmpl` already lists `https://${SP1_HOST}/Shibboleth.sso/Login` in SP1's `discovery_responses`, so the DS accepts the return URL. The instructions overlay lists Clínica Cazalla on SP1 and no longer on SP2.
+
+**SP1 server.** `extra-md.json.tmpl` moves to `sp1/html/` (served by the existing `sp1/html` mount, same mount constraint as §11 step 9); the `<Files "extra-md.json">` CORS block moves to `sp1/apache-vhost.conf.tmpl`; the `idp3-metadata.xml` MetadataProvider and its bind mount move to `sp1/shibboleth2.xml.tmpl` and the `sp1` service. SP2 loses all three.
+
+**Steps (one commit each):** 1. this section. 2. `extra-md.json.tmpl` to `sp1/html/`, `.gitignore`, both vhost templates. 3. Both `shibboleth2.xml.tmpl`, `docker-compose.yml`. 4. SP1 page. 5. SP2 pages. 6. `README.md`, `UPGRADE.md` (change log entry: `sp1` and `sp2` recreated), `.env.example` comment.
