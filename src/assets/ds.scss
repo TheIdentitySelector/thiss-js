@@ -405,8 +405,21 @@ ul li a:hover {
     align-items: center;
     justify-content: space-between;
 
-    div i {
+    // The info icon linking to the Help Center article (issue-315-help-center.md,
+    // follow-up 2026-10-27). The container keeps the width and spacing the
+    // tooltip trigger had.
+    .help-icon-container {
+      text-align: right;
+    }
+    a.help-icon {
+      display: inline-block;
       color: var(--primary-blue);
+      text-decoration: none;
+
+      &:focus-visible {
+        outline: solid var(--secondary-blue);
+        outline-offset: 2px;
+      }
     }
   }
 }
