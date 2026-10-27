@@ -4,12 +4,11 @@ window.$ = $;
 import 'ejs/ejs.min';
 
 //import '@theidentityselector/thiss-jquery-plugin/src/ds-widget.js';
-import {json_mdq, json_mdq_get_sp} from "@theidentityselector/thiss-ds/src/discovery.js";
+import {json_mdq} from "@theidentityselector/thiss-ds/src/discovery.js";
 import hex_sha1 from "@theidentityselector/thiss-ds/src/sha1.js";
 const mdq_url = process.env.MDQ_URL || "https://md.seamlessaccess.org/entities/";
 import suggestedHeaderHTML from './templates/suggested_header.html'
 import suggestedHTML from './templates/suggested.html'
-import tooltipHTML from './templates/tooltip.html'
 import Localization from '../localization.js'
 import {showExtra} from './extra.js'
 
@@ -30,11 +29,7 @@ function _sha1_id(s) {
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
-let entityID = null;
 let suggested = [];
-
-if (urlParams.has('entityID'))
-    entityID = urlParams.get('entityID')
 
 if (urlParams.has('suggested')) {
     const paramSuggested = urlParams.get('suggested');
@@ -60,7 +55,6 @@ export const showSuggested = () => {
            learnMoreString: localization.translateString('ds-search-learn-more')
        });
        let firstSuggested = true;
-       const spPromise = json_mdq_get_sp(entityID, mdq_url);
        const htmls = [];
        suggested.forEach((eid, idx) => {
            const id = _sha1_id(eid);
@@ -98,19 +92,11 @@ export const showSuggested = () => {
                    };
                    const html = suggestedTempl(context);
 
+                   // The header appears with the first institution that
+                   // resolves, so it is absent when none does.
                    if (firstSuggested) {
                        firstSuggested = false;
-                       spPromise.then(spEntity => {
-                           const spEntityTitle = spEntity.title ? spEntity.title : entityID;
-                           const tooltipHtml = ejs.render(tooltipHTML, {
-                               tooltipId: 'suggested-tooltip',
-                               tooltipData: spEntityTitle,
-                               tooltipTitle: localization.translateString('suggested-tooltip-title', spEntityTitle),
-                               tooltipText: localization.translateString('suggested-tooltip-text', spEntityTitle)
-                           });
-                           $("#ds-search-header").html(headerHtml);
-                           $("#suggested-tooltip-container").append(tooltipHtml);
-                       });
+                       $("#ds-search-header").html(headerHtml);
                    }
                    htmls.push([idx, html]);
 

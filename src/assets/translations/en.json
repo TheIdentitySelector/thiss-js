@@ -60,8 +60,6 @@
   "ds-button-add-or-change": "Add or Change Institution",
   "ds-warning-continue": "Continue",
   "suggested-institutions-header": "Suggested institutions",
-  "suggested-tooltip-title": "Institutions suggested by $1",
-  "suggested-tooltip-text": "This suggested list has been provided by $1, based on their understanding of what's most applicable to you.",
   "extra-institutions-header": "Institutions added by $1",
   "extra-institutions-header-generic": "Institutions added by this site",
   "aria-label-searchinput": "Find your institution, university, organization or company edit text",

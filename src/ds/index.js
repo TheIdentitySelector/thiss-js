@@ -1,7 +1,6 @@
 import '../assets/nc.scss';
 import '../assets/nc.scss';
 import '../assets/ds.scss';
-import '../assets/tooltip.scss';
 import 'core-js/actual';
 import headerLogo from '../assets/sa-black.svg';
 import footerLogo from '../assets/SeamlessFooterLogo.svg';
