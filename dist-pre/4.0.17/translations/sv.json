@@ -59,8 +59,6 @@
   "ds-button-add-or-change": "Lägg till eller ändra organisation",
   "ds-warning-continue": "Fortsätt",
   "suggested-institutions-header": "Föreslagna organisationer",
-  "suggested-tooltip-title": "Organisationer föreslagna av $1",
-  "suggested-tooltip-text": "Nedan lista har föreslagits av $1 baserat på det tjänsten vet om dig",
   "extra-institutions-header": "Organisationer tillagda av $1",
   "extra-institutions-header-generic": "Organisationer tillagda av denna webbplats",
   "aria-label-searchinput": "Hitta din organisation, ditt universitet eller ditt företag",

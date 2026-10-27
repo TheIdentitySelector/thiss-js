@@ -59,8 +59,6 @@
   "ds-button-add-or-change": "Institution hinzufügen oder ändern",
   "ds-warning-continue": "",
   "suggested-institutions-header": "",
-  "suggested-tooltip-title": "",
-  "suggested-tooltip-text": "",
   "extra-institutions-header": "Institutions added by $1",
   "extra-institutions-header-generic": "Institutions added by this site",
   "aria-label-remove-institute": "$1 aus den gemerkten Institutionen entfernen",
