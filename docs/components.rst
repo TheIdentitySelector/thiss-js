@@ -194,7 +194,8 @@ An SP can offer institutions that are not in the metadata aggregated by the MDQ 
 * returns `Content-Type: application/json`, and
 * allows cross-origin reads from the discovery service and from the site hosting the button, with an `Access-Control-Allow-Origin` header (`*` is enough; no credentials are sent).
 
-The URL is passed as `extraMDEndpoint`. In the DS the institutions appear under the search box in a section headed "Institutions added by <your SP>", with a link to the Help Center article explaining them, both at first use and after "Add another institution". Searching replaces the section; they are not part of the search results. A chosen institution is remembered like any other, with a mark saying it came from extra metadata. Later, the button and the DS only offer it when the page they run for passes an `extraMDEndpoint` that still lists it; otherwise it is left out, so the institutions one SP adds are never offered on another SP. When the button finds both federated and extra remembered institutions, it shows the most recently used federated one.
+The URL is passed as `extraMDEndpoint`. In the DS the institutions appear under the search box in a section headed "Institutions added by <your SP>", with an info icon opening the Help Center article explaining them, both at first use and after "Add another
+institution". Searching replaces the section; they are not part of the search results. A chosen institution is remembered like any other, with a mark saying it came from extra metadata. Later, the button and the DS only offer it when the page they run for passes an `extraMDEndpoint` that still lists it; otherwise it is left out, so the institutions one SP adds are never offered on another SP. When the button finds both federated and extra remembered institutions, it shows the most recently used federated one.
 
 With Shibboleth SP the parameter goes in the discovery URL. The value is percent-encoded and, being inside an XML attribute, any `&` in the resulting URL is written as `&amp;`:
 
@@ -367,9 +368,10 @@ Help center
 
 The discovery service contains a Help Center: six articles answering the questions end users ask most (institution
 not found, no access after login, suggested institutions, institutions added by the relying party, "remember me",
-remembering across sites). It is a panel inside the page, reached from the "Help center" footer link and from the
-"Learn more" links next to the inline hints, and a Back button returns to where the user was; no navigation happens, so
-it also works in embedded mode. The article about institutions added by the relying party names the relying party,
+remembering across sites). It is a panel inside the page, reached from the "Help center" footer link, from the
+"Learn more" links next to the inline hints and from the info icon in the headers of the suggested and added
+institutions sections, and a Back button returns to where the user was; no navigation happens, so it also works in
+embedded mode. The article about institutions added by the relying party names the relying party,
 using the same metadata lookup as the "Access to" header. The articles are in `src/ds/templates/help.ejs`, the copy in
 the translation files (English; other locales fall back to English until translated).
 

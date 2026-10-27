@@ -447,3 +447,6 @@ Version 4.0.16
   "Add another institution". A remembered one is offered again only by pages
   whose endpoint still lists it. See "Adding institutions from your own
   metadata" in the components documentation.
+* The suggested-institutions and added-institutions headers link to their Help
+  Center articles through one info icon each, instead of a "Learn more" link.
+  The hover tooltip on the suggested-institutions header is removed.
