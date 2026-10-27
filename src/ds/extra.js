@@ -62,12 +62,11 @@ function headerString(title) {
     return title ? `Institutions added by ${title}` : 'Institutions added by this site';
 }
 
-// Renders the section under the search box. A no-op while saved choices are
-// shown (filtering-in-implementation.md, decision 8), and when the user has
+// Renders the section under the search box, with or without saved choices
+// (filtering-in-implementation.md, decision 8). A no-op when the user has
 // started a search by the time the endpoint answers.
 export function showExtra() {
     clearExtra();
-    if ($('#ds-saved-choices').children().length > 0) return;
     const templ = ejs.compile(extraHTML);
     Promise.all([extraEntities(), spTitle()]).then(([entities, title]) => {
         if (entities.length === 0) return;
