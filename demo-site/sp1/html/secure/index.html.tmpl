@@ -124,9 +124,14 @@
     <script src="https://${SERVICE_HOST}/thiss.js"></script>
     <script>
         window.onload = function () {
+            // Same configuration as the button on the front page (index.html.tmpl):
+            // suggested institutions and SP1's extra metadata endpoint.
             thiss.DiscoveryComponent({
-                loginInitiatorURL: 'https://${SP1_HOST}/Shibboleth.sso/Login?target=https://${SP1_HOST}/secure/',
-                entityID: '${SP1_ENTITYID}'
+                discoveryRequest: 'https://${SERVICE_HOST}/ds/',
+                discoveryResponse: 'https://${SP1_HOST}/Shibboleth.sso/Login?target=https://${SP1_HOST}/secure/',
+                entityID: '${SP1_ENTITYID}',
+                suggested: encodeURIComponent('${IDP_ENTITYID},${IDP2_ENTITYID}'),
+                extraMDEndpoint: 'https://${SP1_HOST}/extra-md.json'
             }).render('#login');
         };
     </script>
