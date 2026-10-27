@@ -71,7 +71,10 @@ export function showExtra() {
     Promise.all([extraEntities(), spTitle()]).then(([entities, title]) => {
         if (entities.length === 0) return;
         if (($('#searchinput').val() || '').length >= minSearchLength) return;
-        $('#ds-extra-header').html(ejs.render(extraHeaderHTML, {headerString: headerString(title)}));
+        $('#ds-extra-header').html(ejs.render(extraHeaderHTML, {
+            headerString: headerString(title),
+            learnMoreString: localization.translateString('ds-search-learn-more'),
+        }));
         entities.forEach(entity => {
             localization.updateDynamic(entity);
             $('#ds-extra-list').append(templ({

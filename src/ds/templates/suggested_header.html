@@ -1,9 +1,8 @@
 <div id="suggested-institutions-notice" class="type-ahead-alert">
     <div role="alert">
-        <p><span id="suggested-header-string" class="bold"><%= suggestedString %></span>
-           <a href="#" data-help-article="help-suggested-institutions" data-i18n="ds-search-learn-more">Learn more</a></p>
+        <p><span id="suggested-header-string" class="bold"><%= suggestedString %></span></p>
     </div>
-    <div id="suggested-tooltip-container" class="col-3 pr-0 tooltip-container">
-        <i class="fa-solid fa-circle-info mt-2 mr-2 tooltip-trigger"></i>
+    <div class="col-3 pr-0 help-icon-container">
+        <a href="#" class="help-icon mt-2 mr-2" data-help-article="help-suggested-institutions" aria-label="<%= learnMoreString %>"><i class="fa-solid fa-circle-info"></i></a>
     </div>
 </div>

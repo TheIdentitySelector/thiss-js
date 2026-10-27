@@ -7,4 +7,6 @@ export const translatable = [
     ["aria-label-searchinput", "#searchinput", "aria-label"],
     ["aria-label-locale-selector", "#locale-selector", "aria-label"],
     ["title-remove-institution", ".institution-remove-cross-wrapper", "title"],
+    // The info icons in the suggested and extra-institutions headers.
+    ["ds-search-learn-more", "a.help-icon", "aria-label"],
 ];

@@ -56,7 +56,8 @@ export const showSuggested = () => {
         $("#ds-search-header").html('');
         $("#ds-search-count").html('');
        const headerHtml = ejs.render(suggestedHeaderHTML, {
-           suggestedString: localization.translateString('suggested-institutions-header')
+           suggestedString: localization.translateString('suggested-institutions-header'),
+           learnMoreString: localization.translateString('ds-search-learn-more')
        });
        let firstSuggested = true;
        const spPromise = json_mdq_get_sp(entityID, mdq_url);
