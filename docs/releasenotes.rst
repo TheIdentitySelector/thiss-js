@@ -437,7 +437,7 @@ Version 4.0.11
   banner is removed; its content lives in the "Remember me" article. English copy;
   other locales fall back to English until translated.
 
-Version 4.0.17
+Version 4.0.18
 --------------
 
 * Filtering-in: an SP can add institutions that are not in the federation
@@ -450,3 +450,4 @@ Version 4.0.17
 * The suggested-institutions and added-institutions headers link to their Help
   Center articles through one info icon each, instead of a "Learn more" link.
   The hover tooltip on the suggested-institutions header is removed.
+* Fix some styling issues
