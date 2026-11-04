@@ -98,6 +98,17 @@ a {
     border: 2px solid var(--secondary-blue);
     color: var(--white-two);
   }
+
+  // Bootstrap's .btn:focus-visible swaps in the bare .btn hover colours
+  // (transparent background) and removes the outline; keep ours and show
+  // the focus ring used elsewhere in the DS.
+  &:focus-visible {
+    background-color: var(--primary-blue);
+    color: var(--white-two);
+    outline: solid var(--secondary-blue);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
 }
 
 h1, h2, h3, legend {
