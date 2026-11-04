@@ -287,6 +287,9 @@ input {
 .custom-checkbox > .custom-control-input {
   height: 100%;
   padding-top: 10px;
+  // The global input rule above is sized for the search box; its shadow is
+  // too heavy on a checkbox.
+  box-shadow: 0 1px 2px 0 rgba(25, 134, 255, 0.29);
 }
 
 .custom-checkbox > .custom-control-label {
