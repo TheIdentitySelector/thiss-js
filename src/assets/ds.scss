@@ -444,13 +444,17 @@ ul li a:hover {
   }
 
   .top-right {
+    top: 0;
     right: 0;
     position: absolute;
     width: 100%;
     height: 100%;
 
+    // The cross is centred on the row, whatever the row's height.
     svg {
       right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       position: absolute;
     }
   }
@@ -884,7 +888,7 @@ i.list-item-warning {
   /* A real <button> for accessibility (issue #309); reset the button chrome
      so it renders like the former div. */
   .institution-remove-cross-wrapper {
-    height: 60px;
+    height: 100%;
     width: 40px;
     background: none;
     border: 0;
