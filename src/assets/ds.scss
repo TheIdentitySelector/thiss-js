@@ -686,9 +686,10 @@ i.list-item-warning {
   }
 
   ul {
-    list-style-type: square;
-    margin: 0 0 0 20px;
-    padding: 0;
+    list-style-type: disc;
+    // Markers at the title's left edge; wrapped lines hang after the marker.
+    margin: 0;
+    padding: 0 0 0 1em;
 
     /* Zep */
     font-size: 0.8125rem;
@@ -702,6 +703,12 @@ i.list-item-warning {
     height: auto;
     min-height: auto;
     padding: 0 0 5px 0;
+  }
+
+  // .search-list li:first-child draws a top border on the first bullet;
+  // same specificity here, later in the file.
+  li:first-child {
+    border-top: none;
   }
 }
 
