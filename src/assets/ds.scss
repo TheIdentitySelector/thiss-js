@@ -400,6 +400,10 @@ ul li a:hover {
     padding-top: 12px;
   }
 
+  li.list-item {
+    padding-right: 10px;
+  }
+
   li:first-child {
     border-top: 1px solid rgba(118, 118, 118, 0.2);
   }
@@ -513,7 +517,8 @@ ul li a:hover {
       }
 
     }
-    .suggested {
+    .suggested,
+    .extra {
       padding-left: 0.9rem;
     }
 
