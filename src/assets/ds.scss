@@ -429,6 +429,7 @@ ul li a:hover {
       display: inline-block;
       color: var(--primary-blue);
       text-decoration: none;
+      margin-bottom: 8px;
 
       &:focus-visible {
         outline: solid var(--secondary-blue);
