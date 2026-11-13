@@ -442,7 +442,8 @@ Version 4.0.18
 
 * Filtering-in: an SP can add institutions that are not in the federation
   metadata by publishing them as discojson and passing the endpoint URL as
-  ``extraMDEndpoint`` to the button, or in the DS URL. They are listed under the
+  ``extraMDEndpoint`` to the button, or in the DS URL. The endpoint serves a
+  JSON object with the institutions under its ``filter-in`` key. They are listed under the
   search box in their own section, also in the search panel reached through
   "Add another institution". A remembered one is offered again only by pages
   whose endpoint still lists it. See "Adding institutions from your own

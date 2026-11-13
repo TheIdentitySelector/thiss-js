@@ -189,10 +189,18 @@ since Shibboleth does not allow an `&` in the entity reference.
 Adding institutions from your own metadata
 ..........................................
 
-An SP can offer institutions that are not in the metadata aggregated by the MDQ service. The SP publishes their metadata itself, in the discojson format produced by pyFF (a JSON array of entity objects with at least `entityID` and `title`; `domain`, `title_langs` and `entity_icon_url` are used when present), at an https URL that
+An SP can offer institutions that are not in the metadata aggregated by the MDQ service. The SP publishes their metadata itself as a JSON object whose `filter-in` key holds the institutions in the discojson format produced by pyFF (an array of entity objects with at least `entityID` and `title`; `domain`, `title_langs` and `entity_icon_url` are used when present; other keys of the object are reserved), at an https URL that
 
 * returns `Content-Type: application/json`, and
 * allows cross-origin reads from the discovery service and from the site hosting the button, with an `Access-Control-Allow-Origin` header (`*` is enough; no credentials are sent).
+
+.. code-block:: json
+
+    {
+      "filter-in": [
+        {"entityID": "https://idp.example.org/idp", "title": "Example IdP", "domain": "example.org"}
+      ]
+    }
 
 The URL is passed as `extraMDEndpoint`. In the DS the institutions appear under the search box in a section headed "Institutions added by <your SP>", with an info icon opening the Help Center article explaining them, both at first use and after "Add another
 institution". Searching replaces the section; they are not part of the search results. A chosen institution is remembered like any other, with a mark saying it came from extra metadata. Later, the button and the DS only offer it when the page they run for passes an `extraMDEndpoint` that still lists it; otherwise it is left out, so the institutions one SP adds are never offered on another SP. When the button finds both federated and extra remembered institutions, it shows the most recently used federated one.
