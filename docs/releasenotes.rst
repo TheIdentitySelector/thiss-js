@@ -451,3 +451,5 @@ Version 4.0.18
   Center articles through one info icon each, instead of a "Learn more" link.
   The hover tooltip on the suggested-institutions header is removed.
 * Fix some styling issues
+* Help Center articles translated to Swedish and Spanish. German and Hungarian
+  still fall back to English for the articles.

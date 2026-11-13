@@ -373,7 +373,7 @@ remembering across sites). It is a panel inside the page, reached from the "Help
 institutions sections, and a Back button returns to where the user was; no navigation happens, so it also works in
 embedded mode. The article about institutions added by the relying party names the relying party,
 using the same metadata lookup as the "Access to" header. The articles are in `src/ds/templates/help.ejs`, the copy in
-the translation files (English; other locales fall back to English until translated).
+the translation files (English, Swedish and Spanish; other locales fall back to English until translated).
 
 Persistence Service
 -------------------
