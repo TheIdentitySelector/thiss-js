@@ -1,4 +1,4 @@
-VERSION:=4.0.18
+VERSION:=4.0.19
 PREV_VERSION:=2.1.179
 PRE_RELEASE:=false
 PWD:=$(shell pwd)
