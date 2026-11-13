@@ -19,14 +19,16 @@ export function extraMDEndpointFrom(value, pageProtocol = 'https:') {
     return null;
 }
 
-// The endpoint's discojson array reduced to the entities the DS may offer,
-// each flagged extra_md. Dropped: entries without an id, hidden entries, and
-// entries whose id would break the return URL (ds_response_url concatenates
-// it unencoded). An array of domains is joined as clean_item expects.
+// The endpoint's document is an object whose `filter-in` key holds a
+// discojson array (decision 2; other keys are reserved). The array is reduced
+// to the entities the DS may offer, each flagged extra_md. Dropped: entries
+// without an id, hidden entries, and entries whose id would break the return
+// URL (ds_response_url concatenates it unencoded). An array of domains is
+// joined as clean_item expects.
 export function normalizeExtraMD(data) {
-    if (!Array.isArray(data)) return [];
+    if (!data || typeof data !== 'object' || !Array.isArray(data['filter-in'])) return [];
     const entities = [];
-    data.forEach(e => {
+    data['filter-in'].forEach(e => {
         if (!e || typeof e !== 'object') return;
         const id = e.entityID || e.entity_id;
         if (typeof id !== 'string' || id === '' || /[&#\s]/.test(id)) return;

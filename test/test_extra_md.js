@@ -18,24 +18,28 @@ describe('extraMDEndpointFrom', function () {
 
 describe('normalizeExtraMD', function () {
     it('flags entities and fills both id fields', function () {
-        const out = normalizeExtraMD([{entityID: 'https://idp.example.org/idp', title: 'IdP'}]);
+        const out = normalizeExtraMD({'filter-in': [{entityID: 'https://idp.example.org/idp', title: 'IdP'}]});
         assert.deepEqual(out, [{entityID: 'https://idp.example.org/idp', entity_id: 'https://idp.example.org/idp', title: 'IdP', extra_md: true}]);
-        assert.equal(normalizeExtraMD([{entity_id: 'https://a'}])[0].entityID, 'https://a');
+        assert.equal(normalizeExtraMD({'filter-in': [{entity_id: 'https://a'}]})[0].entityID, 'https://a');
     });
     it('drops unusable entries', function () {
-        const out = normalizeExtraMD([
+        const out = normalizeExtraMD({'filter-in': [
             null, 'x', {title: 'no id'}, {entityID: ''},
             {entityID: 'https://h', hidden: true}, {entityID: 'https://h2', hidden: 'true'},
             {entityID: 'https://a&b'}, {entityID: 'https://a#b'}, {entityID: 'https://a b'},
             {entityID: 'https://kept', hidden: 'false'},
-        ]);
+        ]});
         assert.deepEqual(out.map(e => e.entityID), ['https://kept']);
     });
     it('joins an array of domains', function () {
-        assert.equal(normalizeExtraMD([{entityID: 'https://a', domains: ['a.org', 'b.org']}])[0].domains, 'a.org;b.org');
+        assert.equal(normalizeExtraMD({'filter-in': [{entityID: 'https://a', domains: ['a.org', 'b.org']}]})[0].domains, 'a.org;b.org');
     });
-    it('treats non-arrays as empty', function () {
-        [null, undefined, {}, 'x', 1].forEach(v => assert.deepEqual(normalizeExtraMD(v), []));
+    it('treats anything but an object with a filter-in array as empty', function () {
+        [null, undefined, {}, 'x', 1, [], [{entityID: 'https://a'}], {'filter-in': {}}, {'filter-in': 'x'}, {other: []}]
+            .forEach(v => assert.deepEqual(normalizeExtraMD(v), []));
+    });
+    it('ignores other keys', function () {
+        assert.deepEqual(normalizeExtraMD({'filter-in': [{entityID: 'https://a'}], other: [1]}).map(e => e.entityID), ['https://a']);
     });
 });
 
@@ -46,13 +50,13 @@ describe('fetchExtraMD', function () {
     afterEach(() => { global.fetch = original; });
 
     it('resolves to the normalized list', async function () {
-        global.fetch = reply(true, 200, 'application/json; charset=utf-8', [{entityID: 'https://a'}, {title: 'no id'}]);
+        global.fetch = reply(true, 200, 'application/json; charset=utf-8', {'filter-in': [{entityID: 'https://a'}, {title: 'no id'}]});
         assert.deepEqual((await fetchExtraMD('https://x')).map(e => e.entityID), ['https://a']);
     });
     it('resolves to an empty list on a non-JSON reply, an error status or a network error', async function () {
-        global.fetch = reply(true, 200, 'text/html', []);
+        global.fetch = reply(true, 200, 'text/html', {'filter-in': []});
         assert.deepEqual(await fetchExtraMD('https://x'), []);
-        global.fetch = reply(false, 500, 'application/json', [{entityID: 'https://a'}]);
+        global.fetch = reply(false, 500, 'application/json', {'filter-in': [{entityID: 'https://a'}]});
         assert.deepEqual(await fetchExtraMD('https://x'), []);
         global.fetch = () => Promise.reject(new TypeError('Failed to fetch'));
         assert.deepEqual(await fetchExtraMD('https://x'), []);
@@ -61,7 +65,7 @@ describe('fetchExtraMD', function () {
 
 describe('findExtra', function () {
     it('looks up by entityID', function () {
-        const list = normalizeExtraMD([{entityID: 'https://a'}, {entityID: 'https://b'}]);
+        const list = normalizeExtraMD({'filter-in': [{entityID: 'https://a'}, {entityID: 'https://b'}]});
         assert.equal(findExtra(list, 'https://b').entityID, 'https://b');
         assert.isUndefined(findExtra(list, 'https://c'));
         assert.isUndefined(findExtra([], 'https://a'));
