@@ -50,9 +50,16 @@ export const showSuggested = () => {
        document.getElementById('ds-search-list').innerHTML = ''
         $("#ds-search-header").html('');
         $("#ds-search-count").html('');
+       // Fall back to English if the locale file is not loaded yet
+       let suggestedString = localization.translateString('suggested-institutions-header');
+       if (!suggestedString || suggestedString === 'suggested-institutions-header')
+           suggestedString = 'Suggested institutions';
+       let learnMoreString = localization.translateString('ds-search-learn-more');
+       if (!learnMoreString || learnMoreString === 'ds-search-learn-more')
+           learnMoreString = 'Learn more';
        const headerHtml = ejs.render(suggestedHeaderHTML, {
-           suggestedString: localization.translateString('suggested-institutions-header'),
-           learnMoreString: localization.translateString('ds-search-learn-more')
+           suggestedString: suggestedString,
+           learnMoreString: learnMoreString
        });
        let firstSuggested = true;
        const htmls = [];
