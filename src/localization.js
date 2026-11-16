@@ -75,9 +75,6 @@ export default class Localization extends I18n {
                         const title = $(el).closest('.institution').find('.label.primary').text();
                         $(el).attr('aria-label', this.translateString('aria-label-remove-institute', title));
                     });
-                    const suggestedHeader = this.translateString('suggested-institutions-header');
-                    $("#suggested-header-string").html(suggestedHeader);
-                    document.dispatchEvent(new CustomEvent('sa:locale-changed', { detail: this.locale }));
                 });
             });
         }
@@ -130,6 +127,9 @@ export default class Localization extends I18n {
                     }
                     document.documentElement.setAttribute('lang', locale);
 
+                    // Also on the first load: strings rendered before the
+                    // file arrived listen for this
+                    document.dispatchEvent(new CustomEvent('sa:locale-changed', { detail: locale }));
 
                     resolve()
                 })

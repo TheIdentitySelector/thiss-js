@@ -123,3 +123,15 @@ export const showSuggested = () => {
    // or without suggested institutions (filtering-in.md).
    showExtra();
 };
+
+// Re-translate the header once the locale file is loaded
+document.addEventListener('sa:locale-changed', () => {
+    const header = $('#suggested-header-string');
+    if (header.length === 0) return;
+    const suggestedString = localization.translateString('suggested-institutions-header');
+    if (suggestedString && suggestedString !== 'suggested-institutions-header')
+        header.text(suggestedString);
+    const learnMoreString = localization.translateString('ds-search-learn-more');
+    if (learnMoreString && learnMoreString !== 'ds-search-learn-more')
+        $('#suggested-institutions-notice a.help-icon').attr('aria-label', learnMoreString);
+});
