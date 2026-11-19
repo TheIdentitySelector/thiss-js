@@ -107,8 +107,12 @@ module.exports = {
                     // Frozen CDN clients for the upgrade-test page:
                     // byte-identical copies of published npm dists, vendored
                     // so the harness does not depend on unpkg being up.
+                    // Marked minimized so the production minimizer leaves
+                    // them untouched; otherwise terser re-minifies them and
+                    // the copies are no longer byte-identical.
                     from: "./src/upgrade-test/vendor",
                     to: "./vendor",
+                    info: { minimized: true },
                 },
             ],
         }),
